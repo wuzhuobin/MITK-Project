@@ -1,0 +1,16 @@
+/**
+  \defgroup org_mycompany_myplugin org.mycompany.myplugin
+  \ingroup MITKPlugins
+
+  \brief Describe your plugin here.
+
+*/
+
+/**
+  \defgroup org_mycompany_myplugin_internal Internal
+  \ingroup org_mycompany_myplugin
+
+  \brief This subcategory includes the internal classes of the org.mycompany.myplugin plugin. Other
+  plugins must not rely on these classes. They contain implementation details and their interface
+  may change at any time. We mean it.
+*/
