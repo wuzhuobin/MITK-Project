@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="/">
+    <file>icons/toolbar/3d-slicer-view.png</file>
+    <file>icons/toolbar/ct-view.png</file>
+    <file>icons/toolbar/cup-plan-mode.png</file>
+    <file>icons/toolbar/pre-op-mode.png</file>
+    <file>icons/toolbar/3d-slicer-view.png</file>
+    <file>icons/toolbar/contrast.png</file>
+    <file>icons/toolbar/ct-view.png</file>
+    <file>icons/toolbar/cup-plan-mode.png</file>
+    <file>icons/toolbar/luminance.png</file>
+    <file>icons/toolbar/pre-op-mode.png</file>
+    <file>icons/toolbar/reaming-view.png</file>
+    <file>icons/toolbar/reduced-mode.png</file>
+    <file>icons/toolbar/stem-plan-mode.png</file>
+    <file>icons/toolbar/x-ray-view.png</file>
+    <file>icons/toolbar/zoom.png</file>
+    <file>icons/toolbar/reaming-view.png</file>
+    <file>icons/toolbar/reduced-mode.png</file>
+    <file>icons/toolbar/stem-plan-mode.png</file>
+    <file>icons/toolbar/x-ray-view.png</file>
+    <file>icons/toolbar/zoom.png</file>
+  </qresource>
+</RCC>

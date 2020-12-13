@@ -305,23 +305,24 @@ endif()
 
 # The CMake code in this section *must* be in the top-level CMakeLists.txt file
 
-macro(GetMyTargetLibraries all_target_libraries varname)
-  set(re_ctkplugin "^org_mycompany_[a-zA-Z0-9_]+$")
-  set(_tmp_list)
-  list(APPEND _tmp_list ${all_target_libraries})
-  ctkMacroListFilter(_tmp_list re_ctkplugin OUTPUT_VARIABLE ${varname})
-endmacro()
+# macro(GetMyTargetLibraries all_target_libraries varname)
+#   set(re_ctkplugin "^org_mycompany_[a-zA-Z0-9_]+$")
+#   set(_tmp_list)
+#   list(APPEND _tmp_list ${all_target_libraries})
+#   ctkMacroListFilter(_tmp_list re_ctkplugin OUTPUT_VARIABLE ${varname})
+# endmacro()
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/Plugins/Plugins.cmake)
-ctkMacroSetupPlugins(${PROJECT_PLUGINS}
-                     BUILD_OPTION_PREFIX ${MY_PROJECT_NAME}_
-                     BUILD_ALL ${${MY_PROJECT_NAME}_BUILD_ALL_PLUGINS})
+# include(${CMAKE_CURRENT_SOURCE_DIR}/Plugins/Plugins.cmake)
+# ctkMacroSetupPlugins(${PROJECT_PLUGINS}
+#                      BUILD_OPTION_PREFIX ${MY_PROJECT_NAME}_
+#                      BUILD_ALL ${${MY_PROJECT_NAME}_BUILD_ALL_PLUGINS})
 
 #-----------------------------------------------------------------------------
 # Add subdirectories
 #-----------------------------------------------------------------------------
 
-add_subdirectory(Apps/MyApp)
+# add_subdirectory(Apps/MyApp)
+add_subdirectory(Apps/THA)
 
 #-----------------------------------------------------------------------------
 # Installation
