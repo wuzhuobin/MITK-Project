@@ -129,7 +129,7 @@ set(MODULES_PACKAGE_DEPENDS_DIRS ${${PROJECT_NAME}_MODULES_PACKAGE_DEPENDS_DIR})
 find_package(MITK 2018.04.02 REQUIRED)
 
 # Contingency script to solve following error, when using MITK_DIR
-# by setting LancetHip_USE_SUPERBUILD OFF
+# by setting THAHip_USE_SUPERBUILD OFF
 #
 # CMake Error at C:/ccode/MITK/CMake/mitkSetupCPack.cmake:96 (string):
 #   string sub-command REPLACE requires at least four arguments.

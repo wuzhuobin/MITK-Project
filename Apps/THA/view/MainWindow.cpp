@@ -1,6 +1,6 @@
-#include "MainWindow.hpp"
+#include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include "CasePlanningWidget.hpp"
+#include "CasePlanningWidget.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   mpUi(new Ui::MainWindow)

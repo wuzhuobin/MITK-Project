@@ -35,12 +35,14 @@ target_link_libraries(
   ${PROJECT_NAME}
   PRIVATE
   MitkCore
-  MitkQtWidgets
+  MitkQtWidgets  
+  MitkSceneSerialization
 )
 
 target_include_directories(
   ${PROJECT_NAME}
   PRIVATE
-  ${PROJECT_SOURCE_DIR}/View
+  ${PROJECT_SOURCE_DIR}/view
+  ${PROJECT_SOURCE_DIR}/model
 #   ${PROJECT_BINARY_DIR}/View
 )

@@ -1,4 +1,4 @@
-#include "CasePlanningWidget.hpp"
+#include "CasePlanningWidget.h"
 #include "ui_CasePlanningWidget.h"
 // qt
 CasePlanningWidget::CasePlanningWidget(QWidget *parent)
