@@ -13,23 +13,23 @@ class THAStdMultiWidget: public QmitkStdMultiWidget
   Q_OBJECT;
 
 public:
-  enum VIEWER_MODE
+  enum VIEWS
   {
     VIEWER_DEFAULT = 0,
-    VIEWER_2D,
-    VIEWER_3D,
-    VIEWER_XRAY,
-    VIEWER_REAMING,
+    CT,
+    _3D_SLICER,
+    X_RAY,
+    REAMING,
     VIEWER_UNTILITY
   };
 
-  enum PLAN_MODE
+  enum MODES
   {
     PLAN_DEFAULT = 0,
-    PLAN_PREOP,
-    PLAN_CUP,
-    PLAN_STEM,
-    PLAN_REDUCED
+    PRE_OP,
+    CUP_PLAN,
+    STEM_PLAN,
+    REDUCED
   };
 
 public:
@@ -37,22 +37,22 @@ public:
     QWidget *parent = nullptr,
     Qt::WindowFlags f = nullptr,
     const QString &name = "stdmulti");
-  virtual void InitializeMultiWidget() override;
 //   virtual ~THAStdMultiWidget() override;
-  int GetViewerMode() const { return this->mViewerMode; }
-  void SetViewerMode(int mode);
-  int GetPlanMode() const { return this->mpPlanMode; }
-  void SetPlanMode(int mode);
+  virtual void InitializeMultiWidget() override;
+  int GetView() const { return this->mViewerMode; }
+  void SetView(int mode);
+  int GetMode() const { return this->mode; }
+  void SetMode(int mode);
   bool IsRegistrationMode() const { return this->registrationMode; }
   void SetRegistrationMode(bool flag);
 private:
   int mViewerMode;
-  int mpPlanMode;
+  int mode;
   bool registrationMode;
-  GroupBoxGadget *mpGroupBoxGadget[3];
-  StemParameterGadget *mpStemParameterGadget;
-  ImplantAssessmentGadget *mpImplantAssessmentGadget;
-  CupParameterGadget *mpCupParameterGadget;
+  GroupBoxGadget *groupBoxGadget[3];
+  StemParameterGadget *stemParameterGadget;
+  ImplantAssessmentGadget *implantAssessmentGadget;
+  CupParameterGadget *cupParameterGadget;
 	//CupResultGadget *cupResultGadget;
 
 };

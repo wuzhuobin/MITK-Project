@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>768</height>
+    <width>1200</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1024</width>
-    <height>768</height>
+    <width>1200</width>
+    <height>1000</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -137,31 +137,19 @@
      </layout>
     </item>
     <item>
-     <widget class="QStackedWidget" name="stackedWidget_2">
+     <widget class="THAStdMultiWidget" name="multiWidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <widget class="QWidget" name="page_4">
-       <widget class="THAStdMultiWidget" name="multiWidget" native="true">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>-10</y>
-          <width>1000</width>
-          <height>800</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>1000</width>
-          <height>800</height>
-         </size>
-        </property>
-       </widget>
-      </widget>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
      </widget>
     </item>
     <item>
@@ -507,10 +495,10 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupMode"/>
+  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupView"/>
-  <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupMode"/>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
  </buttongroups>
 </ui>

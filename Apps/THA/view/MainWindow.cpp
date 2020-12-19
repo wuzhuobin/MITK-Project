@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   if (!fileName.isEmpty())
   {
     IOController::LoadScene(fileName);
+    this->ui->multiWidget->InitializeMultiWidget();
   }
 }
 
