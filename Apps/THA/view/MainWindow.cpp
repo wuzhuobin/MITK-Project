@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   this->ui->stackedWidget->addWidget(new CasePlanningWidget(this));
   this->ui->stackedWidget->setCurrentIndex(1);
 
-  QString fileName = QCoreApplication::arguments().size() > 0 ? QCoreApplication::arguments().at(1) : "";
+  QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
   if (!fileName.isEmpty())
   {
     IOController::LoadScene(fileName);

@@ -137,13 +137,31 @@
      </layout>
     </item>
     <item>
-     <widget class="THAStdMultiWidget" name="multiWidget" native="true">
+     <widget class="QStackedWidget" name="stackedWidget_2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <widget class="QWidget" name="page_4">
+       <widget class="THAStdMultiWidget" name="multiWidget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>-10</y>
+          <width>1000</width>
+          <height>800</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>1000</width>
+          <height>800</height>
+         </size>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
     <item>
