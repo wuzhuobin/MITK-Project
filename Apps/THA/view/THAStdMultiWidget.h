@@ -39,22 +39,20 @@ public:
     const QString &name = "stdmulti");
   virtual void InitializeMultiWidget() override;
 //   virtual ~THAStdMultiWidget() override;
-  int getViewerMode() const { return this->viewerMode; }
-  void setViewerMode(int mode);
-  int getPlanMode() const { return this->planMode; }
-  void setPlanMode(int mode);
-  bool isRegistrationMode() const { return this->registrationMode; }
-  void setRegistrationMode(bool flag);
-  void visualize(mitk::DataStorage *ds, QString side);
-	//void setActualResult(bool);
+  int GetViewerMode() const { return this->mViewerMode; }
+  void SetViewerMode(int mode);
+  int GetPlanMode() const { return this->mpPlanMode; }
+  void SetPlanMode(int mode);
+  bool IsRegistrationMode() const { return this->registrationMode; }
+  void SetRegistrationMode(bool flag);
 private:
-  int viewerMode;
-  int planMode;
+  int mViewerMode;
+  int mpPlanMode;
   bool registrationMode;
-  GroupBoxGadget *groupBoxGadget[3];
-  StemParameterGadget *stemParameterGadget;
-  ImplantAssessmentGadget *implantAssessmentGadget;
-  CupParameterGadget *cupParameterGadget;
+  GroupBoxGadget *mpGroupBoxGadget[3];
+  StemParameterGadget *mpStemParameterGadget;
+  ImplantAssessmentGadget *mpImplantAssessmentGadget;
+  CupParameterGadget *mpCupParameterGadget;
 	//CupResultGadget *cupResultGadget;
 
 };

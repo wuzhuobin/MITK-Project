@@ -1,3 +1,5 @@
+#ifndef MAIN_WINDOW_H
+#define MAIN_WINDOW_H
 // qt
 #include <QMainWindow>
 
@@ -9,8 +11,14 @@ class MainWindow: public QMainWindow
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   virtual ~MainWindow() override;
+
+public Q_SLOTS:
+  void on_radioButtonOptions_toggled(bool checked);
+
 private:
-  Ui::MainWindow *mpUi;
+  Ui::MainWindow *ui;
 private:
   Q_DISABLE_COPY(MainWindow);
 };
+
+#endif //!MAIN_WINDOW_H

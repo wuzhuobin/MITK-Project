@@ -1,5 +1,4 @@
 #include "THAStdMultiWidget.h"
-// #include "THADataStorage.h"
 #include "GroupBoxGadget.h"
 #include "StemParameterGadget.h"
 #include "ImplantAssessmentGadget.h"
@@ -10,8 +9,8 @@
 #include <vtkTransformPolyDataFilter.h>
 #include <vtkSmartPointer.h>
 #include <vtkTransform.h>
-#include "vtkLineSource.h"
-#include "vtkPolyDataMapper.h"
+#include <vtkLineSource.h>
+#include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
 // qt
 #include <QVBoxLayout>
@@ -21,7 +20,6 @@
 #include <mitkSceneIO.h>
 #include <mitkSurface.h>
 #include <mitkLogMacros.h>
-// #include <mitkLocalStorageHandler.h>
 #include <QmitkRenderWindow.h>
 
 static const std::set<std::string> DEFAULT_VISIBLE_SET = {
@@ -46,46 +44,30 @@ THAStdMultiWidget::THAStdMultiWidget(
   Qt::WindowFlags f,
   const QString &name):
   QmitkStdMultiWidget(parent, f, name),
-  viewerMode(VIEWER_DEFAULT),
-  planMode(PLAN_DEFAULT),
+  mViewerMode(VIEWER_DEFAULT),
+  mpPlanMode(PLAN_DEFAULT),
   registrationMode(false),
-  groupBoxGadget{
+  mpGroupBoxGadget{
     new GroupBoxGadget(GroupBoxGadget::AXIAL, this),
     new GroupBoxGadget(GroupBoxGadget::SAGITTAL, this),
     new GroupBoxGadget(GroupBoxGadget::CORONAL, this)
   },
-  stemParameterGadget(new StemParameterGadget(this)),
-  implantAssessmentGadget(new ImplantAssessmentGadget(this)),
-  cupParameterGadget(new CupParameterGadget(this))
+  mpStemParameterGadget(new StemParameterGadget(this)),
+  mpImplantAssessmentGadget(new ImplantAssessmentGadget(this)),
+  mpCupParameterGadget(new CupParameterGadget(this))
 	//cupResultGadget(new CupResultGadget(this))
 {
-////////////////////////////////////////////////////////////////////////////////
-/// Depth Peeling for Translucent Rendering 
-////////////////////////////////////////////////////////////////////////////////
-  // vtkRenderWindow *renderWindow = this->GetRenderWindow4()->GetVtkRenderWindow();
-  // vtkRenderer *renderer = mitk::BaseRenderer::GetInstance(this->GetRenderWindow4()->renderWindow())->GetVtkRenderer();
-  // // 1. Use a render window with alpha bits (as initial value is 0 (false)):
-  // renderWindow->SetAlphaBitPlanes(true);
-
-  // // 2. Force to not pick a framebuffer with a multisample buffer
-  // // (as initial value is 8):
-  // renderWindow->SetMultiSamples(0);
-
-  // // 3. Choose to use depth peeling (if supported) (initial value is 0 (false)):
-  // renderer->SetUseDepthPeeling(true);
-
-  // // 4. Set depth peeling parameters
-  // // - Set the maximum number of rendering passes (initial value is 4):
-  // int maxNoOfPeels = 100;
-  // renderer->SetMaximumNumberOfPeels(maxNoOfPeels);
-  // // - Set the occlusion ratio (initial value is 0.0, exact image):
-  // double occlusionRatio = 0.1;
-  // renderer->SetOcclusionRatio(occlusionRatio);
-////////////////////////////////////////////////////////////////////////////////
 }
 void THAStdMultiWidget::InitializeMultiWidget()
 {
+  this->SetDataStorage(mitk::RenderingManager::GetInstance()->GetDataStorage());
   QmitkStdMultiWidget::InitializeMultiWidget();
+  // Add the displayed views to the DataStorage to see their positions in 2D and 3D
+  this->AddDisplayPlaneSubTree();
+  // show image plane in viewer and data storage
+  // this->AddPlanesToDataStorage();
+  // Disable the plane widget
+  this->SetWidgetPlanesVisibility(false);
 ////////////////////////////////////////////////////////////////////////////////
 /// Customization
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +77,7 @@ void THAStdMultiWidget::InitializeMultiWidget()
   this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetMaximumNumberOfPeels(50);
   this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeeling(true);
   this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeelingForVolumes(true);
+  // Initialize bottom-right view as 3D view
   this->GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
 
   this->GetRenderWindow1()->GetVtkRenderWindow()->SetWindowName(
@@ -112,35 +95,41 @@ void THAStdMultiWidget::InitializeMultiWidget()
 
   // this->DisableStandardLevelWindow();
   QVBoxLayout *pRenderWindow1Layout = new QVBoxLayout(this->GetRenderWindow1());
-  pRenderWindow1Layout->insertWidget(0, this->groupBoxGadget[0], 0, Qt::AlignRight | Qt::AlignTop);
+  pRenderWindow1Layout->insertWidget(0, this->mpGroupBoxGadget[0], 0, Qt::AlignRight | Qt::AlignTop);
   this->GetRenderWindow1()->setLayout(pRenderWindow1Layout);
 
   QVBoxLayout *pRenderWindow2Layout = new QVBoxLayout(this->GetRenderWindow2());
-  pRenderWindow2Layout->insertWidget(0, this->groupBoxGadget[1], 0, Qt::AlignRight | Qt::AlignTop);
+  pRenderWindow2Layout->insertWidget(0, this->mpGroupBoxGadget[1], 0, Qt::AlignRight | Qt::AlignTop);
   this->GetRenderWindow2()->setLayout(pRenderWindow2Layout);
 
   QVBoxLayout *pRenderWindow3Layout = new QVBoxLayout(this->GetRenderWindow3());
-  pRenderWindow3Layout->insertWidget(0, this->groupBoxGadget[2], 0, Qt::AlignRight | Qt::AlignTop);
+  pRenderWindow3Layout->insertWidget(0, this->mpGroupBoxGadget[2], 0, Qt::AlignRight | Qt::AlignTop);
   this->GetRenderWindow3()->setLayout(pRenderWindow3Layout);
 
 	QGridLayout *pRenderWindow4Layout = new QGridLayout(this->GetRenderWindow4());
-	pRenderWindow4Layout->addWidget(this->stemParameterGadget, 0, 1, Qt::AlignRight | Qt::AlignBottom);
-	pRenderWindow4Layout->addWidget(this->cupParameterGadget, 1, 1, Qt::AlignRight | Qt::AlignBottom);
-	pRenderWindow4Layout->addWidget(this->implantAssessmentGadget, 2, 1, Qt::AlignRight | Qt::AlignBottom);
+	pRenderWindow4Layout->addWidget(this->mpStemParameterGadget, 0, 1, Qt::AlignRight | Qt::AlignBottom);
+	pRenderWindow4Layout->addWidget(this->mpCupParameterGadget, 1, 1, Qt::AlignRight | Qt::AlignBottom);
+	pRenderWindow4Layout->addWidget(this->mpImplantAssessmentGadget, 2, 1, Qt::AlignRight | Qt::AlignBottom);
   this->GetRenderWindow4()->setLayout(pRenderWindow4Layout);
-	this->GetRenderWindow4()->setMaximumHeight(600);
+////////////////////////////////////////////////////////////////////////////////
+/// Gadget Connection
+////////////////////////////////////////////////////////////////////////////////
+  this->mpCupParameterGadget->observerCup();
+	this->mpStemParameterGadget->observerStem();
+////////////////////////////////////////////////////////////////////////////////
+  this->SetRegistrationMode(this->registrationMode);
 ////////////////////////////////////////////////////////////////////////////////
 /// Preset
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 }
 
-void THAStdMultiWidget::setViewerMode(int mode)
+void THAStdMultiWidget::SetViewerMode(int mode)
 {
   // if(this->viewerMode == mode) {
   //   return;
   // }
-  this->viewerMode = mode;
+  this->mViewerMode = mode;
   // this->DisableStandardLevelWindow();
   mitk::BaseRenderer *renderer1 =
       mitk::BaseRenderer::GetInstance(this->GetRenderWindow1()->renderWindow());
@@ -168,7 +157,7 @@ void THAStdMultiWidget::setViewerMode(int mode)
   this->SetWidgetPlaneVisibility("femur_right", false, renderer2);
   this->SetWidgetPlaneVisibility("femur_right", false, renderer3);
   
-  switch (this->viewerMode)
+  switch (this->mViewerMode)
   {
   case VIEWER_2D:
   {
@@ -226,12 +215,12 @@ void THAStdMultiWidget::setViewerMode(int mode)
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-void THAStdMultiWidget::setPlanMode(int mode)
+void THAStdMultiWidget::SetPlanMode(int mode)
 {
   // if(this->planMode == mode) {
   //   return;
   // }
-  this->planMode = mode;
+  this->mpPlanMode = mode;
 
   mitk::DataNode *acetabularShellTransformedNode = this->GetDataStorage()->GetNamedNode("acetabular_shell_transformed");
   mitk::DataNode *acetabularInsertTransformedNode = this->GetDataStorage()->GetNamedNode("acetabular_insert_transformed");
@@ -262,17 +251,17 @@ void THAStdMultiWidget::setPlanMode(int mode)
   hipLengthRight->SetVisibility(false);
   hipLengthLeft->SetVisibility(false);
   pelvisMidline->SetVisibility(false);
-  this->groupBoxGadget[0]->setVisible(false);
-  this->groupBoxGadget[0]->setMode(GroupBoxGadget::DEFAULT);
-  this->groupBoxGadget[1]->setVisible(false);
-  this->groupBoxGadget[1]->setMode(GroupBoxGadget::DEFAULT);
-  this->groupBoxGadget[2]->setVisible(false);
-  this->groupBoxGadget[2]->setMode(GroupBoxGadget::DEFAULT);
-  this->stemParameterGadget->setVisible(false);
-  this->implantAssessmentGadget->setVisible(false);
-  this->cupParameterGadget->setVisible(false);
+  this->mpGroupBoxGadget[0]->setVisible(false);
+  this->mpGroupBoxGadget[0]->setMode(GroupBoxGadget::DEFAULT);
+  this->mpGroupBoxGadget[1]->setVisible(false);
+  this->mpGroupBoxGadget[1]->setMode(GroupBoxGadget::DEFAULT);
+  this->mpGroupBoxGadget[2]->setVisible(false);
+  this->mpGroupBoxGadget[2]->setMode(GroupBoxGadget::DEFAULT);
+  this->mpStemParameterGadget->setVisible(false);
+  this->mpImplantAssessmentGadget->setVisible(false);
+  this->mpCupParameterGadget->setVisible(false);
 
-  switch (this->planMode)
+  switch (this->mpPlanMode)
   {
   case PLAN_PREOP:
   {
@@ -288,48 +277,48 @@ void THAStdMultiWidget::setPlanMode(int mode)
     hipLengthRight->SetVisibility(true);
     hipLengthLeft->SetVisibility(true);
     pelvisMidline->SetVisibility(true);
-    this->implantAssessmentGadget->setVisible(true);
+    this->mpImplantAssessmentGadget->setVisible(true);
   }
   break;
   case PLAN_CUP:
   {
-    this->groupBoxGadget[0]->setVisible(true);
-    this->groupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
-    this->groupBoxGadget[1]->setVisible(true);
-    this->groupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
-    this->groupBoxGadget[2]->setVisible(true);
-    this->groupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
+    this->mpGroupBoxGadget[0]->setVisible(true);
+    this->mpGroupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
+    this->mpGroupBoxGadget[1]->setVisible(true);
+    this->mpGroupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
+    this->mpGroupBoxGadget[2]->setVisible(true);
+    this->mpGroupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
 		femoralNeckTransformedNode->SetColor(0.741, 0.741, 0.741);
 		femoralHeadTransformedNode->SetColor(0.741, 0.741, 0.741);
 		femoralStemTransformedNode->SetColor(0.741, 0.741, 0.741);
-		this->groupBoxGadget[0]->setButtonShow(true);
-		this->groupBoxGadget[1]->setButtonShow(true);
-		this->groupBoxGadget[2]->setButtonShow(true);
-		this->cupParameterGadget->setVisible(true);
+		this->mpGroupBoxGadget[0]->setButtonShow(true);
+		this->mpGroupBoxGadget[1]->setButtonShow(true);
+		this->mpGroupBoxGadget[2]->setButtonShow(true);
+		this->mpCupParameterGadget->setVisible(true);
   }
   break;
   case PLAN_STEM:
   {
-    this->groupBoxGadget[0]->setVisible(true);
-    this->groupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
-    this->groupBoxGadget[1]->setVisible(true);
-    this->groupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
-    this->groupBoxGadget[2]->setVisible(true);
-    this->groupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
+    this->mpGroupBoxGadget[0]->setVisible(true);
+    this->mpGroupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
+    this->mpGroupBoxGadget[1]->setVisible(true);
+    this->mpGroupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
+    this->mpGroupBoxGadget[2]->setVisible(true);
+    this->mpGroupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
 		acetabularShellTransformedNode->SetColor(0.741, 0.741, 0.741);
 		acetabularInsertTransformedNode->SetColor(0.741, 0.741, 0.741);
-		this->groupBoxGadget[0]->setButtonShow(false);
-		this->groupBoxGadget[1]->setButtonShow(false);
-		this->groupBoxGadget[2]->setButtonShow(false);
-		this->stemParameterGadget->setVisible(true);
-    this->implantAssessmentGadget->setVisible(true);
+		this->mpGroupBoxGadget[0]->setButtonShow(false);
+		this->mpGroupBoxGadget[1]->setButtonShow(false);
+		this->mpGroupBoxGadget[2]->setButtonShow(false);
+		this->mpStemParameterGadget->setVisible(true);
+    this->mpImplantAssessmentGadget->setVisible(true);
   }
   break;
   case PLAN_REDUCED:
   {
-		this->cupParameterGadget->setVisible(true);
-		this->stemParameterGadget->setVisible(true);
-    this->implantAssessmentGadget->setVisible(true);
+		this->mpCupParameterGadget->setVisible(true);
+		this->mpStemParameterGadget->setVisible(true);
+    this->mpImplantAssessmentGadget->setVisible(true);
   }
 	break;
   default: //PLAN_DEFAULT
@@ -339,7 +328,7 @@ void THAStdMultiWidget::setPlanMode(int mode)
 		femoralNeckTransformedNode->SetVisibility(false);
 		femoralHeadTransformedNode->SetVisibility(false);
 		femoralStemTransformedNode->SetVisibility(false);
-    this->implantAssessmentGadget->setVisible(true);
+    this->mpImplantAssessmentGadget->setVisible(true);
   }
   break;
   }
@@ -347,7 +336,7 @@ void THAStdMultiWidget::setPlanMode(int mode)
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-void THAStdMultiWidget::setRegistrationMode(bool flag)
+void THAStdMultiWidget::SetRegistrationMode(bool flag)
 {
   this->registrationMode = flag;
 ////////////////////////////////////////////////////////////////////////////////
@@ -369,17 +358,17 @@ void THAStdMultiWidget::setRegistrationMode(bool flag)
   // if not registration mode, just go back to the state which it used to be.
   if(!this->registrationMode)
   {
-    this->setViewerMode(this->viewerMode);
-    this->setPlanMode(this->planMode);
+    this->SetViewerMode(this->mViewerMode);
+    this->SetPlanMode(this->mpPlanMode);
   }
   else
   {
-    this->groupBoxGadget[0]->setVisible(false);
-    this->groupBoxGadget[1]->setVisible(false);
-    this->groupBoxGadget[2]->setVisible(false);
-    this->stemParameterGadget->setVisible(false);
-    this->implantAssessmentGadget->setVisible(false);
-    this->cupParameterGadget->setVisible(false);
+    this->mpGroupBoxGadget[0]->setVisible(false);
+    this->mpGroupBoxGadget[1]->setVisible(false);
+    this->mpGroupBoxGadget[2]->setVisible(false);
+    this->mpStemParameterGadget->setVisible(false);
+    this->mpImplantAssessmentGadget->setVisible(false);
+    this->mpCupParameterGadget->setVisible(false);
     // this->changeLayoutToBig3D();
     this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
       this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
@@ -387,40 +376,3 @@ void THAStdMultiWidget::setRegistrationMode(bool flag)
     this->ResetCrosshair();
   }
 }
-
-void THAStdMultiWidget::visualize(mitk::DataStorage *ds, QString side)
-{
-  this->SetDataStorage(ds);
-  this->InitializeMultiWidget();
-  this->implantAssessmentGadget->SetSide(side);
-
-  // Initialize bottom-right view as 3D view
-  // this->GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
-
-  // Add the displayed views to the DataStorage to see their positions in 2D and 3D
-  this->AddDisplayPlaneSubTree();
-  // show image plane in viewer and data storage
-  // this->AddPlanesToDataStorage();
-  // Disable the plane widget
-  this->SetWidgetPlanesVisibility(false);
-
-  // mitk::BaseRenderer *renderer1 =
-  //     mitk::BaseRenderer::GetInstance(this->GetRenderWindow1()->renderWindow());
-  // mitk::BaseRenderer *renderer2 =
-  //     mitk::BaseRenderer::GetInstance(this->GetRenderWindow2()->renderWindow());
-  // mitk::BaseRenderer *renderer3 =
-  //     mitk::BaseRenderer::GetInstance(this->GetRenderWindow3()->renderWindow());
-////////////////////////////////////////////////////////////////////////////////
-/// Gadget Connection
-////////////////////////////////////////////////////////////////////////////////
-  this->cupParameterGadget->observerCup();
-	this->stemParameterGadget->observerStem();
-////////////////////////////////////////////////////////////////////////////////
-  this->setRegistrationMode(this->registrationMode);
-}
-
-//void THAStdMultiWidget::setActualResult(bool b)
-//{
-//	//this->cupParameterGadget->setActualResult(b);
-//	this->cupParameterGadget->setVisible(b);
-//}

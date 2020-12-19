@@ -137,23 +137,12 @@
      </layout>
     </item>
     <item>
-     <widget class="QFrame" name="frame">
+     <widget class="THAStdMultiWidget" name="multiWidget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QFrame{
-background: rgb(0, 0, 0)
-}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
       </property>
      </widget>
     </item>
@@ -171,7 +160,7 @@ background: rgb(0, 0, 0)
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget1">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QToolButton" name="toolButtonZoom">
@@ -179,7 +168,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/zoom.png</normaloff>:/icons/toolbar/zoom.png</iconset>
              </property>
              <property name="iconSize">
@@ -199,7 +188,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/luminance.png</normaloff>:/icons/toolbar/luminance.png</iconset>
              </property>
              <property name="iconSize">
@@ -219,7 +208,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/contrast.png</normaloff>:/icons/toolbar/contrast.png</iconset>
              </property>
              <property name="iconSize">
@@ -242,7 +231,7 @@ background: rgb(0, 0, 0)
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget2">
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <widget class="QToolButton" name="toolButtonPrepOpMode">
@@ -250,7 +239,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/pre-op-mode.png</normaloff>:/icons/toolbar/pre-op-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -270,7 +259,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/cup-plan-mode.png</normaloff>:/icons/toolbar/cup-plan-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -290,7 +279,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/stem-plan-mode.png</normaloff>:/icons/toolbar/stem-plan-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -310,7 +299,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/reduced-mode.png</normaloff>:/icons/toolbar/reduced-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -326,7 +315,7 @@ background: rgb(0, 0, 0)
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QToolButton" name="toolButtonReamingView">
@@ -334,7 +323,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/reaming-view.png</normaloff>:/icons/toolbar/reaming-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -354,7 +343,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/ct-view.png</normaloff>:/icons/toolbar/ct-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -374,7 +363,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/3d-slicer-view.png</normaloff>:/icons/toolbar/3d-slicer-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -394,7 +383,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/x-ray-view.png</normaloff>:/icons/toolbar/x-ray-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -411,6 +400,19 @@ background: rgb(0, 0, 0)
           </layout>
          </widget>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -474,15 +476,23 @@ background: rgb(0, 0, 0)
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>THAStdMultiWidget</class>
+   <extends>QWidget</extends>
+   <header>THAStdMultiWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="../Resources/resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupView"/>
   <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupMode"/>
-  <buttongroup name="buttonGroupView"/>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
  </buttongroups>
 </ui>

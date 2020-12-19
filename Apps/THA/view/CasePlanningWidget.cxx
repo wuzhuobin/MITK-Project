@@ -3,14 +3,14 @@
 // qt
 CasePlanningWidget::CasePlanningWidget(QWidget *parent)
     : QStackedWidget(parent)
-    , mpUi(new Ui::CasePlanningWidget)
+    , ui(new Ui::CasePlanningWidget)
 {
-  this->mpUi->setupUi(this);
+  this->ui->setupUi(this);
 }
 
 CasePlanningWidget::~CasePlanningWidget()
 {
-  delete this->mpUi;
+  delete this->ui;
 }
 
 void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)

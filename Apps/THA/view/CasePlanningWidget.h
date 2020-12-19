@@ -16,6 +16,6 @@ public Q_SLOTS:
   void on_CasePlanningWidget_currentChanged(int index);
 
 private:
-    Ui::CasePlanningWidget *mpUi;
+    Ui::CasePlanningWidget *ui;
 };
 #endif // CASEPLANNINGWIDGET_H

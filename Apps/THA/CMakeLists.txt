@@ -44,5 +44,6 @@ target_include_directories(
   PRIVATE
   ${PROJECT_SOURCE_DIR}/view
   ${PROJECT_SOURCE_DIR}/model
+  ${PROJECT_SOURCE_DIR}/controller
 #   ${PROJECT_BINARY_DIR}/View
 )
