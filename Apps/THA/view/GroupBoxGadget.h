@@ -26,20 +26,18 @@ public:
 
 public:
   explicit GroupBoxGadget(int orientation, 
-		const QString &femoralStem = QStringLiteral("femoral_stem_transformed"),
-		const QString &femoralNeck = QStringLiteral("femoral_neck_transformed"),
-		const QString &femoralHead = QStringLiteral("femoral_head_transformed"),
-		const QString &acetabularShell = QStringLiteral("acetabular_shell_transformed"),
-		const QString &acetabularInsert = QStringLiteral("acetabular_insert_transformed"),
+		const QString &femoralStem = QStringLiteral("femoral_stem"),
+		const QString &femoralHead = QStringLiteral("femoral_head"),
+		const QString &acetabularShell = QStringLiteral("acetabular_shell"),
+		const QString &acetabularLiner = QStringLiteral("acetabular_insert"),
 		QWidget *parent = nullptr);
 	explicit GroupBoxGadget(int orientation,
 		QWidget *parent) :
 		GroupBoxGadget(orientation,
-			QStringLiteral("femoral_stem_transformed"),
-			QStringLiteral("femoral_neck_transformed"),
-			QStringLiteral("femoral_head_transformed"),
-			QStringLiteral("acetabular_shell_transformed"),
-			QStringLiteral("acetabular_insert_transformed"),
+			QStringLiteral("femoral_stem"),
+			QStringLiteral("femoral_head"),
+			QStringLiteral("acetabular_shell"),
+			QStringLiteral("acetabular_insert"),
 			parent
 		) {}
   virtual ~GroupBoxGadget() override;
@@ -61,10 +59,9 @@ private:
   double translationSpeed;
   double rotationSpeed;
   QString femoralStem;
-  QString femoralNeck;
   QString femoralHead;
   QString acetabularShell;
-  QString acetabularInsert;
+  QString acetabularLiner;
 
 private:
   void internalTransform(double position[3], double orientation[3]);
