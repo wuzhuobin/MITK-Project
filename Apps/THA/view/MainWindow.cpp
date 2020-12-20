@@ -38,3 +38,69 @@ void MainWindow::on_radioButtonOptions_toggled(bool checked)
     this->ui->multiWidget->InitializeMultiWidget();
   }
 }
+
+void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton *button)
+{
+  MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
+  for(QAbstractButton *button_: this->ui->buttonGroupMode->buttons())
+  {
+    if(button_ != button)
+    {
+      button_->setChecked(false);
+    }
+  }
+
+  if(this->ui->toolButtonPrepOpMode->isChecked())
+  {
+    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_PRE_OP);
+  }
+  else if (this->ui->toolButtonCupPlanMode->isChecked())
+  {
+    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
+  }
+  else if (this->ui->toolButtonStemPlanMode->isChecked())
+  {
+    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_STEM_PLAN);
+  }
+  else if (this->ui->toolButtonReducedMode->isChecked())
+  {
+    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_REDUCED);
+  }
+  else
+  {
+    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_DEFAULT);
+  }
+}
+
+void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button)
+{
+  MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
+  for(QAbstractButton *button_: this->ui->buttonGroupView->buttons())
+  {
+    if(button_ != button)
+    {
+      button_->setChecked(false);
+    }
+  }
+
+  if(this->ui->toolButton3DSlicerView->isChecked())
+  {
+    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
+  }
+  else if (this->ui->toolButtonCTView->isChecked())
+  {
+    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_CT);
+  }
+  else if (this->ui->toolButtonReamingView->isChecked())
+  {
+    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_REAMING);
+  }
+  else if (this->ui->toolButtonXRayView->isChecked())
+  {
+    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_X_RAY);
+  }
+  else
+  {
+    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_DEFAULT);
+  }
+}

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>204</width>
-    <height>80</height>
+    <height>88</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -73,11 +73,8 @@ background:transparent;
 }</string>
         </property>
         <property name="text">
-         <string>股骨柄
-前倾角</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>Femoral
+Version</string>
         </property>
        </widget>
       </item>

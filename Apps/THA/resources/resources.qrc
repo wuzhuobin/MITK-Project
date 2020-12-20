@@ -1,5 +1,11 @@
 <RCC>
   <qresource prefix="/">
+    <file>icons/transform/rotate_anti_clockwise.png</file>
+    <file>icons/transform/rotate_clockwise.png</file>
+    <file>icons/transform/translate_down.png</file>
+    <file>icons/transform/translate_left.png</file>
+    <file>icons/transform/translate_right.png</file>
+    <file>icons/transform/translate_up.png</file>
     <file>icons/toolbar/3d-slicer-view.png</file>
     <file>icons/toolbar/ct-view.png</file>
     <file>icons/toolbar/cup-plan-mode.png</file>

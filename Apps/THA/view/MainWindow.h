@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 namespace Ui { class MainWindow; }
+class QAbstractButton;
 
 class MainWindow: public QMainWindow
 {
@@ -12,13 +13,14 @@ public:
   explicit MainWindow(QWidget *parent = nullptr);
   virtual ~MainWindow() override;
 
-public Q_SLOTS:
-  void on_radioButtonOptions_toggled(bool checked);
-
 private:
   Ui::MainWindow *ui;
-private:
   Q_DISABLE_COPY(MainWindow);
+
+private Q_SLOTS:
+  void on_radioButtonOptions_toggled(bool checked);
+  void on_buttonGroupMode_buttonClicked(QAbstractButton *button);
+  void on_buttonGroupView_buttonClicked(QAbstractButton *button);
 };
 
 #endif //!MAIN_WINDOW_H

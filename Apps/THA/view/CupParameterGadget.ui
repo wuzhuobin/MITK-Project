@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>151</width>
+    <width>185</width>
     <height>264</height>
    </rect>
   </property>
@@ -50,21 +50,9 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_Medial">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>50</width>
-          <height>16777215</height>
-         </size>
-        </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_CupInclination">
         <property name="font">
          <font>
           <family>黑体</family>
@@ -80,15 +68,142 @@
 } </string>
         </property>
         <property name="text">
-         <string>内侧
-(mm)</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>Cup
+Inclination</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBoxCupPlanInclination">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>55</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QSpinBox{
+color:white; 
+border-radius: 5px;
+background-color: transparent;
+font:25px 'Arial';
+font-weight: bold;
+}</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+        <property name="suffix">
+         <string>º</string>
+        </property>
+        <property name="minimum">
+         <number>-99999999</number>
+        </property>
+        <property name="maximum">
+         <number>99999999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_CupVersion">
+        <property name="font">
+         <font>
+          <family>黑体</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">.QLabel {
+  color:white;
+  background-color:transparent;
+} </string>
+        </property>
+        <property name="text">
+         <string>Cup
+Version</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_CupPlanVersion">
+        <property name="minimumSize">
+         <size>
+          <width>55</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>55</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QSpinBox{
+color:white; 
+border-radius: 5px;
+background-color: transparent;
+font:25px 'Arial';
+font-weight: bold;
+}</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+        <property name="suffix">
+         <string>º</string>
+        </property>
+        <property name="minimum">
+         <number>-99999999</number>
+        </property>
+        <property name="maximum">
+         <number>99999999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_Superior">
+        <property name="font">
+         <font>
+          <family>黑体</family>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">.QLabel {
+  color:white;
+  background-color:transparent;
+} </string>
+        </property>
+        <property name="text">
+         <string>Superior
+(mm)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
        <widget class="QSpinBox" name="spinBoxSuperior">
         <property name="minimumSize">
          <size>
@@ -140,115 +255,8 @@ font-weight: bold;
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="spinBox_CupPlanVersion">
-        <property name="minimumSize">
-         <size>
-          <width>55</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>55</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QSpinBox{
-color:white; 
-border-radius: 5px;
-background-color: transparent;
-font:25px 'Arial';
-font-weight: bold;
-}</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>false</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="suffix">
-         <string>º</string>
-        </property>
-        <property name="minimum">
-         <number>-99999999</number>
-        </property>
-        <property name="maximum">
-         <number>99999999</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QSpinBox" name="spinBoxPosterior">
-        <property name="minimumSize">
-         <size>
-          <width>55</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>55</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>-1</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QSpinBox{
-color:white; 
-border-radius: 5px;
-background-color: transparent;
-font:25px 'Arial';
-font-weight: bold;
-}</string>
-        </property>
-        <property name="frame">
-         <bool>false</bool>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>false</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="minimum">
-         <number>-99999999</number>
-        </property>
-        <property name="maximum">
-         <number>99999999</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_Posterior">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>50</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_Medial">
         <property name="font">
          <font>
           <family>黑体</family>
@@ -264,95 +272,12 @@ font-weight: bold;
 } </string>
         </property>
         <property name="text">
-         <string>后侧
+         <string>Lateral
 (mm)</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="spinBoxCupPlanInclination">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>55</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QSpinBox{
-color:white; 
-border-radius: 5px;
-background-color: transparent;
-font:25px 'Arial';
-font-weight: bold;
-}</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>false</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="suffix">
-         <string>º</string>
-        </property>
-        <property name="minimum">
-         <number>-99999999</number>
-        </property>
-        <property name="maximum">
-         <number>99999999</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_Superior">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>50</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">.QLabel {
-  color:white;
-  background-color:transparent;
-} </string>
-        </property>
-        <property name="text">
-         <string>外侧
-(mm)</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
+      <item row="3" column="1">
        <widget class="QSpinBox" name="spinBoxMedial">
         <property name="minimumSize">
          <size>
@@ -404,20 +329,8 @@ font-weight: bold;
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_CupInclination">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>50</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_Posterior">
         <property name="font">
          <font>
           <family>黑体</family>
@@ -433,48 +346,60 @@ font-weight: bold;
 } </string>
         </property>
         <property name="text">
-         <string>臼杯 
-外展角</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>Anterior
+(mm)</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_CupVersion">
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="spinBoxPosterior">
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>0</height>
+          <width>55</width>
+          <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>16777215</height>
+          <width>55</width>
+          <height>40</height>
          </size>
         </property>
         <property name="font">
          <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <family>Arial</family>
+          <pointsize>-1</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">.QLabel {
-  color:white;
-  background-color:transparent;
-} </string>
+         <string notr="true">QSpinBox{
+color:white; 
+border-radius: 5px;
+background-color: transparent;
+font:25px 'Arial';
+font-weight: bold;
+}</string>
         </property>
-        <property name="text">
-         <string>臼杯 
-前倾角</string>
+        <property name="frame">
+         <bool>false</bool>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
+        <property name="minimum">
+         <number>-99999999</number>
+        </property>
+        <property name="maximum">
+         <number>99999999</number>
         </property>
        </widget>
       </item>

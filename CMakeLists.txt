@@ -323,7 +323,7 @@ endif()
 
 # add_subdirectory(Apps/MyApp)
 add_subdirectory(Apps/THA)
-add_subdirectory(Apps/Step8)
+# add_subdirectory(Apps/Step8)
 
 #-----------------------------------------------------------------------------
 # Installation

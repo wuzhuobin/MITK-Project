@@ -37,7 +37,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../resources/resources.qrc">
        <normaloff>:/icons/transform/rotate_anti_clockwise.png</normaloff>:/icons/transform/rotate_anti_clockwise.png</iconset>
      </property>
      <property name="iconSize">
@@ -66,7 +66,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../resources/resources.qrc">
        <normaloff>:/icons/transform/translate_up.png</normaloff>:/icons/transform/translate_up.png</iconset>
      </property>
      <property name="iconSize">
@@ -95,7 +95,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../resources/resources.qrc">
        <normaloff>:/icons/transform/rotate_clockwise.png</normaloff>:/icons/transform/rotate_clockwise.png</iconset>
      </property>
      <property name="iconSize">
@@ -124,7 +124,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../resources/resources.qrc">
        <normaloff>:/icons/transform/translate_left.png</normaloff>:/icons/transform/translate_left.png</iconset>
      </property>
      <property name="iconSize">
@@ -153,7 +153,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../resources/resources.qrc">
        <normaloff>:/icons/transform/translate_down.png</normaloff>:/icons/transform/translate_down.png</iconset>
      </property>
      <property name="iconSize">
@@ -182,7 +182,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../../resources/resources.qrc">
+      <iconset resource="../resources/resources.qrc">
        <normaloff>:/icons/transform/translate_right.png</normaloff>:/icons/transform/translate_right.png</iconset>
      </property>
      <property name="iconSize">
@@ -202,7 +202,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

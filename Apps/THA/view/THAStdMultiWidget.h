@@ -15,21 +15,21 @@ class THAStdMultiWidget: public QmitkStdMultiWidget
 public:
   enum VIEWS
   {
-    VIEWER_DEFAULT = 0,
-    CT,
-    _3D_SLICER,
-    X_RAY,
-    REAMING,
-    VIEWER_UNTILITY
+    VIEW_DEFAULT = 0,
+    VIEW_CT,
+    VIEW_3D_SLICER,
+    VIEW_X_RAY,
+    VIEW_REAMING,
+    VIEW_UNTILITY
   };
 
   enum MODES
   {
-    PLAN_DEFAULT = 0,
-    PRE_OP,
-    CUP_PLAN,
-    STEM_PLAN,
-    REDUCED
+    MODE_DEFAULT = 0,
+    MODE_PRE_OP,
+    MODE_CUP_PLAN,
+    MODE_STEM_PLAN,
+    MODE_REDUCED
   };
 
 public:
@@ -39,14 +39,14 @@ public:
     const QString &name = "stdmulti");
 //   virtual ~THAStdMultiWidget() override;
   virtual void InitializeMultiWidget() override;
-  int GetView() const { return this->mViewerMode; }
+  int GetView() const { return this->view; }
   void SetView(int mode);
   int GetMode() const { return this->mode; }
   void SetMode(int mode);
   bool IsRegistrationMode() const { return this->registrationMode; }
   void SetRegistrationMode(bool flag);
 private:
-  int mViewerMode;
+  int view;
   int mode;
   bool registrationMode;
   GroupBoxGadget *groupBoxGadget[3];
