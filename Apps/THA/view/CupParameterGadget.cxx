@@ -96,14 +96,14 @@ private:
 
 CupParameterGadget::CupParameterGadget(
   const QString &acetabularShell,
-  const QString &acetabularInsert,
+  const QString &acetabularLiner,
   const QString &cor,
   QWidget *parent
   ):
   QWidget(parent),
   ui(new Ui::CupParameterGadget),
   acetabularShell(acetabularShell),
-  acetabularInsert(acetabularInsert),
+  acetabularLiner(acetabularLiner),
   cor(cor)
 {
   this->ui->setupUi(this);
@@ -120,7 +120,7 @@ void CupParameterGadget::observerCup() const
     mitk::RenderingManager::GetInstance()->GetDataStorage();
   mitk::DataNode * surfaceNode[2] = {
     ds->GetNamedNode(this->acetabularShell.toStdString()),
-    ds->GetNamedNode(this->acetabularInsert.toStdString())
+    ds->GetNamedNode(this->acetabularLiner.toStdString())
   };
   CupParameterGadgetOrientationCommand::Pointer oCommand =
     CupParameterGadgetOrientationCommand::New();

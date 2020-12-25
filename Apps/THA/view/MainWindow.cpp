@@ -28,6 +28,12 @@ MainWindow::~MainWindow()
   delete this->ui;
 }
 
+void MainWindow::Test()
+{
+  this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
+  this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
+}
+
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
 {
   if (checked)

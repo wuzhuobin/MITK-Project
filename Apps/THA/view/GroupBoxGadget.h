@@ -29,7 +29,7 @@ public:
 		const QString &femoralStem = QStringLiteral("femoral_stem"),
 		const QString &femoralHead = QStringLiteral("femoral_head"),
 		const QString &acetabularShell = QStringLiteral("acetabular_shell"),
-		const QString &acetabularLiner = QStringLiteral("acetabular_insert"),
+		const QString &acetabularLiner = QStringLiteral("acetabular_liner"),
 		QWidget *parent = nullptr);
 	explicit GroupBoxGadget(int orientation,
 		QWidget *parent) :
@@ -37,7 +37,7 @@ public:
 			QStringLiteral("femoral_stem"),
 			QStringLiteral("femoral_head"),
 			QStringLiteral("acetabular_shell"),
-			QStringLiteral("acetabular_insert"),
+			QStringLiteral("acetabular_liner"),
 			parent
 		) {}
   virtual ~GroupBoxGadget() override;
@@ -47,11 +47,6 @@ public:
   void setTranslationSpeed(double speed) { this->translationSpeed = speed; }
   double getRotationSpeed() const { return this->rotationSpeed; }
   void setRotationSpeed(double speed) { this->rotationSpeed = speed; }
-  const QString &getFemoralStem() const { return this->femoralStem; }
-  void setFemoralStem(const QString &femoralStem) { this->femoralStem = femoralStem; }
-  // @TODO More get/set functions.
-
-	void setButtonShow(bool);
 
 private:
   int currentMode;
@@ -65,8 +60,8 @@ private:
 
 private:
   void internalTransform(double position[3], double orientation[3]);
-	void CupTransform(mitk::Surface *surface_cup[5], mitk::DataNode *surfaceNode_cup[5], double position[3], double orientation[3]);
-	void StemTransform(mitk::Surface *surface_stem[3], mitk::DataNode *surfaceNode_stem[3], double position[3], double orientation[3]);
+	// void CupTransform(mitk::Surface *surface[5], mitk::DataNode *surfaceNode[5], double position[3], double orientation[3]);
+	// void StemTransform(mitk::Surface *surface_stem[3], mitk::DataNode *surfaceNode_stem[3], double position[3], double orientation[3]);
 
 private Q_SLOTS:
   void on_pushButtonAntiClockwise_clicked(bool checked = false);

@@ -16,14 +16,14 @@ class CupParameterGadget : public QWidget
 
 public:
   explicit CupParameterGadget(
-    const QString &acetabularShell = QStringLiteral("acetabular_shell_transformed"),
-    const QString &acetabularInsert = QStringLiteral("acetabular_insert_transformed"),
+    const QString &acetabularShell = QStringLiteral("acetabular_shell"),
+    const QString &acetabularLiner = QStringLiteral("acetabular_liner"),
     const QString &cor = QStringLiteral("COR"),
     QWidget *parent = 0);
   explicit CupParameterGadget(QWidget *parent):
     CupParameterGadget(
-      QStringLiteral("acetabular_shell_transformed"),
-      QStringLiteral("acetabular_insert_transformed"),
+      QStringLiteral("acetabular_shell"),
+      QStringLiteral("acetabular_liner"),
       QStringLiteral("COR"),
       parent
     ) {}
@@ -33,7 +33,7 @@ public:
 
 private:
   QString acetabularShell;
-  QString acetabularInsert;
+  QString acetabularLiner;
   QString cor;
 
   friend class CupParameterGadgetOrientationCommand;
