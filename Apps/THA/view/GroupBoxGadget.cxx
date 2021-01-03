@@ -89,7 +89,7 @@ void GroupBoxGadget::internalTransform(double position[3], double orientation[3]
     transform->Translate(origin[0], origin[1], origin[2]);
     transform->Translate(position[0], position[1], position[2]);
     geo->SetIndexToWorldTransformByVtkMatrixWithoutChangingSpacing(transform->GetMatrix());
-    MITK_INFO << *transform;
+    // MITK_INFO << *transform;
     surfaceNode[i]->SetFloatProperty("origin.x", origin[0] + position[0]);
     surfaceNode[i]->SetFloatProperty("origin.y", origin[1] + position[1]);
     surfaceNode[i]->SetFloatProperty("origin.z", origin[2] + position[2]);

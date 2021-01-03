@@ -16,9 +16,6 @@
   <property name="styleSheet">
    <string notr="true">.QGroupBox{
   background-color: transparent;
-  background:#0a0a0a;
-  border: 2px solid white; 
-  border-radius: 5px;
 }</string>
   </property>
   <property name="flat">

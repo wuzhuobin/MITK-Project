@@ -124,10 +124,10 @@ padding-left:10px;
          <string>º</string>
         </property>
         <property name="minimum">
-         <number>-90</number>
+         <number>-360</number>
         </property>
         <property name="maximum">
-         <number>90</number>
+         <number>360</number>
         </property>
         <property name="value">
          <number>0</number>

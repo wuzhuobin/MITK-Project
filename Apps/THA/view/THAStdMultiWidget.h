@@ -53,7 +53,6 @@ private:
   StemParameterGadget *stemParameterGadget;
   ImplantAssessmentGadget *implantAssessmentGadget;
   CupParameterGadget *cupParameterGadget;
-	//CupResultGadget *cupResultGadget;
 
 };
 #endif //!THA_STD_MULTI_WIDGET

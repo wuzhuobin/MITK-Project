@@ -118,7 +118,7 @@ void THAStdMultiWidget::InitializeMultiWidget()
 /// Gadget Connection
 ////////////////////////////////////////////////////////////////////////////////
   // this->cupParameterGadget->observerCup();
-	// this->stemParameterGadget->observerStem();
+	this->stemParameterGadget->ObserverStem();
 ////////////////////////////////////////////////////////////////////////////////
   // this->SetRegistrationMode(this->registrationMode);
   this->SetView(VIEWS::VIEW_DEFAULT);
