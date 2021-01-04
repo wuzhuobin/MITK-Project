@@ -74,6 +74,11 @@ void GroupBoxGadget::internalTransform(double position[3], double orientation[3]
     surfaceNode[i]->GetFloatProperty("origin.x", origin[0]);
     surfaceNode[i]->GetFloatProperty("origin.y", origin[1]);
     surfaceNode[i]->GetFloatProperty("origin.z", origin[2]);
+    // The origin should change first, since the CupParameterGadage need
+    // the new origin to calculate its new position.
+    surfaceNode[i]->SetFloatProperty("origin.x", origin[0] + position[0]);
+    surfaceNode[i]->SetFloatProperty("origin.y", origin[1] + position[1]);
+    surfaceNode[i]->SetFloatProperty("origin.z", origin[2] + position[2]);
     center[0] = origin[0];
     center[1] = origin[1];
     center[2] = origin[2];
@@ -90,9 +95,6 @@ void GroupBoxGadget::internalTransform(double position[3], double orientation[3]
     transform->Translate(position[0], position[1], position[2]);
     geo->SetIndexToWorldTransformByVtkMatrixWithoutChangingSpacing(transform->GetMatrix());
     // MITK_INFO << *transform;
-    surfaceNode[i]->SetFloatProperty("origin.x", origin[0] + position[0]);
-    surfaceNode[i]->SetFloatProperty("origin.y", origin[1] + position[1]);
-    surfaceNode[i]->SetFloatProperty("origin.z", origin[2] + position[2]);
   }
   // surface[1]->SetGeometry(geo);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();

@@ -7,7 +7,7 @@ namespace Ui
 {
   class StemParameterGadget;
 }
-class StemParameterGadgetOrientationCommand;
+class StemParameterGadgetCommand;
 
 class StemParameterGadget : public QWidget
 {
@@ -31,7 +31,7 @@ private:
 	QString femoralStem;
 	QString femoralHead;
 
-	friend class StemParameterGadgetOrientationCommand;
+	friend class StemParameterGadgetCommand;
 
 private:
   Ui::StemParameterGadget *ui;

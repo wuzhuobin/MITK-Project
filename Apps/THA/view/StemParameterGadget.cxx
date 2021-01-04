@@ -10,11 +10,11 @@
 #include <itkCommand.h>
 #include <itkEuler3DTransform.h>
 
-class StemParameterGadgetOrientationCommand : public itk::Command
+class StemParameterGadgetCommand : public itk::Command
 {
 public:
 
-	typedef StemParameterGadgetOrientationCommand Self;
+	typedef StemParameterGadgetCommand Self;
 	typedef itk::Command Superclass;
 	typedef itk::SmartPointer<Self> Pointer;
 	typedef itk::SmartPointer<const Self> ConstPointer;
@@ -22,8 +22,8 @@ public:
 	itkNewMacro(Self);
 	itkTypeMacro(Self, Superclass);
 
-	StemParameterGadgetOrientationCommand() {}
-	virtual ~StemParameterGadgetOrientationCommand() override {}
+	StemParameterGadgetCommand() {}
+	virtual ~StemParameterGadgetCommand() override {}
 
 	virtual void Execute(itk::Object *caller, const itk::EventObject & event) override
 	{
@@ -46,7 +46,7 @@ public:
 	}
 	const StemParameterGadget *this_ = nullptr;
 private:
-	ITK_DISALLOW_COPY_AND_ASSIGN(StemParameterGadgetOrientationCommand);
+	ITK_DISALLOW_COPY_AND_ASSIGN(StemParameterGadgetCommand);
 };
 
 StemParameterGadget::StemParameterGadget(
@@ -74,8 +74,9 @@ void StemParameterGadget::ObserverStem() const
 		ds->GetNamedObject<mitk::Surface>(this->femoralStem.toStdString()),
 		ds->GetNamedObject<mitk::Surface>(this->femoralHead.toStdString())
   };
-	StemParameterGadgetOrientationCommand::Pointer oCommand =
-		StemParameterGadgetOrientationCommand::New();
+	StemParameterGadgetCommand::Pointer oCommand =
+		StemParameterGadgetCommand::New();
 	oCommand->this_ = this;
   surface[0]->GetGeometry()->GetIndexToWorldTransform()->AddObserver(itk::ModifiedEvent(), oCommand);
+  surface[0]->GetGeometry()->GetIndexToWorldTransform()->Modified();
 }

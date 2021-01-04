@@ -4,15 +4,16 @@
 #include <mitkRenderingManager.h>
 #include <mitkDataStorage.h>
 #include <mitkPointSet.h>
-#include <mitkVectorProperty.h>
+#include <mitkSurface.h>
+// #include <mitkVectorProperty.h>
 // itk
 #include <itkCommand.h>
 
-class CupParameterGadgetOrientationCommand: public itk::Command
+class CupParameterGadgetCommand: public itk::Command
 {
 public:
 
-  typedef CupParameterGadgetOrientationCommand Self;
+  typedef CupParameterGadgetCommand Self;
   typedef itk::Command Superclass;
   typedef itk::SmartPointer<Self> Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;
@@ -20,8 +21,8 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(Self, Superclass);
 
-  CupParameterGadgetOrientationCommand() {}
-  virtual ~CupParameterGadgetOrientationCommand() override {}
+  CupParameterGadgetCommand() {}
+  virtual ~CupParameterGadgetCommand() override {}
 
   virtual void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
@@ -31,67 +32,35 @@ public:
   virtual void Execute(const itk::Object *caller, const itk::EventObject & event) override
   {
     itkNotUsed(event);
-    const mitk::Vector3DProperty *orientation =
-      reinterpret_cast<const mitk::Vector3DProperty*>(caller);
-    // @TODO current calculation seems to correct
-		if (orientation->GetValue()[1] > 180)
-		{
-			this_->ui->spinBoxCupPlanInclination->setValue(360 - orientation->GetValue()[1]);
-			this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2]);
-		}
-		else
-		{
-			this_->ui->spinBoxCupPlanInclination->setValue(orientation->GetValue()[1]);
-			this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2]);
-		}
-			//this_->ui->spinBoxCupPlanInclination->setValue(orientation->GetValue()[1]);
-			//this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2] - 180);
-  }
-  const CupParameterGadget *this_ = nullptr;
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CupParameterGadgetOrientationCommand);
-};
-
-class CupParameterGadgetPositionCommand: public itk::Command
-{
-public:
-
-  typedef CupParameterGadgetPositionCommand Self;
-  typedef itk::Command Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
-
-  itkNewMacro(Self);
-  itkTypeMacro(Self, Superclass);
-
-  CupParameterGadgetPositionCommand() {}
-  virtual ~CupParameterGadgetPositionCommand() override {}
-
-
-  virtual void Execute(itk::Object *caller, const itk::EventObject &event) override
-  {
-    this->Execute(const_cast<const itk::Object *>(caller), event);
-  }
-
-  virtual void Execute(const itk::Object *caller, const itk::EventObject &event) override
-  {
-    itkNotUsed(event);
-    const mitk::Vector3DProperty *position =
-      reinterpret_cast<const mitk::Vector3DProperty *>(caller);
-    mitk::DataStorage *ds = 
+    itkNotUsed(caller);
+    mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
+    mitk::DataNode* acetabularShell = ds->GetNamedNode(this_->acetabularShell.toStdString());
+    float origin[3];
+    acetabularShell->GetFloatProperty("origin.x", origin[0]);
+    acetabularShell->GetFloatProperty("origin.y", origin[1]);
+    acetabularShell->GetFloatProperty("origin.z", origin[2]);
+    // @TODO current calculation seems to correct
+		// if (orientation->GetValue()[1] > 180)
+		// {
+		// 	this_->ui->spinBoxCupPlanInclination->setValue(360 - orientation->GetValue()[1]);
+		// 	this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2]);
+		// }
+		// else
+		// {
+		// 	this_->ui->spinBoxCupPlanInclination->setValue(orientation->GetValue()[1]);
+		// 	this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2]);
+		// }
     mitk::PointSet *pointset = ds->GetNamedObject<mitk::PointSet>(this_->cor.toStdString());
-    //mitk::Point3D point3d = pointset->GetPoint(0);
 		mitk::Point3D point3d = pointset->GetPoint(1);
     // @todo current calculation seems to not correct.
-    this_->ui->spinBoxMedial->setValue(position->GetValue()[0] - point3d[0]);
-    this_->ui->spinBoxSuperior->setValue(position->GetValue()[2] - point3d[2]);
-    this_->ui->spinBoxPosterior->setValue(position->GetValue()[1] - point3d[1]);
+    this_->ui->spinBoxMedial->setValue(origin[0] - point3d[0]);
+    this_->ui->spinBoxPosterior->setValue(origin[1] - point3d[1]);
+    this_->ui->spinBoxSuperior->setValue(origin[2] - point3d[2]);
   }
-
   const CupParameterGadget *this_ = nullptr;
 private:
-  // ITK_DISALLOW_COPY_AND_ASSIGN(CupParameterGadgetPositionCommand);
+  ITK_DISALLOW_COPY_AND_ASSIGN(CupParameterGadgetCommand);
 };
 
 CupParameterGadget::CupParameterGadget(
@@ -114,25 +83,17 @@ CupParameterGadget::~CupParameterGadget()
   delete this->ui;
 }
 
-void CupParameterGadget::observerCup() const
+void CupParameterGadget::ObserverCup() const
 {
   mitk::DataStorage *ds = 
     mitk::RenderingManager::GetInstance()->GetDataStorage();
-  mitk::DataNode * surfaceNode[2] = {
-    ds->GetNamedNode(this->acetabularShell.toStdString()),
-    ds->GetNamedNode(this->acetabularLiner.toStdString())
+  mitk::Surface * surface[2] = {
+    ds->GetNamedObject<mitk::Surface>(this->acetabularShell.toStdString()),
+    ds->GetNamedObject<mitk::Surface>(this->acetabularLiner.toStdString())
   };
-  CupParameterGadgetOrientationCommand::Pointer oCommand =
-    CupParameterGadgetOrientationCommand::New();
+  CupParameterGadgetCommand::Pointer oCommand =
+    CupParameterGadgetCommand::New();
   oCommand->this_ = this;
-  surfaceNode[0]->GetProperty("orientation")->AddObserver(itk::ModifiedEvent(), oCommand);
-  surfaceNode[0]->GetProperty("orientation")->Modified();
-
-  CupParameterGadgetPositionCommand::Pointer pCommand =
-    CupParameterGadgetPositionCommand::New();
-  pCommand->this_ = this;
-  surfaceNode[0]->GetProperty("position")->AddObserver(itk::ModifiedEvent(), pCommand);
-  surfaceNode[0]->GetProperty("position")->Modified();
-
+  surface[0]->GetGeometry()->GetIndexToWorldTransform()->AddObserver(itk::ModifiedEvent(), oCommand);
+  surface[0]->GetGeometry()->GetIndexToWorldTransform()->Modified();
 }
-
