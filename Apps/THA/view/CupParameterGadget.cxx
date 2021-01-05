@@ -8,6 +8,7 @@
 // #include <mitkVectorProperty.h>
 // itk
 #include <itkCommand.h>
+#include <itkEuler3DTransform.h>
 
 class CupParameterGadgetCommand: public itk::Command
 {
@@ -32,7 +33,18 @@ public:
   virtual void Execute(const itk::Object *caller, const itk::EventObject & event) override
   {
     itkNotUsed(event);
-    itkNotUsed(caller);
+
+    typedef typename itk::MatrixOffsetTransformBase<double, 3> MatrixOffsetTransformBase;
+    const MatrixOffsetTransformBase * matrixOffsetTransformBase =
+      static_cast<const MatrixOffsetTransformBase*>(caller);
+    typedef typename itk::Euler3DTransform<double> Euler3DTransform;
+    Euler3DTransform::Pointer euler3DTransform =
+      Euler3DTransform::New();
+    euler3DTransform->SetMatrix(matrixOffsetTransformBase->GetMatrix());
+    double angleX = euler3DTransform->GetAngleX() * itk::Math::deg_per_rad;
+    double angleY = euler3DTransform->GetAngleY() * itk::Math::deg_per_rad;
+    double angleZ = euler3DTransform->GetAngleZ() * itk::Math::deg_per_rad;
+
     mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
     mitk::DataNode* acetabularShell = ds->GetNamedNode(this_->acetabularShell.toStdString());
@@ -40,17 +52,9 @@ public:
     acetabularShell->GetFloatProperty("origin.x", origin[0]);
     acetabularShell->GetFloatProperty("origin.y", origin[1]);
     acetabularShell->GetFloatProperty("origin.z", origin[2]);
-    // @TODO current calculation seems to correct
-		// if (orientation->GetValue()[1] > 180)
-		// {
-		// 	this_->ui->spinBoxCupPlanInclination->setValue(360 - orientation->GetValue()[1]);
-		// 	this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2]);
-		// }
-		// else
-		// {
-		// 	this_->ui->spinBoxCupPlanInclination->setValue(orientation->GetValue()[1]);
-		// 	this_->ui->spinBox_CupPlanVersion->setValue(orientation->GetValue()[2]);
-		// }
+    // Since the model has been rotated 40 degreee by default.
+    this_->ui->spinBoxCupPlanInclination->setValue(angleY - 40);
+    this_->ui->spinBox_CupPlanVersion->setValue(angleZ);
     mitk::PointSet *pointset = ds->GetNamedObject<mitk::PointSet>(this_->cor.toStdString());
 		mitk::Point3D point3d = pointset->GetPoint(1);
     // @todo current calculation seems to not correct.

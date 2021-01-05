@@ -110,3 +110,13 @@ void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button)
     this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_DEFAULT);
   }
 }
+
+void MainWindow::on_pushButtonNext_clicked(bool checked)
+{
+  MITK_INFO << __func__;
+}
+
+void MainWindow::on_pushButtonBack_clicked(bool checked)
+{
+  MITK_INFO << __func__;
+}
