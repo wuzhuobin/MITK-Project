@@ -2,118 +2,122 @@
 <ui version="4.0">
  <class>CasePlanningWidget</class>
  <widget class="QStackedWidget" name="CasePlanningWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>239</width>
+    <height>539</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Case Planning</string>
   </property>
   <property name="currentIndex">
    <number>0</number>
   </property>
-  <widget class="QWidget" name="CT_Landmark">
+  <widget class="QWidget" name="page">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>DUMMY</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="PelvisCTLandmark">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
-     <widget class="QFrame" name="frame_2">
-      <property name="styleSheet">
-       <string notr="true"/>
+     <widget class="QCommandLinkButton" name="commandLinkButton_15">
+      <property name="text">
+       <string>ASIS (Operative Side)</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
+      <property name="autoExclusive">
+       <bool>true</bool>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_15">
-         <property name="text">
-          <string>ASIS (Operative Side)</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_16">
-         <property name="text">
-          <string>ASIS (Non-Operative Side)</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_17">
-         <property name="text">
-          <string>Midline</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_18">
-         <property name="text">
-          <string>Posterior Acetabulum</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_19">
-         <property name="text">
-          <string>Anterior Acetabulum</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_20">
-         <property name="text">
-          <string>Superior Acetabulum</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCommandLinkButton" name="commandLinkButton_21">
-         <property name="text">
-          <string>Center of Rotation</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton_20">
+      <property name="text">
+       <string>Superior Acetabulum</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton_16">
+      <property name="text">
+       <string>ASIS (Non-Operative Side)</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton_19">
+      <property name="text">
+       <string>Anterior Acetabulum</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton_17">
+      <property name="text">
+       <string>Midline</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton_18">
+      <property name="text">
+       <string>Posterior Acetabulum</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton_21">
+      <property name="text">
+       <string>Center of Rotation</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
@@ -146,9 +150,19 @@
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="QTextBrowser" name="textBrowser"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Pelvis CT Landmark</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="Implan_Planning">
+  <widget class="QWidget" name="ImplantPlanning">
    <layout class="QVBoxLayout" name="verticalLayout_7">
     <item>
      <widget class="Line" name="line_8">
@@ -536,9 +550,19 @@
       </property>
      </spacer>
     </item>
+    <item>
+     <widget class="QTextBrowser" name="textBrowser_2"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Implant Planning</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="Broach_Tracking">
+  <widget class="QWidget" name="BroachTracking">
    <layout class="QVBoxLayout" name="verticalLayout_8">
     <item>
      <widget class="Line" name="line_10">
@@ -738,8 +762,42 @@
       </property>
      </spacer>
     </item>
+    <item>
+     <widget class="QTextBrowser" name="textBrowser_3"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Broach Tracking</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
+  <action name="action_Implant_Planning">
+   <property name="text">
+    <string>&amp;Implant Planning</string>
+   </property>
+   <property name="toolTip">
+    <string>Implant Planning</string>
+   </property>
+  </action>
+  <action name="action_Broach_Tracking">
+   <property name="text">
+    <string>&amp;Broach Tracking</string>
+   </property>
+   <property name="toolTip">
+    <string>Broach Tracking</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_CT_Landmark">
+   <property name="text">
+    <string>&amp;Pelvis CT Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis CT Landmark</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

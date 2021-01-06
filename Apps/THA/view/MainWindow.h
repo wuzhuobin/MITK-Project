@@ -5,7 +5,8 @@
 
 namespace Ui { class MainWindow; }
 class QAbstractButton;
-
+class QActionGroup;
+class QAction;
 class MainWindow: public QMainWindow
 {
   Q_OBJECT;
@@ -16,6 +17,8 @@ public:
 
 private:
   Ui::MainWindow *ui;
+  class CasePlanningWidget *casePlanning;
+  int currentActionIndex = 0;
   Q_DISABLE_COPY(MainWindow);
 
 private Q_SLOTS:
@@ -24,6 +27,8 @@ private Q_SLOTS:
   void on_buttonGroupView_buttonClicked(QAbstractButton *button);
   void on_pushButtonNext_clicked(bool checked = false);
   void on_pushButtonBack_clicked(bool checked = false);
+  void OnActionsTriggered(QAction *action) const;
+  void OnCasePlanningActionsTriggered(QAction *action) const;
 };
 
 #endif //!MAIN_WINDOW_H
