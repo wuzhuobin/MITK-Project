@@ -23,11 +23,10 @@ private:
 
 private Q_SLOTS:
   void on_radioButtonOptions_toggled(bool checked);
-  void on_buttonGroupMode_buttonClicked(QAbstractButton *button);
-  void on_buttonGroupView_buttonClicked(QAbstractButton *button);
+  void on_buttonGroupMode_buttonClicked(QAbstractButton *button) const;
+  void on_buttonGroupView_buttonClicked(QAbstractButton *button) const;
   void on_pushButtonNext_clicked(bool checked = false);
   void on_pushButtonBack_clicked(bool checked = false);
-  void OnActionsTriggered(QAction *action) const;
   void OnCasePlanningActionsTriggered(QAction *action) const;
 };
 

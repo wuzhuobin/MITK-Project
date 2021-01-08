@@ -13,7 +13,7 @@ class CasePlanningWidget : public QStackedWidget
 public:
   explicit CasePlanningWidget(QWidget *parent = nullptr);
   virtual ~CasePlanningWidget() override;
-  const QActionGroup * getActions() const { return this->actions; }
+  const QActionGroup * GetActions() const { return this->actions; }
 private Q_SLOTS:
 
   void on_action_Pelvis_CT_Landmark_triggered(bool checked = false);

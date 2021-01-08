@@ -15,14 +15,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 {
   this->ui->setupUi(this);
 
-  connect(this->casePlanning->getActions(), &QActionGroup::triggered, 
+  connect(this->casePlanning->GetActions(), &QActionGroup::triggered, 
     this, &MainWindow::OnCasePlanningActionsTriggered);
-  QList<QAction*>  casePlanningActions = this->casePlanning->getActions()->actions();
+  QList<QAction*>  casePlanningActions = this->casePlanning->GetActions()->actions();
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
   casePlanningActions[0]->trigger();
 
-  // this->actions->actions()[0]->trigger();
   QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
   if (!fileName.isEmpty())
   {
@@ -53,7 +52,7 @@ void MainWindow::on_radioButtonOptions_toggled(bool checked)
   }
 }
 
-void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton *button)
+void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton *button) const
 {
   MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
   for(QAbstractButton *button_: this->ui->buttonGroupMode->buttons())
@@ -86,7 +85,7 @@ void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton *button)
   }
 }
 
-void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button)
+void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button) const
 {
   MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
   for(QAbstractButton *button_: this->ui->buttonGroupView->buttons())
@@ -121,8 +120,16 @@ void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button)
 
 void MainWindow::on_pushButtonNext_clicked(bool checked)
 {
+  // int numOfActions = 0;
+  // numOfActions += this->casePlanning->GetActions()->actions().size();
   // QAction *action = this->actions->actions()[++this->currentActionIndex];
   // action->trigger();
+  this->currentActionIndex++;
+  int index = this->currentActionIndex;
+  if (index < this->casePlanning->GetActions()->actions().size())
+  {
+    this->casePlanning->GetActions()->actions()[index]->trigger();
+  }
   
   MITK_INFO << __func__;
 }
@@ -131,31 +138,33 @@ void MainWindow::on_pushButtonBack_clicked(bool checked)
 {
   // QAction *action = this->actions->actions()[--this->currentActionIndex];
   // action->trigger();
+  this->currentActionIndex--;
+  int index = this->currentActionIndex;
+  if (index < this->casePlanning->GetActions()->actions().size())
+  {
+    this->casePlanning->GetActions()->actions()[index]->trigger();
+  }
 
   MITK_INFO << __func__;
-}
-
-void MainWindow::OnActionsTriggered(QAction *action) const
-{
-  // int index = this->actions->actions().indexOf(action);
-  // if (index == 0)
-  // {
-  //   this->ui->pushButtonNext->setEnabled(true);
-  //   this->ui->pushButtonBack->setEnabled(false);
-  // }
-  // else if (index == this->actions->actions().size() - 1)
-  // {
-  //   this->ui->pushButtonNext->setEnabled(false);
-  //   this->ui->pushButtonBack->setEnabled(true);
-  // }
-  // else 
-  // {
-  //   this->ui->pushButtonNext->setEnabled(true);
-  //   this->ui->pushButtonBack->setEnabled(true);
-  // }
 }
 
 void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
 {
   this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
+  if (this->casePlanning->GetActions()->actions().first() == action)
+  {
+    this->ui->pushButtonNext->setEnabled(true);
+    this->ui->pushButtonBack->setEnabled(false);
+  }
+  else if (this->casePlanning->GetActions()->actions().last() == action)
+  {
+    this->ui->pushButtonNext->setEnabled(false);
+    this->ui->pushButtonBack->setEnabled(true);
+  }
+  else
+  {
+    this->ui->pushButtonNext->setEnabled(true);
+    this->ui->pushButtonBack->setEnabled(true);
+  }
+  
 }
