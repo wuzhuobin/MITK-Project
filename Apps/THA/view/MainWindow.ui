@@ -229,9 +229,18 @@
             </widget>
            </item>
            <item>
-            <widget class="QSlider" name="verticalSlider">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
+            <widget class="QmitkLevelWindowWidget" name="levelWindow" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>400</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -513,20 +522,26 @@
    <header>THAStdMultiWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>QmitkLevelWindowWidget</class>
+   <extends>QWidget</extends>
+   <header>QmitkLevelWindowWidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupMode">
+  <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupWorkflow"/>
-  <buttongroup name="buttonGroupView">
+  <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>

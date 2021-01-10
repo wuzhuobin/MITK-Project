@@ -8,6 +8,7 @@
 #include <QActionGroup>
 
 // mitk
+#include <mitkRenderingManager.h>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   ui(new Ui::MainWindow),
@@ -21,6 +22,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
   casePlanningActions[0]->trigger();
+
+	mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  this->ui->levelWindow->SetDataStorage(ds);
+
+  // hide contrast, luminance, zoom buttons
+  this->ui->toolButtonContrast->setVisible(false);
+  this->ui->toolButtonLuminance->setVisible(false);
+  this->ui->toolButtonZoom->setVisible(false);
 
   QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
   if (!fileName.isEmpty())
