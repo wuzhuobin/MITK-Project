@@ -47,15 +47,13 @@ public:
 
     mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
-    mitk::DataNode* acetabularShell = ds->GetNamedNode(this_->acetabularShell.toStdString());
-    float origin[3];
-    acetabularShell->GetFloatProperty("origin.x", origin[0]);
-    acetabularShell->GetFloatProperty("origin.y", origin[1]);
-    acetabularShell->GetFloatProperty("origin.z", origin[2]);
+    mitk::PointSet *pointSet = ds->GetNamedObject<mitk::PointSet>(this_->cupCor.toStdString());
+    mitk::Point3D origin = pointSet->GetPoint(0);
+
     // Since the model has been rotated 40 degreee by default.
-    this_->ui->spinBoxCupPlanInclination->setValue(angleY - 40);
+    this_->ui->spinBoxCupPlanInclination->setValue(angleY);
     this_->ui->spinBox_CupPlanVersion->setValue(angleZ);
-    mitk::PointSet *pointset = ds->GetNamedObject<mitk::PointSet>(this_->cor.toStdString());
+    mitk::PointSet *pointset = ds->GetNamedObject<mitk::PointSet>(this_->nativeCor.toStdString());
 		mitk::Point3D point3d = pointset->GetPoint(1);
     // @todo current calculation seems to not correct.
     this_->ui->spinBoxMedial->setValue(origin[0] - point3d[0]);
@@ -70,14 +68,16 @@ private:
 CupParameterGadget::CupParameterGadget(
   const QString &acetabularShell,
   const QString &acetabularLiner,
-  const QString &cor,
+  const QString &cupCor,
+  const QString &nativeCor,
   QWidget *parent
   ):
   QWidget(parent),
   ui(new Ui::CupParameterGadget),
   acetabularShell(acetabularShell),
   acetabularLiner(acetabularLiner),
-  cor(cor)
+  cupCor(cupCor),
+  nativeCor(nativeCor)
 {
   this->ui->setupUi(this);
 }

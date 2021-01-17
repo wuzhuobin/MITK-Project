@@ -28,7 +28,7 @@ static const std::set<std::string> DEFAULT_VISIBLE_SET = {
   "hip_length_right",
   "hip_length_left",
   "trochanter",
-  "COR",
+  "native_cor",
   "PSIS",
   "ASIS",
   "femoral_neck_transformed",
@@ -194,8 +194,8 @@ void THAStdMultiWidget::SetView(int mode)
 		this->GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
     imageNode->SetVisibility(true);
     pelvisNode->SetVisibility(true);
-    femurRightNode->SetVisibility(true);
-    femurLeftNode->SetVisibility(true);
+    // femurRightNode->SetVisibility(true);
+    // femurLeftNode->SetVisibility(true);
   }
   break;
   case VIEW_X_RAY:
@@ -213,8 +213,8 @@ void THAStdMultiWidget::SetView(int mode)
       this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
     this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
     pelvisNode->SetVisibility(true);
-    femurRightNode->SetVisibility(true);
-    femurLeftNode->SetVisibility(true);
+    // femurRightNode->SetVisibility(true);
+    // femurLeftNode->SetVisibility(true);
     // mitk::BaseRenderer *renderer = mitk::BaseRenderer::GetInstance(this->GetRenderWindow4()->renderWindow());
     // this->SetWidgetPlaneVisibility("image", false, renderer);
   }
@@ -231,8 +231,10 @@ void THAStdMultiWidget::SetMode(int mode)
   // }
   this->mode = mode;
 
+  mitk::DataNode *cupCor = this->GetDataStorage()->GetNamedNode("cup_cor");
   mitk::DataNode *acetabularLiner = this->GetDataStorage()->GetNamedNode("acetabular_liner");
   mitk::DataNode *acetabularShell = this->GetDataStorage()->GetNamedNode("acetabular_shell");
+  mitk::DataNode *femoralHeadCor = this->GetDataStorage()->GetNamedNode("femoral_head_cor");
   mitk::DataNode *femoralStem = this->GetDataStorage()->GetNamedNode("femoral_stem");
   mitk::DataNode *femoralHead = this->GetDataStorage()->GetNamedNode("femoral_head");
   // mitk::DataNode *acetabularShellTransformedNode = this->GetDataStorage()->GetNamedNode("acetabular_shell_transformed");
@@ -241,12 +243,14 @@ void THAStdMultiWidget::SetMode(int mode)
   // mitk::DataNode *femoralHeadTransformedNode = this->GetDataStorage()->GetNamedNode("femoral_head_transformed");
   // mitk::DataNode *femoralStemTransformedNode = this->GetDataStorage()->GetNamedNode("femoral_stem_transformed");
   mitk::DataNode *trochanterNode = this->GetDataStorage()->GetNamedNode("trochanter");
-  mitk::DataNode *corNode = this->GetDataStorage()->GetNamedNode("cor");
+  mitk::DataNode *nativeCorNode = this->GetDataStorage()->GetNamedNode("native_cor");
   mitk::DataNode *psisNode = this->GetDataStorage()->GetNamedNode("psis");
   mitk::DataNode *asisNode = this->GetDataStorage()->GetNamedNode("asis");
   mitk::DataNode *hipLengthRight = this->GetDataStorage()->GetNamedNode("hip_length_right");
   mitk::DataNode *hipLengthLeft = this->GetDataStorage()->GetNamedNode("hip_length_left");
   mitk::DataNode *pelvisMidline = this->GetDataStorage()->GetNamedNode("pelvis_midline");
+  mitk::DataNode *femurLeftNode = this->GetDataStorage()->GetNamedNode("femur_left");
+  mitk::DataNode *femurRightNode = this->GetDataStorage()->GetNamedNode("femur_right");
 	// acetabularShellTransformedNode->SetVisibility(true);
 	// acetabularInsertTransformedNode->SetVisibility(true);
 	// femoralNeckTransformedNode->SetVisibility(true);
@@ -258,12 +262,14 @@ void THAStdMultiWidget::SetMode(int mode)
 	// femoralHeadTransformedNode->SetColor(1, 1, 0);
 	// femoralStemTransformedNode->SetColor(0, 0, 1);
   trochanterNode->SetVisibility(false);
-  corNode->SetVisibility(false);
+  nativeCorNode->SetVisibility(false);
   psisNode->SetVisibility(false);
   asisNode->SetVisibility(false);
   hipLengthRight->SetVisibility(false);
   hipLengthLeft->SetVisibility(false);
   pelvisMidline->SetVisibility(false);
+  femurRightNode->SetVisibility(false);
+  femurLeftNode->SetVisibility(false);
   this->groupBoxGadget[0]->setVisible(false);
   this->groupBoxGadget[0]->setMode(GroupBoxGadget::DEFAULT);
   this->groupBoxGadget[1]->setVisible(false);
@@ -273,8 +279,10 @@ void THAStdMultiWidget::SetMode(int mode)
   this->stemParameterGadget->setVisible(false);
   this->implantAssessmentGadget->setVisible(false);
   this->cupParameterGadget->setVisible(false);
+  cupCor->SetVisibility(false);
   acetabularLiner->SetVisibility(false);
   acetabularShell->SetVisibility(false);
+  femoralHeadCor->SetVisibility(false);
   femoralHead->SetVisibility(false);
   femoralStem->SetVisibility(false);
 
@@ -288,19 +296,23 @@ void THAStdMultiWidget::SetMode(int mode)
 		// femoralHeadTransformedNode->SetVisibility(false);
 		// femoralStemTransformedNode->SetVisibility(false);
     trochanterNode->SetVisibility(true);
-    corNode->SetVisibility(true);
+    nativeCorNode->SetVisibility(true);
     psisNode->SetVisibility(true);
     asisNode->SetVisibility(true);
     hipLengthRight->SetVisibility(true);
     hipLengthLeft->SetVisibility(true);
     pelvisMidline->SetVisibility(true);
+    femurRightNode->SetVisibility(true);
+    femurLeftNode->SetVisibility(true);
     this->implantAssessmentGadget->setVisible(true);
   }
   break;
   case MODE_CUP_PLAN:
   {
+    cupCor->SetVisibility(true);
     acetabularLiner->SetVisibility(true);
     acetabularShell->SetVisibility(true);
+    nativeCorNode->SetVisibility(true);
     this->groupBoxGadget[0]->setVisible(true);
     this->groupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
     this->groupBoxGadget[1]->setVisible(true);
@@ -312,8 +324,10 @@ void THAStdMultiWidget::SetMode(int mode)
   break;
   case MODE_STEM_PLAN:
   {
+    femoralHeadCor->SetVisibility(true);
     femoralHead->SetVisibility(true);
     femoralStem->SetVisibility(true);
+    nativeCorNode->SetVisibility(true);
     this->groupBoxGadget[0]->setVisible(true);
     this->groupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
     this->groupBoxGadget[1]->setVisible(true);
@@ -330,8 +344,13 @@ void THAStdMultiWidget::SetMode(int mode)
     // this->implantAssessmentGadget->setVisible(true);
     acetabularLiner->SetVisibility(true);
     acetabularShell->SetVisibility(true);
+    cupCor->SetVisibility(true);
     femoralHead->SetVisibility(true);
     femoralStem->SetVisibility(true);
+    femoralHeadCor->SetVisibility(true);
+    femurRightNode->SetVisibility(true);
+    femurLeftNode->SetVisibility(true);
+    nativeCorNode->SetVisibility(true);
   }
 	break;
   default: //MODE_DEFAULT
@@ -345,6 +364,8 @@ void THAStdMultiWidget::SetMode(int mode)
 		// femoralNeckTransformedNode->SetVisibility(false);
 		// femoralHeadTransformedNode->SetVisibility(false);
 		// femoralStemTransformedNode->SetVisibility(false);
+    femurRightNode->SetVisibility(true);
+    femurLeftNode->SetVisibility(true);
     this->implantAssessmentGadget->setVisible(true);
   }
   break;

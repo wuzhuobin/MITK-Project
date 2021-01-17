@@ -4,6 +4,7 @@
 // mitk
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
+#include <mitkPointSet.h>
 #include <mitkDataStorage.h>
 
 // itk

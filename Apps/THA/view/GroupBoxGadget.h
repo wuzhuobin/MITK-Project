@@ -26,16 +26,20 @@ public:
 
 public:
   explicit GroupBoxGadget(int orientation, 
+		const QString &femoralHeadCor = QStringLiteral("femoral_head_cor"),
 		const QString &femoralStem = QStringLiteral("femoral_stem"),
 		const QString &femoralHead = QStringLiteral("femoral_head"),
+		const QString &cupCor = QStringLiteral("cup_cor"),
 		const QString &acetabularShell = QStringLiteral("acetabular_shell"),
 		const QString &acetabularLiner = QStringLiteral("acetabular_liner"),
 		QWidget *parent = nullptr);
 	explicit GroupBoxGadget(int orientation,
 		QWidget *parent) :
 		GroupBoxGadget(orientation,
+      QStringLiteral("femoral_head_cor"),
 			QStringLiteral("femoral_stem"),
 			QStringLiteral("femoral_head"),
+		  QStringLiteral("cup_cor"),
 			QStringLiteral("acetabular_shell"),
 			QStringLiteral("acetabular_liner"),
 			parent
@@ -53,10 +57,12 @@ private:
   int currentOrientation;
   double translationSpeed;
   double rotationSpeed;
+  QString femoralHeadCor;
   QString femoralStem;
   QString femoralHead;
   QString acetabularShell;
   QString acetabularLiner;
+  QString cupCor;
 
 private:
   void internalTransform(double position[3], double orientation[3]);

@@ -18,13 +18,15 @@ public:
   explicit CupParameterGadget(
     const QString &acetabularShell = QStringLiteral("acetabular_shell"),
     const QString &acetabularLiner = QStringLiteral("acetabular_liner"),
-    const QString &cor = QStringLiteral("cor"),
+    const QString &cupCor = QStringLiteral("cup_cor"),
+    const QString &nativeCor = QStringLiteral("native_cor"),
     QWidget *parent = 0);
   explicit CupParameterGadget(QWidget *parent):
     CupParameterGadget(
       QStringLiteral("acetabular_shell"),
       QStringLiteral("acetabular_liner"),
-      QStringLiteral("cor"),
+      QStringLiteral("cup_cor"),
+      QStringLiteral("native_cor"),
       parent
     ) {}
   virtual ~CupParameterGadget() override;
@@ -34,7 +36,8 @@ public:
 private:
   QString acetabularShell;
   QString acetabularLiner;
-  QString cor;
+  QString cupCor;
+  QString nativeCor;
 
   friend class CupParameterGadgetCommand;
 

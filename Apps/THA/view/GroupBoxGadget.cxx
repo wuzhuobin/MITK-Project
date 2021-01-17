@@ -7,13 +7,16 @@
 #include <mitkSurface.h>
 #include <mitkRenderingManager.h>
 #include <mitkSceneIO.h>
+#include <mitkPointSet.h>
 
 // vtk
 #include <vtkTransform.h>
 
 GroupBoxGadget::GroupBoxGadget(int orientation,
+ const QString &femoralHeadCor,
  const QString &femoralStem,
  const QString &femoralHead,
+ const QString &cupCor,
  const QString &acetabularShell,
  const QString &acetabularLiner,
  QWidget *parent):
@@ -23,8 +26,10 @@ GroupBoxGadget::GroupBoxGadget(int orientation,
   currentOrientation(orientation),
   translationSpeed(2),
   rotationSpeed(5),
+	femoralHeadCor(femoralHeadCor),
   femoralStem(femoralStem),
   femoralHead(femoralHead),
+	cupCor(cupCor),
   acetabularShell(acetabularShell),
   acetabularLiner(acetabularLiner)
 {
@@ -39,16 +44,15 @@ GroupBoxGadget::~GroupBoxGadget()
 void GroupBoxGadget::internalTransform(double position[3], double orientation[3])
 {
 	//data
+	mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 	mitk::Surface *surface[2] = {nullptr};
 	mitk::DataNode *surfaceNode[2] = {nullptr};
-	mitk::Surface *surface_stem[2] = {nullptr};
-	mitk::DataNode *surfaceNode_stem[2] = {nullptr};
-
-	mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  mitk::PointSet *cor = nullptr;
 
 	switch (this->currentMode)
 	{
 	case CUP: {
+    cor = ds->GetNamedObject<mitk::PointSet>(this->cupCor.toStdString());
 		surface[0] = ds->GetNamedObject<mitk::Surface>(this->acetabularShell.toStdString());
 		surfaceNode[0] = ds->GetNamedNode(this->acetabularShell.toStdString());
 		surface[1] = ds->GetNamedObject<mitk::Surface>(this->acetabularLiner.toStdString());
@@ -57,6 +61,7 @@ void GroupBoxGadget::internalTransform(double position[3], double orientation[3]
   break;
   case STEM:
   {
+    cor = ds->GetNamedObject<mitk::PointSet>(this->femoralHeadCor.toStdString());
 		surface[0] = ds->GetNamedObject<mitk::Surface>(this->femoralStem.toStdString());
 		surfaceNode[0] = ds->GetNamedNode(this->femoralStem.toStdString());
 		surface[1] = ds->GetNamedObject<mitk::Surface>(this->femoralHead.toStdString());
@@ -66,32 +71,37 @@ void GroupBoxGadget::internalTransform(double position[3], double orientation[3]
   default: // DEFAULT
   break;
   }
-
-  mitk::AffineTransform3D::InputPointType center;
+  mitk::Point3D center = cor->GetPoint(0);
+  mitk::Point3D newCenter;
+  newCenter[0] = center[0] + position[0];
+  newCenter[1] = center[1] + position[1];
+  newCenter[2] = center[2] + position[2];
+  cor->SetPoint(0, newCenter);
+  // mitk::AffineTransform3D::InputPointType center = cor->GetPOint();
   for (int i = 0; i < 2; ++i)
   {
-    float origin[3];
-    surfaceNode[i]->GetFloatProperty("origin.x", origin[0]);
-    surfaceNode[i]->GetFloatProperty("origin.y", origin[1]);
-    surfaceNode[i]->GetFloatProperty("origin.z", origin[2]);
-    // The origin should change first, since the CupParameterGadage need
-    // the new origin to calculate its new position.
-    surfaceNode[i]->SetFloatProperty("origin.x", origin[0] + position[0]);
-    surfaceNode[i]->SetFloatProperty("origin.y", origin[1] + position[1]);
-    surfaceNode[i]->SetFloatProperty("origin.z", origin[2] + position[2]);
-    center[0] = origin[0];
-    center[1] = origin[1];
-    center[2] = origin[2];
+    // float origin[3];
+    // surfaceNode[i]->GetFloatProperty("origin.x", origin[0]);
+    // surfaceNode[i]->GetFloatProperty("origin.y", origin[1]);
+    // surfaceNode[i]->GetFloatProperty("origin.z", origin[2]);
+    // // The origin should change first, since the CupParameterGadage need
+    // // the new origin to calculate its new position.
+    // surfaceNode[i]->SetFloatProperty("origin.x", origin[0] + position[0]);
+    // surfaceNode[i]->SetFloatProperty("origin.y", origin[1] + position[1]);
+    // surfaceNode[i]->SetFloatProperty("origin.z", origin[2] + position[2]);
+    // center[0] = origin[0];
+    // center[1] = origin[1];
+    // center[2] = origin[2];
     mitk::BaseGeometry *geo = surface[i]->GetGeometry();
     vtkMatrix4x4 *matrix = geo->GetVtkMatrix();
     vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
     transform->PostMultiply();
     transform->SetMatrix(matrix);
-    transform->Translate(-origin[0], -origin[1], -origin[2]);
+    transform->Translate(-center[0], -center[1], -center[2]);
     transform->RotateY(orientation[1]);
     transform->RotateX(orientation[0]);
     transform->RotateZ(orientation[2]);
-    transform->Translate(origin[0], origin[1], origin[2]);
+    transform->Translate(center[0], center[1], center[2]);
     transform->Translate(position[0], position[1], position[2]);
     geo->SetIndexToWorldTransformByVtkMatrixWithoutChangingSpacing(transform->GetMatrix());
     // MITK_INFO << *transform;
