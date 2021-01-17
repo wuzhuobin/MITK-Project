@@ -14,7 +14,7 @@
 // #include <vtkActor.h>
 
 // qt
-#include <QVBoxLayout>
+#include <QGridLayout>
 
 // mitk
 // #include <mitkImage.h>
@@ -52,12 +52,27 @@ THAStdMultiWidget::THAStdMultiWidget(
   groupBoxGadget{
     new GroupBoxGadget(GroupBoxGadget::AXIAL, this),
     new GroupBoxGadget(GroupBoxGadget::SAGITTAL, this),
+    new GroupBoxGadget(GroupBoxGadget::CORONAL, this),
     new GroupBoxGadget(GroupBoxGadget::CORONAL, this)
   },
-  stemParameterGadget(new StemParameterGadget(this)),
-  implantAssessmentGadget(new ImplantAssessmentGadget(this)),
-  cupParameterGadget(new CupParameterGadget(this))
-	//cupResultGadget(new CupResultGadget(this))
+  stemParameterGadget{
+    new StemParameterGadget(this),
+    new StemParameterGadget(this),
+    new StemParameterGadget(this),
+    new StemParameterGadget(this)
+  },
+  implantAssessmentGadget{
+    new ImplantAssessmentGadget(this),
+    new ImplantAssessmentGadget(this),
+    new ImplantAssessmentGadget(this),
+    new ImplantAssessmentGadget(this)
+  },
+  cupParameterGadget{
+    new CupParameterGadget(this),
+    new CupParameterGadget(this),
+    new CupParameterGadget(this),
+    new CupParameterGadget(this)
+  }
 {
 }
 
@@ -66,22 +81,31 @@ void THAStdMultiWidget::InitializeMultiWidget()
   this->SetDataStorage(mitk::RenderingManager::GetInstance()->GetDataStorage());
   QmitkStdMultiWidget::InitializeMultiWidget();
   // Add the displayed views to the DataStorage to see their positions in 2D and 3D
-  // this->AddDisplayPlaneSubTree();
+  this->AddDisplayPlaneSubTree();
   // show image plane in viewer and data storage
   this->AddPlanesToDataStorage();
   // Disable the plane widget
-  this->SetWidgetPlanesVisibility(false);
+  this->SetCrosshairVisibility(true);
 ////////////////////////////////////////////////////////////////////////////////
 /// Customization
 ////////////////////////////////////////////////////////////////////////////////
+  
+  for (int i = 1; i <= 3; ++i)
+  {
+    this->SetWidgetPlaneVisibility(
+      this->GetWidgetPlane(i)->GetName().c_str(), 
+      false, 
+      mitk::BaseRenderer::GetInstance(this->GetRenderWindow4()->GetVtkRenderWindow())
+    );
+  }
 
-  this->GetRenderWindow4()->GetVtkRenderWindow()->SetMultiSamples(0);   // We do not support MSAA as it is incompatible with depth peeling
-  this->GetRenderWindow4()->GetVtkRenderWindow()->SetAlphaBitPlanes(true); // Necessary for depth peeling
-  this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetMaximumNumberOfPeels(50);
-  this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeeling(true);
-  this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeelingForVolumes(true);
-  // Initialize bottom-right view as 3D view
-  this->GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
+  // this->GetRenderWindow4()->GetVtkRenderWindow()->SetMultiSamples(0);   // We do not support MSAA as it is incompatible with depth peeling
+  // this->GetRenderWindow4()->GetVtkRenderWindow()->SetAlphaBitPlanes(true); // Necessary for depth peeling
+  // this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetMaximumNumberOfPeels(50);
+  // this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeeling(true);
+  // this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeelingForVolumes(true);
+  // // Initialize bottom-right view as 3D view
+  // this->GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
 
   // this->GetRenderWindow1()->GetVtkRenderWindow()->SetWindowName(
   //   (this->GetRenderWindow1()->objectName() + '1').toStdString().c_str()
@@ -96,29 +120,25 @@ void THAStdMultiWidget::InitializeMultiWidget()
   //   (this->GetRenderWindow4()->objectName() + '4').toStdString().c_str()
   // );
 
-  // this->DisableStandardLevelWindow();
-  QVBoxLayout *pRenderWindow1Layout = new QVBoxLayout(this->GetRenderWindow1());
-  pRenderWindow1Layout->insertWidget(0, this->groupBoxGadget[0], 0, Qt::AlignRight | Qt::AlignTop);
-  this->GetRenderWindow1()->setLayout(pRenderWindow1Layout);
-
-  QVBoxLayout *pRenderWindow2Layout = new QVBoxLayout(this->GetRenderWindow2());
-  pRenderWindow2Layout->insertWidget(0, this->groupBoxGadget[1], 0, Qt::AlignRight | Qt::AlignTop);
-  this->GetRenderWindow2()->setLayout(pRenderWindow2Layout);
-
-  QVBoxLayout *pRenderWindow3Layout = new QVBoxLayout(this->GetRenderWindow3());
-  pRenderWindow3Layout->insertWidget(0, this->groupBoxGadget[2], 0, Qt::AlignRight | Qt::AlignTop);
-  this->GetRenderWindow3()->setLayout(pRenderWindow3Layout);
-
-	QGridLayout *pRenderWindow4Layout = new QGridLayout(this->GetRenderWindow4());
-	pRenderWindow4Layout->addWidget(this->stemParameterGadget, 0, 1, Qt::AlignRight | Qt::AlignBottom);
-	pRenderWindow4Layout->addWidget(this->cupParameterGadget, 1, 1, Qt::AlignRight | Qt::AlignBottom);
-	pRenderWindow4Layout->addWidget(this->implantAssessmentGadget, 2, 1, Qt::AlignRight | Qt::AlignBottom);
-  this->GetRenderWindow4()->setLayout(pRenderWindow4Layout);
+  for(int i = 0; i < 4; ++i)
+  {
+    QmitkRenderWindow *renderWindow = this->GetRenderWindow(i);
+    QGridLayout *pRenderWindow1Layout = new QGridLayout(renderWindow);
+    pRenderWindow1Layout->addWidget(this->groupBoxGadget[i], 0, 1, Qt::AlignRight | Qt::AlignTop);
+    pRenderWindow1Layout->addWidget(this->stemParameterGadget[i], 1, 1, Qt::AlignRight | Qt::AlignBottom);
+    pRenderWindow1Layout->addWidget(this->cupParameterGadget[i], 2, 1, Qt::AlignRight | Qt::AlignBottom);
+    pRenderWindow1Layout->addWidget(this->implantAssessmentGadget[i], 3, 1, Qt::AlignRight | Qt::AlignBottom);
+    renderWindow->setLayout(pRenderWindow1Layout);
+  }
 ////////////////////////////////////////////////////////////////////////////////
 /// Gadget Connection
 ////////////////////////////////////////////////////////////////////////////////
-  this->cupParameterGadget->ObserverCup();
-	this->stemParameterGadget->ObserverStem();
+  
+  for(int i = 0; i < 4; ++i)
+  {
+    this->cupParameterGadget[i]->ObserverCup();
+    this->stemParameterGadget[i]->ObserverStem();
+  }
 ////////////////////////////////////////////////////////////////////////////////
   // this->SetRegistrationMode(this->registrationMode);
   this->SetView(VIEWS::VIEW_DEFAULT);
@@ -127,12 +147,6 @@ void THAStdMultiWidget::InitializeMultiWidget()
 /// Preset
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-  // this->groupBoxGadget[0]->setVisible(false);
-  // this->groupBoxGadget[1]->setVisible(false);
-  // this->groupBoxGadget[2]->setVisible(false);
-  // this->stemParameterGadget->setVisible(false);
-  // this->implantAssessmentGadget->setVisible(false);
-  // this->cupParameterGadget->setVisible(false);
 }
 
 void THAStdMultiWidget::SetView(int mode)
@@ -213,8 +227,8 @@ void THAStdMultiWidget::SetView(int mode)
       this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
     this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
     pelvisNode->SetVisibility(true);
-    // femurRightNode->SetVisibility(true);
-    // femurLeftNode->SetVisibility(true);
+    femurRightNode->SetVisibility(true);
+    femurLeftNode->SetVisibility(true);
     // mitk::BaseRenderer *renderer = mitk::BaseRenderer::GetInstance(this->GetRenderWindow4()->renderWindow());
     // this->SetWidgetPlaneVisibility("image", false, renderer);
   }
@@ -237,11 +251,6 @@ void THAStdMultiWidget::SetMode(int mode)
   mitk::DataNode *femoralHeadCor = this->GetDataStorage()->GetNamedNode("femoral_head_cor");
   mitk::DataNode *femoralStem = this->GetDataStorage()->GetNamedNode("femoral_stem");
   mitk::DataNode *femoralHead = this->GetDataStorage()->GetNamedNode("femoral_head");
-  // mitk::DataNode *acetabularShellTransformedNode = this->GetDataStorage()->GetNamedNode("acetabular_shell_transformed");
-  // mitk::DataNode *acetabularInsertTransformedNode = this->GetDataStorage()->GetNamedNode("acetabular_insert_transformed");
-  // mitk::DataNode *femoralNeckTransformedNode = this->GetDataStorage()->GetNamedNode("femoral_neck_transformed");
-  // mitk::DataNode *femoralHeadTransformedNode = this->GetDataStorage()->GetNamedNode("femoral_head_transformed");
-  // mitk::DataNode *femoralStemTransformedNode = this->GetDataStorage()->GetNamedNode("femoral_stem_transformed");
   mitk::DataNode *trochanterNode = this->GetDataStorage()->GetNamedNode("trochanter");
   mitk::DataNode *nativeCorNode = this->GetDataStorage()->GetNamedNode("native_cor");
   mitk::DataNode *psisNode = this->GetDataStorage()->GetNamedNode("psis");
@@ -251,16 +260,7 @@ void THAStdMultiWidget::SetMode(int mode)
   mitk::DataNode *pelvisMidline = this->GetDataStorage()->GetNamedNode("pelvis_midline");
   mitk::DataNode *femurLeftNode = this->GetDataStorage()->GetNamedNode("femur_left");
   mitk::DataNode *femurRightNode = this->GetDataStorage()->GetNamedNode("femur_right");
-	// acetabularShellTransformedNode->SetVisibility(true);
-	// acetabularInsertTransformedNode->SetVisibility(true);
-	// femoralNeckTransformedNode->SetVisibility(true);
-	// femoralHeadTransformedNode->SetVisibility(true);
-	// femoralStemTransformedNode->SetVisibility(true);
-	// acetabularShellTransformedNode->SetColor(0, 1, 0);
-	// acetabularInsertTransformedNode->SetColor(1, 1, 1);
-	// femoralNeckTransformedNode->SetColor(0, 0, 1);
-	// femoralHeadTransformedNode->SetColor(1, 1, 0);
-	// femoralStemTransformedNode->SetColor(0, 0, 1);
+
   trochanterNode->SetVisibility(false);
   nativeCorNode->SetVisibility(false);
   psisNode->SetVisibility(false);
@@ -270,31 +270,25 @@ void THAStdMultiWidget::SetMode(int mode)
   pelvisMidline->SetVisibility(false);
   femurRightNode->SetVisibility(false);
   femurLeftNode->SetVisibility(false);
-  this->groupBoxGadget[0]->setVisible(false);
-  this->groupBoxGadget[0]->setMode(GroupBoxGadget::DEFAULT);
-  this->groupBoxGadget[1]->setVisible(false);
-  this->groupBoxGadget[1]->setMode(GroupBoxGadget::DEFAULT);
-  this->groupBoxGadget[2]->setVisible(false);
-  this->groupBoxGadget[2]->setMode(GroupBoxGadget::DEFAULT);
-  this->stemParameterGadget->setVisible(false);
-  this->implantAssessmentGadget->setVisible(false);
-  this->cupParameterGadget->setVisible(false);
   cupCor->SetVisibility(false);
   acetabularLiner->SetVisibility(false);
   acetabularShell->SetVisibility(false);
   femoralHeadCor->SetVisibility(false);
   femoralHead->SetVisibility(false);
   femoralStem->SetVisibility(false);
+  for (int i = 0; i < 4; ++i)
+  {
+    this->groupBoxGadget[i]->setVisible(false);
+    this->groupBoxGadget[i]->setMode(GroupBoxGadget::DEFAULT);
+    this->stemParameterGadget[i]->setVisible(false);
+    this->implantAssessmentGadget[i]->setVisible(false);
+    this->cupParameterGadget[i]->setVisible(false);
+  }
 
   switch (this->mode)
   {
   case MODE_PRE_OP:
   {
-		// acetabularShellTransformedNode->SetVisibility(false);
-		// acetabularInsertTransformedNode->SetVisibility(false);
-		// femoralNeckTransformedNode->SetVisibility(false);
-		// femoralHeadTransformedNode->SetVisibility(false);
-		// femoralStemTransformedNode->SetVisibility(false);
     trochanterNode->SetVisibility(true);
     nativeCorNode->SetVisibility(true);
     psisNode->SetVisibility(true);
@@ -304,7 +298,7 @@ void THAStdMultiWidget::SetMode(int mode)
     pelvisMidline->SetVisibility(true);
     femurRightNode->SetVisibility(true);
     femurLeftNode->SetVisibility(true);
-    this->implantAssessmentGadget->setVisible(true);
+    this->implantAssessmentGadget[3]->setVisible(true);
   }
   break;
   case MODE_CUP_PLAN:
@@ -319,7 +313,8 @@ void THAStdMultiWidget::SetMode(int mode)
     this->groupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
     this->groupBoxGadget[2]->setVisible(true);
     this->groupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
-		this->cupParameterGadget->setVisible(true);
+		this->cupParameterGadget[3]->setVisible(true);
+    this->implantAssessmentGadget[3]->setVisible(true);
   }
   break;
   case MODE_STEM_PLAN:
@@ -334,14 +329,12 @@ void THAStdMultiWidget::SetMode(int mode)
     this->groupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
     this->groupBoxGadget[2]->setVisible(true);
     this->groupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
-		this->stemParameterGadget->setVisible(true);
+		this->stemParameterGadget[3]->setVisible(true);
+    this->implantAssessmentGadget[3]->setVisible(true);
   }
   break;
   case MODE_REDUCED:
   {
-		// this->cupParameterGadget->setVisible(true);
-		// this->stemParameterGadget->setVisible(true);
-    // this->implantAssessmentGadget->setVisible(true);
     acetabularLiner->SetVisibility(true);
     acetabularShell->SetVisibility(true);
     cupCor->SetVisibility(true);
@@ -366,7 +359,7 @@ void THAStdMultiWidget::SetMode(int mode)
 		// femoralStemTransformedNode->SetVisibility(false);
     femurRightNode->SetVisibility(true);
     femurLeftNode->SetVisibility(true);
-    this->implantAssessmentGadget->setVisible(true);
+    this->implantAssessmentGadget[3]->setVisible(true);
   }
   break;
   }
@@ -404,9 +397,9 @@ void THAStdMultiWidget::SetRegistrationMode(bool flag)
     this->groupBoxGadget[0]->setVisible(false);
     this->groupBoxGadget[1]->setVisible(false);
     this->groupBoxGadget[2]->setVisible(false);
-    this->stemParameterGadget->setVisible(false);
-    this->implantAssessmentGadget->setVisible(false);
-    this->cupParameterGadget->setVisible(false);
+    this->stemParameterGadget[3]->setVisible(false);
+    this->implantAssessmentGadget[3]->setVisible(false);
+    this->cupParameterGadget[3]->setVisible(false);
     // this->changeLayoutToBig3D();
     this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
       this->GetRenderWindowWidget(this->GetRenderWindow4()).get());

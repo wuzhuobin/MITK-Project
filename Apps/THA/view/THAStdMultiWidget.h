@@ -49,10 +49,10 @@ private:
   int view;
   int mode;
   bool registrationMode;
-  GroupBoxGadget *groupBoxGadget[3];
-  StemParameterGadget *stemParameterGadget;
-  ImplantAssessmentGadget *implantAssessmentGadget;
-  CupParameterGadget *cupParameterGadget;
+  GroupBoxGadget *groupBoxGadget[4];
+  StemParameterGadget *stemParameterGadget[4];
+  ImplantAssessmentGadget *implantAssessmentGadget[4];
+  CupParameterGadget *cupParameterGadget[4];
 
 };
 #endif //!THA_STD_MULTI_WIDGET
