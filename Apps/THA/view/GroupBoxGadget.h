@@ -66,8 +66,6 @@ private:
 
 private:
   void internalTransform(double position[3], double orientation[3]);
-	// void CupTransform(mitk::Surface *surface[5], mitk::DataNode *surfaceNode[5], double position[3], double orientation[3]);
-	// void StemTransform(mitk::Surface *surface_stem[3], mitk::DataNode *surfaceNode_stem[3], double position[3], double orientation[3]);
 
 private Q_SLOTS:
   void on_pushButtonAntiClockwise_clicked(bool checked = false);

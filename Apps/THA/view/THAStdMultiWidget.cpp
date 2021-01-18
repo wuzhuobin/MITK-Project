@@ -252,6 +252,8 @@ void THAStdMultiWidget::SetMode(int mode)
   mitk::DataNode *femoralStem = this->GetDataStorage()->GetNamedNode("femoral_stem");
   mitk::DataNode *femoralHead = this->GetDataStorage()->GetNamedNode("femoral_head");
   mitk::DataNode *trochanterNode = this->GetDataStorage()->GetNamedNode("trochanter");
+  mitk::DataNode *trochanterRightLineNode = this->GetDataStorage()->GetNamedNode("trochanter_right_line");
+  mitk::DataNode *trochanterLeftLineNode = this->GetDataStorage()->GetNamedNode("trochanter_left_line");
   mitk::DataNode *nativeCorNode = this->GetDataStorage()->GetNamedNode("native_cor");
   mitk::DataNode *psisNode = this->GetDataStorage()->GetNamedNode("psis");
   mitk::DataNode *asisNode = this->GetDataStorage()->GetNamedNode("asis");
@@ -262,6 +264,8 @@ void THAStdMultiWidget::SetMode(int mode)
   mitk::DataNode *femurRightNode = this->GetDataStorage()->GetNamedNode("femur_right");
 
   trochanterNode->SetVisibility(false);
+  trochanterRightLineNode->SetVisibility(false);
+  trochanterLeftLineNode->SetVisibility(false);
   nativeCorNode->SetVisibility(false);
   psisNode->SetVisibility(false);
   asisNode->SetVisibility(false);
@@ -269,7 +273,13 @@ void THAStdMultiWidget::SetMode(int mode)
   hipLengthLeft->SetVisibility(false);
   pelvisMidline->SetVisibility(false);
   femurRightNode->SetVisibility(false);
+  // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+  // while manually setting seems to work
+  femurRightNode->SetOpacity(1);
   femurLeftNode->SetVisibility(false);
+  // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+  // while manually setting seems to work
+  femurLeftNode->SetOpacity(1);
   cupCor->SetVisibility(false);
   acetabularLiner->SetVisibility(false);
   acetabularShell->SetVisibility(false);
@@ -290,11 +300,13 @@ void THAStdMultiWidget::SetMode(int mode)
   case MODE_PRE_OP:
   {
     trochanterNode->SetVisibility(true);
+    trochanterRightLineNode->SetVisibility(true);
+    trochanterLeftLineNode->SetVisibility(true);
     nativeCorNode->SetVisibility(true);
-    psisNode->SetVisibility(true);
+    // psisNode->SetVisibility(true);
     asisNode->SetVisibility(true);
-    hipLengthRight->SetVisibility(true);
-    hipLengthLeft->SetVisibility(true);
+    // hipLengthRight->SetVisibility(true);
+    // hipLengthLeft->SetVisibility(true);
     pelvisMidline->SetVisibility(true);
     femurRightNode->SetVisibility(true);
     femurLeftNode->SetVisibility(true);
@@ -335,15 +347,27 @@ void THAStdMultiWidget::SetMode(int mode)
   break;
   case MODE_REDUCED:
   {
+    trochanterNode->SetVisibility(true);
+    trochanterRightLineNode->SetVisibility(true);
+    trochanterLeftLineNode->SetVisibility(true);
+    asisNode->SetVisibility(true);
+    pelvisMidline->SetVisibility(true);
     acetabularLiner->SetVisibility(true);
     acetabularShell->SetVisibility(true);
     cupCor->SetVisibility(true);
     femoralHead->SetVisibility(true);
     femoralStem->SetVisibility(true);
     femoralHeadCor->SetVisibility(true);
-    femurRightNode->SetVisibility(true);
-    femurLeftNode->SetVisibility(true);
     nativeCorNode->SetVisibility(true);
+    // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+    // while manually setting seems to work
+    femurRightNode->SetOpacity(0.5);
+    femurRightNode->SetVisibility(true);
+    // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+    // while manually setting seems to work
+    femurLeftNode->SetOpacity(0.5);
+    femurLeftNode->SetVisibility(true);
+    cupCor->SetVisibility(true);
   }
 	break;
   default: //MODE_DEFAULT
@@ -352,11 +376,6 @@ void THAStdMultiWidget::SetMode(int mode)
     // acetabularShell->SetVisibility(false);
     // femoralHead->SetVisibility(false);
     // femoralStem->SetVisibility(false);
-		// acetabularShellTransformedNode->SetVisibility(false);
-		// acetabularInsertTransformedNode->SetVisibility(false);
-		// femoralNeckTransformedNode->SetVisibility(false);
-		// femoralHeadTransformedNode->SetVisibility(false);
-		// femoralStemTransformedNode->SetVisibility(false);
     femurRightNode->SetVisibility(true);
     femurLeftNode->SetVisibility(true);
     this->implantAssessmentGadget[3]->setVisible(true);
