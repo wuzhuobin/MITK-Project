@@ -37,7 +37,6 @@ public:
     QWidget *parent = nullptr,
     Qt::WindowFlags f = nullptr,
     const QString &name = "stdmulti");
-//   virtual ~THAStdMultiWidget() override;
   virtual void InitializeMultiWidget() override;
   int GetView() const { return this->view; }
   void SetView(int mode);

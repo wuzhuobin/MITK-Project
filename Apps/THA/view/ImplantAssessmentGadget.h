@@ -17,11 +17,6 @@ public:
   explicit ImplantAssessmentGadget(QWidget *parent = nullptr);
   virtual ~ImplantAssessmentGadget() override;
 
-  // void SetPreOpHipLength(int l);
-  // void SetPreOpCombinedOffset(int l);
-  // void SetOppositeHipLength(int l);
-  // void SetOppositeCombinedOffset(int l);
-
 private:
   Ui::ImplantAssessmentGadget *ui;
 };

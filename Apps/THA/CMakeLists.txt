@@ -45,5 +45,5 @@ target_include_directories(
   ${PROJECT_SOURCE_DIR}/view
   ${PROJECT_SOURCE_DIR}/model
   ${PROJECT_SOURCE_DIR}/controller
-#   ${PROJECT_BINARY_DIR}/View
+  ${PROJECT_SOURCE_DIR}/algorithm
 )

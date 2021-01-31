@@ -148,6 +148,14 @@ void THAStdMultiWidget::InitializeMultiWidget()
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 }
+#include <vtkSmartPointer.h>
+#include <vtkPolyData.h>
+#include <vtkPointData.h>
+#include <vtkUnsignedCharArray.h>
+#include <vtkSelectEnclosedPoints.h>
+#include <vtkTransformPolyDataFilter.h>
+#include <vtkPointDataToCellData.h>
+#include <vtkTransform.h>
 
 void THAStdMultiWidget::SetView(int mode)
 {
@@ -172,6 +180,11 @@ void THAStdMultiWidget::SetView(int mode)
   pelvisNode->SetVisibility(false);
   femurRightNode->SetVisibility(false);
   femurLeftNode->SetVisibility(false);
+
+  mitk::DataNode::Pointer reamingPelvisNode = this->GetDataStorage()->GetNamedNode("reaming_pelvis");
+  if (reamingPelvisNode) {
+    reamingPelvisNode->SetVisibility(false);
+  }
   // this->SetWidgetPlaneVisibility("pelvis", false, renderer1);
   // this->SetWidgetPlaneVisibility("pelvis", false, renderer2);
   // this->SetWidgetPlaneVisibility("pelvis", false, renderer3);
@@ -186,6 +199,51 @@ void THAStdMultiWidget::SetView(int mode)
   {
   case VIEW_REAMING:
   {
+    // this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+    //   this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
+		// this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
+		this->GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
+    imageNode->SetVisibility(true);
+    mitk::Surface *pelvis = this->GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
+    mitk::Surface *acetabularShell = this->GetDataStorage()->GetNamedObject<mitk::Surface>("acetabular_shell");
+    mitk::Surface *reamerTrajectory = this->GetDataStorage()->GetNamedObject<mitk::Surface>("reamer_trajectory");
+
+    auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    transformPolyData->SetInputData(reamerTrajectory->GetVtkPolyData());
+    transformPolyData->SetTransform(acetabularShell->GetGeometry()->GetVtkTransform());
+    transformPolyData->Update();
+
+    auto selectedEnclosedPoints = vtkSmartPointer<vtkSelectEnclosedPoints>::New();
+    selectedEnclosedPoints->SetInputData(pelvis->GetVtkPolyData());
+    selectedEnclosedPoints->SetSurfaceData(transformPolyData->GetOutput());
+    selectedEnclosedPoints->Update();
+    vtkPolyData *selected = vtkPolyData::SafeDownCast(selectedEnclosedPoints->GetOutput());
+
+    auto selectedPoints = selected->GetPointData()->GetArray("SelectedPoints");
+
+    auto colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    colors->SetNumberOfComponents(3);
+    colors->SetName("colors");
+
+    for(auto i = 0; i < selectedPoints->GetNumberOfTuples(); ++i)
+    {
+      selectedPoints->GetComponent(i, 0) == 1 ? colors->InsertNextTuple3(0, 255, 0) : colors->InsertNextTuple3(255, 255, 255);
+    }
+    selected->GetPointData()->SetScalars(colors);
+    selected->GetPointData()->RemoveArray("SelectedPoints");
+
+    mitk::Surface::Pointer reamingPelvis = this->GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
+    if (reamingPelvis == nullptr)
+    {
+      reamingPelvis = mitk::Surface::New();
+      reamingPelvisNode = mitk::DataNode::New();
+      reamingPelvisNode->SetName("reaming_pelvis");
+      reamingPelvisNode->SetData(reamingPelvis);
+      reamingPelvisNode->SetBoolProperty("scalar visibility", true);
+      this->GetDataStorage()->Add(reamingPelvisNode);
+    }
+    reamingPelvis->SetVtkPolyData(selected);
+    reamingPelvisNode->SetVisibility(true);
   }
   break;
   case VIEW_CT:
@@ -368,6 +426,7 @@ void THAStdMultiWidget::SetMode(int mode)
     femurLeftNode->SetOpacity(0.5);
     femurLeftNode->SetVisibility(true);
     cupCor->SetVisibility(true);
+    this->implantAssessmentGadget[3]->setVisible(true);
   }
 	break;
   default: //MODE_DEFAULT
