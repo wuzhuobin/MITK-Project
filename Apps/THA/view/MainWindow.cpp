@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "CasePlanningWidget.h"
+#include "AcetabularPrepWidget.h"
 #include "IOController.h"
 
 // qt
@@ -12,7 +13,8 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   ui(new Ui::MainWindow),
-  casePlanning(new CasePlanningWidget(this))
+  casePlanning(new CasePlanningWidget(this)),
+  acetabularPrep(new AcetabularPrepWidget(this))
 {
   this->ui->setupUi(this);
 
@@ -21,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   QList<QAction*>  casePlanningActions = this->casePlanning->GetActions()->actions();
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
+  this->ui->stackedWidget->addWidget(this->acetabularPrep);
   casePlanningActions[0]->trigger();
 
 	mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();

@@ -18,6 +18,7 @@ public:
 private:
   Ui::MainWindow *ui;
   class CasePlanningWidget *casePlanning;
+  class AcetabularPrepWidget *acetabularPrep;
   int currentActionIndex = 0;
   Q_DISABLE_COPY(MainWindow);
 

@@ -28,7 +28,7 @@ void IOController::LoadScene(QString fileName)
 
   mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
   reamerSource->SetRadius(25);
-  reamerSource->SetLength(30);
+  reamerSource->SetLength(70);
   reamerSource->Update();
   mitk::Surface * reamer = reamerSource->GetOutput();
 
