@@ -6,6 +6,7 @@
 namespace Ui{
 class AcetabularPrepWidget;
 }
+class QActionGroup;
 
 class AcetabularPrepWidget: public QStackedWidget
 {
@@ -13,7 +14,10 @@ class AcetabularPrepWidget: public QStackedWidget
 public:
   explicit AcetabularPrepWidget(QWidget *parent = nullptr);
   virtual ~AcetabularPrepWidget() override;
+  const QActionGroup *GetActions() const { return this->actions; }
 private:
   Ui::AcetabularPrepWidget *ui;
+  QActionGroup *actions;
+  Q_DISABLE_COPY(AcetabularPrepWidget)
 };
 #endif //! ACETABULAR_PREP_WIDGET

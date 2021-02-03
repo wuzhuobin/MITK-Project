@@ -60,7 +60,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="radioButtonCasePlanning">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -535,17 +535,17 @@
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupMode">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupMode">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
  </buttongroups>
 </ui>

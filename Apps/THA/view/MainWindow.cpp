@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 
   connect(this->casePlanning->GetActions(), &QActionGroup::triggered, 
     this, &MainWindow::OnCasePlanningActionsTriggered);
+  connect(this->acetabularPrep->GetActions(), &QActionGroup::triggered,
+    this, &MainWindow::OnAcetabularPrepActionsTriggered);
   QList<QAction*>  casePlanningActions = this->casePlanning->GetActions()->actions();
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
@@ -130,6 +132,31 @@ void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button) const
   }
 }
 
+void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button) const
+{
+  if (button == this->ui->radioButtonPreOpRIOCheck)
+  {
+
+  }
+  else if (button == this->ui->radioButtonFemoralPrep)
+  {
+
+  }
+  else if (button == this->ui->radioButtonCasePlanning)
+  {
+    this->casePlanning->GetActions()->actions().first()->trigger();
+  }
+  else if (button == this->ui->radioButtonAcetabularPrep)
+  {
+    this->acetabularPrep->GetActions()->actions().first()->trigger();
+  }
+  else if (button == this->ui->radioButtonFinalResult)
+  {
+
+  }
+
+}
+
 void MainWindow::on_pushButtonNext_clicked(bool checked)
 {
   // int numOfActions = 0;
@@ -179,4 +206,9 @@ void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
     this->ui->pushButtonBack->setEnabled(true);
   }
   
+}
+
+void MainWindow::OnAcetabularPrepActionsTriggered(QAction *action) const
+{
+
 }

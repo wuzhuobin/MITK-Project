@@ -14,7 +14,7 @@
    <string>Acetabular Prep</string>
   </property>
   <property name="currentIndex">
-   <number>3</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="page_7">
    <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -27,7 +27,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="PelvicCheckpoint">
+  <widget class="QWidget" name="PelvisCheckpoint">
    <layout class="QVBoxLayout" name="verticalLayout_12">
     <item>
      <widget class="QLabel" name="label_3">
@@ -234,6 +234,27 @@
     </item>
    </layout>
   </widget>
+  <action name="action_Pelvis_Checkpoint">
+   <property name="text">
+    <string>&amp;Pelvis Checkpoint</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_Landmark">
+   <property name="text">
+    <string>&amp;Pelvis Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis_Landmark</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_Registration">
+   <property name="text">
+    <string>&amp;Pelvis Registration</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis Registration</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../resources/resources.qrc"/>
