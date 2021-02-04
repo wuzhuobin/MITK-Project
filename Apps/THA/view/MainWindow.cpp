@@ -159,30 +159,44 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button) c
 
 void MainWindow::on_pushButtonNext_clicked(bool checked)
 {
-  // int numOfActions = 0;
-  // numOfActions += this->casePlanning->GetActions()->actions().size();
-  // QAction *action = this->actions->actions()[++this->currentActionIndex];
-  // action->trigger();
+  MITK_INFO << __func__;
+
   this->currentActionIndex++;
   int index = this->currentActionIndex;
   if (index < this->casePlanning->GetActions()->actions().size())
   {
     this->casePlanning->GetActions()->actions()[index]->trigger();
+    return;
   }
+  index -= this->casePlanning->GetActions()->actions().size();
+  if (index < this->acetabularPrep->GetActions()->actions().size())
+  {
+    this->acetabularPrep->GetActions()->actions()[index]->trigger();
+    return;
+  }
+  index -= this->acetabularPrep->GetActions()->actions().size();
+
   
-  MITK_INFO << __func__;
 }
 
 void MainWindow::on_pushButtonBack_clicked(bool checked)
 {
-  // QAction *action = this->actions->actions()[--this->currentActionIndex];
-  // action->trigger();
+  MITK_INFO << __func__;
+
   this->currentActionIndex--;
   int index = this->currentActionIndex;
   if (index < this->casePlanning->GetActions()->actions().size())
   {
     this->casePlanning->GetActions()->actions()[index]->trigger();
+    return;
   }
+  index -= this->casePlanning->GetActions()->actions().size();
+  if (index < this->acetabularPrep->GetActions()->actions().size())
+  {
+    this->acetabularPrep->GetActions()->actions()[index]->trigger();
+    return;
+  }
+  index -= this->acetabularPrep->GetActions()->actions().size();
 
   MITK_INFO << __func__;
 }
@@ -195,11 +209,11 @@ void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
     this->ui->pushButtonNext->setEnabled(true);
     this->ui->pushButtonBack->setEnabled(false);
   }
-  else if (this->casePlanning->GetActions()->actions().last() == action)
-  {
-    this->ui->pushButtonNext->setEnabled(false);
-    this->ui->pushButtonBack->setEnabled(true);
-  }
+  // else if (this->casePlanning->GetActions()->actions().last() == action)
+  // {
+  //   this->ui->pushButtonNext->setEnabled(false);
+  //   this->ui->pushButtonBack->setEnabled(true);
+  // }
   else
   {
     this->ui->pushButtonNext->setEnabled(true);
@@ -210,5 +224,16 @@ void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
 
 void MainWindow::OnAcetabularPrepActionsTriggered(QAction *action) const
 {
+  this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
+  if (this->acetabularPrep->GetActions()->actions().last() == action)
+  {
+    this->ui->pushButtonNext->setEnabled(false);
+    this->ui->pushButtonBack->setEnabled(true);
+  }
+  else
+  {
+    this->ui->pushButtonNext->setEnabled(true);
+    this->ui->pushButtonBack->setEnabled(true);
+  }
 
 }
