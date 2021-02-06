@@ -13,6 +13,15 @@
 #include <vtkSmartPointer.h>
 #include <vtkTransformPolyDataFilter.h>
 
+// qt
+#include <QSharedPointer>
+
+QSharedPointer<IOController> instance = QSharedPointer<IOController>(new IOController);
+
+IOController * IOController::GetInstance()
+{
+  return instance.get();
+}
 
 void IOController::LoadScene(QString fileName)
 {
@@ -25,6 +34,14 @@ void IOController::LoadScene(QString fileName)
   {
     MITK_INFO << one->GetName();
   }
+
+  this->AddReamerTrajectory();
+}
+
+void IOController::AddReamerTrajectory()
+{
+  mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
+  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
   mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
   reamerSource->SetRadius(25);

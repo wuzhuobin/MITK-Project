@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
   if (!fileName.isEmpty())
   {
-    IOController::LoadScene(fileName);
+    IOController::GetInstance()->LoadScene(fileName);
     this->ui->multiWidget->InitializeMultiWidget();
   }
 }
@@ -51,8 +51,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::Test()
 {
-  this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
-  this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
+  MITK_INFO << __func__;
+  // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
@@ -61,7 +61,7 @@ void MainWindow::on_radioButtonOptions_toggled(bool checked)
   {
     QString fileName =
       QFileDialog::getOpenFileName(this, "Scene", QString(), tr("MITK (*.mitk)"));
-    IOController::LoadScene(fileName);
+    IOController::GetInstance()->LoadScene(fileName);
     this->ui->multiWidget->InitializeMultiWidget();
   }
 }
@@ -204,6 +204,7 @@ void MainWindow::on_pushButtonBack_clicked(bool checked)
 void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
 {
   this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
+  this->ui->radioButtonCasePlanning->setChecked(true);
   if (this->casePlanning->GetActions()->actions().first() == action)
   {
     this->ui->pushButtonNext->setEnabled(true);
@@ -225,8 +226,10 @@ void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
 void MainWindow::OnAcetabularPrepActionsTriggered(QAction *action) const
 {
   this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
+  this->ui->radioButtonAcetabularPrep->setChecked(true);
   if (this->acetabularPrep->GetActions()->actions().last() == action)
   {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
     this->ui->pushButtonNext->setEnabled(false);
     this->ui->pushButtonBack->setEnabled(true);
   }

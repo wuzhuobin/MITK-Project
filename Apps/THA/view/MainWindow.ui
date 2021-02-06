@@ -137,19 +137,68 @@
      </layout>
     </item>
     <item>
-     <widget class="THAStdMultiWidget" name="multiWidget" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
+     <widget class="QStackedWidget" name="stackedWidgetViewer">
+      <widget class="QWidget" name="pageMultiWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="THAStdMultiWidget" name="multiWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"> background: rgb(0, 0, 0)
+</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageImage">
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="RIORegistrationWidget" name="registrationWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>
@@ -528,13 +577,18 @@
    <header>QmitkLevelWindowWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>RIORegistrationWidget</class>
+   <extends>QWidget</extends>
+   <header>RIORegistrationWidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
@@ -545,7 +599,8 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupControl"/>
+  <buttongroup name="buttonGroupWorkflow"/>
  </buttongroups>
 </ui>

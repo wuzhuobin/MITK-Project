@@ -15,6 +15,7 @@ public:
   explicit AcetabularPrepWidget(QWidget *parent = nullptr);
   virtual ~AcetabularPrepWidget() override;
   const QActionGroup *GetActions() const { return this->actions; }
+
 private:
   Ui::AcetabularPrepWidget *ui;
   QActionGroup *actions;
