@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RIORegistrationWidget</class>
- <widget class="QWidget" name="RIORegistrationWidget">
+ <class>ImageWidget</class>
+ <widget class="QWidget" name="ImageWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>RIORegistrationWidget</string>
+   <string>ImageWidget</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
@@ -53,7 +53,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QProgressBar" name="progressBarRegistration">
+      <widget class="QProgressBar" name="progressBarImage">
        <property name="value">
         <number>24</number>
        </property>

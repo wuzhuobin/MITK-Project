@@ -195,14 +195,14 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="RIORegistrationWidget" name="registrationWidget" native="true"/>
+         <widget class="ImageWidget" name="imageWidget" native="true"/>
         </item>
        </layout>
       </widget>
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="frameViewAndMode">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -578,9 +578,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>RIORegistrationWidget</class>
+   <class>ImageWidget</class>
    <extends>QWidget</extends>
-   <header>RIORegistrationWidget.h</header>
+   <header>ImageWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -589,18 +589,18 @@
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
-  <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupWorkflow"/>
  </buttongroups>
 </ui>

@@ -19,7 +19,8 @@ private:
   Ui::MainWindow *ui;
   class CasePlanningWidget *casePlanning;
   class AcetabularPrepWidget *acetabularPrep;
-  int currentActionIndex = 0;
+  void SetCurrentActionIndex(size_t index);
+  size_t currentActionIndex = 0;
   Q_DISABLE_COPY(MainWindow);
 
 private Q_SLOTS:

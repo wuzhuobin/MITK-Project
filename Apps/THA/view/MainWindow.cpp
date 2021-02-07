@@ -55,6 +55,11 @@ void MainWindow::Test()
   // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 
+void MainWindow::SetCurrentActionIndex(size_t index)
+{
+  this->currentActionIndex = index;
+}
+
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
 {
   if (checked)
@@ -197,8 +202,6 @@ void MainWindow::on_pushButtonBack_clicked(bool checked)
     return;
   }
   index -= this->acetabularPrep->GetActions()->actions().size();
-
-  MITK_INFO << __func__;
 }
 
 void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
@@ -227,9 +230,19 @@ void MainWindow::OnAcetabularPrepActionsTriggered(QAction *action) const
 {
   this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
   this->ui->radioButtonAcetabularPrep->setChecked(true);
-  if (this->acetabularPrep->GetActions()->actions().last() == action)
+  if (this->acetabularPrep->GetActions()->actions()[0] == action)
   {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
+    this->ui->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
+  }
+  else if (this->acetabularPrep->GetActions()->actions().last() == action)
+  {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
+    this->ui->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
+  }
+
+  if (this->acetabularPrep->GetActions()->actions().last() == action)
+  {
     this->ui->pushButtonNext->setEnabled(false);
     this->ui->pushButtonBack->setEnabled(true);
   }
