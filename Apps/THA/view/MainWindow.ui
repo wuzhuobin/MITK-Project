@@ -563,6 +563,59 @@
     </item>
    </layout>
   </widget>
+  <action name="action_Pelvis_Checkpoint">
+   <property name="text">
+    <string>&amp;Pelvis Checkpoint</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_Landmark">
+   <property name="text">
+    <string>&amp;Pelvis Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis_Landmark</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_Registration">
+   <property name="text">
+    <string>&amp;Pelvis Registration</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis Registration</string>
+   </property>
+  </action>
+  <action name="action_RIO_Registratoin">
+   <property name="text">
+    <string>&amp;RIO Registratoin</string>
+   </property>
+   <property name="toolTip">
+    <string>RIO Registratoin</string>
+   </property>
+  </action>
+  <action name="action_Implant_Planning">
+   <property name="text">
+    <string>&amp;Implant Planning</string>
+   </property>
+   <property name="toolTip">
+    <string>Implant Planning</string>
+   </property>
+  </action>
+  <action name="action_Broach_Tracking">
+   <property name="text">
+    <string>&amp;Broach Tracking</string>
+   </property>
+   <property name="toolTip">
+    <string>Broach Tracking</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_CT_Landmark">
+   <property name="text">
+    <string>&amp;Pelvis CT Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis CT Landmark</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -589,18 +642,18 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
-  <buttongroup name="buttonGroupMode">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroupWorkflow"/>
-  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="buttonGroupMode">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroupControl"/>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
  </buttongroups>
 </ui>

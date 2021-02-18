@@ -19,19 +19,19 @@ private:
   Ui::MainWindow *ui;
   class CasePlanningWidget *casePlanning;
   class AcetabularPrepWidget *acetabularPrep;
-  void SetCurrentActionIndex(size_t index);
-  size_t currentActionIndex = 0;
+  QActionGroup *actionGroup;
+  void SetCurrentActionIndex(int index);
+  int currentActionIndex = 0;
   Q_DISABLE_COPY(MainWindow);
 
 private Q_SLOTS:
   void on_radioButtonOptions_toggled(bool checked);
   void on_buttonGroupMode_buttonClicked(QAbstractButton *button) const;
   void on_buttonGroupView_buttonClicked(QAbstractButton *button) const;
-  void on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button) const;
+  void on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button);
   void on_pushButtonNext_clicked(bool checked = false);
   void on_pushButtonBack_clicked(bool checked = false);
-  void OnCasePlanningActionsTriggered(QAction *action) const;
-  void OnAcetabularPrepActionsTriggered(QAction *action) const;
+  void OnActionsTriggered(QAction *action) const;
 };
 
 #endif //!MAIN_WINDOW_H

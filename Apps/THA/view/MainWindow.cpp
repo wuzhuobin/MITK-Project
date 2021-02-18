@@ -13,22 +13,45 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   ui(new Ui::MainWindow),
+  actionGroup(new QActionGroup(this)),
   casePlanning(new CasePlanningWidget(this)),
   acetabularPrep(new AcetabularPrepWidget(this))
 {
   this->ui->setupUi(this);
 
-  connect(this->casePlanning->GetActions(), &QActionGroup::triggered, 
-    this, &MainWindow::OnCasePlanningActionsTriggered);
-  connect(this->acetabularPrep->GetActions(), &QActionGroup::triggered,
-    this, &MainWindow::OnAcetabularPrepActionsTriggered);
-  QList<QAction*>  casePlanningActions = this->casePlanning->GetActions()->actions();
+  connect(this->actionGroup, &QActionGroup::triggered, this, &MainWindow::OnActionsTriggered);
+  // the actions should be added in correct order.
+
+  // CasePlanningWidget
+  this->actionGroup->addAction(this->ui->action_Pelvis_CT_Landmark);
+  this->actionGroup->addAction(this->ui->action_Implant_Planning);
+  this->actionGroup->addAction(this->ui->action_Broach_Tracking);
+  connect(this->ui->action_Implant_Planning, &QAction::triggered,
+    this->casePlanning, &CasePlanningWidget::Action_Implant_Planning_triggered);
+  connect(this->ui->action_Broach_Tracking, &QAction::triggered,
+    this->casePlanning, &CasePlanningWidget::Action_Broach_Tracking_triggered);
+  connect(this->ui->action_Pelvis_CT_Landmark, &QAction::triggered,
+    this->casePlanning, &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
+
+  // AcetabularPrepWidget
+  this->actionGroup->addAction(this->ui->action_Pelvis_Checkpoint);
+  this->actionGroup->addAction(this->ui->action_Pelvis_Landmark);
+  this->actionGroup->addAction(this->ui->action_Pelvis_Registration);
+  this->actionGroup->addAction(this->ui->action_RIO_Registratoin);
+  connect(this->ui->action_Pelvis_Checkpoint, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered);
+  connect(this->ui->action_Pelvis_Landmark, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Landmark_triggered);
+  connect(this->ui->action_Pelvis_Registration, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Registration_triggered);
+  connect(this->ui->action_RIO_Registratoin, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
   this->ui->stackedWidget->addWidget(this->acetabularPrep);
-  casePlanningActions[0]->trigger();
+  this->SetCurrentActionIndex(0);
 
-	mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   this->ui->levelWindow->SetDataStorage(ds);
 
   // hide contrast, luminance, zoom buttons
@@ -55,9 +78,22 @@ void MainWindow::Test()
   // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 
-void MainWindow::SetCurrentActionIndex(size_t index)
+void MainWindow::SetCurrentActionIndex(int index)
 {
-  this->currentActionIndex = index;
+  // bounding
+  MITK_INFO << __func__;
+  MITK_INFO << index;
+  if (index >= this->actionGroup->actions().size()) {
+    this->currentActionIndex = this->actionGroup->actions().size() - 1;
+  }
+  else if (index < 0) {
+    this->currentActionIndex = 0;
+  }
+  else {
+    this->currentActionIndex = index;
+  }
+
+  this->actionGroup->actions()[this->currentActionIndex]->trigger();
 }
 
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
@@ -137,7 +173,7 @@ void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button) const
   }
 }
 
-void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button) const
+void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button)
 {
   if (button == this->ui->radioButtonPreOpRIOCheck)
   {
@@ -149,107 +185,66 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button) c
   }
   else if (button == this->ui->radioButtonCasePlanning)
   {
-    this->casePlanning->GetActions()->actions().first()->trigger();
+    this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_CT_Landmark));
   }
   else if (button == this->ui->radioButtonAcetabularPrep)
   {
-    this->acetabularPrep->GetActions()->actions().first()->trigger();
+    this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Checkpoint));
   }
   else if (button == this->ui->radioButtonFinalResult)
   {
 
   }
-
 }
 
 void MainWindow::on_pushButtonNext_clicked(bool checked)
 {
   MITK_INFO << __func__;
 
-  this->currentActionIndex++;
-  int index = this->currentActionIndex;
-  if (index < this->casePlanning->GetActions()->actions().size())
-  {
-    this->casePlanning->GetActions()->actions()[index]->trigger();
-    return;
-  }
-  index -= this->casePlanning->GetActions()->actions().size();
-  if (index < this->acetabularPrep->GetActions()->actions().size())
-  {
-    this->acetabularPrep->GetActions()->actions()[index]->trigger();
-    return;
-  }
-  index -= this->acetabularPrep->GetActions()->actions().size();
-
-  
+  this->SetCurrentActionIndex(++this->currentActionIndex);
 }
 
 void MainWindow::on_pushButtonBack_clicked(bool checked)
 {
   MITK_INFO << __func__;
-
-  this->currentActionIndex--;
-  int index = this->currentActionIndex;
-  if (index < this->casePlanning->GetActions()->actions().size())
-  {
-    this->casePlanning->GetActions()->actions()[index]->trigger();
-    return;
-  }
-  index -= this->casePlanning->GetActions()->actions().size();
-  if (index < this->acetabularPrep->GetActions()->actions().size())
-  {
-    this->acetabularPrep->GetActions()->actions()[index]->trigger();
-    return;
-  }
-  index -= this->acetabularPrep->GetActions()->actions().size();
+  this->SetCurrentActionIndex(--this->currentActionIndex);
 }
 
-void MainWindow::OnCasePlanningActionsTriggered(QAction *action) const
+void MainWindow::OnActionsTriggered(QAction * action) const
 {
-  this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
-  this->ui->radioButtonCasePlanning->setChecked(true);
-  if (this->casePlanning->GetActions()->actions().first() == action)
+  if (action == this->actionGroup->actions().last()) {
+    this->ui->pushButtonNext->setEnabled(false);
+    this->ui->pushButtonBack->setEnabled(true);
+  }
+  else if (action == this->actionGroup->actions().first())
   {
     this->ui->pushButtonNext->setEnabled(true);
     this->ui->pushButtonBack->setEnabled(false);
   }
-  // else if (this->casePlanning->GetActions()->actions().last() == action)
-  // {
-  //   this->ui->pushButtonNext->setEnabled(false);
-  //   this->ui->pushButtonBack->setEnabled(true);
-  // }
   else
   {
     this->ui->pushButtonNext->setEnabled(true);
     this->ui->pushButtonBack->setEnabled(true);
   }
-  
-}
 
-void MainWindow::OnAcetabularPrepActionsTriggered(QAction *action) const
-{
-  this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
-  this->ui->radioButtonAcetabularPrep->setChecked(true);
-  if (this->acetabularPrep->GetActions()->actions()[0] == action)
-  {
+  if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_Broach_Tracking)) {
+    this->ui->radioButtonCasePlanning->setChecked(true);
+    this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
+  }
+  else if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_RIO_Registratoin)) {
+    this->ui->radioButtonAcetabularPrep->setChecked(true);
+    this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
+  }
+
+  if (action == this->ui->action_Pelvis_Checkpoint) {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
     this->ui->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
   }
-  else if (this->acetabularPrep->GetActions()->actions().last() == action)
-  {
+  else if (action == this->ui->action_RIO_Registratoin) {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
     this->ui->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
   }
-
-  if (this->acetabularPrep->GetActions()->actions().last() == action)
-  {
-    this->ui->pushButtonNext->setEnabled(false);
-    this->ui->pushButtonBack->setEnabled(true);
+  else {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
   }
-  else
-  {
-    this->ui->pushButtonNext->setEnabled(true);
-    this->ui->pushButtonBack->setEnabled(true);
-  }
-
 }
