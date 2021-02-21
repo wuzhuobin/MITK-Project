@@ -42,11 +42,13 @@ public:
   void SetView(int mode);
   int GetMode() const { return this->mode; }
   void SetMode(int mode);
-  bool IsRegistrationMode() const { return this->registrationMode; }
-  void SetRegistrationMode(bool flag);
+  void SetOther(bool other);
+  bool GetOther() const;
+  void UpdateViewMode();
 private:
-  int view;
-  int mode;
+  int view = VIEW_DEFAULT;
+  int mode = MODE_DEFAULT;
+  bool other = false;
   bool registrationMode;
   GroupBoxGadget *groupBoxGadget[4];
   StemParameterGadget *stemParameterGadget[4];
