@@ -49,7 +49,7 @@ private:
   int view = VIEW_DEFAULT;
   int mode = MODE_DEFAULT;
   bool other = false;
-  bool registrationMode;
+  bool initialized = false;
   GroupBoxGadget *groupBoxGadget[4];
   StemParameterGadget *stemParameterGadget[4];
   ImplantAssessmentGadget *implantAssessmentGadget[4];

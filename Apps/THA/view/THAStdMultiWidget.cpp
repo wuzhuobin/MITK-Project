@@ -137,7 +137,6 @@ void THAStdMultiWidget::InitializeMultiWidget()
     this->stemParameterGadget[i]->ObserverStem();
   }
 ////////////////////////////////////////////////////////////////////////////////
-  // this->SetRegistrationMode(this->registrationMode);
   this->SetView(VIEWS::VIEW_DEFAULT);
   this->SetMode(MODES::MODE_DEFAULT);
   this->UpdateViewMode();
@@ -425,8 +424,7 @@ void THAStdMultiWidget::UpdateViewMode()
     }
     break;
     }
-
-    this->ResetCrosshair();
-    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   }
+  this->ResetCrosshair();
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

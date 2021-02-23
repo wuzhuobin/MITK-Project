@@ -22,10 +22,20 @@ public Q_SLOTS:
 
 private:
   Ui::AcetabularPrepWidget *ui;
+  int pelvisLandmarkIndex = 0;
+  int pelvisRegistrationIndex = 0;
   Q_DISABLE_COPY(AcetabularPrepWidget);
+  void SetPelvisLandmarkIndex(int index);
+  void SetPelvisRegistrationIndex(int index);
 
 private Q_SLOTS:
 
   void on_AcetabularPrepWidget_currentChanged(int index);
+
+  void on_pushButtonCaptureLandmark_clicked(bool checked = false);
+
+  void on_pushButtonClearLandmark_clicked(bool checked = false);
+
+  void on_pushButtonClearAllPelvis_clicked(bool checked = false);
 };
 #endif //! ACETABULAR_PREP_WIDGET

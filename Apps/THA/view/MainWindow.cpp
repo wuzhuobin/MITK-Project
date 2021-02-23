@@ -49,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
   this->ui->stackedWidget->addWidget(this->acetabularPrep);
-  this->SetCurrentActionIndex(0);
 
   mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   this->ui->levelWindow->SetDataStorage(ds);
@@ -64,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   {
     IOController::GetInstance()->LoadScene(fileName);
     this->ui->multiWidget->InitializeMultiWidget();
+    this->SetCurrentActionIndex(0);
   }
 }
 
@@ -75,6 +75,7 @@ MainWindow::~MainWindow()
 void MainWindow::Test()
 {
   MITK_INFO << __func__;
+  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Landmark));
   // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 
@@ -104,6 +105,7 @@ void MainWindow::on_radioButtonOptions_toggled(bool checked)
       QFileDialog::getOpenFileName(this, "Scene", QString(), tr("MITK (*.mitk)"));
     IOController::GetInstance()->LoadScene(fileName);
     this->ui->multiWidget->InitializeMultiWidget();
+    this->SetCurrentActionIndex(0);
   }
 }
 
@@ -240,11 +242,20 @@ void MainWindow::OnActionsTriggered(QAction * action) const
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
     this->ui->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
   }
+  else if (action == this->ui->action_Pelvis_Landmark) {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
+    this->ui->multiWidget->SetOther(true);
+  }
+  else if (action == this->ui->action_Pelvis_Registration) {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
+    this->ui->multiWidget->SetOther(true);
+  }
   else if (action == this->ui->action_RIO_Registratoin) {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
     this->ui->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
   }
   else {
+    this->ui->multiWidget->SetOther(false);
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
   }
 }

@@ -99,42 +99,75 @@
   <widget class="QWidget" name="PelvisLandmark">
    <layout class="QVBoxLayout" name="verticalLayout_13">
     <item>
-     <widget class="QCheckBox" name="checkBox_3">
+     <widget class="QCheckBox" name="checkBoxPosteriorAcetabulum">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QCheckBox:disabled {
+  color: rgb(0, 0, 0)
+}</string>
+      </property>
       <property name="text">
        <string>Posterior Acetabulum</string>
       </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="checkBox_4">
+     <widget class="QCheckBox" name="checkBoxAnteriorAcetabulum">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QCheckBox:disabled {
+  color: rgb(0, 0, 0)
+}</string>
+      </property>
       <property name="text">
        <string>Anterior Acetabulum</string>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="checkBox_5">
-      <property name="text">
-       <string>Superior Acetabulum</string>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QCheckBox" name="checkBoxSuperiorAcetabulum">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QCheckBox:disabled {
+  color: rgb(0, 0, 0)
+}</string>
+      </property>
+      <property name="text">
+       <string>Superior Acetabulum</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButtonCaptureLandmark">
       <property name="text">
        <string>Capture</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_6">
+     <widget class="QPushButton" name="pushButtonClearLandmark">
       <property name="text">
        <string>Clear Landmark</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_7">
+     <widget class="QPushButton" name="pushButtonClearAllPelvis">
       <property name="text">
        <string>Clear All Pelvis</string>
       </property>
