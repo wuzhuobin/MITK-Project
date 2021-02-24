@@ -215,28 +215,28 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_8">
+     <widget class="QPushButton" name="pushButtonCaptureRegistration">
       <property name="text">
        <string>Capture</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_9">
+     <widget class="QPushButton" name="pushButtonClearLastPoint">
       <property name="text">
        <string>Clear Last Point</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_11">
+     <widget class="QPushButton" name="pushButtonClearAllPoints">
       <property name="text">
        <string>Clear All Points</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_10">
+     <widget class="QPushButton" name="pushButtonVerifyRegistration">
       <property name="text">
        <string>Verify</string>
       </property>

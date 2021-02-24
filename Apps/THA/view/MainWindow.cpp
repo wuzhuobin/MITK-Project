@@ -75,7 +75,7 @@ MainWindow::~MainWindow()
 void MainWindow::Test()
 {
   MITK_INFO << __func__;
-  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Landmark));
+  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Registration));
   // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 

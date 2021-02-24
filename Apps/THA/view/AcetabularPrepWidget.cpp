@@ -125,13 +125,32 @@ void AcetabularPrepWidget::SetPelvisRegistrationIndex(int index)
   if (index < 0) {
     this->pelvisRegistrationIndex = 0;
   }
-  else if (index >= registrationPoints->GetSize()) {
-    this->pelvisRegistrationIndex = registrationPoints->GetSize() - 1;
+  else if (index > registrationPoints->GetSize()) {
+    this->pelvisRegistrationIndex = registrationPoints->GetSize();
   }
   else {
     this->pelvisRegistrationIndex = index;
   }
-  registrationPoints->SetSelectInfo(this->pelvisLandmarkIndex, true);
+
+  for (int i = 0; i < registrationPoints->GetSize(); ++i) {
+    registrationPoints->SetSelectInfo(i, false);
+  }
+  if (this->pelvisRegistrationIndex != registrationPoints->GetSize()) {
+    registrationPoints->SetSelectInfo(this->pelvisRegistrationIndex, true);
+    this->ui->pushButtonCaptureRegistration->setEnabled(true);
+    this->ui->pushButtonVerifyRegistration->setEnabled(false);
+    if (this->pelvisRegistrationIndex == 0) {
+      this->ui->pushButtonClearLastPoint->setEnabled(false);
+    }
+    else {
+      this->ui->pushButtonClearLastPoint->setEnabled(true);
+    }
+  }
+  else {
+    this->ui->pushButtonCaptureRegistration->setEnabled(false);
+    this->ui->pushButtonVerifyRegistration->setEnabled(true);
+  }
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void AcetabularPrepWidget::on_pushButtonCaptureLandmark_clicked(bool checked)
@@ -152,6 +171,27 @@ void AcetabularPrepWidget::on_pushButtonClearAllPelvis_clicked(bool checked)
   this->SetPelvisLandmarkIndex(0);
 }
 
+void AcetabularPrepWidget::on_pushButtonCaptureRegistration_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+  this->SetPelvisRegistrationIndex(++this->pelvisRegistrationIndex);
+}
+
+void AcetabularPrepWidget::on_pushButtonClearLastPoint_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+  this->SetPelvisRegistrationIndex(--this->pelvisRegistrationIndex);
+}
+
+void AcetabularPrepWidget::on_pushButtonClearAllPoints_clicked(bool checked)
+{
+  this->SetPelvisRegistrationIndex(0);
+}
+
+void AcetabularPrepWidget::on_pushButtonVerifyRegistration_clicked(bool checked)
+{
+}
+
 void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
 {
   Q_UNUSED(index);
@@ -163,7 +203,10 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
   }
   else if (this->currentWidget() == this->ui->PelvisRegistration) {
     mitk::DataNode *pelvisRegistrationNode = ds->GetNamedNode("pelvis_registration");
+    mitk::DataNode *registrationPoints = ds->GetNamedNode("registration_points");
     pelvisRegistrationNode->SetVisibility(true);
+    registrationPoints->SetVisibility(true);
+    this->SetPelvisRegistrationIndex(this->pelvisRegistrationIndex);
   }
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(
     mitk::RenderingManager::GetInstance()->GetDataStorage());

@@ -37,5 +37,13 @@ private Q_SLOTS:
   void on_pushButtonClearLandmark_clicked(bool checked = false);
 
   void on_pushButtonClearAllPelvis_clicked(bool checked = false);
+
+  void on_pushButtonCaptureRegistration_clicked(bool checked = false);
+
+  void on_pushButtonClearLastPoint_clicked(bool checked = false);
+
+  void on_pushButtonClearAllPoints_clicked(bool checked = false);
+
+  void on_pushButtonVerifyRegistration_clicked(bool checked = false);
 };
 #endif //! ACETABULAR_PREP_WIDGET
