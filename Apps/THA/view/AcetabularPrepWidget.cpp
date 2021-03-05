@@ -43,6 +43,18 @@ void AcetabularPrepWidget::Action_RIO_Registratoin_triggered(bool checked)
   this->setCurrentWidget(this->ui->RIORegistration);
 }
 
+void AcetabularPrepWidget::Action_Cup_Reaming_triggered(bool checked)
+{
+  Q_UNUSED(checked);
+  this->setCurrentWidget(this->ui->CupReaming);
+}
+
+void AcetabularPrepWidget::Action_Cup_Impaction_triggered(bool checked)
+{
+  Q_UNUSED(checked);
+  this->setCurrentWidget(this->ui->CupImpaction);
+}
+
 void AcetabularPrepWidget::SetPelvisLandmarkIndex(int index)
 {
   if (index < 0) {
@@ -207,6 +219,10 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
     pelvisRegistrationNode->SetVisibility(true);
     registrationPoints->SetVisibility(true);
     this->SetPelvisRegistrationIndex(this->pelvisRegistrationIndex);
+  }
+  else if (this->currentWidget() == this->ui->CupReaming) {
+    mitk::DataNode *pelvisNode = ds->GetNamedNode("pelvis");
+    pelvisNode->SetVisibility(true);
   }
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(
     mitk::RenderingManager::GetInstance()->GetDataStorage());

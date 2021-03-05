@@ -3,6 +3,7 @@
 #include "StemParameterGadget.h"
 #include "ImplantAssessmentGadget.h"
 #include "CupParameterGadget.h"
+#include "ReamingFilter2.h"
 // vtk
 // #include <vtkRenderWindow.h>
 // #include <vtkRenderer.h>
@@ -234,9 +235,6 @@ void THAStdMultiWidget::UpdateViewMode()
     {
     case VIEW_REAMING:
     {
-      // this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
-      //   this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
-      // this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
       this->GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
       imageNode->SetVisibility(true);
       mitk::Surface *pelvis = this->GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
@@ -248,24 +246,11 @@ void THAStdMultiWidget::UpdateViewMode()
       transformPolyData->SetTransform(acetabularShell->GetGeometry()->GetVtkTransform());
       transformPolyData->Update();
 
-      auto selectedEnclosedPoints = vtkSmartPointer<vtkSelectEnclosedPoints>::New();
-      selectedEnclosedPoints->SetInputData(pelvis->GetVtkPolyData());
-      selectedEnclosedPoints->SetSurfaceData(transformPolyData->GetOutput());
-      selectedEnclosedPoints->Update();
-      vtkPolyData *selected = vtkPolyData::SafeDownCast(selectedEnclosedPoints->GetOutput());
-
-      auto selectedPoints = selected->GetPointData()->GetArray("SelectedPoints");
-
-      auto colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
-      colors->SetNumberOfComponents(3);
-      colors->SetName("colors");
-
-      for (auto i = 0; i < selectedPoints->GetNumberOfTuples(); ++i)
-      {
-        selectedPoints->GetComponent(i, 0) == 1 ? colors->InsertNextTuple3(0, 255, 0) : colors->InsertNextTuple3(255, 255, 255);
-      }
-      selected->GetPointData()->SetScalars(colors);
-      selected->GetPointData()->RemoveArray("SelectedPoints");
+      auto reamingFilter = vtkSmartPointer<ReamingFilter2>::New();
+      reamingFilter->SetInputData(pelvis->GetVtkPolyData());
+      reamingFilter->SetInputData(1, transformPolyData->GetOutput());
+      reamingFilter->Update();
+      vtkPolyData *selected = reamingFilter->GetOutput();
 
       mitk::Surface::Pointer reamingPelvis = this->GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
       mitk::DataNode::Pointer reamingPelvisNode = this->GetDataStorage()->GetNamedNode("reaming_pelvis");

@@ -616,6 +616,22 @@
     <string>Pelvis CT Landmark</string>
    </property>
   </action>
+  <action name="action_Cup_Reaming">
+   <property name="text">
+    <string>&amp;Cup Reaming</string>
+   </property>
+   <property name="toolTip">
+    <string>Cup Reaming</string>
+   </property>
+  </action>
+  <action name="action_Cup_Impaction">
+   <property name="text">
+    <string>&amp;Cup Impaction</string>
+   </property>
+   <property name="toolTip">
+    <string>Cup Impaction</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -642,18 +658,18 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupWorkflow"/>
-  <buttongroup name="buttonGroupView">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="buttonGroupControl"/>
+  <buttongroup name="buttonGroupView">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupWorkflow"/>
  </buttongroups>
 </ui>

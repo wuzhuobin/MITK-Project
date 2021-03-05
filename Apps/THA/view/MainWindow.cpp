@@ -34,18 +34,24 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     this->casePlanning, &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
 
   // AcetabularPrepWidget
+  this->actionGroup->addAction(this->ui->action_RIO_Registratoin);
   this->actionGroup->addAction(this->ui->action_Pelvis_Checkpoint);
   this->actionGroup->addAction(this->ui->action_Pelvis_Landmark);
   this->actionGroup->addAction(this->ui->action_Pelvis_Registration);
-  this->actionGroup->addAction(this->ui->action_RIO_Registratoin);
+  this->actionGroup->addAction(this->ui->action_Cup_Reaming);
+  this->actionGroup->addAction(this->ui->action_Cup_Impaction);
+  connect(this->ui->action_RIO_Registratoin, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
   connect(this->ui->action_Pelvis_Checkpoint, &QAction::triggered,
     this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered);
   connect(this->ui->action_Pelvis_Landmark, &QAction::triggered,
     this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Landmark_triggered);
   connect(this->ui->action_Pelvis_Registration, &QAction::triggered,
     this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Registration_triggered);
-  connect(this->ui->action_RIO_Registratoin, &QAction::triggered,
-    this->acetabularPrep, &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
+  connect(this->ui->action_Cup_Reaming, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_Cup_Reaming_triggered);
+  connect(this->ui->action_Cup_Impaction, &QAction::triggered,
+    this->acetabularPrep, &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
   
   this->ui->stackedWidget->addWidget(this->casePlanning);
   this->ui->stackedWidget->addWidget(this->acetabularPrep);
@@ -75,7 +81,7 @@ MainWindow::~MainWindow()
 void MainWindow::Test()
 {
   MITK_INFO << __func__;
-  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Registration));
+  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Cup_Reaming));
   // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 
@@ -191,7 +197,7 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button)
   }
   else if (button == this->ui->radioButtonAcetabularPrep)
   {
-    this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Checkpoint));
+    this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_RIO_Registratoin));
   }
   else if (button == this->ui->radioButtonFinalResult)
   {
@@ -233,29 +239,44 @@ void MainWindow::OnActionsTriggered(QAction * action) const
     this->ui->radioButtonCasePlanning->setChecked(true);
     this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
   }
-  else if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_RIO_Registratoin)) {
+  else if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Registration)) {
     this->ui->radioButtonAcetabularPrep->setChecked(true);
     this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
   }
 
-  if (action == this->ui->action_Pelvis_Checkpoint) {
+  if (action == this->ui->action_RIO_Registratoin) {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
+    this->ui->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
+    this->ui->frameViewAndMode->setVisible(false);
+  }
+  else if (action == this->ui->action_Pelvis_Checkpoint) {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
     this->ui->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
+    this->ui->frameViewAndMode->setVisible(false);
   }
   else if (action == this->ui->action_Pelvis_Landmark) {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
     this->ui->multiWidget->SetOther(true);
+    this->ui->frameViewAndMode->setVisible(false);
   }
   else if (action == this->ui->action_Pelvis_Registration) {
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
     this->ui->multiWidget->SetOther(true);
+    this->ui->frameViewAndMode->setVisible(false);
   }
-  else if (action == this->ui->action_RIO_Registratoin) {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
-    this->ui->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
+  else if (action == this->ui->action_Cup_Reaming) {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->multiWidget);
+    this->ui->multiWidget->SetOther(true);
+    this->ui->frameViewAndMode->setVisible(false);
+  }
+  else if (action == this->ui->action_Cup_Impaction) {
+    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->multiWidget);
+    this->ui->multiWidget->SetOther(true);
+    this->ui->frameViewAndMode->setVisible(false);
   }
   else {
     this->ui->multiWidget->SetOther(false);
+    this->ui->frameViewAndMode->setVisible(true);
     this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
   }
 }
