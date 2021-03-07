@@ -35,6 +35,7 @@ void IOController::LoadScene(QString fileName)
     MITK_INFO << one->GetName();
   }
 
+  this->AddReamer();
   this->AddReamerTrajectory();
 }
 
@@ -44,7 +45,8 @@ void IOController::AddReamerTrajectory()
   mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
   mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
-  reamerSource->SetRadius(25);
+  reamerSource->SetSphereRadius(25);
+  reamerSource->SetTubeRadius(25);
   reamerSource->SetLength(70);
   reamerSource->Update();
   mitk::Surface * reamer = reamerSource->GetOutput();
@@ -71,6 +73,45 @@ void IOController::AddReamerTrajectory()
   mitk::DataNode::Pointer reamerNode = mitk::DataNode::New();
   reamerNode->SetData(reamer);
   reamerNode->SetName("reamer_trajectory");
+  reamerNode->SetVisibility(false);
+  
+  ds->Add(reamerNode);
+}
+
+void IOController::AddReamer()
+{
+  mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
+  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
+  reamerSource->SetSphereRadius(25);
+  reamerSource->SetTubeRadius(2);
+  reamerSource->SetLength(70);
+  reamerSource->Update();
+  mitk::Surface * reamer = reamerSource->GetOutput();
+
+  vtkSmartPointer<vtkTransform> transform =
+    vtkSmartPointer<vtkTransform>::New();
+  transform->PostMultiply();
+  transform->RotateY(-90);
+  transform->RotateX(0);
+  transform->RotateZ(0);
+  transform->Translate(
+      -58.54936906586104,
+      14.204643754424644,
+      1578.9678664012258);
+  transform->Update();
+
+  vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyData =
+    vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+  transformPolyData->SetInputData(reamer->GetVtkPolyData());
+  transformPolyData->SetTransform(transform);
+  transformPolyData->Update();
+  reamer->SetVtkPolyData(transformPolyData->GetOutput());
+  
+  mitk::DataNode::Pointer reamerNode = mitk::DataNode::New();
+  reamerNode->SetData(reamer);
+  reamerNode->SetName("reamer");
   reamerNode->SetVisibility(false);
   
   ds->Add(reamerNode);

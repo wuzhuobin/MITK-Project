@@ -12,6 +12,7 @@ public:
   static IOController * GetInstance();
   void LoadScene(QString fileName);
   void AddReamerTrajectory();
+  void AddReamer();
   void AddReamerCuter();
   // void SetMultiWidget(THAStdMultiWidget *w) { this->multiWidget = w; }
   // THAStdMultiWidget * GetMultiWidget() const { return this->multiWidget; }

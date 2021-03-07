@@ -14,8 +14,11 @@ public:
 
   virtual void GenerateData() override;
 
-  itkGetConstMacro(Radius, double);
-  itkSetMacro(Radius, double);
+  itkGetConstMacro(SphereRadius, double);
+  itkSetMacro(SphereRadius, double);
+
+  itkGetConstMacro(TubeRadius, double);
+  itkSetMacro(TubeRadius, double);
 
   itkGetConstMacro(Length, double);
   itkSetMacro(Length, double);
@@ -27,7 +30,8 @@ public:
   itkSetMacro(PhiResolution, int);
 
 protected:
-  double m_Radius = 10;
+  double m_SphereRadius = 10;
+  double m_TubeRadius = 10;
   double m_Length = 10;
   int m_ThetaResolution = 100;
   int m_PhiResolution = 100;
