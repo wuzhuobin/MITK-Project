@@ -239,7 +239,7 @@ void MainWindow::OnActionsTriggered(QAction * action) const
     this->ui->radioButtonCasePlanning->setChecked(true);
     this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
   }
-  else if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_Pelvis_Registration)) {
+  else if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_Cup_Impaction)) {
     this->ui->radioButtonAcetabularPrep->setChecked(true);
     this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
   }

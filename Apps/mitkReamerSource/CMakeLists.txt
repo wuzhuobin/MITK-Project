@@ -1,4 +1,4 @@
-project(ReamerSource)
+project(mitkReamerSource)
 
 set(OTHERS ../THA/algorithm/mitkReamerSource.cpp ../THA/algorithm/mitkReamerSource.h)
 file(GLOB SRC *.c*)

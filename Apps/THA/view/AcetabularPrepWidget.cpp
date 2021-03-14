@@ -223,6 +223,14 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
   else if (this->currentWidget() == this->ui->CupReaming) {
     mitk::DataNode *pelvisNode = ds->GetNamedNode("pelvis");
     pelvisNode->SetVisibility(true);
+    mitk::DataNode *reamerTrajectoryNode = ds->GetNamedNode("reamer_trajectory");
+    reamerTrajectoryNode->SetVisibility(true);
+    reamerTrajectoryNode->SetOpacity(0.2);
+    reamerTrajectoryNode->SetColor(1, 0, 0);
+    mitk::DataNode *reamerNode = ds->GetNamedNode("reamer");
+    reamerNode->SetVisibility(true);
+    reamerNode->SetOpacity(0.2);
+    reamerNode->SetColor(0, 1, 0);
   }
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(
     mitk::RenderingManager::GetInstance()->GetDataStorage());
