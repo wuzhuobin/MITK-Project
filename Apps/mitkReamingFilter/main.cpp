@@ -27,37 +27,57 @@ int main(int argc, char *argv[])
   reamerSource->SetTubeRadius(25);
   reamerSource->SetLength(70);
   reamerSource->Update();
+
   mitk::Surface * shell = reamerSource->GetOutput();
 
-  vtkSmartPointer<vtkTransform> transform =
+  vtkSmartPointer<vtkTransform> transformShell =
     vtkSmartPointer<vtkTransform>::New();
-  transform->PostMultiply();
-  transform->RotateY(-90);
-  transform->RotateX(0);
-  transform->RotateZ(0);
-  transform->Translate(
+  transformShell->PostMultiply();
+  transformShell->RotateY(-90);
+  transformShell->RotateX(0);
+  transformShell->RotateZ(0);
+  transformShell->Translate(
     -28.54936906586104,
     14.204643754424644,
     1578.9678664012258);
-  transform->Update();
+  transformShell->Update();
 
-  vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyData =
+  vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyDataShell =
     vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-  transformPolyData->SetInputData(shell->GetVtkPolyData());
-  transformPolyData->SetTransform(transform);
-  transformPolyData->Update();
-  shell->SetVtkPolyData(transformPolyData->GetOutput());
+  transformPolyDataShell->SetInputData(shell->GetVtkPolyData());
+  transformPolyDataShell->SetTransform(transformShell);
+  transformPolyDataShell->Update();
+  shell->SetVtkPolyData(transformPolyDataShell->GetOutput());
+
+  mitk::Surface * reamer = reamerSource->GetOutput();
+
+  vtkSmartPointer<vtkTransform> transformReamer =
+    vtkSmartPointer<vtkTransform>::New();
+  transformReamer->PostMultiply();
+  transformReamer->RotateY(-90);
+  transformReamer->RotateX(0);
+  transformReamer->RotateZ(0);
+  transformReamer->Translate(
+    -58.54936906586104,
+    14.204643754424644,
+    1578.9678664012258);
+  transformReamer->Update();
+
+  vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyDataReamer =
+    vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+  transformPolyDataReamer->SetInputData(reamer->GetVtkPolyData());
+  transformPolyDataReamer->SetTransform(transformReamer);
+  transformPolyDataReamer->Update();
+  reamer->SetVtkPolyData(transformPolyDataReamer->GetOutput());
 
   auto reamingFilter = ReamingFilter::New();
   reamingFilter->SetInput(overlay);
-  reamingFilter->SetReamer(shell);
+  reamingFilter->SetReamer(reamer);
   reamingFilter->SetShell(shell);
-  reamingFilter->SetThreshold(2);
+  reamingFilter->SetThreshold(3);
   reamingFilter->Update();
 
   IOUtil::Save(reamingFilter->GetOutput(), "output.vtp");
-
-
 
   return 0;
 }

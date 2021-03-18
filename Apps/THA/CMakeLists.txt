@@ -37,6 +37,7 @@ target_link_libraries(
   MitkCore
   MitkQtWidgets  
   MitkSceneSerialization
+  MitkSegmentation
 )
 
 target_include_directories(

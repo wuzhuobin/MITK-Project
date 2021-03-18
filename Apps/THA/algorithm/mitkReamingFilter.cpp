@@ -3,6 +3,7 @@
 // mitk
 #include <mitkSurface.h>
 #include <mitkProgressBar.h>
+#include <mitkMorphologicalOperations.h>
 
 // vtk
 #include <vtkImageData.h>
@@ -37,6 +38,7 @@ void mitk::ReamingFilter::SetInput(unsigned int i, const mitk::Surface * input)
   this->SetNthInput(i + 1, const_cast<mitk::Surface*>(input));
 }
 
+#include <mitkIOUtil.h>
 void mitk::ReamingFilter::GenerateData()
 {
   mitk::Surface *surface = this->GetOutput();
@@ -67,15 +69,41 @@ void mitk::ReamingFilter::GenerateData()
  
   for (int t = tstart; t < tmax; ++t)
   {
-    auto image_ = this->Stencil3DImage(shell, t);
+    auto shellImage = this->Stencil3DImage(shell, t);
+    auto reamerImage = this->Stencil3DImage(reamer, t);
+
+    auto replace = vtkSmartPointer<vtkImageMathematics>::New();
+    replace->SetInputData(shellImage->GetVtkImageData(t));
+    replace->SetConstantC(1);
+    replace->SetConstantK(3);
+    replace->SetOperationToReplaceCByK();
+    replace->Update();
+
+    auto sub = vtkSmartPointer<vtkImageMathematics>::New();
+    sub->SetInput1Data(image->GetVtkImageData(t));
+    sub->SetInput2Data(shellImage->GetVtkImageData(t));
+    sub->SetOperationToSubtract();
+    sub->Update();
+
+    auto erodedImage = mitk::Image::New();
+    erodedImage->Initialize(image);
+    erodedImage->SetVolume(sub->GetOutput()->GetScalarPointer(), t);
+
+    mitk::MorphologicalOperations::Erode(erodedImage, 3, mitk::MorphologicalOperations::Ball);
+
     auto add = vtkSmartPointer<vtkImageMathematics>::New();
-    add->SetInput1Data(image_->GetVtkImageData(t));
-    add->SetInput2Data(image->GetVtkImageData(t));
+    add->SetInput1Data(erodedImage->GetVtkImageData(t));
+    add->SetInput2Data(sub->GetOutput());
     add->SetOperationToAdd();
     add->Update();
-    image_->SetVolume(add->GetOutput()->GetScalarPointer(), t);
 
-    CreateSurface(t, image_->GetVtkImageData(t), surface, m_Threshold);
+    add->SetInput1Data(add->GetOutput());
+    add->SetInput2Data(replace->GetOutput());
+    add->Update();
+
+    shellImage->SetVolume(add->GetOutput()->GetScalarPointer(), t);
+
+    CreateSurface(t, shellImage->GetVtkImageData(t), surface, m_Threshold);
     ProgressBar::GetInstance()->Progress();
   }
 }
@@ -92,7 +120,7 @@ void mitk::ReamingFilter::CreateSurface(int time, vtkImageData * vtkimage, mitk:
   auto skinExtractor = vtkSmartPointer<vtkDiscreteFlyingEdges3D>::New();
   skinExtractor->SetInputConnection(indexCoordinatesImageFilter->GetOutputPort()); // RC++
   skinExtractor->ComputeScalarsOn();
-  skinExtractor->GenerateValues(2, 1, 2);
+  skinExtractor->GenerateValues(threshold, 1, threshold);
 
   vtkPolyData *polydata;
   skinExtractor->Update();
