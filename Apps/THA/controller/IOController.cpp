@@ -61,6 +61,10 @@ void IOController::AddReamerTrajectory()
       -58.54936906586104,
       14.204643754424644,
       1578.9678664012258);
+  // transform->Translate(
+  //     -28.54936906586104,
+  //     14.204643754424644,
+  //     1578.9678664012258);
   transform->Update();
 
   vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyData =

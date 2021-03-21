@@ -38,7 +38,6 @@ void mitk::ReamingFilter::SetInput(unsigned int i, const mitk::Surface * input)
   this->SetNthInput(i + 1, const_cast<mitk::Surface*>(input));
 }
 
-#include <mitkIOUtil.h>
 void mitk::ReamingFilter::GenerateData()
 {
   mitk::Surface *surface = this->GetOutput();
@@ -70,7 +69,6 @@ void mitk::ReamingFilter::GenerateData()
   for (int t = tstart; t < tmax; ++t)
   {
     auto shellImage = this->Stencil3DImage(shell, t);
-    auto reamerImage = this->Stencil3DImage(reamer, t);
 
     auto replace = vtkSmartPointer<vtkImageMathematics>::New();
     replace->SetInputData(shellImage->GetVtkImageData(t));
@@ -101,7 +99,15 @@ void mitk::ReamingFilter::GenerateData()
     add->SetInput2Data(replace->GetOutput());
     add->Update();
 
-    shellImage->SetVolume(add->GetOutput()->GetScalarPointer(), t);
+    auto reamerImage = this->Stencil3DImage(reamer, t, true);
+
+    auto multiply = vtkSmartPointer<vtkImageMathematics>::New();
+    multiply->SetInput1Data(add->GetOutput());
+    multiply->SetInput2Data(reamerImage->GetVtkImageData());
+    multiply->SetOperationToMultiply();
+    multiply->Update();
+
+    shellImage->SetVolume(multiply->GetOutput()->GetScalarPointer(), t);
 
     CreateSurface(t, shellImage->GetVtkImageData(t), surface, m_Threshold);
     ProgressBar::GetInstance()->Progress();
@@ -231,7 +237,7 @@ void mitk::ReamingFilter::CreateSurface(int time, vtkImageData * vtkimage, mitk:
 
 }
 
-mitk::Image::Pointer mitk::ReamingFilter::Stencil3DImage(const mitk::Surface *surface, int time)
+mitk::Image::Pointer mitk::ReamingFilter::Stencil3DImage(const mitk::Surface *surface, int time, bool reverse)
 {
   mitk::Image::Pointer output = mitk::Image::New();
 
@@ -319,7 +325,7 @@ mitk::Image::Pointer mitk::ReamingFilter::Stencil3DImage(const mitk::Surface *su
 // Create stencil and use numerical minimum of pixel type as background value
   vtkSmartPointer<vtkImageStencil> stencil = vtkSmartPointer<vtkImageStencil>::New();
   stencil->SetInputData(image);
-  stencil->ReverseStencilOff();
+  stencil->SetReverseStencil(reverse);
   stencil->ReleaseDataFlagOn();
   stencil->SetStencilConnection(surfaceConverter->GetOutputPort());
 

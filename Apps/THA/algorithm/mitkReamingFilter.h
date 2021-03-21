@@ -31,7 +31,7 @@ protected:
 
   void CreateSurface(int time, vtkImageData *vtkimage, mitk::Surface *surface, const ScalarType threshold);
 
-  Image::Pointer Stencil3DImage(const mitk::Surface *surface, int time = 0);
+  Image::Pointer Stencil3DImage(const mitk::Surface *surface, int time = 0, bool reverse = false);
 
   double m_Tolerance = 0.0;
 };

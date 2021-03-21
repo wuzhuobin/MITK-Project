@@ -22,13 +22,13 @@ int main(int argc, char *argv[])
   //auto shell = ds->GetNamedObject<Surface>("acetabular_shell");
   auto overlay = ds->GetNamedObject<Image>("overlay");
 
-  mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
-  reamerSource->SetSphereRadius(25);
-  reamerSource->SetTubeRadius(25);
-  reamerSource->SetLength(70);
-  reamerSource->Update();
+  mitk::ReamerSource::Pointer shellSource = mitk::ReamerSource::New();
+  shellSource->SetSphereRadius(25);
+  shellSource->SetTubeRadius(25);
+  shellSource->SetLength(70);
+  shellSource->Update();
 
-  mitk::Surface * shell = reamerSource->GetOutput();
+  mitk::Surface * shell = shellSource->GetOutput();
 
   vtkSmartPointer<vtkTransform> transformShell =
     vtkSmartPointer<vtkTransform>::New();
@@ -49,6 +49,12 @@ int main(int argc, char *argv[])
   transformPolyDataShell->Update();
   shell->SetVtkPolyData(transformPolyDataShell->GetOutput());
 
+  
+  auto reamerSource = mitk::ReamerSource::New();
+  reamerSource->SetSphereRadius(25);
+  reamerSource->SetTubeRadius(25);
+  reamerSource->SetLength(70);
+  reamerSource->Update();
   mitk::Surface * reamer = reamerSource->GetOutput();
 
   vtkSmartPointer<vtkTransform> transformReamer =
@@ -56,7 +62,7 @@ int main(int argc, char *argv[])
   transformReamer->PostMultiply();
   transformReamer->RotateY(-90);
   transformReamer->RotateX(0);
-  transformReamer->RotateZ(0);
+  transformReamer->RotateZ(90);
   transformReamer->Translate(
     -58.54936906586104,
     14.204643754424644,
