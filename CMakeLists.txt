@@ -126,6 +126,7 @@ endif()
 set(${PROJECT_NAME}_MODULES_PACKAGE_DEPENDS_DIR "${PROJECT_SOURCE_DIR}/CMake/PackageDepends")
 set(MODULES_PACKAGE_DEPENDS_DIRS ${${PROJECT_NAME}_MODULES_PACKAGE_DEPENDS_DIR})
 
+find_package(OpenMP REQUIRED)
 find_package(MITK 2018.04.02 REQUIRED)
 
 # Contingency script to solve following error, when using MITK_DIR
@@ -247,6 +248,7 @@ set(CMAKE_EXE_LINKER_FLAGS ${${PROJECT_NAME}_EXE_LINKER_FLAGS})
 set(CMAKE_SHARED_LINKER_FLAGS ${${PROJECT_NAME}_SHARED_LINKER_FLAGS})
 set(CMAKE_MODULE_LINKER_FLAGS ${${PROJECT_NAME}_MODULE_LINKER_FLAGS})
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 #-----------------------------------------------------------------------------
 # Testing
 #-----------------------------------------------------------------------------
@@ -323,6 +325,9 @@ endif()
 
 # add_subdirectory(Apps/MyApp)
 add_subdirectory(Apps/THA)
+add_subdirectory(Apps/Step8)
+add_subdirectory(Apps/mitkReamerSource)
+add_subdirectory(Apps/mitkReamingFilter)
 
 #-----------------------------------------------------------------------------
 # Installation

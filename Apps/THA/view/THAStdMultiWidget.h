@@ -13,23 +13,23 @@ class THAStdMultiWidget: public QmitkStdMultiWidget
   Q_OBJECT;
 
 public:
-  enum VIEWER_MODE
+  enum VIEWS
   {
-    VIEWER_DEFAULT = 0,
-    VIEWER_2D,
-    VIEWER_3D,
-    VIEWER_XRAY,
-    VIEWER_REAMING,
-    VIEWER_UNTILITY
+    VIEW_DEFAULT = 0,
+    VIEW_CT,
+    VIEW_3D_SLICER,
+    VIEW_X_RAY,
+    VIEW_REAMING,
+    VIEW_UNTILITY
   };
 
-  enum PLAN_MODE
+  enum MODES
   {
-    PLAN_DEFAULT = 0,
-    PLAN_PREOP,
-    PLAN_CUP,
-    PLAN_STEM,
-    PLAN_REDUCED
+    MODE_DEFAULT = 0,
+    MODE_PRE_OP,
+    MODE_CUP_PLAN,
+    MODE_STEM_PLAN,
+    MODE_REDUCED
   };
 
 public:
@@ -38,24 +38,22 @@ public:
     Qt::WindowFlags f = nullptr,
     const QString &name = "stdmulti");
   virtual void InitializeMultiWidget() override;
-//   virtual ~THAStdMultiWidget() override;
-  int getViewerMode() const { return this->viewerMode; }
-  void setViewerMode(int mode);
-  int getPlanMode() const { return this->planMode; }
-  void setPlanMode(int mode);
-  bool isRegistrationMode() const { return this->registrationMode; }
-  void setRegistrationMode(bool flag);
-  void visualize(mitk::DataStorage *ds, QString side);
-	//void setActualResult(bool);
+  int GetView() const { return this->view; }
+  void SetView(int mode);
+  int GetMode() const { return this->mode; }
+  void SetMode(int mode);
+  void SetOther(bool other);
+  bool GetOther() const;
+  void UpdateViewMode();
 private:
-  int viewerMode;
-  int planMode;
-  bool registrationMode;
-  GroupBoxGadget *groupBoxGadget[3];
-  StemParameterGadget *stemParameterGadget;
-  ImplantAssessmentGadget *implantAssessmentGadget;
-  CupParameterGadget *cupParameterGadget;
-	//CupResultGadget *cupResultGadget;
+  int view = VIEW_DEFAULT;
+  int mode = MODE_DEFAULT;
+  bool other = false;
+  bool initialized = false;
+  GroupBoxGadget *groupBoxGadget[4];
+  StemParameterGadget *stemParameterGadget[4];
+  ImplantAssessmentGadget *implantAssessmentGadget[4];
+  CupParameterGadget *cupParameterGadget[4];
 
 };
 #endif //!THA_STD_MULTI_WIDGET

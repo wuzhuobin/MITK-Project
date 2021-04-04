@@ -1,6 +1,7 @@
 #ifndef IMPLANT_ASSESSMENT_GADGET_H
 #define IMPLANT_ASSESSMENT_GADGET_H
 
+// qt
 #include <QWidget>
 
 namespace Ui
@@ -15,12 +16,6 @@ class ImplantAssessmentGadget : public QWidget
 public:
   explicit ImplantAssessmentGadget(QWidget *parent = nullptr);
   virtual ~ImplantAssessmentGadget() override;
-
-  void SetSide(QString side);
-  void SetPreOpHipLength(int l);
-  void SetPreOpCombinedOffset(int l);
-  void SetOppositeHipLength(int l);
-  void SetOppositeCombinedOffset(int l);
 
 private:
   Ui::ImplantAssessmentGadget *ui;

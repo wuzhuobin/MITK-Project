@@ -26,20 +26,22 @@ public:
 
 public:
   explicit GroupBoxGadget(int orientation, 
-		const QString &femoralStem = QStringLiteral("femoral_stem_transformed"),
-		const QString &femoralNeck = QStringLiteral("femoral_neck_transformed"),
-		const QString &femoralHead = QStringLiteral("femoral_head_transformed"),
-		const QString &acetabularShell = QStringLiteral("acetabular_shell_transformed"),
-		const QString &acetabularInsert = QStringLiteral("acetabular_insert_transformed"),
+		const QString &femoralHeadCor = QStringLiteral("femoral_head_cor"),
+		const QString &femoralStem = QStringLiteral("femoral_stem"),
+		const QString &femoralHead = QStringLiteral("femoral_head"),
+		const QString &cupCor = QStringLiteral("cup_cor"),
+		const QString &acetabularShell = QStringLiteral("acetabular_shell"),
+		const QString &acetabularLiner = QStringLiteral("acetabular_liner"),
 		QWidget *parent = nullptr);
 	explicit GroupBoxGadget(int orientation,
 		QWidget *parent) :
 		GroupBoxGadget(orientation,
-			QStringLiteral("femoral_stem_transformed"),
-			QStringLiteral("femoral_neck_transformed"),
-			QStringLiteral("femoral_head_transformed"),
-			QStringLiteral("acetabular_shell_transformed"),
-			QStringLiteral("acetabular_insert_transformed"),
+      QStringLiteral("femoral_head_cor"),
+			QStringLiteral("femoral_stem"),
+			QStringLiteral("femoral_head"),
+		  QStringLiteral("cup_cor"),
+			QStringLiteral("acetabular_shell"),
+			QStringLiteral("acetabular_liner"),
 			parent
 		) {}
   virtual ~GroupBoxGadget() override;
@@ -49,27 +51,21 @@ public:
   void setTranslationSpeed(double speed) { this->translationSpeed = speed; }
   double getRotationSpeed() const { return this->rotationSpeed; }
   void setRotationSpeed(double speed) { this->rotationSpeed = speed; }
-  const QString &getFemoralStem() const { return this->femoralStem; }
-  void setFemoralStem(const QString &femoralStem) { this->femoralStem = femoralStem; }
-  // @TODO More get/set functions.
-
-	void setButtonShow(bool);
 
 private:
   int currentMode;
   int currentOrientation;
   double translationSpeed;
   double rotationSpeed;
+  QString femoralHeadCor;
   QString femoralStem;
-  QString femoralNeck;
   QString femoralHead;
   QString acetabularShell;
-  QString acetabularInsert;
+  QString acetabularLiner;
+  QString cupCor;
 
 private:
   void internalTransform(double position[3], double orientation[3]);
-	void CupTransform(mitk::Surface *surface_cup[5], mitk::DataNode *surfaceNode_cup[5], double position[3], double orientation[3]);
-	void StemTransform(mitk::Surface *surface_stem[3], mitk::DataNode *surfaceNode_stem[3], double position[3], double orientation[3]);
 
 private Q_SLOTS:
   void on_pushButtonAntiClockwise_clicked(bool checked = false);

@@ -7,42 +7,31 @@ namespace Ui
 {
   class StemParameterGadget;
 }
-class StemParameterGadgetOrientationCommand;
+class StemParameterGadgetCommand;
 
 class StemParameterGadget : public QWidget
 {
   Q_OBJECT
 
 public:
-  //explicit StemParameterGadget(QWidget *parent = 0);
-  //~StemParameterGadget();
 	explicit StemParameterGadget(
-		const QString &femoralStem = QStringLiteral("femoral_stem_transformed"),
-		const QString &femoralNeck = QStringLiteral("femoral_neck_transformed"),
-		const QString &femoralHead = QStringLiteral("femoral_head_transformed"),
+		const QString &femoralStem = QStringLiteral("femoral_stem"),
+		const QString &femoralHead = QStringLiteral("femoral_head"),
 		QWidget *parent = 0);
 	explicit StemParameterGadget(QWidget *parent) :
 		StemParameterGadget(
-			QStringLiteral("femoral_stem_transformed"),
-			QStringLiteral("femoral_neck_transformed"),
-			QStringLiteral("femoral_head_transformed"),
+			QStringLiteral("femoral_stem"),
+			QStringLiteral("femoral_head"),
 			parent
 		) {}
 	virtual ~StemParameterGadget() override;
-	void observerStem() const;
+	void ObserverStem() const;
 
-  void SetFemoralVersion(int);
-
-  int GetFemoralVersion();
 private:
 	QString femoralStem;
-	QString femoralNeck;
 	QString femoralHead;
 
-	friend class StemParameterGadgetOrientationCommand;
-
-private Q_SLOTS:
-  void on_spinBoxFemoralVersion_editingFinished();
+	friend class StemParameterGadgetCommand;
 
 private:
   Ui::StemParameterGadget *ui;

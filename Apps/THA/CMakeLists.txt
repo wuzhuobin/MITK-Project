@@ -37,6 +37,7 @@ target_link_libraries(
   MitkCore
   MitkQtWidgets  
   MitkSceneSerialization
+  MitkSegmentation
 )
 
 target_include_directories(
@@ -44,5 +45,6 @@ target_include_directories(
   PRIVATE
   ${PROJECT_SOURCE_DIR}/view
   ${PROJECT_SOURCE_DIR}/model
-#   ${PROJECT_BINARY_DIR}/View
+  ${PROJECT_SOURCE_DIR}/controller
+  ${PROJECT_SOURCE_DIR}/algorithm
 )

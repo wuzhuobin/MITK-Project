@@ -1,18 +1,21 @@
 #include "StemParameterGadget.h"
 #include "ui_StemParameterGadget.h"
+
 // mitk
 #include <mitkRenderingManager.h>
-#include <mitkDataStorage.h>
+#include <mitkSurface.h>
 #include <mitkPointSet.h>
-#include <mitkVectorProperty.h>
+#include <mitkDataStorage.h>
+
 // itk
 #include <itkCommand.h>
+#include <itkEuler3DTransform.h>
 
-class StemParameterGadgetOrientationCommand : public itk::Command
+class StemParameterGadgetCommand : public itk::Command
 {
 public:
 
-	typedef StemParameterGadgetOrientationCommand Self;
+	typedef StemParameterGadgetCommand Self;
 	typedef itk::Command Superclass;
 	typedef itk::SmartPointer<Self> Pointer;
 	typedef itk::SmartPointer<const Self> ConstPointer;
@@ -20,8 +23,8 @@ public:
 	itkNewMacro(Self);
 	itkTypeMacro(Self, Superclass);
 
-	StemParameterGadgetOrientationCommand() {}
-	virtual ~StemParameterGadgetOrientationCommand() override {}
+	StemParameterGadgetCommand() {}
+	virtual ~StemParameterGadgetCommand() override {}
 
 	virtual void Execute(itk::Object *caller, const itk::EventObject & event) override
 	{
@@ -31,69 +34,50 @@ public:
 	virtual void Execute(const itk::Object *caller, const itk::EventObject & event) override
 	{
 		itkNotUsed(event);
-		const mitk::Vector3DProperty *orientation =
-			reinterpret_cast<const mitk::Vector3DProperty*>(caller);
-		// @TODO current calculation seems to correct
-		if (orientation->GetValue()[0] > 180)
-		{
-			this_->ui->spinBoxFemoralVersion->setValue(360 - orientation->GetValue()[0]);
-		}
-		else
-		{
-			this_->ui->spinBoxFemoralVersion->setValue(orientation->GetValue()[0]);
-		}
+    // MITK_INFO << *caller;
+    typedef typename itk::MatrixOffsetTransformBase<double, 3> MatrixOffsetTransformBase;
+    const MatrixOffsetTransformBase * matrixOffsetTransformBase =
+      static_cast<const MatrixOffsetTransformBase*>(caller);
+    typedef typename itk::Euler3DTransform<double> Euler3DTransform;
+    Euler3DTransform::Pointer euler3DTransform = 
+      Euler3DTransform::New();
+    euler3DTransform->SetMatrix(matrixOffsetTransformBase->GetMatrix());
+    double angleZ = euler3DTransform->GetAngleZ() * itk::Math::deg_per_rad;
+		this_->ui->spinBoxFemoralVersion->setValue(itk::Math::Round<int, double>(angleZ));
 	}
 	const StemParameterGadget *this_ = nullptr;
 private:
-	ITK_DISALLOW_COPY_AND_ASSIGN(StemParameterGadgetOrientationCommand);
+	ITK_DISALLOW_COPY_AND_ASSIGN(StemParameterGadgetCommand);
 };
-StemParameterGadget::StemParameterGadget(const QString &femoralStem,
-	const QString &femoralNeck,
+
+StemParameterGadget::StemParameterGadget(
+  const QString &femoralStem,
 	const QString &femoralHead,
 	QWidget *parent) :
 	QWidget(parent),
   ui(new Ui::StemParameterGadget),
 	femoralStem(femoralStem),
-	femoralNeck(femoralNeck),
 	femoralHead(femoralHead)
 {
-    this->ui->setupUi(this);
+  this->ui->setupUi(this);
 }
 
 StemParameterGadget::~StemParameterGadget()
 {
-    delete this->ui;
+  delete this->ui;
 }
 
-void StemParameterGadget::observerStem() const
+void StemParameterGadget::ObserverStem() const
 {
 	mitk::DataStorage *ds =
 		mitk::RenderingManager::GetInstance()->GetDataStorage();
-	mitk::DataNode * surfaceNode[3] = {
-		ds->GetNamedNode(this->femoralStem.toStdString()),
-		ds->GetNamedNode(this->femoralNeck.toStdString()),
-		ds->GetNamedNode(this->femoralHead.toStdString())
-	};
-	StemParameterGadgetOrientationCommand::Pointer oCommand =
-		StemParameterGadgetOrientationCommand::New();
+  mitk::Surface *surface[2] = {
+		ds->GetNamedObject<mitk::Surface>(this->femoralStem.toStdString()),
+		ds->GetNamedObject<mitk::Surface>(this->femoralHead.toStdString())
+  };
+	StemParameterGadgetCommand::Pointer oCommand =
+		StemParameterGadgetCommand::New();
 	oCommand->this_ = this;
-	surfaceNode[0]->GetProperty("orientation")->AddObserver(itk::ModifiedEvent(), oCommand);
-	surfaceNode[0]->GetProperty("orientation")->Modified();
-}
-
-void StemParameterGadget::SetFemoralVersion(int value)
-{
-    //disconnect(this->ui->spinBoxFemoralVersion, SIGNAL(valuedChanged(int)), this, SLOT(on_spinBoxFemoralVersion_editingFinished(int)));
-    this->ui->spinBoxFemoralVersion->setValue(value);
-    //connect(this->ui->spinBoxFemoralVersion, SIGNAL(valuedChanged(int)), this, SLOT(on_spinBoxFemoralVersion_editingFinished(int)),Qt::UniqueConnection);
-}
-
-int StemParameterGadget::GetFemoralVersion()
-{
-    return this->ui->spinBoxFemoralVersion->value();
-}
-
-void StemParameterGadget::on_spinBoxFemoralVersion_editingFinished()
-{
-
+  surface[0]->GetGeometry()->GetIndexToWorldTransform()->AddObserver(itk::ModifiedEvent(), oCommand);
+  surface[0]->GetGeometry()->GetIndexToWorldTransform()->Modified();
 }

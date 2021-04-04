@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>768</height>
+    <width>1200</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1024</width>
-    <height>768</height>
+    <width>1200</width>
+    <height>1000</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="radioButtonCasePlanning">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -137,28 +137,72 @@
      </layout>
     </item>
     <item>
-     <widget class="QFrame" name="frame">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QFrame{
-background: rgb(0, 0, 0)
-}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
+     <widget class="QStackedWidget" name="stackedWidgetViewer">
+      <widget class="QWidget" name="pageMultiWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="THAStdMultiWidget" name="multiWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"> background: rgb(0, 0, 0)
+</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageImage">
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="ImageWidget" name="imageWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="frameViewAndMode">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -171,7 +215,7 @@ background: rgb(0, 0, 0)
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget1">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QToolButton" name="toolButtonZoom">
@@ -179,7 +223,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/zoom.png</normaloff>:/icons/toolbar/zoom.png</iconset>
              </property>
              <property name="iconSize">
@@ -199,7 +243,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/luminance.png</normaloff>:/icons/toolbar/luminance.png</iconset>
              </property>
              <property name="iconSize">
@@ -219,7 +263,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/contrast.png</normaloff>:/icons/toolbar/contrast.png</iconset>
              </property>
              <property name="iconSize">
@@ -234,15 +278,24 @@ background: rgb(0, 0, 0)
             </widget>
            </item>
            <item>
-            <widget class="QSlider" name="verticalSlider">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
+            <widget class="QmitkLevelWindowWidget" name="levelWindow" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>400</height>
+              </size>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget2">
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <widget class="QToolButton" name="toolButtonPrepOpMode">
@@ -250,7 +303,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/pre-op-mode.png</normaloff>:/icons/toolbar/pre-op-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -258,6 +311,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupMode</string>
@@ -270,7 +326,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/cup-plan-mode.png</normaloff>:/icons/toolbar/cup-plan-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -278,6 +334,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupMode</string>
@@ -290,7 +349,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/stem-plan-mode.png</normaloff>:/icons/toolbar/stem-plan-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -298,6 +357,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupMode</string>
@@ -310,7 +372,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/reduced-mode.png</normaloff>:/icons/toolbar/reduced-mode.png</iconset>
              </property>
              <property name="iconSize">
@@ -319,6 +381,9 @@ background: rgb(0, 0, 0)
                <height>32</height>
               </size>
              </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupMode</string>
              </attribute>
@@ -326,7 +391,7 @@ background: rgb(0, 0, 0)
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QToolButton" name="toolButtonReamingView">
@@ -334,7 +399,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/reaming-view.png</normaloff>:/icons/toolbar/reaming-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -342,6 +407,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupView</string>
@@ -354,7 +422,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/ct-view.png</normaloff>:/icons/toolbar/ct-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -362,6 +430,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupView</string>
@@ -374,7 +445,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/3d-slicer-view.png</normaloff>:/icons/toolbar/3d-slicer-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -382,6 +453,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupView</string>
@@ -394,7 +468,7 @@ background: rgb(0, 0, 0)
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/resources.qrc">
+              <iconset resource="../resources/resources.qrc">
                <normaloff>:/icons/toolbar/x-ray-view.png</normaloff>:/icons/toolbar/x-ray-view.png</iconset>
              </property>
              <property name="iconSize">
@@ -402,6 +476,9 @@ background: rgb(0, 0, 0)
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupView</string>
@@ -411,6 +488,19 @@ background: rgb(0, 0, 0)
           </layout>
          </widget>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -473,16 +563,113 @@ background: rgb(0, 0, 0)
     </item>
    </layout>
   </widget>
+  <action name="action_Pelvis_Checkpoint">
+   <property name="text">
+    <string>&amp;Pelvis Checkpoint</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_Landmark">
+   <property name="text">
+    <string>&amp;Pelvis Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis_Landmark</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_Registration">
+   <property name="text">
+    <string>&amp;Pelvis Registration</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis Registration</string>
+   </property>
+  </action>
+  <action name="action_RIO_Registratoin">
+   <property name="text">
+    <string>&amp;RIO Registratoin</string>
+   </property>
+   <property name="toolTip">
+    <string>RIO Registratoin</string>
+   </property>
+  </action>
+  <action name="action_Implant_Planning">
+   <property name="text">
+    <string>&amp;Implant Planning</string>
+   </property>
+   <property name="toolTip">
+    <string>Implant Planning</string>
+   </property>
+  </action>
+  <action name="action_Broach_Tracking">
+   <property name="text">
+    <string>&amp;Broach Tracking</string>
+   </property>
+   <property name="toolTip">
+    <string>Broach Tracking</string>
+   </property>
+  </action>
+  <action name="action_Pelvis_CT_Landmark">
+   <property name="text">
+    <string>&amp;Pelvis CT Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Pelvis CT Landmark</string>
+   </property>
+  </action>
+  <action name="action_Cup_Reaming">
+   <property name="text">
+    <string>&amp;Cup Reaming</string>
+   </property>
+   <property name="toolTip">
+    <string>Cup Reaming</string>
+   </property>
+  </action>
+  <action name="action_Cup_Impaction">
+   <property name="text">
+    <string>&amp;Cup Impaction</string>
+   </property>
+   <property name="toolTip">
+    <string>Cup Impaction</string>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>THAStdMultiWidget</class>
+   <extends>QWidget</extends>
+   <header>THAStdMultiWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QmitkLevelWindowWidget</class>
+   <extends>QWidget</extends>
+   <header>QmitkLevelWindowWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImageWidget</class>
+   <extends>QWidget</extends>
+   <header>ImageWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="../Resources/resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupMode">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupMode"/>
-  <buttongroup name="buttonGroupView"/>
+  <buttongroup name="buttonGroupView">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupWorkflow"/>
  </buttongroups>
 </ui>
