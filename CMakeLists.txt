@@ -325,7 +325,7 @@ endif()
 
 # add_subdirectory(Apps/MyApp)
 add_subdirectory(Apps/THA)
-add_subdirectory(Apps/Step8)
+add_subdirectory(Apps/SpineRobotic)
 add_subdirectory(Apps/mitkReamerSource)
 add_subdirectory(Apps/mitkReamingFilter)
 

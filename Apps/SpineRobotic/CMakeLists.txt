@@ -1,4 +1,4 @@
-project(Step8)
+project(SpineRobotic)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -36,15 +36,15 @@ target_link_libraries(
   PRIVATE
   MitkCore
   MitkQtWidgets
-  # MitkQtWidgetsExt
-  MitkSceneSerialization
+  # MitkSceneSerialization
+  # MitkSegmentation
 )
 
 target_include_directories(
   ${PROJECT_NAME}
   PRIVATE
-  # ${PROJECT_SOURCE_DIR}/view
-  # ${PROJECT_SOURCE_DIR}/model
-  # ${PROJECT_SOURCE_DIR}/controller
-  ${PROJECT_BINARY_DIR}
+  ${PROJECT_SOURCE_DIR}/view
+  ${PROJECT_SOURCE_DIR}/model
+  ${PROJECT_SOURCE_DIR}/controller
+  ${PROJECT_SOURCE_DIR}/algorithm
 )
