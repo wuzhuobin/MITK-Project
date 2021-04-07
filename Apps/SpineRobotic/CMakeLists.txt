@@ -36,7 +36,7 @@ target_link_libraries(
   PRIVATE
   MitkCore
   MitkQtWidgets
-  # MitkSceneSerialization
+  MitkSceneSerialization
   # MitkSegmentation
 )
 
