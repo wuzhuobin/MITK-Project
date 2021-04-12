@@ -1,5 +1,7 @@
 project(THA)
 
+find_package(Qt5Sql REQUIRED)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -38,6 +40,7 @@ target_link_libraries(
   MitkQtWidgets  
   MitkSceneSerialization
   MitkSegmentation
+  Qt5::Sql
 )
 
 target_include_directories(

@@ -324,6 +324,7 @@ endif()
 #-----------------------------------------------------------------------------
 
 # add_subdirectory(Apps/MyApp)
+add_subdirectory(Apps/PlanningSoftware)
 add_subdirectory(Apps/THA)
 add_subdirectory(Apps/SpineRobotic)
 add_subdirectory(Apps/mitkReamerSource)
