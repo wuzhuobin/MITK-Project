@@ -33,4 +33,6 @@ target_include_directories(
     ${PROJECT_NAME}
     PRIVATE
     ${PROJECT_SOURCE_DIR}/../THA/view/PlanningSoftware
+    ${PROJECT_SOURCE_DIR}/../THA/view/PlanningSoftware/case_manager
+    ${PROJECT_SOURCE_DIR}/../THA/view/PlanningSoftware/account_manager
 )
