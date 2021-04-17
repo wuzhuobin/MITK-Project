@@ -19,19 +19,19 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::initialize()
 {
-    Theme::instance()->setFlowViewStyle(this);
+    // Theme::instance()->setFlowViewStyle(this);
     this->setWindowModality(Qt::WindowModality::NonModal);
     QPalette pa;
     pa.setColor(QPalette::WindowText,Qt::red);
     m_ui->loginInformation->setPalette(pa);
-    Theme::instance()->setTitleWidgetStyle(m_ui->widget);
+    // Theme::instance()->setTitleWidgetStyle(m_ui->widget);
 
     pRevalidotor = new QRegExpValidator(QRegExp("[a-zA-Z0-9]{25}"), this);
     m_ui->lineEditUserName->setPlaceholderText(tr("User ID"));
     m_ui->lineEditUserName->setValidator(pRevalidotor); //(only english and numbers)
-    Theme::instance()->setLineEditStyle(m_ui->lineEditUserName);
+    // Theme::instance()->setLineEditStyle(m_ui->lineEditUserName);
     m_ui->lineEditPassword->setPlaceholderText(tr("Password"));
-    Theme::instance()->setLineEditStyle(m_ui->lineEditPassword);
+    // Theme::instance()->setLineEditStyle(m_ui->lineEditPassword);
     m_ui->lineEditPassword->setValidator(pRevalidotor);
     m_ui->lineEditPassword->setEchoMode(QLineEdit::Password);//password input model（show****）
     connect(m_ui->loginBtn, &QPushButton::clicked, this, &LoginDialog::onLogin);

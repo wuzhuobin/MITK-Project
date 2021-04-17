@@ -1,7 +1,7 @@
 #include "login_view.h"
 #include "ui_login_view.h"
-#include "theme.h"
-//#include "apps/svpk_lib/app_menu_widget.h"
+// #include "theme.h"
+#include "app_menu_widget.h"
 #include "session.h"
 #include "account_manager/account_manager.h"
 
@@ -21,16 +21,16 @@ LoginView::~LoginView()
 
 void LoginView::initialize()
 {
-    Theme::instance()->setFlowViewStyle(this);
-    Theme::instance()->setleftWidgetStyle(m_ui->widgetRight);
-    Theme::instance()->setUserNameLabelStyle(m_ui->userNameLabel);
+    // Theme::instance()->setFlowViewStyle(this);
+    // Theme::instance()->setleftWidgetStyle(m_ui->widgetRight);
+    // Theme::instance()->setUserNameLabelStyle(m_ui->userNameLabel);
 
-    //AppMenu::instance()->setAdminBtnMenu(m_ui->menuBtn);
+    AppMenu::instance()->setAdminBtnMenu(m_ui->menuBtn);
     //QObject::connect(Session::instance(), &Session::accountChanged, this, [=]() {
     //    m_ui->userNameLabel->setText(Session::instance()->account().userName);
-    //    AppMenu::instance()->setUserBtnMenu(m_ui->userBtn);
+       AppMenu::instance()->setUserBtnMenu(m_ui->userBtn);
     //});
-    //AppMenu::instance()->setShutdownBtnConnect(this, m_ui->shutdownBtn);
+    AppMenu::instance()->setShutdownBtnConnect(this, m_ui->shutdownBtn);
 }
 
 void LoginView::createloginDialog()

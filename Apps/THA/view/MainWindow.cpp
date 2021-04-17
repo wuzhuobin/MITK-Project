@@ -11,6 +11,12 @@
 // mitk
 #include <mitkRenderingManager.h>
 
+struct MainWindowResourceInit {
+  MainWindowResourceInit() {
+    Q_INIT_RESOURCE(resources);
+  }
+} QRC;
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
   ui(new Ui::MainWindow),
   actionGroup(new QActionGroup(this)),

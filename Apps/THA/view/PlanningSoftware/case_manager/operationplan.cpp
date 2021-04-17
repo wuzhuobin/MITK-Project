@@ -1,4 +1,4 @@
-﻿#include "case_manager/operationplan.h"
+﻿#include "operationplan.h"
 #include <QtSql/QSqlQuery>
 #include <QDebug>
 #include <QtSql/QSqlError>

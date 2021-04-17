@@ -26,7 +26,7 @@ file(
   *.qrc
 )
 
-add_executable(
+add_library(
   ${PROJECT_NAME}
   ${H}
   ${CPP}
@@ -35,7 +35,7 @@ add_executable(
 
 target_link_libraries(
   ${PROJECT_NAME}
-  PRIVATE
+  PUBLIC
   MitkCore
   MitkQtWidgets  
   MitkSceneSerialization
@@ -45,7 +45,7 @@ target_link_libraries(
 
 target_include_directories(
   ${PROJECT_NAME}
-  PRIVATE
+  PUBLIC
   ${PROJECT_SOURCE_DIR}/view
   ${PROJECT_SOURCE_DIR}/model
   ${PROJECT_SOURCE_DIR}/controller

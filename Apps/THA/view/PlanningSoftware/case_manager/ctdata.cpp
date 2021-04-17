@@ -1,4 +1,4 @@
-#include "case_manager/ctdata.h"
+#include "ctdata.h"
 
 CTData::CTData(QString uuid, QString id, QString path, QString category, QDateTime checkTime, int sections, QString hospitalInfo, std::vector<DiconFile*>& diconFiles)
 {
