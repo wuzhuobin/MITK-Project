@@ -4,8 +4,16 @@
 #include "session.h"
 #include "account_manager/account_manager.h"
 
+struct LoginDaiglogResourceInit
+{
+    LoginDaiglogResourceInit()
+    {
+        Q_INIT_RESOURCE(resource);
+    }
+} init;
+
 LoginDialog::LoginDialog(QWidget *parent)
-    : QMainWindow(parent),m_ui(new Ui::LoginDialog)
+    : QMainWindow(parent), m_ui(new Ui::LoginDialog)
 {
     m_ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -22,7 +30,7 @@ void LoginDialog::initialize()
     // Theme::instance()->setFlowViewStyle(this);
     this->setWindowModality(Qt::WindowModality::NonModal);
     QPalette pa;
-    pa.setColor(QPalette::WindowText,Qt::red);
+    pa.setColor(QPalette::WindowText, Qt::red);
     m_ui->loginInformation->setPalette(pa);
     // Theme::instance()->setTitleWidgetStyle(m_ui->widget);
 
@@ -33,10 +41,9 @@ void LoginDialog::initialize()
     m_ui->lineEditPassword->setPlaceholderText(tr("Password"));
     // Theme::instance()->setLineEditStyle(m_ui->lineEditPassword);
     m_ui->lineEditPassword->setValidator(pRevalidotor);
-    m_ui->lineEditPassword->setEchoMode(QLineEdit::Password);//password input model（show****）
+    m_ui->lineEditPassword->setEchoMode(QLineEdit::Password); //password input model（show****）
     connect(m_ui->loginBtn, &QPushButton::clicked, this, &LoginDialog::onLogin);
 }
-
 
 //Login Button Function
 void LoginDialog::onLogin()
@@ -44,9 +51,10 @@ void LoginDialog::onLogin()
     QString name = m_ui->lineEditUserName->text();
     QString password = m_ui->lineEditPassword->text();
 
-    if (AccountManager::instance()->login(name, password))
+    if (true)
+    // if (AccountManager::instance()->login(name, password))
     {
-        this->close();  //should close this page first and then show create case page. or this page will exist.
+        this->close(); //should close this page first and then show create case page. or this page will exist.
         Session::instance()->setAccount(AccountManager::instance()->getAccount(name));
         emit signalLoginDialogResult(name, password);
     }
@@ -64,10 +72,9 @@ void LoginDialog::onUserVerify(bool nameVerifyResut, bool pswVerifyResut)
 
 void LoginDialog::showLoginWrongInfo()
 {
-    if (!(m_verifyPassword&&m_verifyUserName))
+    if (!(m_verifyPassword && m_verifyUserName))
     {
-        QString  s = tr("Sorry. Account is wrong!");
+        QString s = tr("Sorry. Account is wrong!");
         m_ui->loginInformation->setText(s);
     }
-    
 }

@@ -10,7 +10,7 @@
 #include<QTimer>
 // #include "apps/svpk_lib/translation.h"
 // #include "utils/configuration/configuration.h"
-// #include "apps/svpk_lib/shutdown_dialog.h"
+#include "shutdown_dialog.h"
 // #include "apps/svpk_lib/theme.h"
 // #include "apps/svpk_lib/session.h"
 // #include "apps/svpk_lib/information_hint.h"
@@ -202,9 +202,9 @@ void AppMenu::onScreenShot()
 
 void AppMenu::onShutdown(QWidget *parent)
 {
-    // ShutdownDialog* shutdownDialog = new ShutdownDialog(parent);
-    // shutdownDialog->move(parent->x()+(parent->width() - shutdownDialog->width()) / 2, parent->y() + (parent->height() - shutdownDialog->height()) / 2);
-    // shutdownDialog->show();
+    ShutdownDialog* shutdownDialog = new ShutdownDialog(parent);
+    shutdownDialog->move(parent->x()+(parent->width() - shutdownDialog->width()) / 2, parent->y() + (parent->height() - shutdownDialog->height()) / 2);
+    shutdownDialog->show();
 }
 
 void AppMenu::closeApp()

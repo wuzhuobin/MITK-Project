@@ -32,6 +32,7 @@ private Q_SLOTS:
   void on_pushButtonNext_clicked(bool checked = false);
   void on_pushButtonBack_clicked(bool checked = false);
   void OnActionsTriggered(QAction *action) const;
+  void OnSceneLoaded();
 };
 
 #endif //!MAIN_WINDOW_H

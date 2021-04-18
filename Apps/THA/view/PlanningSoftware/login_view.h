@@ -7,10 +7,14 @@
 namespace Ui { class LoginView; }
 
 class LoginView :public QWidget 
-{   
+{
+  Q_OBJECT
 public:
     LoginView(QWidget *parent = nullptr);
     ~LoginView();
+
+Q_SIGNALS:
+    void finished();
 
 private:
     void initialize();

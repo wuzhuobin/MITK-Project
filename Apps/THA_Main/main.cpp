@@ -1,6 +1,8 @@
-#include "MainWindow.h"
+#include "Pipeline.h"
+
 // qt
 #include <QApplication>
+
 // mitk
 #include <QmitkRegisterClasses.h>
 #include <mitkRenderingManager.h>
@@ -12,8 +14,8 @@ int main(int argc, char *argv[])
   QmitkRegisterClasses();
   mitk::RenderingManager::GetInstance()->SetDataStorage(mitk::StandaloneDataStorage::New());
   QApplication app(argc, argv);
-  MainWindow mainWindow;
-  mainWindow.show();
+  Pipeline p;
+  p.test();
   //mainWindow.Test();
   return app.exec();
 }
