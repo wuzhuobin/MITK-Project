@@ -5,6 +5,7 @@
 
 namespace Ui { class CasePlanningWidget; }
 
+class QComboBox;
 class CasePlanningWidget : public QStackedWidget
 {
   Q_OBJECT;

@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
   mitk::RenderingManager::GetInstance()->SetDataStorage(mitk::StandaloneDataStorage::New());
   QApplication app(argc, argv);
   Pipeline p;
-  p.test();
+  p.start();
+  // p.test();
   //mainWindow.Test();
   return app.exec();
 }

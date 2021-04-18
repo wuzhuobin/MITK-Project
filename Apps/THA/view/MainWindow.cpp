@@ -88,7 +88,7 @@ MainWindow::~MainWindow()
 void MainWindow::Test()
 {
   MITK_INFO << __func__;
-  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Cup_Reaming));
+  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Implant_Planning));
   // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
 }
 
