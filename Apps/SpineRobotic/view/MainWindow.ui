@@ -63,7 +63,7 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QPushButton" name="pushButtonDefault">
+          <widget class="QToolButton" name="toolButton_3">
            <property name="text">
             <string>Default</string>
            </property>
@@ -84,7 +84,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton_5">
+          <widget class="QToolButton" name="toolButtonTools">
            <property name="text">
             <string>Tools</string>
            </property>
@@ -119,7 +119,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButtonTools">
+          <widget class="QToolButton" name="toolButtonDelete">
            <property name="text">
             <string>Delete</string>
            </property>
