@@ -74,12 +74,24 @@
            <property name="text">
             <string>Show</string>
            </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::InstantPopup</enum>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QToolButton" name="toolButtonView">
            <property name="text">
             <string>View</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::InstantPopup</enum>
            </property>
           </widget>
          </item>
@@ -88,12 +100,24 @@
            <property name="text">
             <string>Tools</string>
            </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::InstantPopup</enum>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QToolButton" name="toolButtonAdd">
            <property name="text">
             <string>Add</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::InstantPopup</enum>
            </property>
           </widget>
          </item>
@@ -195,6 +219,34 @@
     </item>
    </layout>
   </widget>
+  <action name="action_Whole_Spine_CT">
+   <property name="text">
+    <string>&amp;Whole Spine CT</string>
+   </property>
+  </action>
+  <action name="action_Single_Vertebra_CT">
+   <property name="text">
+    <string>&amp;Single Vertebra CT</string>
+   </property>
+   <property name="toolTip">
+    <string>Single Vertebra CT</string>
+   </property>
+  </action>
+  <action name="action_Whole_Spine_X_Ray">
+   <property name="text">
+    <string>&amp;Whole Spine X Ray</string>
+   </property>
+  </action>
+  <action name="action_Whole_Spine_MRI">
+   <property name="text">
+    <string>&amp;Whole Spine MRI</string>
+   </property>
+  </action>
+  <action name="action_Single_Vertebra_MRI">
+   <property name="text">
+    <string>&amp;Single Vertebra MRI</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

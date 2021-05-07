@@ -30,6 +30,11 @@ void MainWindow::initializeMenu()
     this->ui->toolButtonShow->setMenu(menuShow);
 
     QMenu *menuView = new QMenu(this);
+    menuView->addAction(this->ui->action_Whole_Spine_CT);
+    menuView->addAction(this->ui->action_Single_Vertebra_CT);
+    menuView->addAction(this->ui->action_Whole_Spine_X_Ray);
+    menuView->addAction(this->ui->action_Whole_Spine_MRI);
+    menuView->addAction(this->ui->action_Single_Vertebra_MRI);
     this->ui->toolButtonView->setMenu(menuView);
 
     QMenu *toolMenu = new QMenu(this);
