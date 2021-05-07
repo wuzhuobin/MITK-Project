@@ -2,21 +2,19 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
-namespace Ui
-{
+namespace Ui {
 class MainWindow;
 }
-class MainWindow: public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
-    void Test();
+  explicit MainWindow(QWidget *parent = nullptr);
+  ~MainWindow() override;
+  void test();
 
 private:
+  void initializeMenu();
   Ui::MainWindow *ui;
-
 };
 
 #endif //! MAIN_WINDOW_H

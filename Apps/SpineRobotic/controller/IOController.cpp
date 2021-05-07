@@ -11,12 +11,12 @@
 
 QSharedPointer<IOController> instance = QSharedPointer<IOController>(new IOController);
 
-IOController * IOController::GetInstance()
+IOController * IOController::getInstance()
 {
   return instance.get();
 }
 
-void IOController::LoadScene(QString fileName)
+void IOController::loadScene(QString fileName)
 {
   mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
   mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();

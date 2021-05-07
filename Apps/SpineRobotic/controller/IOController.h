@@ -9,8 +9,8 @@ class IOController: public QObject
 {
   Q_OBJECT;
 public:
-  static IOController * GetInstance();
-  void LoadScene(QString fileName);
+  static IOController * getInstance();
+  void loadScene(QString fileName);
 
 protected:
   // explicit IOController(QObject *parent = nullptr);
