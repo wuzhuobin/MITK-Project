@@ -1,5 +1,7 @@
 project(THA)
 
+find_package(Qt5Sql REQUIRED)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -24,7 +26,7 @@ file(
   *.qrc
 )
 
-add_executable(
+add_library(
   ${PROJECT_NAME}
   ${H}
   ${CPP}
@@ -33,16 +35,17 @@ add_executable(
 
 target_link_libraries(
   ${PROJECT_NAME}
-  PRIVATE
+  PUBLIC
   MitkCore
   MitkQtWidgets  
   MitkSceneSerialization
   MitkSegmentation
+  Qt5::Sql
 )
 
 target_include_directories(
   ${PROJECT_NAME}
-  PRIVATE
+  PUBLIC
   ${PROJECT_SOURCE_DIR}/view
   ${PROJECT_SOURCE_DIR}/model
   ${PROJECT_SOURCE_DIR}/controller

@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CaseManageView</class>
+ <widget class="QWidget" name="CaseManageView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1080</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="widgetMid" native="true">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>0</y>
+     <width>480</width>
+     <height>1080</height>
+    </rect>
+   </property>
+   <widget class="QTableView" name="patientTableView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>420</width>
+      <height>800</height>
+     </rect>
+    </property>
+    <property name="textElideMode">
+     <enum>Qt::ElideRight</enum>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="searchInputEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>440</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Normal</enum>
+    </property>
+    <property name="placeholderText">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="importBtn">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>1014</y>
+      <width>180</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>  Import</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_import.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_import.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelName">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
+      <width>54</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelID">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>140</y>
+      <width>54</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelImportTime">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>137</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Import Time</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>0</y>
+     <width>1320</width>
+     <height>671</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:#3D444F</string>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="initialDataTab">
+    <property name="styleSheet">
+     <string notr="true">background-color:#3D444F</string>
+    </property>
+    <attribute name="title">
+     <string>Initial Data</string>
+    </attribute>
+    <widget class="QLabel" name="picture2">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>380</y>
+       <width>296</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="picture3">
+     <property name="geometry">
+      <rect>
+       <x>954</x>
+       <y>380</y>
+       <width>296</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>20</y>
+       <width>1214</width>
+       <height>344</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextBackground1">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>380</y>
+       <width>90</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextBackground2">
+     <property name="geometry">
+      <rect>
+       <x>462</x>
+       <y>380</y>
+       <width>88</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextBackground3">
+     <property name="geometry">
+      <rect>
+       <x>866</x>
+       <y>380</y>
+       <width>88</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextSliceNum1">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>520</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Slices</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextSliceNum2">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>520</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Slices</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextSliceNum3">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>520</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Slices</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextCategory1">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>490</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>labelTextCategory1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextCategory2">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>490</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>labelTextCategory2</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelTextCategory3">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>490</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>labelTextCategory3</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="picture1">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>380</y>
+       <width>296</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>labelTextBackground1</zorder>
+    <zorder>picture2</zorder>
+    <zorder>picture3</zorder>
+    <zorder>tableWidget</zorder>
+    <zorder>labelTextBackground2</zorder>
+    <zorder>labelTextBackground3</zorder>
+    <zorder>labelTextSliceNum1</zorder>
+    <zorder>labelTextSliceNum2</zorder>
+    <zorder>labelTextSliceNum3</zorder>
+    <zorder>labelTextCategory1</zorder>
+    <zorder>labelTextCategory2</zorder>
+    <zorder>labelTextCategory3</zorder>
+    <zorder>picture1</zorder>
+   </widget>
+   <widget class="QWidget" name="preSurgeryPlanningTab">
+    <property name="styleSheet">
+     <string notr="true">background-color:#3D444F</string>
+    </property>
+    <attribute name="title">
+     <string>Pre-Surgery Planning</string>
+    </attribute>
+    <widget class="QTableWidget" name="tableWidgetPlan">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>20</y>
+       <width>1214</width>
+       <height>344</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelPlanData">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>380</y>
+       <width>1214</width>
+       <height>200</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>140</width>
+     <height>1080</height>
+    </rect>
+   </property>
+   <widget class="QToolButton" name="userBtn">
+    <property name="geometry">
+     <rect>
+      <x>54</x>
+      <y>812</y>
+      <width>32</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QToolButton         {  border-image:url(:/svpk_lib/images/system_admin/user_static.png);}
+QToolButton:hover   {   border-image:url(:/svpk_lib/images/system_admin/user_mouse_hover.png); }
+QToolButton:pressed {   border-image:url(:/svpk_lib/images/system_admin/user_mouse_click.png); }
+QToolButton::menu-indicator{	image: none;}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/32px_function_button_icon/icon_images/32px_function_button_icon/user_static.png</normaloff>:/32px_function_button_icon/icon_images/32px_function_button_icon/user_static.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="popupMode">
+     <enum>QToolButton::InstantPopup</enum>
+    </property>
+    <property name="autoRaise">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="userNameLabel">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>844</y>
+      <width>60</width>
+      <height>38</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>User:</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="menuBtn">
+    <property name="geometry">
+     <rect>
+      <x>54</x>
+      <y>882</y>
+      <width>32</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QToolButton         {  border-image:url(:/svpk_lib/images/system_admin/menu_static.png); }
+QToolButton:hover   {   border-image:url(:/svpk_lib/images/system_admin/menu_mouse_hover.png); }
+QToolButton:pressed {   border-image:url(:/svpk_lib/images/system_admin/menu_mouse_click.png) ;}
+QToolButton::menu-indicator{	image: none;}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/32px_function_button_icon/icon_images/32px_function_button_icon/menu_static.png</normaloff>:/32px_function_button_icon/icon_images/32px_function_button_icon/menu_static.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+    <property name="popupMode">
+     <enum>QToolButton::InstantPopup</enum>
+    </property>
+    <property name="autoRaise">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="screenshotBtn">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>54</x>
+      <y>948</y>
+      <width>32</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>false</bool>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QToolButton{border-image:url(:/svpk_lib/images/system_admin/screenshot_static.png); }
+QToolButton:hover{border-image:url(:/svpk_lib/images/system_admin/screenshot_mouse_hover.png); }
+QToolButton:pressed {border-image:url(:/svpk_lib/images/system_admin/screenshot_mouse_click.png) ;}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="shutdownBtn">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>54</x>
+      <y>1014</y>
+      <width>32</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QToolButton         {  border-image:url(:/svpk_lib/images/system_admin/shutdown_static.png) ;}
+QToolButton:hover   {   border-image:url(:/svpk_lib/images/system_admin/shutdown_mouse_hover.png); }
+QToolButton:pressed {   border-image:url(:/svpk_lib/images/system_admin/shutdown_mouse_click.png); }</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>25</x>
+      <y>30</y>
+      <width>90</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>:/sovajo_logo/icon_images/sovajo_logo/90x28_logo.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="widget2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>680</y>
+     <width>1301</width>
+     <height>404</height>
+    </rect>
+   </property>
+   <widget class="QPushButton" name="nextStepBtn">
+    <property name="geometry">
+     <rect>
+      <x>1040</x>
+      <y>333</y>
+      <width>180</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>  Next</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_next_page.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_next_page.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="manageBtn">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>333</y>
+      <width>180</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>  Manage</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/others/icon_images/others/40px_manage_icon.png</normaloff>:/others/icon_images/others/40px_manage_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="autoDefault">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget3" native="true">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>462</width>
+      <height>290</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="labelBonePic1">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>16</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic2">
+     <property name="geometry">
+      <rect>
+       <x>126</x>
+       <y>16</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic3">
+     <property name="geometry">
+      <rect>
+       <x>236</x>
+       <y>16</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic4">
+     <property name="geometry">
+      <rect>
+       <x>346</x>
+       <y>16</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic5">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>150</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic6">
+     <property name="geometry">
+      <rect>
+       <x>126</x>
+       <y>150</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic7">
+     <property name="geometry">
+      <rect>
+       <x>236</x>
+       <y>150</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelBonePic8">
+     <property name="geometry">
+      <rect>
+       <x>346</x>
+       <y>150</y>
+       <width>100</width>
+       <height>124</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="selectAllBtn">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>333</y>
+      <width>160</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>  Select All </string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/others/icon_images/others/40px_select_all.png</normaloff>:/others/icon_images/others/40px_select_all.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="deleteBtn">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>333</y>
+      <width>160</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>  Delete</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_clear.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_clear.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exportBtn">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>333</y>
+      <width>180</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>  exportBtn</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_export.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_export.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QListView" name="listViewScreenshotPics">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>20</y>
+      <width>744</width>
+      <height>290</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <zorder>widget2</zorder>
+  <zorder>widgetMid</zorder>
+  <zorder>tabWidget</zorder>
+  <zorder>widget</zorder>
+ </widget>
+ <resources>
+  <include location="resource/resource.qrc"/>
+  <include location="resource/resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

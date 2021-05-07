@@ -324,7 +324,10 @@ endif()
 #-----------------------------------------------------------------------------
 
 # add_subdirectory(Apps/MyApp)
+add_subdirectory(Apps/CaseManageView)
+add_subdirectory(Apps/LoginView)
 add_subdirectory(Apps/THA)
+add_subdirectory(Apps/THA_Main)
 add_subdirectory(Apps/SpineRobotic)
 add_subdirectory(Apps/mitkReamerSource)
 add_subdirectory(Apps/mitkReamingFilter)

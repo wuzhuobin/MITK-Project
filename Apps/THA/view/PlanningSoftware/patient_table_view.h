@@ -1,0 +1,6 @@
+#ifndef PATIENT_TABLE_VIEW_H
+#define PATIENT_TABLE_VIEW_H
+
+
+
+#endif // ! PATIENT_TABLE_VIEW_H

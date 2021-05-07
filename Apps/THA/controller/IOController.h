@@ -10,6 +10,7 @@ class IOController: public QObject
   Q_OBJECT;
 public:
   static IOController * GetInstance();
+  explicit IOController(QObject *parent = nullptr);
   void LoadScene(QString fileName);
   void AddReamerTrajectory();
   void AddReamer();
@@ -19,7 +20,9 @@ public:
   // void SetImageViewer(QLabel *viewer) { this->imageViewer = viewer; }
   // QLabel *GetImageViewer() const { return this->imageViewer; }
 
-  explicit IOController(QObject *parent = nullptr);
+Q_SIGNALS:
+  void SceneLoaded();
+
 private:
   THAStdMultiWidget *multiWidget;
   QLabel *imageViewer;
