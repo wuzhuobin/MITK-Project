@@ -5,7 +5,7 @@
 
 // vtk
 #include <vtkSphereSource.h>
-#include <vtkLineSOurce.h>
+#include <vtkLineSource.h>
 #include <vtkTubeFilter.h>
 #include <vtkAppendPolyData.h>
 #include <vtkFillHolesFilter.h>

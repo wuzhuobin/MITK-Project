@@ -19,7 +19,6 @@ public:
   // void SetImageViewer(QLabel *viewer) { this->imageViewer = viewer; }
   // QLabel *GetImageViewer() const { return this->imageViewer; }
 
-protected:
   explicit IOController(QObject *parent = nullptr);
 private:
   THAStdMultiWidget *multiWidget;
