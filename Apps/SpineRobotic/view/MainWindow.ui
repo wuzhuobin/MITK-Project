@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1140</width>
+    <width>1242</width>
     <height>894</height>
    </rect>
   </property>
@@ -16,22 +16,31 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QStackedWidget" name="stackedWidget">
-      <widget class="QWidget" name="page">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="SRStdMultiWidget" name="multiWidget" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QStackedWidget" name="stackedWidgetView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <widget class="SRStdMultiWidget" name="multiWidget"/>
+       </widget>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="stackedWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <widget class="QWidget" name="dummy"/>
+        <widget class="SegmentationWidget" name="segmentationWidget"/>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -247,12 +256,23 @@
     <string>&amp;Single Vertebra MRI</string>
    </property>
   </action>
+  <action name="action_Segmentation">
+   <property name="text">
+    <string>&amp;Segmentation</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>SRStdMultiWidget</class>
    <extends>QWidget</extends>
    <header>SRStdMultiWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SegmentationWidget</class>
+   <extends>QWidget</extends>
+   <header>SegmentationWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

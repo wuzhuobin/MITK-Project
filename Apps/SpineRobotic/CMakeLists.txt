@@ -37,6 +37,7 @@ target_link_libraries(
   MitkCore
   MitkQtWidgets
   MitkSceneSerialization
+  MitkBoundingShape
   # MitkSegmentation
 )
 

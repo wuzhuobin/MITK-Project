@@ -1,10 +1,12 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
+// qt
 #include <QMainWindow>
 namespace Ui {
 class MainWindow;
 }
+
 class MainWindow : public QMainWindow {
   Q_OBJECT
 public:
@@ -13,8 +15,12 @@ public:
   void test();
 
 private:
-  void initializeMenu();
   Ui::MainWindow *ui;
+
+  void initializeMenu();
+  void initializeConnection();
+
+  Q_SLOT void actionsTriggered(class QAction *action);
 };
 
 #endif //! MAIN_WINDOW_H
