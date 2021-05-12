@@ -9,100 +9,106 @@
 #include <mitkImage.h>
 #include <mitkLogMacros.h>
 #include <mitkRenderingManager.h>
+#include <mitkBoundingShapeObjectFactory.h>
 #include <usModuleRegistry.h>
 
-#include <mitkPointSet.h>
-#include <mitkPointSetDataInteractor.h>
+// qt
+#include <QToolButton>
+#include <QButtonGroup>
+
 
 SegmentationWidget::SegmentationWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::SegmentationWidget),
       boundingShapeInteractor(mitk::BoundingShapeInteractor::New()) {
+
   this->ui->setupUi(this);
 
-  connect(this->ui->pushButtonMarkerSegmentation, &QPushButton::clicked, this,
-          &SegmentationWidget::on_pushButtonMarkerSegmentation_clicked);
-  connect(this->ui->pushButtonLabeling, &QPushButton::clicked, this,
-          &SegmentationWidget::on_pushButtonLabeling_clicked);
-}
-
-SegmentationWidget::~SegmentationWidget() { delete this->ui; }
-
-void SegmentationWidget::on_pushButtonMarkerSegmentation_clicked(bool checked) {
-
-  mitk::DataStorage *ds =
-      mitk::RenderingManager::GetInstance()->GetDataStorage();
-
-  // Create PointSet and a node for it
-  mitk::PointSet::Pointer pointSet = mitk::PointSet::New();
-  mitk::DataNode::Pointer pointSetNode = mitk::DataNode::New();
-  // Store the point set in the DataNode
-  pointSetNode->SetData(pointSet);
-
-  // Add the node to the tree
-  ds->Add(pointSetNode);
-
-  // Create PointSetDataInteractor
-  mitk::PointSetDataInteractor::Pointer interactor = mitk::PointSetDataInteractor::New();
-  // Set the StateMachine pattern that describes the flow of the interactions
-  interactor->LoadStateMachine("PointSet.xml");
-  // Set the configuration file, which describes the user interactions that trigger actions
-  // in this file SHIFT + LeftClick triggers add Point, but by modifying this file,
-  // it could as well be changes to any other user interaction.
-  interactor->SetEventConfig("PointSetConfig.xml");
-
-  // Assign the pointSetNode to the interactor,
-  // alternatively one could also add the DataInteractor to the pointSetNode using the SetDataInteractor() method.
-  interactor->SetDataNode(pointSetNode);
-  interactor->EnableInteraction(true);
+  QButtonGroup *groupBox = new QButtonGroup(this);
+  groupBox->setExclusive(true);
 
 
-  // mitk::Image *img2 = ds->GetNamedObject<mitk::Image>("img2");
+  for (int i = 0; i < 7; ++i) {
+    QToolButton *toolButton = new QToolButton;
+    toolButton->setObjectName("toolButtonC" + QString::number(i + 1));
+    toolButton->setText("C" + QString::number(i + 1));
+    toolButton->setCheckable(true);
 
-  // auto geometry = img2->GetGeometry();
-  auto boundingGeometry = mitk::Geometry3D::New();
-  // boundingGeometry->SetBounds(geometry->GetBounds());
-  // boundingGeometry->SetImageGeometry(geometry->GetImageGeometry());
-  // boundingGeometry->SetOrigin(geometry->GetOrigin());
-  // boundingGeometry->SetSpacing(geometry->GetSpacing());
-  // boundingGeometry->SetIndexToWorldTransform(geometry->GetIndexToWorldTransform()->Clone());
-  // boundingGeometry->Modified();
+    this->ui->gridLayoutCervial->addWidget(toolButton, i / 4, i % 4);
+    groupBox->addButton(toolButton);
+  }
 
-  mitk::GeometryData::Pointer geoData = mitk::GeometryData::New();
-  // geoData->SetGeometry(img2->GetGeometry()->Clone());
-  geoData->SetGeometry(boundingGeometry);
+  for (int i = 0; i < 12; ++i) {
+    QToolButton *toolButton = new QToolButton;
+    toolButton->setObjectName("toolButtonT" + QString::number(i + 1));
+    toolButton->setText("T" + QString::number(i + 1));
+    toolButton->setCheckable(true);
 
-  mitk::DataNode::Pointer geoDataNode = mitk::DataNode::New();
-  geoDataNode->SetData(geoData);
-  // geoDataNode->SetName("img2Geo");
-  // //   geoDataNode->SetProperty("name",
-  // //   mitk::StringProperty::New(name.toStdString()));
-  // geoDataNode->SetProperty("color", mitk::ColorProperty::New(1.0, 1.0, 1.0));
-  // geoDataNode->SetProperty("opacity", mitk::FloatProperty::New(0.6));
-  // geoDataNode->SetProperty("layer", mitk::IntProperty::New(99));
-  // geoDataNode->AddProperty("handle size factor",
-  //                          mitk::DoubleProperty::New(1.0 / 40.0));
-  // geoDataNode->SetBoolProperty("pickable", true);
-  // geoDataNode->SetVisibility(true);
+    this->ui->gridLayoutThracic->addWidget(toolButton, i / 4, i % 4);
+    groupBox->addButton(toolButton);
+  }
 
-  ds->Add(geoDataNode);
+  for (int i = 0; i < 5; ++i) {
+    QToolButton *toolButton = new QToolButton;
+    toolButton->setObjectName("toolButtonL" + QString::number(i + 1));
+    toolButton->setText("L" + QString::number(i + 1));
+    toolButton->setCheckable(true);
 
+    this->ui->gridLayoutLumbar->addWidget(toolButton, i / 3, i % 3);
+    groupBox->addButton(toolButton);
+  }
+
+  for (int i = 0; i < 5; ++i) {
+    QToolButton *toolButton = new QToolButton;
+    toolButton->setObjectName("toolButtonS" + QString::number(i + 1));
+    toolButton->setText("S" + QString::number(i + 1));
+    toolButton->setCheckable(true);
+
+    this->ui->gridLayoutSacral->addWidget(toolButton, i / 3, i % 3);
+  }
+
+  mitk::RegisterBoundingShapeObjectFactory();
   this->boundingShapeInteractor->LoadStateMachine(
       "BoundingShapeInteraction.xml",
       us::ModuleRegistry::GetModule("MitkBoundingShape"));
   this->boundingShapeInteractor->SetEventConfig(
       "BoundingShapeMouseConfig.xml",
       us::ModuleRegistry::GetModule("MitkBoundingShape"));
-  this->boundingShapeInteractor->EnableInteraction(true);
-  this->boundingShapeInteractor->SetDataNode(geoDataNode);
+
+  connect(this->ui->pushButtonMarkerSegmentation, &QPushButton::clicked, this,
+          &SegmentationWidget::on_pushButtonMarkerSegmentation_clicked);
+  connect(this->ui->pushButtonLabeling, &QPushButton::clicked, this,
+          &SegmentationWidget::on_pushButtonLabeling_clicked);
+  this->ui->stackedWidget->setCurrentWidget(this->ui->pageMarkerSegmentation);
+}
+
+SegmentationWidget::~SegmentationWidget() { delete this->ui; }
+
+void SegmentationWidget::on_pushButtonMarkerSegmentation_clicked(bool checked) {
+  
+  this->ui->stackedWidget->setCurrentWidget(this->ui->pageMarkerSegmentation);
+
+  // mitk::DataStorage *ds =
+  //     mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  // mitk::Image *image = ds->GetNamedObject<mitk::Image>("image");
+
+  // mitk::GeometryData::Pointer geoData = mitk::GeometryData::New();
+  // geoData->SetGeometry(image->GetGeometry());
+
+  // mitk::DataNode::Pointer geoDataNode = mitk::DataNode::New();
+  // geoDataNode->SetData(geoData);
+
+  // ds->Add(geoDataNode);
+  // // geoDataNode->SetVisibility(true);
+
+  // this->boundingShapeInteractor->EnableInteraction(true);
+  // this->boundingShapeInteractor->SetDataNode(geoDataNode);
 
   // mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-
-  MITK_INFO << *geoData;
-  // MITK_INFO << *this->boundingShapeInteractor;
-
   
 }
 
 void SegmentationWidget::on_pushButtonLabeling_clicked(bool checked) {
-  MITK_INFO << __PRETTY_FUNCTION__;
+
+  this->ui->stackedWidget->setCurrentWidget(this->ui->pageLabel);
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>202</width>
+    <height>801</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,8 +44,11 @@
    </item>
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
-     <widget class="QWidget" name="page">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="pageDummy">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -55,21 +58,80 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2"/>
+     <widget class="QWidget" name="pageMarkerSegmentation">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QGroupBox" name="groupBoxCervial">
+         <property name="title">
+          <string>Cervial</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayoutCervial"/>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxThracic">
+         <property name="title">
+          <string>Thoracic</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayoutThracic"/>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxLumbar">
+         <property name="title">
+          <string>Lumbar</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayoutLumbar"/>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxSacral">
+         <property name="title">
+          <string>Sacral</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayoutSacral"/>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>178</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageLabel">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Label</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
