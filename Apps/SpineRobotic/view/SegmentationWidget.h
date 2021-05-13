@@ -19,10 +19,12 @@ public:
 private:
     Ui::SegmentationWidget *ui;
     mitk::BoundingShapeInteractor::Pointer boundingShapeInteractor;
+    class QButtonGroup *buttonGroup;
 
-private Q_SLOTS:
-    void on_pushButtonMarkerSegmentation_clicked(bool checked = false);
-    void on_pushButtonLabeling_clicked(bool checked = false);
+    Q_SLOT void on_pushButtonMarkerSegmentation_clicked(bool checked = false);
+    Q_SLOT void on_pushButtonLabeling_clicked(bool checked = false);
+    Q_SLOT void on_stackedWidget_currentChanged(int index);
+    Q_SLOT void onButtonToggled(class QAbstractButton *button, bool checked);
 };
 
 #endif //! SEGMENTATION_WIDGET_H
