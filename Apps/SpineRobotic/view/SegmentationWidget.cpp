@@ -9,11 +9,15 @@
 #include <mitkGeometryData.h>
 #include <mitkImage.h>
 #include <mitkLogMacros.h>
+#include <mitkNodePredicateDataType.h>
 #include <mitkRenderingManager.h>
+#include <qobjectdefs.h>
+#include <qwidget.h>
 #include <usModuleRegistry.h>
 
 // qt
 #include <QButtonGroup>
+#include <QEvent>
 #include <QToolButton>
 
 SegmentationWidget::SegmentationWidget(QWidget *parent)
@@ -85,10 +89,22 @@ SegmentationWidget::SegmentationWidget(QWidget *parent)
           static_cast<void (QButtonGroup::*)(QAbstractButton *, bool)>(
               &QButtonGroup::buttonToggled),
           this, &SegmentationWidget::onButtonToggled);
-  this->ui->stackedWidget->setCurrentWidget(this->ui->pageMarkerSegmentation);
+  // this->ui->stackedWidget->setCurrentWidget(this->ui->pageMarkerSegmentation);
 }
 
 SegmentationWidget::~SegmentationWidget() { delete this->ui; }
+
+void SegmentationWidget::changeEvent(QEvent *event) {
+  QWidget::changeEvent(event);
+  if (event->type() == QEvent::EnabledChange) {
+    if (this->isEnabled()) {
+      this->on_pushButtonMarkerSegmentation_clicked(true);
+    } else {
+
+      this->on_stackedWidget_currentChanged(-1);
+    }
+  }
+}
 
 void SegmentationWidget::on_pushButtonMarkerSegmentation_clicked(bool checked) {
 
@@ -103,6 +119,21 @@ void SegmentationWidget::on_pushButtonLabeling_clicked(bool checked) {
 void SegmentationWidget::on_stackedWidget_currentChanged(int index) {
 
   this->buttonGroup->setExclusive(false);
+
+  mitk::NodePredicateDataType::Pointer predicate =
+      mitk::NodePredicateDataType::New(
+          mitk::GeometryData::GetStaticNameOfClass());
+
+  mitk::DataStorage *ds =
+      mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::DataStorage::SetOfObjects::ConstPointer nodes =
+      ds->GetSubset(predicate);
+
+  for (mitk::DataNode *node : *nodes) {
+    node->SetVisibility(false);
+  }
+
   for (auto button : this->buttonGroup->buttons()) {
     button->setChecked(false);
   }
@@ -111,13 +142,19 @@ void SegmentationWidget::on_stackedWidget_currentChanged(int index) {
       this->ui->pageMarkerSegmentation) {
     this->buttonGroup->setExclusive(true);
   }
+
+  else if (this->ui->stackedWidget->widget(index) == this->ui->pageLabel) {
+    for (mitk::DataNode *node : *nodes) {
+      node->SetVisibility(true);
+    }
+  }
 }
 
 void SegmentationWidget::onButtonToggled(QAbstractButton *button,
                                          bool checked) {
 
   std::string name = button->objectName().remove("toolButton").toStdString();
-  name = std::string("image") + name;
+  // name = std::string("image") + name;
 
   mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
@@ -128,8 +165,16 @@ void SegmentationWidget::onButtonToggled(QAbstractButton *button,
 
     mitk::Image *image = ds->GetNamedObject<mitk::Image>("image");
 
+    mitk::Geometry3D::Pointer geo = mitk::Geometry3D::New();
+    geo->SetBounds(image->GetGeometry()->GetBounds());
+    geo->SetImageGeometry(image->GetGeometry()->GetImageGeometry());
+    geo->SetOrigin(image->GetGeometry()->GetOrigin());
+    geo->SetSpacing(image->GetGeometry()->GetSpacing());
+    geo->SetIndexToWorldTransform(
+        image->GetGeometry()->GetIndexToWorldTransform()->Clone());
+    geo->Modified();
     mitk::GeometryData::Pointer geoData = mitk::GeometryData::New();
-    geoData->SetGeometry(image->GetGeometry());
+    geoData->SetGeometry(geo);
 
     geoDataNode = mitk::DataNode::New();
     geoDataNode->SetName(name);
@@ -140,6 +185,7 @@ void SegmentationWidget::onButtonToggled(QAbstractButton *button,
 
   geoDataNode->SetVisibility(checked);
   this->boundingShapeInteractor->EnableInteraction(checked);
+  this->boundingShapeInteractor->SetRotationEnabled(checked);
   this->boundingShapeInteractor->SetDataNode(checked ? geoDataNode : nullptr);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();

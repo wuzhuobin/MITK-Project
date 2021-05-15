@@ -8,6 +8,7 @@
 
 // qt
 #include <QSharedPointer>
+#include <qobjectdefs.h>
 
 QSharedPointer<IOController> instance = QSharedPointer<IOController>(new IOController);
 
@@ -27,9 +28,22 @@ void IOController::loadScene(QString fileName)
   {
     MITK_INFO << one->GetName();
   }
-
+  Q_EMIT this->sceneLoaded();
 }
 
+void IOController::saveScene(QString fileName)
+{
+  mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
+  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  bool isSuccess = sceneIO->SaveScene(ds->GetAll(), ds, fileName.toStdString());
+  if (isSuccess)
+  {
+    MITK_INFO << "Saved to " + fileName.toStdString() + ".";
+  }
+  else {
+    MITK_INFO << "Failed to save to " + fileName.toStdString() + ".";
+  }
+}
 
 // IOController::IOController(QObject *parent): QObject(parent)
 // {

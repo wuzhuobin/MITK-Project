@@ -4,10 +4,12 @@
 
 // qt
 #include <QActionGroup>
+#include <QFileDialog>
 #include <QMenu>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+      actionGroup(new QActionGroup(this)) {
 
   this->ui->setupUi(this);
 
@@ -20,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
                          : "";
   if (!fileName.isEmpty()) {
     IOController::getInstance()->loadScene(fileName);
-    this->ui->multiWidget->InitializeMultiWidget();
     // this->SetCurrentActionIndex(0);
   }
 }
@@ -49,18 +50,69 @@ void MainWindow::initializeMenu() {
 }
 
 void MainWindow::initializeConnection() {
-  QActionGroup *actionGroup = new QActionGroup(this);
-  actionGroup->setExclusive(true);
-  actionGroup->addAction(this->ui->action_Segmentation);
 
-  connect(actionGroup, &QActionGroup::triggered, this,
+  this->actionGroup->setExclusive(true);
+  this->actionGroup->addAction(this->ui->action_Segmentation);
+  this->actionGroup->addAction(this->ui->action_Planning);
+
+  connect(IOController::getInstance(), &IOController::sceneLoaded, this,
+          &MainWindow::onSceneLoaded);
+  connect(this->actionGroup, &QActionGroup::triggered, this,
           &MainWindow::actionsTriggered);
 }
 
-void MainWindow::actionsTriggered(class QAction *action) {
+void MainWindow::on_toolButtonNext_clicked(bool checked) {
+
+  if (++currentAction < this->actionGroup->actions().size()) {
+    actionsTriggered(this->actionGroup->actions()[currentAction]);
+  }
+}
+
+void MainWindow::on_toolButtonPrevious_clicked(bool checked) {
+  if (--currentAction < 0) {
+    actionsTriggered(nullptr);
+  } else {
+    actionsTriggered(this->actionGroup->actions()[currentAction]);
+  }
+}
+
+void MainWindow::on_toolButtonLoad_clicked(bool checked) {
+  QString fileName = QFileDialog::getOpenFileName(this, "Scene", QString(),
+                                                  tr("MITK (*.mitk)"));
+  if (fileName.isEmpty()) {
+    return;
+  }
+  IOController::getInstance()->loadScene(fileName);
+}
+
+void MainWindow::on_toolButtonExport_clicked(bool checked) {
+  QString fileName =
+      QFileDialog::getSaveFileName(this, "Scene", ".mitk", tr("MITK (*.mitk)"));
+  if (fileName.isEmpty()) {
+    return;
+  }
+  IOController::getInstance()->saveScene(fileName);
+}
+
+void MainWindow::actionsTriggered(QAction *action) {
   this->ui->stackedWidget->hide();
+  this->ui->segmentationWidget->setEnabled(false);
+  this->ui->planningWidget->setEnabled(false);
   if (action == this->ui->action_Segmentation) {
     this->ui->stackedWidget->setCurrentWidget(this->ui->segmentationWidget);
     this->ui->stackedWidget->show();
+    this->ui->segmentationWidget->setEnabled(true);
+    this->ui->toolButtonPrevious->setEnabled(false);
+    this->ui->toolButtonNext->setEnabled(true);
+  } else if (action == this->ui->action_Planning) {
+    this->ui->stackedWidget->setCurrentWidget(this->ui->planningWidget);
+    this->ui->stackedWidget->show();
+    this->ui->planningWidget->setEnabled(true);
+    this->ui->toolButtonPrevious->setEnabled(true);
+    this->ui->toolButtonNext->setEnabled(false);
   }
+}
+
+void MainWindow::onSceneLoaded() {
+  this->ui->multiWidget->InitializeMultiWidget();
 }

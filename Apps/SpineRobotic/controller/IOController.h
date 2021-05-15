@@ -11,6 +11,8 @@ class IOController: public QObject
 public:
   static IOController * getInstance();
   void loadScene(QString fileName);
+  void saveScene(QString fileName);
+  Q_SIGNAL void sceneLoaded();
 
 protected:
   // explicit IOController(QObject *parent = nullptr);

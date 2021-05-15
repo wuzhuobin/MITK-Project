@@ -16,11 +16,18 @@ public:
 
 private:
   Ui::MainWindow *ui;
+  int currentAction = 0;
+  class QActionGroup * actionGroup;
 
   void initializeMenu();
   void initializeConnection();
 
+  Q_SLOT void on_toolButtonNext_clicked(bool checked = false);
+  Q_SLOT void on_toolButtonPrevious_clicked(bool checked = false);
+  Q_SLOT void on_toolButtonLoad_clicked(bool checked = false);
+  Q_SLOT void on_toolButtonExport_clicked(bool checked = false);
   Q_SLOT void actionsTriggered(class QAction *action);
+  Q_SLOT void onSceneLoaded();
 };
 
 #endif //! MAIN_WINDOW_H

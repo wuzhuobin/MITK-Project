@@ -1,3 +1,5 @@
 build/
 Data/
 .vscode/
+.clangd/
+compile_commands.json

@@ -16,6 +16,9 @@ public:
   explicit SegmentationWidget(QWidget *parent = nullptr);
   ~SegmentationWidget() override;
 
+protected:
+  void changeEvent(QEvent *event) override;
+
 private:
     Ui::SegmentationWidget *ui;
     mitk::BoundingShapeInteractor::Pointer boundingShapeInteractor;
