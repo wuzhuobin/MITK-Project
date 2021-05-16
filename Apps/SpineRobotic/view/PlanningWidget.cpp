@@ -58,7 +58,7 @@ void PlanningWidget::enablePlanningWithBounding(bool enable) {
       ds->GetSubset(predicate);
 
   for (mitk::DataNode *node : *nodes) {
-    // node->SetVisibility(enable);
+
     if (enable) {
 
       mitk::GeometryData *geoData =
@@ -86,20 +86,35 @@ void PlanningWidget::enablePlanningWithBounding(bool enable) {
 
       croppedImageNode->SetData(cropper->GetOutput());
 
-
       QToolButton *toolButton = new QToolButton(this);
       toolButton->setCheckable(true);
       toolButton->setText(node->GetName().c_str());
       this->ui->verticalLayoutButtons->addWidget(toolButton);
       this->ui->buttonGroup->addButton(toolButton);
-
     }
   }
 }
 
 void PlanningWidget::on_buttonGroup_buttonToggled(QAbstractButton *button,
                                                   bool checked) {
-  MITK_INFO << button->text().toStdString();
-  if (button == this->ui->pushButtonReset) {
+
+  mitk::DataStorage *ds =
+      mitk::RenderingManager::GetInstance()->GetDataStorage();
+  mitk::DataStorage::SetOfObjects::ConstPointer nodes = ds->GetAll();
+  mitk::DataNode * image = nullptr;
+  for (mitk::DataNode *node : *nodes) {
+    node->SetVisibility(false);
   }
+  if (button == this->ui->pushButtonReset) {
+
+    image = ds->GetNamedNode("image");
+    image->SetVisibility(true);
+  } else {
+    std::string name = "image" + button->text().toStdString();
+    image = ds->GetNamedNode(name);
+    image->SetVisibility(true);
+  }
+
+  mitk::RenderingManager::GetInstance()->InitializeViews(image->GetData()->GetGeometry());
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
