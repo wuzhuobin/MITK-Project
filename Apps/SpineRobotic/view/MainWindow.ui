@@ -267,6 +267,16 @@
     <string>&amp;Planning</string>
    </property>
   </action>
+  <action name="action_Length">
+   <property name="text">
+    <string>&amp;Length</string>
+   </property>
+  </action>
+  <action name="action_Angle">
+   <property name="text">
+    <string>&amp;Angle</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

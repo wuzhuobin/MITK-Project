@@ -3,25 +3,24 @@
 // qt
 #include <QGroupBox>
 
-namespace Ui { class GroupBoxGadget; }
+namespace Ui {
+class GroupBoxGadget;
+}
 
-class GroupBoxGadget: public QGroupBox
-{
+class GroupBoxGadget : public QGroupBox {
   Q_OBJECT;
-public:
-  enum ORIENTATION
-  {
-    AXIAL,
-    SAGITTAL,
-    CORONAL
-  };
 
 public:
-  explicit GroupBoxGadget(int orientation, 
-    QString target,
-    QString targetCor,
-		QWidget *parent = nullptr);
+  enum class Orientation { AXIAL, SAGITTAL, CORONAL };
+
+public:
+  explicit GroupBoxGadget(Orientation orientation, QWidget *parent = nullptr);
   virtual ~GroupBoxGadget() override;
+
+  void setTarget(QString target) { this->target = target; }
+  QString getTarget() const { return this->target; }
+  void setTargetCor(QString targetCor) { this->targetCor = targetCor; }
+  QString getTargetCor() const { return this->targetCor; }
 
   double getTranslationSpeed() const { return this->translationSpeed; }
   void setTranslationSpeed(double speed) { this->translationSpeed = speed; }
@@ -30,11 +29,11 @@ public:
 
 private:
   Ui::GroupBoxGadget *ui;
-  int currentOrientation;
-  double translationSpeed;
-  double rotationSpeed;
+  Orientation currentOrientation;
   QString target;
   QString targetCor;
+  double translationSpeed = 2;
+  double rotationSpeed = 5;
 
   void internalTransform(double position[3], double orientation[3]);
   Q_SLOT void on_pushButtonAntiClockwise_clicked(bool checked = false);
@@ -45,4 +44,4 @@ private:
   Q_SLOT void on_pushButtonUp_clicked(bool checked = false);
 };
 
-#endif //!GROUP_BOX_GADGET_H
+#endif //! GROUP_BOX_GADGET_H

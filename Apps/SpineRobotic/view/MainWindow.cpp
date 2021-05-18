@@ -46,6 +46,8 @@ void MainWindow::initializeMenu() {
   this->ui->toolButtonView->setMenu(menuView);
 
   QMenu *toolMenu = new QMenu(this);
+  toolMenu->addAction(this->ui->action_Length);
+  toolMenu->addAction(this->ui->action_Angle);
   this->ui->toolButtonTools->setMenu(toolMenu);
 }
 
