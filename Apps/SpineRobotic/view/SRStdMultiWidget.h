@@ -13,7 +13,9 @@ public:
                             const QString &name = "stdmulti");
   void InitializeMultiWidget() override;
 
-  void setGroupBoxVisible(bool flag);
+  void enableGroupBox(bool flag);
+
+  void enablePlanarLine(bool flag);
 
 private:
   class GroupBoxGadget *groupBoxGadget[4];

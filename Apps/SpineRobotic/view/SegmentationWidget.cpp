@@ -32,7 +32,7 @@ SegmentationWidget::SegmentationWidget(QWidget *parent)
   for (int i = 0; i < 7; ++i) {
     QToolButton *toolButton = new QToolButton;
     toolButton->setObjectName("toolButtonC" + QString::number(i + 1));
-    toolButton->setText("C" + QString::number(i + 1));
+    toolButton->setText("c" + QString::number(i + 1));
     toolButton->setCheckable(true);
 
     this->ui->gridLayoutCervial->addWidget(toolButton, i / 4, i % 4);
@@ -42,7 +42,7 @@ SegmentationWidget::SegmentationWidget(QWidget *parent)
   for (int i = 0; i < 12; ++i) {
     QToolButton *toolButton = new QToolButton;
     toolButton->setObjectName("toolButtonT" + QString::number(i + 1));
-    toolButton->setText("T" + QString::number(i + 1));
+    toolButton->setText("t" + QString::number(i + 1));
     toolButton->setCheckable(true);
 
     this->ui->gridLayoutThracic->addWidget(toolButton, i / 4, i % 4);
@@ -52,7 +52,7 @@ SegmentationWidget::SegmentationWidget(QWidget *parent)
   for (int i = 0; i < 5; ++i) {
     QToolButton *toolButton = new QToolButton;
     toolButton->setObjectName("toolButtonL" + QString::number(i + 1));
-    toolButton->setText("L" + QString::number(i + 1));
+    toolButton->setText("l" + QString::number(i + 1));
     toolButton->setCheckable(true);
 
     this->ui->gridLayoutLumbar->addWidget(toolButton, i / 3, i % 3);
@@ -62,7 +62,7 @@ SegmentationWidget::SegmentationWidget(QWidget *parent)
   for (int i = 0; i < 5; ++i) {
     QToolButton *toolButton = new QToolButton;
     toolButton->setObjectName("toolButtonS" + QString::number(i + 1));
-    toolButton->setText("S" + QString::number(i + 1));
+    toolButton->setText("s" + QString::number(i + 1));
     toolButton->setCheckable(true);
 
     this->ui->gridLayoutSacral->addWidget(toolButton, i / 3, i % 3);

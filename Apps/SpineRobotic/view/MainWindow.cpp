@@ -6,6 +6,8 @@
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QMenu>
+
+// mitk
 #include <mitkDataNode.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -125,8 +127,8 @@ void MainWindow::actionsTriggered(QAction *action) {
         mitk::RenderingManager::GetInstance()->GetDataStorage();
     mitk::DataNode *imageNode = ds->GetNamedNode("image");
     imageNode->SetVisibility(true);
+    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   } else if (action == this->ui->action_Length) {
-
   } else if (action == this->ui->action_Angle) {
   }
 }

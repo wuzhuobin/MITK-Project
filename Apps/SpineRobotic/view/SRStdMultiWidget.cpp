@@ -2,10 +2,14 @@
 #include "GroupBoxGadget.h"
 
 // qt
+#include <mitkDataStorage.h>
+#include <mitkRenderingManager.h>
 #include <qgridlayout.h>
 
 // mitk
 #include <QmitkRenderWindow.h>
+#include <mitkDataNode.h>
+#include <mitkPlanarLine.h>
 
 SRStdMultiWidget::SRStdMultiWidget(QWidget *parent, Qt::WindowFlags f,
                                    const QString &name)
@@ -15,7 +19,7 @@ SRStdMultiWidget::SRStdMultiWidget(QWidget *parent, Qt::WindowFlags f,
           new GroupBoxGadget(GroupBoxGadget::Orientation::SAGITTAL, this),
           new GroupBoxGadget(GroupBoxGadget::Orientation::CORONAL, this),
           new GroupBoxGadget(GroupBoxGadget::Orientation::CORONAL, this)} {
-              this->setGroupBoxVisible(false);
+  this->enableGroupBox(false);
 }
 
 void SRStdMultiWidget::InitializeMultiWidget() {
@@ -32,8 +36,22 @@ void SRStdMultiWidget::InitializeMultiWidget() {
   }
 }
 
-void SRStdMultiWidget::setGroupBoxVisible(bool flag) {
+void SRStdMultiWidget::enableGroupBox(bool flag) {
   for (int i = 0; i < 4; ++i) {
     this->groupBoxGadget[i]->setVisible(flag);
   }
+}
+
+void SRStdMultiWidget::enablePlanarLine(bool flag) {
+
+  mitk::DataNode::Pointer planarLineNode = nullptr;
+  mitk::DataStorage *ds =
+      mitk::RenderingManager::GetInstance()->GetDataStorage();
+  planarLineNode = ds->GetNamedNode("planar_line");
+  if (!planarLineNode) {
+    planarLineNode = mitk::DataNode::New();
+    planarLineNode->SetName("planar_line");
+    planarLineNode->SetData(mitk::PlanarLine::New());
+  }
+  planarLineNode->SetVisibility(flag);
 }
