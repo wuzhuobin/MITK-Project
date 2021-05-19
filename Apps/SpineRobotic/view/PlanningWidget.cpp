@@ -24,6 +24,8 @@ PlanningWidget::PlanningWidget(QWidget *parent)
   connect(this->ui->buttonGroup,
           QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled),
           this, &PlanningWidget::on_buttonGroup_buttonToggled);
+  
+  this->ui->pushButtonReset->setVisible(false);
 }
 
 PlanningWidget::~PlanningWidget() { delete this->ui; }

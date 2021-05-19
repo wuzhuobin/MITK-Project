@@ -6,6 +6,7 @@
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QMenu>
+#include <mitkDataNode.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
@@ -29,12 +30,13 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() { delete this->ui; }
 
 void MainWindow::test() {
-  this->actionsTriggered(this->ui->action_Segmentation);
+  // this->actionsTriggered(this->ui->action_Segmentation);
 }
 
 void MainWindow::initializeMenu() {
   QMenu *menuShow = new QMenu(this);
   menuShow->addAction(this->ui->action_Segmentation);
+  menuShow->addAction(this->ui->action_Planning);
   this->ui->toolButtonShow->setMenu(menuShow);
 
   QMenu *menuView = new QMenu(this);
@@ -56,6 +58,11 @@ void MainWindow::initializeConnection() {
   this->actionGroup->setExclusive(true);
   this->actionGroup->addAction(this->ui->action_Segmentation);
   this->actionGroup->addAction(this->ui->action_Planning);
+  this->actionGroup->addAction(this->ui->action_Whole_Spine_CT);
+  this->actionGroup->addAction(this->ui->action_Single_Vertebra_CT);
+  this->actionGroup->addAction(this->ui->action_Whole_Spine_X_Ray);
+  this->actionGroup->addAction(this->ui->action_Whole_Spine_MRI);
+  this->actionGroup->addAction(this->ui->action_Single_Vertebra_MRI);
 
   connect(IOController::getInstance(), &IOController::sceneLoaded, this,
           &MainWindow::onSceneLoaded);
@@ -106,12 +113,21 @@ void MainWindow::actionsTriggered(QAction *action) {
     this->ui->segmentationWidget->setEnabled(true);
     this->ui->toolButtonPrevious->setEnabled(false);
     this->ui->toolButtonNext->setEnabled(true);
-  } else if (action == this->ui->action_Planning) {
+  } else if (action == this->ui->action_Planning ||
+             action == this->ui->action_Single_Vertebra_CT) {
     this->ui->stackedWidget->setCurrentWidget(this->ui->planningWidget);
     this->ui->stackedWidget->show();
     this->ui->planningWidget->setEnabled(true);
     this->ui->toolButtonPrevious->setEnabled(true);
     this->ui->toolButtonNext->setEnabled(false);
+  } else if (action == this->ui->action_Whole_Spine_CT) {
+    mitk::DataStorage *ds =
+        mitk::RenderingManager::GetInstance()->GetDataStorage();
+    mitk::DataNode *imageNode = ds->GetNamedNode("image");
+    imageNode->SetVisibility(true);
+  } else if (action == this->ui->action_Length) {
+
+  } else if (action == this->ui->action_Angle) {
   }
 }
 
