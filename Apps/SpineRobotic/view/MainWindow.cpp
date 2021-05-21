@@ -65,6 +65,8 @@ void MainWindow::initializeConnection() {
   this->actionGroup->addAction(this->ui->action_Whole_Spine_X_Ray);
   this->actionGroup->addAction(this->ui->action_Whole_Spine_MRI);
   this->actionGroup->addAction(this->ui->action_Single_Vertebra_MRI);
+  this->actionGroup->addAction(this->ui->action_Length);
+  this->actionGroup->addAction(this->ui->action_Angle);
 
   connect(IOController::getInstance(), &IOController::sceneLoaded, this,
           &MainWindow::onSceneLoaded);
@@ -109,6 +111,7 @@ void MainWindow::actionsTriggered(QAction *action) {
   this->ui->stackedWidget->hide();
   this->ui->segmentationWidget->setEnabled(false);
   this->ui->planningWidget->setEnabled(false);
+  this->ui->multiWidget->enablePlanarLine(false);
   if (action == this->ui->action_Segmentation) {
     this->ui->stackedWidget->setCurrentWidget(this->ui->segmentationWidget);
     this->ui->stackedWidget->show();
@@ -129,6 +132,7 @@ void MainWindow::actionsTriggered(QAction *action) {
     imageNode->SetVisibility(true);
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   } else if (action == this->ui->action_Length) {
+    this->ui->multiWidget->enablePlanarLine(true);
   } else if (action == this->ui->action_Angle) {
   }
 }

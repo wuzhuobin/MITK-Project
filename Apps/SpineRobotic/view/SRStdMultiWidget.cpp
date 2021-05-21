@@ -9,16 +9,27 @@
 // mitk
 #include <QmitkRenderWindow.h>
 #include <mitkDataNode.h>
+#include <mitkPlanarFigureInteractor.h>
 #include <mitkPlanarLine.h>
+#include <usModuleRegistry.h>
 
 SRStdMultiWidget::SRStdMultiWidget(QWidget *parent, Qt::WindowFlags f,
                                    const QString &name)
     : QmitkStdMultiWidget(parent, f, name),
+      planarFigureInteractor(mitk::PlanarFigureInteractor::New()),
       groupBoxGadget{
           new GroupBoxGadget(GroupBoxGadget::Orientation::AXIAL, this),
           new GroupBoxGadget(GroupBoxGadget::Orientation::SAGITTAL, this),
           new GroupBoxGadget(GroupBoxGadget::Orientation::CORONAL, this),
           new GroupBoxGadget(GroupBoxGadget::Orientation::CORONAL, this)} {
+
+  this->planarFigureInteractor->LoadStateMachine(
+      "PlanarFigureInteraction.xml",
+      us::ModuleRegistry::GetModule("MitkPlanarFigure"));
+  this->planarFigureInteractor->SetEventConfig(
+      "PlanarFigureConfig.xml",
+      us::ModuleRegistry::GetModule("MitkPlanarFigure"));
+
   this->enableGroupBox(false);
 }
 
@@ -54,4 +65,9 @@ void SRStdMultiWidget::enablePlanarLine(bool flag) {
     planarLineNode->SetData(mitk::PlanarLine::New());
   }
   planarLineNode->SetVisibility(flag);
+
+  planarFigureInteractor->EnableInteraction(flag);
+  planarFigureInteractor->SetDataNode(flag ? planarLineNode : nullptr);
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
