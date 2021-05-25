@@ -112,6 +112,7 @@ void MainWindow::actionsTriggered(QAction *action) {
   this->ui->segmentationWidget->setEnabled(false);
   this->ui->planningWidget->setEnabled(false);
   this->ui->multiWidget->enablePlanarLine(false);
+  this->ui->multiWidget->enablePlanarAngle(false);
   if (action == this->ui->action_Segmentation) {
     this->ui->stackedWidget->setCurrentWidget(this->ui->segmentationWidget);
     this->ui->stackedWidget->show();
@@ -134,6 +135,7 @@ void MainWindow::actionsTriggered(QAction *action) {
   } else if (action == this->ui->action_Length) {
     this->ui->multiWidget->enablePlanarLine(true);
   } else if (action == this->ui->action_Angle) {
+    this->ui->multiWidget->enablePlanarAngle(true);
   }
 }
 

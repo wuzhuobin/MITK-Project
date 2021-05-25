@@ -3,7 +3,7 @@
 
 // mitk
 #include <QmitkStdMultiWidget.h>
-#include <mitkPlanarFigureInteractor.h>
+// #include <mitkPlanarFigureInteractor.h>
 
 class SRStdMultiWidget : public QmitkStdMultiWidget {
   Q_OBJECT;
@@ -18,8 +18,10 @@ public:
 
   void enablePlanarLine(bool flag);
 
+  void enablePlanarAngle(bool flag);
+
 private:
-  mitk::PlanarFigureInteractor::Pointer planarFigureInteractor;
+  // mitk::PlanarFigureInteractor::Pointer planarFigureInteractor;
   class GroupBoxGadget *groupBoxGadget[4];
 };
 

@@ -39,6 +39,7 @@
         <widget class="QWidget" name="dummy"/>
         <widget class="SegmentationWidget" name="segmentationWidget"/>
         <widget class="PlanningWidget" name="planningWidget"/>
+        <widget class="ToolsWidget" name="toolsWidget"/>
        </widget>
       </item>
      </layout>
@@ -295,6 +296,12 @@
    <class>PlanningWidget</class>
    <extends>QWidget</extends>
    <header>PlanningWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ToolsWidget</class>
+   <extends>QWidget</extends>
+   <header>ToolsWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -104,17 +104,22 @@ void PlanningWidget::on_buttonGroup_buttonToggled(QAbstractButton *button,
       mitk::RenderingManager::GetInstance()->GetDataStorage();
   mitk::DataStorage::SetOfObjects::ConstPointer nodes = ds->GetAll();
   mitk::DataNode * image = nullptr;
+
   for (mitk::DataNode *node : *nodes) {
     node->SetVisibility(false);
   }
+
   if (button == this->ui->pushButtonReset) {
 
     image = ds->GetNamedNode("image");
     image->SetVisibility(true);
+
   } else {
+
     std::string name = "image" + button->text().toStdString();
     image = ds->GetNamedNode(name);
     image->SetVisibility(true);
+
   }
 
   mitk::RenderingManager::GetInstance()->InitializeViews(image->GetData()->GetGeometry());
