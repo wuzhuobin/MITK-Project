@@ -16,6 +16,8 @@ public:
 
   void enableGroupBox(bool flag);
 
+  void enableDisplay(bool flag);
+
   void enablePlanarLine(bool flag);
 
   void enablePlanarAngle(bool flag);
@@ -23,6 +25,10 @@ public:
 private:
   // mitk::PlanarFigureInteractor::Pointer planarFigureInteractor;
   class GroupBoxGadget *groupBoxGadget[4];
+  bool scrollEnabled = true;
+
+  void enableDisplayPrivate() { this->enableDisplay(true); }
+  void disableDisplayPrivate() { this->enableDisplay(false); }
 };
 
 #endif //! SR_STD_MULTI_WIDGET_H

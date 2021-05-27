@@ -2,6 +2,7 @@
 #include "GroupBoxGadget.h"
 
 // qt
+#include <itkCommand.h>
 #include <mitkDataInteractor.h>
 #include <mitkDataStorage.h>
 #include <mitkRenderingManager.h>
@@ -10,10 +11,9 @@
 // mitk
 #include <QmitkRenderWindow.h>
 #include <mitkDataNode.h>
-// #include <mitkDisplayInteractor.h>
+#include <mitkPlanarAngle.h>
 #include <mitkPlanarFigureInteractor.h>
 #include <mitkPlanarLine.h>
-#include <mitkPlanarAngle.h>
 #include <usModuleRegistry.h>
 
 SRStdMultiWidget::SRStdMultiWidget(QWidget *parent, Qt::WindowFlags f,
@@ -41,6 +41,12 @@ void SRStdMultiWidget::InitializeMultiWidget() {
   this->SetDataStorage(mitk::RenderingManager::GetInstance()->GetDataStorage());
 
   QmitkStdMultiWidget::InitializeMultiWidget();
+  // Add the displayed views to the DataStorage to see their positions in 2D and 3D
+  this->AddDisplayPlaneSubTree();
+  // show image plane in viewer and data storage
+  this->AddPlanesToDataStorage();
+  // Disable the plane widget
+  this->SetCrosshairVisibility(false);
 
   for (int i = 0; i < 4; ++i) {
     QmitkRenderWindow *renderWindow = this->GetRenderWindow(i);
@@ -60,18 +66,26 @@ void SRStdMultiWidget::enableGroupBox(bool flag) {
   }
 }
 
+void SRStdMultiWidget::enableDisplay(bool flag) {
+  if (this->scrollEnabled == flag) {
+    return;
+  }
+  this->scrollEnabled = flag;
+  if (this->scrollEnabled) {
+
+    this->GetInteractionEventHandler()->SetEventConfig("DisplayConfigMITK.xml");
+
+  } else {
+
+    this->GetInteractionEventHandler()->SetEventConfig(
+        "DisplayConfigMITKLimited.xml");
+  }
+}
+
 void SRStdMultiWidget::enablePlanarLine(bool flag) {
 
   mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
-
-  // mitk::DataStorage::SetOfObjects::ConstPointer nodes = ds->GetAll();
-  // for (mitk::DataNode *node : *nodes) {
-  //   mitk::DataInteractor::Pointer interactor = node->GetDataInteractor();
-  //   if (interactor) {
-  //     MITK_INFO << *interactor;
-  //   }
-  // }
 
   mitk::DataNode *imageNode = ds->GetNamedNode("image");
   mitk::DataNode::Pointer planarLineNode = ds->GetNamedNode("planar_line");
@@ -79,11 +93,28 @@ void SRStdMultiWidget::enablePlanarLine(bool flag) {
     ds->Remove(planarLineNode);
   }
   if (flag) {
+
+    typedef itk::SimpleMemberCommand<SRStdMultiWidget> SimpleMemberCommand;
+    SimpleMemberCommand::Pointer startInteractionCommand =
+        SimpleMemberCommand::New();
+    startInteractionCommand->SetCallbackFunction(
+        this, &SRStdMultiWidget::disableDisplayPrivate);
+
+    SimpleMemberCommand::Pointer endInteractionCommand =
+        SimpleMemberCommand::New();
+    endInteractionCommand->SetCallbackFunction(
+        this, &SRStdMultiWidget::enableDisplayPrivate);
+
     planarLineNode = mitk::DataNode::New();
     planarLineNode->SetName("planar_line");
     planarLineNode->SetData(mitk::PlanarLine::New());
-    ds->Add(planarLineNode, imageNode);
     planarLineNode->SetVisibility(true);
+    planarLineNode->SetSelected(true);
+    planarLineNode->GetData()->AddObserver(
+        mitk::StartInteractionPlanarFigureEvent(), startInteractionCommand);
+    planarLineNode->GetData()->AddObserver(
+        mitk::EndInteractionPlanarFigureEvent(), endInteractionCommand);
+    ds->Add(planarLineNode);
 
     mitk::PlanarFigureInteractor::Pointer planarFigureInteractor =
         mitk::PlanarFigureInteractor::New();
@@ -100,19 +131,9 @@ void SRStdMultiWidget::enablePlanarLine(bool flag) {
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-
-void SRStdMultiWidget::enablePlanarAngle(bool flag)
-{
+void SRStdMultiWidget::enablePlanarAngle(bool flag) {
   mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
-
-  // mitk::DataStorage::SetOfObjects::ConstPointer nodes = ds->GetAll();
-  // for (mitk::DataNode *node : *nodes) {
-  //   mitk::DataInteractor::Pointer interactor = node->GetDataInteractor();
-  //   if (interactor) {
-  //     MITK_INFO << *interactor;
-  //   }
-  // }
 
   mitk::DataNode *imageNode = ds->GetNamedNode("image");
   mitk::DataNode::Pointer planarAngleNode = ds->GetNamedNode("planar_angle");
@@ -120,11 +141,28 @@ void SRStdMultiWidget::enablePlanarAngle(bool flag)
     ds->Remove(planarAngleNode);
   }
   if (flag) {
+
+    typedef itk::SimpleMemberCommand<SRStdMultiWidget> SimpleMemberCommand;
+    SimpleMemberCommand::Pointer startInteractionCommand =
+        SimpleMemberCommand::New();
+    startInteractionCommand->SetCallbackFunction(
+        this, &SRStdMultiWidget::disableDisplayPrivate);
+
+    SimpleMemberCommand::Pointer endInteractionCommand =
+        SimpleMemberCommand::New();
+    endInteractionCommand->SetCallbackFunction(
+        this, &SRStdMultiWidget::enableDisplayPrivate);
+
     planarAngleNode = mitk::DataNode::New();
     planarAngleNode->SetName("planar_angle");
     planarAngleNode->SetData(mitk::PlanarAngle::New());
-    ds->Add(planarAngleNode, imageNode);
     planarAngleNode->SetVisibility(true);
+    planarAngleNode->SetSelected(true);
+    planarAngleNode->GetData()->AddObserver(
+        mitk::StartInteractionPlanarFigureEvent(), startInteractionCommand);
+    planarAngleNode->GetData()->AddObserver(
+        mitk::EndInteractionPlanarFigureEvent(), endInteractionCommand);
+    ds->Add(planarAngleNode);
 
     mitk::PlanarFigureInteractor::Pointer planarFigureInteractor =
         mitk::PlanarFigureInteractor::New();
