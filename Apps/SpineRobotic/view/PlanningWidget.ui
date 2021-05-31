@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>94</width>
+    <width>324</width>
     <height>316</height>
    </rect>
   </property>
@@ -34,6 +34,38 @@
        <attribute name="buttonGroup">
         <string notr="true">buttonGroup</string>
        </attribute>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="comboBoxRight">
+       <item>
+        <property name="text">
+         <string>null</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=6.5mm, l=45mm</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBoxLeft">
+       <item>
+        <property name="text">
+         <string>null</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=6.5mm, l=45mm</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>

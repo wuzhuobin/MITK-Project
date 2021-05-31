@@ -11,9 +11,9 @@
 // mitk
 #include <QmitkRenderWindow.h>
 #include <mitkDataNode.h>
-#include <mitkPlanarAngle.h>
-#include <mitkPlanarFigureInteractor.h>
-#include <mitkPlanarLine.h>
+// #include <mitkPlanarAngle.h>
+// #include <mitkPlanarFigureInteractor.h>
+// #include <mitkPlanarLine.h>
 #include <usModuleRegistry.h>
 
 SRStdMultiWidget::SRStdMultiWidget(QWidget *parent, Qt::WindowFlags f,
@@ -80,101 +80,4 @@ void SRStdMultiWidget::enableDisplay(bool flag) {
     this->GetInteractionEventHandler()->SetEventConfig(
         "DisplayConfigMITKLimited.xml");
   }
-}
-
-void SRStdMultiWidget::enablePlanarLine(bool flag) {
-
-  mitk::DataStorage *ds =
-      mitk::RenderingManager::GetInstance()->GetDataStorage();
-
-  mitk::DataNode *imageNode = ds->GetNamedNode("image");
-  mitk::DataNode::Pointer planarLineNode = ds->GetNamedNode("planar_line");
-  if (planarLineNode) {
-    ds->Remove(planarLineNode);
-  }
-  if (flag) {
-
-    typedef itk::SimpleMemberCommand<SRStdMultiWidget> SimpleMemberCommand;
-    SimpleMemberCommand::Pointer startInteractionCommand =
-        SimpleMemberCommand::New();
-    startInteractionCommand->SetCallbackFunction(
-        this, &SRStdMultiWidget::disableDisplayPrivate);
-
-    SimpleMemberCommand::Pointer endInteractionCommand =
-        SimpleMemberCommand::New();
-    endInteractionCommand->SetCallbackFunction(
-        this, &SRStdMultiWidget::enableDisplayPrivate);
-
-    planarLineNode = mitk::DataNode::New();
-    planarLineNode->SetName("planar_line");
-    planarLineNode->SetData(mitk::PlanarLine::New());
-    planarLineNode->SetVisibility(true);
-    planarLineNode->SetSelected(true);
-    planarLineNode->GetData()->AddObserver(
-        mitk::StartInteractionPlanarFigureEvent(), startInteractionCommand);
-    planarLineNode->GetData()->AddObserver(
-        mitk::EndInteractionPlanarFigureEvent(), endInteractionCommand);
-    ds->Add(planarLineNode);
-
-    mitk::PlanarFigureInteractor::Pointer planarFigureInteractor =
-        mitk::PlanarFigureInteractor::New();
-    planarFigureInteractor->LoadStateMachine(
-        "PlanarFigureInteraction.xml",
-        us::ModuleRegistry::GetModule("MitkPlanarFigure"));
-    planarFigureInteractor->SetEventConfig(
-        "PlanarFigureConfig.xml",
-        us::ModuleRegistry::GetModule("MitkPlanarFigure"));
-    planarFigureInteractor->EnableInteraction(flag);
-    planarFigureInteractor->SetDataNode(flag ? planarLineNode : nullptr);
-  }
-
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-}
-
-void SRStdMultiWidget::enablePlanarAngle(bool flag) {
-  mitk::DataStorage *ds =
-      mitk::RenderingManager::GetInstance()->GetDataStorage();
-
-  mitk::DataNode *imageNode = ds->GetNamedNode("image");
-  mitk::DataNode::Pointer planarAngleNode = ds->GetNamedNode("planar_angle");
-  if (planarAngleNode) {
-    ds->Remove(planarAngleNode);
-  }
-  if (flag) {
-
-    typedef itk::SimpleMemberCommand<SRStdMultiWidget> SimpleMemberCommand;
-    SimpleMemberCommand::Pointer startInteractionCommand =
-        SimpleMemberCommand::New();
-    startInteractionCommand->SetCallbackFunction(
-        this, &SRStdMultiWidget::disableDisplayPrivate);
-
-    SimpleMemberCommand::Pointer endInteractionCommand =
-        SimpleMemberCommand::New();
-    endInteractionCommand->SetCallbackFunction(
-        this, &SRStdMultiWidget::enableDisplayPrivate);
-
-    planarAngleNode = mitk::DataNode::New();
-    planarAngleNode->SetName("planar_angle");
-    planarAngleNode->SetData(mitk::PlanarAngle::New());
-    planarAngleNode->SetVisibility(true);
-    planarAngleNode->SetSelected(true);
-    planarAngleNode->GetData()->AddObserver(
-        mitk::StartInteractionPlanarFigureEvent(), startInteractionCommand);
-    planarAngleNode->GetData()->AddObserver(
-        mitk::EndInteractionPlanarFigureEvent(), endInteractionCommand);
-    ds->Add(planarAngleNode);
-
-    mitk::PlanarFigureInteractor::Pointer planarFigureInteractor =
-        mitk::PlanarFigureInteractor::New();
-    planarFigureInteractor->LoadStateMachine(
-        "PlanarFigureInteraction.xml",
-        us::ModuleRegistry::GetModule("MitkPlanarFigure"));
-    planarFigureInteractor->SetEventConfig(
-        "PlanarFigureConfig.xml",
-        us::ModuleRegistry::GetModule("MitkPlanarFigure"));
-    planarFigureInteractor->EnableInteraction(flag);
-    planarFigureInteractor->SetDataNode(flag ? planarAngleNode : nullptr);
-  }
-
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

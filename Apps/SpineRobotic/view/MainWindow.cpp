@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "IOController.h"
+#include "ToolsWidget.h"
 #include "ui_MainWindow.h"
 
 // qt
@@ -111,8 +112,9 @@ void MainWindow::actionsTriggered(QAction *action) {
   this->ui->stackedWidget->hide();
   this->ui->segmentationWidget->setEnabled(false);
   this->ui->planningWidget->setEnabled(false);
-  this->ui->multiWidget->enablePlanarLine(false);
-  this->ui->multiWidget->enablePlanarAngle(false);
+  this->ui->toolsWidget->setEnabled(false);
+  // this->ui->multiWidget->enablePlanarLine(false);
+  // this->ui->multiWidget->enablePlanarAngle(false);
   if (action == this->ui->action_Segmentation) {
     this->ui->stackedWidget->setCurrentWidget(this->ui->segmentationWidget);
     this->ui->stackedWidget->show();
@@ -133,9 +135,17 @@ void MainWindow::actionsTriggered(QAction *action) {
     imageNode->SetVisibility(true);
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   } else if (action == this->ui->action_Length) {
-    this->ui->multiWidget->enablePlanarLine(true);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->toolsWidget);
+    this->ui->stackedWidget->show();
+    this->ui->toolsWidget->setEnabled(true);
+    this->ui->toolsWidget->setCurrentPage(ToolsWidget::Page::Line);
+    // this->ui->multiWidget->enablePlanarLine(true);
   } else if (action == this->ui->action_Angle) {
-    this->ui->multiWidget->enablePlanarAngle(true);
+    this->ui->stackedWidget->setCurrentWidget(this->ui->toolsWidget);
+    this->ui->stackedWidget->show();
+    this->ui->toolsWidget->setEnabled(true);
+    this->ui->toolsWidget->setCurrentPage(ToolsWidget::Page::Angle);
+    // this->ui->multiWidget->enablePlanarAngle(true);
   }
 }
 

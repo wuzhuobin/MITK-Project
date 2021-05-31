@@ -24,7 +24,7 @@ PlanningWidget::PlanningWidget(QWidget *parent)
   connect(this->ui->buttonGroup,
           QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled),
           this, &PlanningWidget::on_buttonGroup_buttonToggled);
-  
+
   this->ui->pushButtonReset->setVisible(false);
 }
 
@@ -103,7 +103,7 @@ void PlanningWidget::on_buttonGroup_buttonToggled(QAbstractButton *button,
   mitk::DataStorage *ds =
       mitk::RenderingManager::GetInstance()->GetDataStorage();
   mitk::DataStorage::SetOfObjects::ConstPointer nodes = ds->GetAll();
-  mitk::DataNode * image = nullptr;
+  mitk::DataNode *image = nullptr;
 
   for (mitk::DataNode *node : *nodes) {
     node->SetVisibility(false);
@@ -119,9 +119,9 @@ void PlanningWidget::on_buttonGroup_buttonToggled(QAbstractButton *button,
     std::string name = "image" + button->text().toStdString();
     image = ds->GetNamedNode(name);
     image->SetVisibility(true);
-
   }
 
-  mitk::RenderingManager::GetInstance()->InitializeViews(image->GetData()->GetGeometry());
+  mitk::RenderingManager::GetInstance()->InitializeViews(
+      image->GetData()->GetGeometry());
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
