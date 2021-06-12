@@ -32,9 +32,9 @@ void initDataBase()
 void LoginView::initialize()
 {
     initDataBase();
-    Theme::instance()->setFlowViewStyle(this);
-    Theme::instance()->setleftWidgetStyle(m_ui->widgetRight);
-    Theme::instance()->setUserNameLabelStyle(m_ui->userNameLabel);
+    // Theme::instance()->setFlowViewStyle(this);
+    // Theme::instance()->setleftWidgetStyle(m_ui->widgetRight);
+    // Theme::instance()->setUserNameLabelStyle(m_ui->userNameLabel);
 
     AppMenu::instance()->setAdminBtnMenu(m_ui->menuBtn);
     //QObject::connect(Session::instance(), &Session::accountChanged, this, [=]() {
