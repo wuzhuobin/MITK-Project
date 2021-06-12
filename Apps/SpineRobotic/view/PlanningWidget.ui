@@ -59,6 +59,31 @@
          <string>r=6.5mm, l=45mm</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>r=7.0mm, l=50mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=7.5mm, l=55mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=8.0mm, l=60mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=8.5mm, l=65mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=9.0mm, l=70mm</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="1" column="0">
@@ -78,6 +103,31 @@
        <item>
         <property name="text">
          <string>r=6.5mm, l=45mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=7.0mm, l=50mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=7.5mm, l=55mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=8.0mm, l=60mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=8.5mm, l=65mm</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>r=9.0mm, l=70mm</string>
         </property>
        </item>
       </widget>

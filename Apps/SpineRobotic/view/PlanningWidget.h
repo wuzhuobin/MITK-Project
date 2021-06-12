@@ -25,8 +25,7 @@ private:
   void on_buttonGroup_buttonToggled(class QAbstractButton *button, bool checked);
   void on_comboBoxRight_activated(int index);
   void on_comboBoxLeft_activated(int index);
-  void addPin(QString base, QString type);
-
+  void addPin(QString base, QString typeName);
 };
 
 #endif //! PLANNING_WIDGET_H

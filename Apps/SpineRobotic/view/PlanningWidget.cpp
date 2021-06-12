@@ -3,15 +3,19 @@
 #include "ui_PlanningWidget.h"
 
 // mitk
+#include <mitkBaseGeometry.h>
 #include <mitkBoundingShapeCropper.h>
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
+#include <mitkGeometry3D.h>
 #include <mitkGeometryData.h>
 #include <mitkLogMacros.h>
 #include <mitkNodePredicateDataType.h>
 #include <mitkRenderingManager.h>
 
 // qt
+#include <mitkSurface.h>
+#include <mitkVector.h>
 #include <qbuttongroup.h>
 #include <qcombobox.h>
 #include <qcoreevent.h>
@@ -141,23 +145,56 @@ void PlanningWidget::on_comboBoxRight_activated(int index) {
   if (index == 0) {
     return;
   }
+  QString type = "pin1.";
+  type += QString::number(index - 1);
 
-  QAbstractButton *button = this->ui->buttonGroup->checkedButton();
-  QString base = PIN_RIGHT + button->text();
-
-  QString type = this->ui->comboBoxRight->itemText(index);
-  this->addPin(base, type);
+  this->addPin(PIN_RIGHT, type);
 }
 
-void PlanningWidget::on_comboBoxLeft_activated(int index) {}
+void PlanningWidget::on_comboBoxLeft_activated(int index) {
+  if (index == 0) {
+    return;
+  }
 
-void PlanningWidget::addPin(QString base, QString type)
-{
-  MITK_INFO << "Base: " << base.toStdString();
-  MITK_INFO << "Type: " << type.toStdString();
+  QString type = "pin1.";
+  type += QString::number(index - 1);
+  MITK_INFO << type.toStdString();
 
-  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  
-  
-  QString name = base + "_" + type;
+  this->addPin(PIN_LEFT, type);
+}
+
+void PlanningWidget::addPin(QString base, QString typeName) {
+
+  mitk::DataStorage *ds =
+      mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::Surface *type =
+      ds->GetNamedObject<mitk::Surface>(typeName.toStdString());
+
+  mitk::DataNode::Pointer pinNode = ds->GetNamedNode(base.toStdString());
+  mitk::Surface::Pointer pin = type->Clone();
+
+  if (pinNode == nullptr) {
+
+    QString geometryDataName = this->ui->buttonGroup->checkedButton()->text();
+    mitk::GeometryData *geometryData =
+        ds->GetNamedObject<mitk::GeometryData>(geometryDataName.toStdString());
+    mitk::Point3D point = geometryData->GetGeometry()->GetCenter();
+    mitk::Vector3D translate;
+    translate[0] = point[0];
+    translate[1] = point[1];
+    translate[2] = point[2];
+
+    pin->GetGeometry()->Translate(translate);
+
+    pinNode = mitk::DataNode::New();
+    pinNode->SetName(base.toStdString());
+    ds->Add(pinNode);
+  } else {
+    pin->SetGeometry(pinNode->GetData()->GetGeometry());
+  }
+
+  pinNode->SetData(pin);
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
