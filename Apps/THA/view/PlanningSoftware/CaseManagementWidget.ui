@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CaseManageView</class>
- <widget class="QWidget" name="CaseManageView">
+ <class>CaseManagementWidget</class>
+ <widget class="QWidget" name="CaseManagementWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -135,16 +135,10 @@
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:#3D444F</string>
-   </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="initialDataTab">
-    <property name="styleSheet">
-     <string notr="true">background-color:#3D444F</string>
-    </property>
     <attribute name="title">
      <string>Initial Data</string>
     </attribute>
@@ -329,9 +323,6 @@
     <zorder>picture1</zorder>
    </widget>
    <widget class="QWidget" name="preSurgeryPlanningTab">
-    <property name="styleSheet">
-     <string notr="true">background-color:#3D444F</string>
-    </property>
     <attribute name="title">
      <string>Pre-Surgery Planning</string>
     </attribute>

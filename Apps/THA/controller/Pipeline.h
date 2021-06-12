@@ -6,7 +6,7 @@
 
 class MainWindow;
 class LoginView;
-class CaseManageView;
+class CaseManagementWidget;
 
 class Pipeline : public QObject
 {
@@ -23,7 +23,7 @@ private:
 
     MainWindow *mainWindow;
     LoginView *loginView;
-    CaseManageView *caseManageView;
+    CaseManagementWidget *mCaseManagementWidget;
 };
 
 #endif // !PIPELINE_H

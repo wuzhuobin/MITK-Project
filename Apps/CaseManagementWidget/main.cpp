@@ -1,4 +1,4 @@
-#include "PlanningSoftware/case_manage_view.h"
+#include "PlanningSoftware/CaseManagementWidget.h"
 
 // qt
 #include <QApplication>
@@ -7,7 +7,7 @@ int main (int argc, char * argv[])
 {
     QApplication app(argc, argv);
 
-    CaseManageView w;
+    CaseManagementWidget w;
     w.show();
 
     return app.exec();

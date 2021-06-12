@@ -1,4 +1,4 @@
-project(CaseManageView)
+project(CaseManagementWidget)
 
 add_executable(
   ${PROJECT_NAME}
