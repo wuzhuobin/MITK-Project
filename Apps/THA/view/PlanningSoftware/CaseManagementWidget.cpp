@@ -14,10 +14,10 @@
 #include <qvariant.h>
 #include <qdebug.h>
 
-struct CaseManagementWidgetResourceInit
+const static struct CaseManagementWidgetResourceInit
 {
     CaseManagementWidgetResourceInit() { Q_INIT_RESOURCE(resource); }
-} gInit;
+} GInit;
 
 CaseManagementWidget::CaseManagementWidget(QWidget* parent) :
     QWidget(parent), mUi(new Ui::CaseManagementWidget), mPatientTableModel(1, 3)

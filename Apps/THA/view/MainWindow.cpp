@@ -1,303 +1,312 @@
 #include "MainWindow.h"
-#include "ui_MainWindow.h"
-#include "CasePlanningWidget.h"
+
 #include "AcetabularPrepWidget.h"
+#include "CasePlanningWidget.h"
 #include "IOController.h"
+#include "ui_MainWindow.h"
 
 // qt
-#include <QFileDialog>
 #include <QActionGroup>
+#include <QFileDialog>
 
 // mitk
 #include <mitkRenderingManager.h>
 
-struct MainWindowResourceInit
+const static struct MainWindowResourceInit
 {
-  MainWindowResourceInit()
-  {
-    Q_INIT_RESOURCE(resources);
-  }
-} QRC;
+    MainWindowResourceInit() { Q_INIT_RESOURCE(resources); }
+} GInit;
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
-                                          ui(new Ui::MainWindow),
-                                          actionGroup(new QActionGroup(this)),
-                                          casePlanning(new CasePlanningWidget(this)),
-                                          acetabularPrep(new AcetabularPrepWidget(this))
+MainWindow::MainWindow(QWidget* parent) :
+    QMainWindow(parent),
+    mUi(new Ui::MainWindow),
+    mCasePlanning(new CasePlanningWidget(this)),
+    mAcetabularPrep(new AcetabularPrepWidget(this)),
+    mActionGroup(new QActionGroup(this))
 {
-  this->ui->setupUi(this);
+    mUi->setupUi(this);
 
-  connect(this->actionGroup, &QActionGroup::triggered, this, &MainWindow::OnActionsTriggered);
-  connect(IOController::GetInstance(), &IOController::SceneLoaded, this, &MainWindow::OnSceneLoaded);
-  // the actions should be added in correct order.
+    connect(mActionGroup, &QActionGroup::triggered, this, &MainWindow::onActionsTriggered);
+    connect(IOController::GetInstance(), &IOController::SceneLoaded, this, &MainWindow::onSceneLoaded);
+    // the actions should be added in correct order.
 
-  // CasePlanningWidget
-  this->actionGroup->addAction(this->ui->action_Pelvis_CT_Landmark);
-  this->actionGroup->addAction(this->ui->action_Implant_Planning);
-  this->actionGroup->addAction(this->ui->action_Broach_Tracking);
-  connect(this->ui->action_Implant_Planning, &QAction::triggered,
-          this->casePlanning, &CasePlanningWidget::Action_Implant_Planning_triggered);
-  connect(this->ui->action_Broach_Tracking, &QAction::triggered,
-          this->casePlanning, &CasePlanningWidget::Action_Broach_Tracking_triggered);
-  connect(this->ui->action_Pelvis_CT_Landmark, &QAction::triggered,
-          this->casePlanning, &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
+    // CasePlanningWidget
+    mActionGroup->addAction(mUi->action_Pelvis_CT_Landmark);
+    mActionGroup->addAction(mUi->action_Implant_Planning);
+    mActionGroup->addAction(mUi->action_Broach_Tracking);
+    connect(mUi->action_Implant_Planning,
+            &QAction::triggered,
+            mCasePlanning,
+            &CasePlanningWidget::Action_Implant_Planning_triggered);
+    connect(mUi->action_Broach_Tracking,
+            &QAction::triggered,
+            mCasePlanning,
+            &CasePlanningWidget::Action_Broach_Tracking_triggered);
+    connect(mUi->action_Pelvis_CT_Landmark,
+            &QAction::triggered,
+            mCasePlanning,
+            &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
 
-  // AcetabularPrepWidget
-  this->actionGroup->addAction(this->ui->action_RIO_Registratoin);
-  this->actionGroup->addAction(this->ui->action_Pelvis_Checkpoint);
-  this->actionGroup->addAction(this->ui->action_Pelvis_Landmark);
-  this->actionGroup->addAction(this->ui->action_Pelvis_Registration);
-  this->actionGroup->addAction(this->ui->action_Cup_Reaming);
-  this->actionGroup->addAction(this->ui->action_Cup_Impaction);
-  connect(this->ui->action_RIO_Registratoin, &QAction::triggered,
-          this->acetabularPrep, &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
-  connect(this->ui->action_Pelvis_Checkpoint, &QAction::triggered,
-          this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered);
-  connect(this->ui->action_Pelvis_Landmark, &QAction::triggered,
-          this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Landmark_triggered);
-  connect(this->ui->action_Pelvis_Registration, &QAction::triggered,
-          this->acetabularPrep, &AcetabularPrepWidget::Action_Pelvis_Registration_triggered);
-  connect(this->ui->action_Cup_Reaming, &QAction::triggered,
-          this->acetabularPrep, &AcetabularPrepWidget::Action_Cup_Reaming_triggered);
-  connect(this->ui->action_Cup_Impaction, &QAction::triggered,
-          this->acetabularPrep, &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
+    // AcetabularPrepWidget
+    mActionGroup->addAction(mUi->action_RIO_Registratoin);
+    mActionGroup->addAction(mUi->action_Pelvis_Checkpoint);
+    mActionGroup->addAction(mUi->action_Pelvis_Landmark);
+    mActionGroup->addAction(mUi->action_Pelvis_Registration);
+    mActionGroup->addAction(mUi->action_Cup_Reaming);
+    mActionGroup->addAction(mUi->action_Cup_Impaction);
+    connect(mUi->action_RIO_Registratoin,
+            &QAction::triggered,
+            mAcetabularPrep,
+            &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
+    connect(mUi->action_Pelvis_Checkpoint,
+            &QAction::triggered,
+            mAcetabularPrep,
+            &AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered);
+    connect(mUi->action_Pelvis_Landmark,
+            &QAction::triggered,
+            mAcetabularPrep,
+            &AcetabularPrepWidget::Action_Pelvis_Landmark_triggered);
+    connect(mUi->action_Pelvis_Registration,
+            &QAction::triggered,
+            mAcetabularPrep,
+            &AcetabularPrepWidget::Action_Pelvis_Registration_triggered);
+    connect(mUi->action_Cup_Reaming,
+            &QAction::triggered,
+            mAcetabularPrep,
+            &AcetabularPrepWidget::Action_Cup_Reaming_triggered);
+    connect(mUi->action_Cup_Impaction,
+            &QAction::triggered,
+            mAcetabularPrep,
+            &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
 
-  this->ui->stackedWidget->addWidget(this->casePlanning);
-  this->ui->stackedWidget->addWidget(this->acetabularPrep);
+    mUi->stackedWidget->addWidget(mCasePlanning);
+    mUi->stackedWidget->addWidget(mAcetabularPrep);
 
-  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  this->ui->levelWindow->SetDataStorage(ds);
+    mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    mUi->levelWindow->SetDataStorage(ds);
 
-  // hide contrast, luminance, zoom buttons
-  this->ui->toolButtonContrast->setVisible(false);
-  this->ui->toolButtonLuminance->setVisible(false);
-  this->ui->toolButtonZoom->setVisible(false);
+    // hide contrast, luminance, zoom buttons
+    mUi->toolButtonContrast->setVisible(false);
+    mUi->toolButtonLuminance->setVisible(false);
+    mUi->toolButtonZoom->setVisible(false);
 
-  QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
-  if (!fileName.isEmpty())
-  {
-    IOController::GetInstance()->LoadScene(fileName);
-  }
+    QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
+    if (!fileName.isEmpty())
+    {
+        IOController::GetInstance()->LoadScene(fileName);
+    }
 }
 
 MainWindow::~MainWindow()
 {
-  delete this->ui;
+    delete mUi;
 }
 
-void MainWindow::Test()
+void MainWindow::test()
 {
-  MITK_INFO << __func__;
-  this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Implant_Planning));
-  // this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
+    MITK_INFO << __func__;
+    setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Implant_Planning));
+    // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
 }
 
-void MainWindow::SetCurrentActionIndex(int index)
+void MainWindow::setCurrentActionIndex(int index)
 {
-  // bounding
-  MITK_INFO << __func__;
-  MITK_INFO << index;
-  if (index >= this->actionGroup->actions().size())
-  {
-    this->currentActionIndex = this->actionGroup->actions().size() - 1;
-  }
-  else if (index < 0)
-  {
-    this->currentActionIndex = 0;
-  }
-  else
-  {
-    this->currentActionIndex = index;
-  }
+    // bounding
+    MITK_INFO << __func__;
+    MITK_INFO << index;
+    if (index >= mActionGroup->actions().size())
+    {
+        mCurrentActionIndex = mActionGroup->actions().size() - 1;
+    }
+    else if (index < 0)
+    {
+        mCurrentActionIndex = 0;
+    }
+    else
+    {
+        mCurrentActionIndex = index;
+    }
 
-  this->actionGroup->actions()[this->currentActionIndex]->trigger();
+    mActionGroup->actions()[mCurrentActionIndex]->trigger();
 }
 
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
 {
-  if (checked)
-  {
-    QString fileName =
-        QFileDialog::getOpenFileName(this, "Scene", QString(), tr("MITK (*.mitk)"));
-    IOController::GetInstance()->LoadScene(fileName);
-  }
-}
-
-void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton *button) const
-{
-  MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
-  for (QAbstractButton *button_ : this->ui->buttonGroupMode->buttons())
-  {
-    if (button_ != button)
+    if (checked)
     {
-      button_->setChecked(false);
+        QString fileName = QFileDialog::getOpenFileName(this, "Scene", QString(), tr("MITK (*.mitk)"));
+        IOController::GetInstance()->LoadScene(fileName);
     }
-  }
-
-  if (this->ui->toolButtonPrepOpMode->isChecked())
-  {
-    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_PRE_OP);
-  }
-  else if (this->ui->toolButtonCupPlanMode->isChecked())
-  {
-    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
-  }
-  else if (this->ui->toolButtonStemPlanMode->isChecked())
-  {
-    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_STEM_PLAN);
-  }
-  else if (this->ui->toolButtonReducedMode->isChecked())
-  {
-    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_REDUCED);
-  }
-  else
-  {
-    this->ui->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_DEFAULT);
-  }
 }
 
-void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton *button) const
+void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton* button) const
 {
-  MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
-  for (QAbstractButton *button_ : this->ui->buttonGroupView->buttons())
-  {
-    if (button_ != button)
+    MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
+    for (QAbstractButton* button_ : mUi->buttonGroupMode->buttons())
     {
-      button_->setChecked(false);
+        if (button_ != button)
+        {
+            button_->setChecked(false);
+        }
     }
-  }
 
-  if (this->ui->toolButton3DSlicerView->isChecked())
-  {
-    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
-  }
-  else if (this->ui->toolButtonCTView->isChecked())
-  {
-    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_CT);
-  }
-  else if (this->ui->toolButtonReamingView->isChecked())
-  {
-    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_REAMING);
-  }
-  else if (this->ui->toolButtonXRayView->isChecked())
-  {
-    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_X_RAY);
-  }
-  else
-  {
-    this->ui->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_DEFAULT);
-  }
+    if (mUi->toolButtonPrepOpMode->isChecked())
+    {
+        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_PRE_OP);
+    }
+    else if (mUi->toolButtonCupPlanMode->isChecked())
+    {
+        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
+    }
+    else if (mUi->toolButtonStemPlanMode->isChecked())
+    {
+        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_STEM_PLAN);
+    }
+    else if (mUi->toolButtonReducedMode->isChecked())
+    {
+        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_REDUCED);
+    }
+    else
+    {
+        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_DEFAULT);
+    }
 }
 
-void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton *button)
+void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton* button) const
 {
-  if (button == this->ui->radioButtonPreOpRIOCheck)
-  {
-  }
-  else if (button == this->ui->radioButtonFemoralPrep)
-  {
-  }
-  else if (button == this->ui->radioButtonCasePlanning)
-  {
-    this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_Pelvis_CT_Landmark));
-  }
-  else if (button == this->ui->radioButtonAcetabularPrep)
-  {
-    this->SetCurrentActionIndex(this->actionGroup->actions().indexOf(this->ui->action_RIO_Registratoin));
-  }
-  else if (button == this->ui->radioButtonFinalResult)
-  {
-  }
+    MITK_INFO << __func__ << ' ' << button->objectName().toStdString();
+    for (QAbstractButton* button_ : mUi->buttonGroupView->buttons())
+    {
+        if (button_ != button)
+        {
+            button_->setChecked(false);
+        }
+    }
+
+    if (mUi->toolButton3DSlicerView->isChecked())
+    {
+        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
+    }
+    else if (mUi->toolButtonCTView->isChecked())
+    {
+        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_CT);
+    }
+    else if (mUi->toolButtonReamingView->isChecked())
+    {
+        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_REAMING);
+    }
+    else if (mUi->toolButtonXRayView->isChecked())
+    {
+        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_X_RAY);
+    }
+    else
+    {
+        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_DEFAULT);
+    }
+}
+
+void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button)
+{
+    if (button == mUi->radioButtonPreOpRIOCheck)
+    {
+    }
+    else if (button == mUi->radioButtonFemoralPrep)
+    {
+    }
+    else if (button == mUi->radioButtonCasePlanning)
+    {
+        setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Pelvis_CT_Landmark));
+    }
+    else if (button == mUi->radioButtonAcetabularPrep)
+    {
+        setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_RIO_Registratoin));
+    }
+    else if (button == mUi->radioButtonFinalResult)
+    {
+    }
 }
 
 void MainWindow::on_pushButtonNext_clicked(bool checked)
 {
-  MITK_INFO << __func__;
+    MITK_INFO << __func__;
 
-  this->SetCurrentActionIndex(++this->currentActionIndex);
+    setCurrentActionIndex(++mCurrentActionIndex);
 }
 
 void MainWindow::on_pushButtonBack_clicked(bool checked)
 {
-  MITK_INFO << __func__;
-  this->SetCurrentActionIndex(--this->currentActionIndex);
+    MITK_INFO << __func__;
+    setCurrentActionIndex(--mCurrentActionIndex);
 }
 
-void MainWindow::OnActionsTriggered(QAction *action) const
+void MainWindow::onActionsTriggered(QAction* action) const
 {
-  if (action == this->actionGroup->actions().last())
-  {
-    this->ui->pushButtonNext->setEnabled(false);
-    this->ui->pushButtonBack->setEnabled(true);
-  }
-  else if (action == this->actionGroup->actions().first())
-  {
-    this->ui->pushButtonNext->setEnabled(true);
-    this->ui->pushButtonBack->setEnabled(false);
-  }
-  else
-  {
-    this->ui->pushButtonNext->setEnabled(true);
-    this->ui->pushButtonBack->setEnabled(true);
-  }
+    if (action == mActionGroup->actions().last())
+    {
+        mUi->pushButtonNext->setEnabled(false);
+        mUi->pushButtonBack->setEnabled(true);
+    }
+    else if (action == mActionGroup->actions().first())
+    {
+        mUi->pushButtonNext->setEnabled(true);
+        mUi->pushButtonBack->setEnabled(false);
+    }
+    else
+    {
+        mUi->pushButtonNext->setEnabled(true);
+        mUi->pushButtonBack->setEnabled(true);
+    }
 
-  if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_Broach_Tracking))
-  {
-    this->ui->radioButtonCasePlanning->setChecked(true);
-    this->ui->stackedWidget->setCurrentWidget(this->casePlanning);
-  }
-  else if (this->actionGroup->actions().indexOf(action) <= this->actionGroup->actions().indexOf(this->ui->action_Cup_Impaction))
-  {
-    this->ui->radioButtonAcetabularPrep->setChecked(true);
-    this->ui->stackedWidget->setCurrentWidget(this->acetabularPrep);
-  }
+    if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
+    {
+        mUi->radioButtonCasePlanning->setChecked(true);
+        mUi->stackedWidget->setCurrentWidget(mCasePlanning);
+    }
+    else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Cup_Impaction))
+    {
+        mUi->radioButtonAcetabularPrep->setChecked(true);
+        mUi->stackedWidget->setCurrentWidget(mAcetabularPrep);
+    }
 
-  if (action == this->ui->action_RIO_Registratoin)
-  {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
-    this->ui->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
-    this->ui->frameViewAndMode->setVisible(false);
-  }
-  else if (action == this->ui->action_Pelvis_Checkpoint)
-  {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageImage);
-    this->ui->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
-    this->ui->frameViewAndMode->setVisible(false);
-  }
-  else if (action == this->ui->action_Pelvis_Landmark)
-  {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
-    this->ui->multiWidget->SetOther(true);
-    this->ui->frameViewAndMode->setVisible(false);
-  }
-  else if (action == this->ui->action_Pelvis_Registration)
-  {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
-    this->ui->multiWidget->SetOther(true);
-    this->ui->frameViewAndMode->setVisible(false);
-  }
-  else if (action == this->ui->action_Cup_Reaming)
-  {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->multiWidget);
-    this->ui->multiWidget->SetOther(true);
-    this->ui->frameViewAndMode->setVisible(false);
-  }
-  else if (action == this->ui->action_Cup_Impaction)
-  {
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->multiWidget);
-    this->ui->multiWidget->SetOther(true);
-    this->ui->frameViewAndMode->setVisible(false);
-  }
-  else
-  {
-    this->ui->multiWidget->SetOther(false);
-    this->ui->frameViewAndMode->setVisible(true);
-    this->ui->stackedWidgetViewer->setCurrentWidget(this->ui->pageMultiWidget);
-  }
+    if (action == mUi->action_RIO_Registratoin)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
+        mUi->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
+    }
+    else if (action == mUi->action_Pelvis_Checkpoint)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
+        mUi->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
+    }
+    else if (action == mUi->action_Pelvis_Landmark)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
+        mUi->multiWidget->SetOther(true);
+    }
+    else if (action == mUi->action_Pelvis_Registration)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
+        mUi->multiWidget->SetOther(true);
+    }
+    else if (action == mUi->action_Cup_Reaming)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->multiWidget);
+        mUi->multiWidget->SetOther(true);
+    }
+    else if (action == mUi->action_Cup_Impaction)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->multiWidget);
+        mUi->multiWidget->SetOther(true);
+    }
+    else
+    {
+        mUi->multiWidget->SetOther(false);
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
+    }
 }
 
-void MainWindow::OnSceneLoaded()
+void MainWindow::onSceneLoaded()
 {
-  this->ui->multiWidget->InitializeMultiWidget();
-  this->SetCurrentActionIndex(0);
+    mUi->multiWidget->InitializeMultiWidget();
+    setCurrentActionIndex(0);
 }

@@ -31,8 +31,8 @@ void Pipeline::start()
 
 void Pipeline::test()
 {
+    IOController::GetInstance()->LoadScene("THA.mitk");
     this->mainWindow->show();
-    // IOController::GetInstance()->LoadScene("THA.mitk");
     // this->mainWindow->Test();
 }
 

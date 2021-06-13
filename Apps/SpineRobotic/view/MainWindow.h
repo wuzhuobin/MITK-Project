@@ -17,7 +17,7 @@ public:
 private:
   Ui::MainWindow *ui;
   int currentAction = 0;
-  class QActionGroup * actionGroup;
+  class QActionGroup * mActionGroup;
 
   void initializeMenu();
   void initializeConnection();

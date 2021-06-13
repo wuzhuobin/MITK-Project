@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-      actionGroup(new QActionGroup(this)) {
+      mActionGroup(new QActionGroup(this)) {
 
   this->ui->setupUi(this);
 
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
                          : "";
   if (!fileName.isEmpty()) {
     IOController::getInstance()->loadScene(fileName);
-    // this->SetCurrentActionIndex(0);
+    // this->setCurrentActionIndex(0);
   }
 }
 
@@ -58,27 +58,27 @@ void MainWindow::initializeMenu() {
 
 void MainWindow::initializeConnection() {
 
-  this->actionGroup->setExclusive(true);
-  this->actionGroup->addAction(this->ui->action_Segmentation);
-  this->actionGroup->addAction(this->ui->action_Planning);
-  this->actionGroup->addAction(this->ui->action_Whole_Spine_CT);
-  this->actionGroup->addAction(this->ui->action_Single_Vertebra_CT);
-  this->actionGroup->addAction(this->ui->action_Whole_Spine_X_Ray);
-  this->actionGroup->addAction(this->ui->action_Whole_Spine_MRI);
-  this->actionGroup->addAction(this->ui->action_Single_Vertebra_MRI);
-  this->actionGroup->addAction(this->ui->action_Length);
-  this->actionGroup->addAction(this->ui->action_Angle);
+  this->mActionGroup->setExclusive(true);
+  this->mActionGroup->addAction(this->ui->action_Segmentation);
+  this->mActionGroup->addAction(this->ui->action_Planning);
+  this->mActionGroup->addAction(this->ui->action_Whole_Spine_CT);
+  this->mActionGroup->addAction(this->ui->action_Single_Vertebra_CT);
+  this->mActionGroup->addAction(this->ui->action_Whole_Spine_X_Ray);
+  this->mActionGroup->addAction(this->ui->action_Whole_Spine_MRI);
+  this->mActionGroup->addAction(this->ui->action_Single_Vertebra_MRI);
+  this->mActionGroup->addAction(this->ui->action_Length);
+  this->mActionGroup->addAction(this->ui->action_Angle);
 
   connect(IOController::getInstance(), &IOController::sceneLoaded, this,
           &MainWindow::onSceneLoaded);
-  connect(this->actionGroup, &QActionGroup::triggered, this,
+  connect(this->mActionGroup, &QActionGroup::triggered, this,
           &MainWindow::actionsTriggered);
 }
 
 void MainWindow::on_toolButtonNext_clicked(bool checked) {
 
-  if (++currentAction < this->actionGroup->actions().size()) {
-    actionsTriggered(this->actionGroup->actions()[currentAction]);
+  if (++currentAction < this->mActionGroup->actions().size()) {
+    actionsTriggered(this->mActionGroup->actions()[currentAction]);
   }
 }
 
@@ -86,7 +86,7 @@ void MainWindow::on_toolButtonPrevious_clicked(bool checked) {
   if (--currentAction < 0) {
     actionsTriggered(nullptr);
   } else {
-    actionsTriggered(this->actionGroup->actions()[currentAction]);
+    actionsTriggered(this->mActionGroup->actions()[currentAction]);
   }
 }
 
