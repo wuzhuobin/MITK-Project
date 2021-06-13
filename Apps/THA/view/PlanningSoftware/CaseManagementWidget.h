@@ -1,5 +1,5 @@
-#ifndef apps_svpk_lib__CaseManagmentWidget_h_
-#define apps_svpk_lib__CaseManagmentWidget_h_
+#ifndef CASE_MANAGEMENT_WIDGET
+#define CASE_MANAGEMENT_WIDGET
 
 #include <QStandardItemModel>
 #include <QWidget>
@@ -26,4 +26,4 @@ private:
 
     Q_SLOT void on_nextStepBtn_clicked(bool checked = false);
 };
-#endif  // apps_svpk_lib__CaseManagmentWidget_h_
+#endif  // CASE_MANAGEMENT_WIDGET
