@@ -40,6 +40,7 @@ target_link_libraries(
   MitkQtWidgets  
   MitkSceneSerialization
   MitkSegmentation
+  MitkDICOMUI
   Qt5::Sql
 )
 
