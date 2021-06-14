@@ -21,8 +21,8 @@ public:
 
 private:
     Ui::MainWindow* mUi;
-    class CasePlanningWidget* mCasePlanning;
-    class AcetabularPrepWidget* mAcetabularPrep;
+    // class CasePlanningWidget* mCasePlanning;
+    // class AcetabularPrepWidget* mAcetabularPrep;
     QActionGroup* mActionGroup;
     void setCurrentActionIndex(int index);
     int mCurrentActionIndex = 0;

@@ -22,10 +22,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -40,65 +37,77 @@
        </spacer>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButtonPreOpRIOCheck">
-        <property name="text">
-         <string>Pre Op RIO Check</string>
+       <widget class="QFrame" name="frameWorkflow">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroupWorkflow</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButtonFemoralPrep">
-        <property name="text">
-         <string>Femoral Prep</string>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroupWorkflow</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButtonCasePlanning">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Case Planning</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroupWorkflow</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButtonAcetabularPrep">
-        <property name="text">
-         <string>Acetabular Prep</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroupWorkflow</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioButtonFinalResult">
-        <property name="text">
-         <string>Final Results</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroupWorkflow</string>
-        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="radioButtonPreOpRIOCheck">
+           <property name="text">
+            <string>Pre Op RIO Check</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonFemoralPrep">
+           <property name="text">
+            <string>Femoral Prep</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonCasePlanning">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Case Planning</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonAcetabularPrep">
+           <property name="text">
+            <string>Acetabular Prep</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonFinalResult">
+           <property name="text">
+            <string>Final Results</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -173,8 +182,8 @@
     </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidgetViewer">
-      <widget class="QWidget" name="page_3"/>
-      <widget class="QWidget" name="page_2"/>
+      <widget class="LoginDialog" name="pageLogin"/>
+      <widget class="CaseManagementDialog" name="pageCaseManagement"/>
       <widget class="QWidget" name="pageMultiWidget">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="spacing">
@@ -552,17 +561,11 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <widget class="QWidget" name="page">
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>DUMMY</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <widget class="QWidget" name="pageEmpty">
+         <layout class="QVBoxLayout" name="verticalLayout_6"/>
         </widget>
+        <widget class="CasePlanningWidget" name="pageCasePlanning"/>
+        <widget class="AcetabularPrepWidget" name="pageAcetabularPrep"/>
        </widget>
       </item>
       <item>
@@ -669,6 +672,16 @@
     <string>Cup Impaction</string>
    </property>
   </action>
+  <action name="action_Login">
+   <property name="text">
+    <string>&amp;Login</string>
+   </property>
+  </action>
+  <action name="action_Manage_Case">
+   <property name="text">
+    <string>&amp;Manage Case</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -689,24 +702,48 @@
    <header>ImageWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>LoginDialog</class>
+   <extends>QWidget</extends>
+   <header>LoginDialog.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CaseManagementDialog</class>
+   <extends>QWidget</extends>
+   <header>CaseManagementDialog.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CasePlanningWidget</class>
+   <extends>QWidget</extends>
+   <header>CasePlanningWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AcetabularPrepWidget</class>
+   <extends>QWidget</extends>
+   <header>AcetabularPrepWidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
  </buttongroups>
 </ui>

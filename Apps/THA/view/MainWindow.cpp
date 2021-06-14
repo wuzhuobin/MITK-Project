@@ -20,8 +20,6 @@ const static struct MainWindowResourceInit
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     mUi(new Ui::MainWindow),
-    mCasePlanning(new CasePlanningWidget(this)),
-    mAcetabularPrep(new AcetabularPrepWidget(this)),
     mActionGroup(new QActionGroup(this))
 {
     mUi->setupUi(this);
@@ -30,23 +28,30 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(IOController::GetInstance(), &IOController::SceneLoaded, this, &MainWindow::onSceneLoaded);
     // the actions should be added in correct order.
 
+    // Login
+    mActionGroup->addAction(mUi->action_Login);
+
+    // Manage Case
+    mActionGroup->addAction(mUi->action_Manage_Case);
+
+
     // CasePlanningWidget
     mActionGroup->addAction(mUi->action_Pelvis_CT_Landmark);
     mActionGroup->addAction(mUi->action_Implant_Planning);
     mActionGroup->addAction(mUi->action_Broach_Tracking);
     connect(mUi->action_Implant_Planning,
             &QAction::triggered,
-            mCasePlanning,
+            mUi->pageCasePlanning,
             &CasePlanningWidget::Action_Implant_Planning_triggered);
     connect(mUi->action_Broach_Tracking,
             &QAction::triggered,
-            mCasePlanning,
+            mUi->pageCasePlanning,
             &CasePlanningWidget::Action_Broach_Tracking_triggered);
     connect(mUi->action_Pelvis_CT_Landmark,
             &QAction::triggered,
-            mCasePlanning,
+            mUi->pageCasePlanning,
             &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
-
+    
     // AcetabularPrepWidget
     mActionGroup->addAction(mUi->action_RIO_Registratoin);
     mActionGroup->addAction(mUi->action_Pelvis_Checkpoint);
@@ -56,31 +61,31 @@ MainWindow::MainWindow(QWidget* parent) :
     mActionGroup->addAction(mUi->action_Cup_Impaction);
     connect(mUi->action_RIO_Registratoin,
             &QAction::triggered,
-            mAcetabularPrep,
+            mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
     connect(mUi->action_Pelvis_Checkpoint,
             &QAction::triggered,
-            mAcetabularPrep,
+            mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered);
     connect(mUi->action_Pelvis_Landmark,
             &QAction::triggered,
-            mAcetabularPrep,
+            mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Pelvis_Landmark_triggered);
     connect(mUi->action_Pelvis_Registration,
             &QAction::triggered,
-            mAcetabularPrep,
+            mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Pelvis_Registration_triggered);
     connect(mUi->action_Cup_Reaming,
             &QAction::triggered,
-            mAcetabularPrep,
+            mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Cup_Reaming_triggered);
     connect(mUi->action_Cup_Impaction,
             &QAction::triggered,
-            mAcetabularPrep,
+            mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
 
-    mUi->stackedWidget->addWidget(mCasePlanning);
-    mUi->stackedWidget->addWidget(mAcetabularPrep);
+    mUi->stackedWidget->addWidget(mUi->pageCasePlanning);
+    mUi->stackedWidget->addWidget(mUi->pageAcetabularPrep);
 
     mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
     mUi->levelWindow->SetDataStorage(ds);
@@ -105,8 +110,9 @@ MainWindow::~MainWindow()
 void MainWindow::test()
 {
     MITK_INFO << __func__;
-    setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Implant_Planning));
-    // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
+    // setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Implant_Planning));
+    // IOController::GetInstance()->LoadScene("THA.mitk");
+    // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
 }
 
 void MainWindow::setCurrentActionIndex(int index)
@@ -226,14 +232,14 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button)
     }
 }
 
-void MainWindow::on_pushButtonNext_clicked(bool checked)
+void MainWindow::on_pushButtonNext_clicked(bool  /*checked*/)
 {
     MITK_INFO << __func__;
 
     setCurrentActionIndex(++mCurrentActionIndex);
 }
 
-void MainWindow::on_pushButtonBack_clicked(bool checked)
+void MainWindow::on_pushButtonBack_clicked(bool  /*checked*/)
 {
     MITK_INFO << __func__;
     setCurrentActionIndex(--mCurrentActionIndex);
@@ -256,19 +262,34 @@ void MainWindow::onActionsTriggered(QAction* action) const
         mUi->pushButtonNext->setEnabled(true);
         mUi->pushButtonBack->setEnabled(true);
     }
-
-    if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
+    
+    if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Manage_Case))
     {
+        mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
+        mUi->frameWorkflow->setVisible(false);
+    }
+    else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
+    {
+        mUi->frameWorkflow->setVisible(true);
         mUi->radioButtonCasePlanning->setChecked(true);
-        mUi->stackedWidget->setCurrentWidget(mCasePlanning);
+        mUi->stackedWidget->setCurrentWidget(mUi->pageCasePlanning);
     }
     else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Cup_Impaction))
     {
+        mUi->frameWorkflow->setVisible(true);
         mUi->radioButtonAcetabularPrep->setChecked(true);
-        mUi->stackedWidget->setCurrentWidget(mAcetabularPrep);
+        mUi->stackedWidget->setCurrentWidget(mUi->pageAcetabularPrep);
     }
 
-    if (action == mUi->action_RIO_Registratoin)
+    if (action == mUi->action_Login)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageLogin);
+    }
+    else if (action == mUi->action_Manage_Case)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
+    }
+    else if (action == mUi->action_RIO_Registratoin)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
         mUi->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
