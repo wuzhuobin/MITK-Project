@@ -15,11 +15,6 @@
 #include <qvariant.h>
 #include <qdebug.h>
 
-const static struct CaseManagementDialogResourceInit
-{
-    CaseManagementDialogResourceInit() { Q_INIT_RESOURCE(resource); }
-} GInit;
-
 CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     QDialog(parent), mUi(new Ui::CaseManagementDialog)
 {

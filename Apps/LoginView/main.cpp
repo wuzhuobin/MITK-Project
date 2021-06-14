@@ -7,7 +7,7 @@
 #include "QtSql/QSqlDatabase"
 #include "PlanningSoftware/account_manager/account_manager.h"
 #include "PlanningSoftware/account_manager/account_manager_impl.h"
-#include "PlanningSoftware/login_view.h"
+#include "login_view.h"
 #include "PlanningSoftware/account_manager/account_manager.h"
 #include "PlanningSoftware/account_manager/account_manager_impl.h"
 #include "PlanningSoftware/session.h"

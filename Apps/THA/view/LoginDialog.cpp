@@ -1,18 +1,10 @@
 ﻿#include "LoginDialog.h"
+#include "ui_LoginDialog.h"
 
+// qt
 #include <qregularexpression.h>
 #include <qvalidator.h>
 
-#include "ui_LoginDialog.h"
-
-// #include "theme.h"
-// #include "session.h"
-// #include "account_manager/account_manager.h"
-
-const static struct LoginDaiglogResourceInit
-{
-    LoginDaiglogResourceInit() { Q_INIT_RESOURCE(resource); }
-} GInit;
 
 LoginDialog::LoginDialog(QWidget* parent) : QDialog(parent), mUi(new Ui::LoginDialog)
 {
@@ -82,7 +74,7 @@ LoginDialog::~LoginDialog()
 //     }
 // }
 
-void LoginDialog::on_pushButtonLogin_clicked(bool  /*checked*/)
+void LoginDialog::on_pushButtonLogin_clicked(bool /*checked*/)
 {
     accept();
 }
