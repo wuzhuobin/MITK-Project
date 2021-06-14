@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include "AcetabularPrepWidget.h"
+#include "AdminMenu.h"
 #include "CasePlanningWidget.h"
 #include "IOController.h"
 #include "ui_MainWindow.h"
@@ -21,6 +22,8 @@ MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent), mUi(new Ui::MainWindow), mActionGroup(new QActionGroup(this))
 {
     mUi->setupUi(this);
+
+    mUi->toolButtonAdmin->setMenu(new AdminMenu);
 
     connect(mActionGroup, &QActionGroup::triggered, this, &MainWindow::onActionsTriggered);
     connect(IOController::GetInstance(), &IOController::SceneLoaded, this, &MainWindow::onSceneLoaded);
@@ -341,5 +344,4 @@ void MainWindow::onActionsTriggered(QAction* action) const
 void MainWindow::onSceneLoaded()
 {
     mUi->multiWidget->InitializeMultiWidget();
-    setCurrentActionIndex(0);
 }
