@@ -63,5 +63,5 @@ CaseManagementWidget::~CaseManagementWidget()
 
 void CaseManagementWidget::on_nextStepBtn_clicked(bool checked)
 {
-    emit finished();
+    Q_EMIT finished();
 }

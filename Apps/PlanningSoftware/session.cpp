@@ -16,14 +16,14 @@ void Session::setAccount(const Account& account)
 {
     m_account = account;
     m_isLogin = true;
-    emit accountChanged();
+    Q_EMIT accountChanged();
 }
 
 void Session::logout()
 {
     m_account = {};
     m_isLogin = false;
-    emit accountChanged();
+    Q_EMIT accountChanged();
 }
 
 bool Session::isLogin() const

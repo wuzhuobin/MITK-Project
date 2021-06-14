@@ -37,7 +37,7 @@ void IOController::LoadScene(QString fileName)
 
   this->AddReamer();
   this->AddReamerTrajectory();
-  emit this->SceneLoaded();
+  Q_EMIT this->SceneLoaded();
 }
 
 void IOController::AddReamerTrajectory()

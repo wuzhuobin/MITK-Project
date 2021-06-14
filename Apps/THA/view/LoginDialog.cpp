@@ -51,7 +51,7 @@ LoginDialog::~LoginDialog()
 //     {
 //         this->close(); //should close this page first and then show create case page. or this page will exist.
 //         Session::instance()->setAccount(AccountManager::instance()->getAccount(name));
-//         emit signalLoginDialogResult(name, password);
+//         Q_EMIT signalLoginDialogResult(name, password);
 //     }
 //     else
 //     {

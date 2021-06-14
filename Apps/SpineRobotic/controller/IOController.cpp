@@ -28,7 +28,7 @@ void IOController::loadScene(QString fileName)
   {
     MITK_INFO << one->GetName();
   }
-  Q_EMIT this->sceneLoaded();
+  Q_EMIT  this->sceneLoaded();
 }
 
 void IOController::saveScene(QString fileName)
