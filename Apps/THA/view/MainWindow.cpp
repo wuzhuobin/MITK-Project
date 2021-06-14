@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget* parent) :
     mUi->toolButtonAdmin->setMenu(new AdminMenu);
 
     connect(mActionGroup, &QActionGroup::triggered, this, &MainWindow::onActionsTriggered);
-    connect(IOController::GetInstance(), &IOController::SceneLoaded, this, &MainWindow::onSceneLoaded);
+    connect(IOController::getInstance(), &IOController::sceneLoaded, this, &MainWindow::onsceneLoaded);
     // the actions should be added in correct order.
 
     // Login
@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget* parent) :
     QString fileName = QCoreApplication::arguments().size() > 1 ? QCoreApplication::arguments()[1] : "";
     if (!fileName.isEmpty())
     {
-        IOController::GetInstance()->LoadScene(fileName);
+        IOController::getInstance()->loadScene(fileName);
     }
     setCurrentActionIndex(0);
 }
@@ -109,7 +109,7 @@ void MainWindow::test()
 {
     MITK_INFO << __func__;
     // setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Implant_Planning));
-    // IOController::GetInstance()->LoadScene("THA.mitk");
+    // IOController::getInstance()->loadScene("THA.mitk");
     // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
 }
 
@@ -139,7 +139,7 @@ void MainWindow::on_radioButtonOptions_toggled(bool checked)
     if (checked)
     {
         QString fileName = QFileDialog::getOpenFileName(this, "Scene", QString(), tr("MITK (*.mitk)"));
-        IOController::GetInstance()->LoadScene(fileName);
+        IOController::getInstance()->loadScene(fileName);
     }
 }
 
@@ -342,7 +342,7 @@ void MainWindow::onActionsTriggered(QAction* action) const
     }
 }
 
-void MainWindow::onSceneLoaded()
+void MainWindow::onsceneLoaded()
 {
     mUi->multiWidget->InitializeMultiWidget();
 }

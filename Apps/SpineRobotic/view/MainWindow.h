@@ -27,7 +27,7 @@ private:
   Q_SLOT void on_toolButtonLoad_clicked(bool checked = false);
   Q_SLOT void on_toolButtonExport_clicked(bool checked = false);
   Q_SLOT void actionsTriggered(class QAction *action);
-  Q_SLOT void onSceneLoaded();
+  Q_SLOT void onsceneLoaded();
 };
 
 #endif //! MAIN_WINDOW_H

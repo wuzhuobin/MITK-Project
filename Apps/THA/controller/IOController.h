@@ -3,29 +3,27 @@
 // qt
 #include <QObject>
 
-class THAStdMultiWidget;
-class QLabel;
-class IOController: public QObject
+class IOController : public QObject
 {
-  Q_OBJECT;
-public:
-  static IOController * GetInstance();
-  explicit IOController(QObject *parent = nullptr);
-  void LoadScene(QString fileName);
-  void AddReamerTrajectory();
-  void AddReamer();
-  void AddReamerCuter();
-  // void SetMultiWidget(THAStdMultiWidget *w) { this->multiWidget = w; }
-  // THAStdMultiWidget * GetMultiWidget() const { return this->multiWidget; }
-  // void SetImageViewer(QLabel *viewer) { this->imageViewer = viewer; }
-  // QLabel *GetImageViewer() const { return this->imageViewer; }
+    Q_OBJECT;
 
-Q_SIGNALS:
-  void SceneLoaded();
+public:
+    static IOController* getInstance();
+    explicit IOController(QObject* parent = nullptr);
+    void loadScene(const QString& fileName);
+    void addReamerTrajectory();
+    void addReamer();
+    void addReamerCuter();
+    // void SetMultiWidget(THAStdMultiWidget *w) { this->multiWidget = w; }
+    // THAStdMultiWidget * GetMultiWidget() const { return this->multiWidget; }
+    // void SetImageViewer(QLabel *viewer) { this->imageViewer = viewer; }
+    // QLabel *GetImageViewer() const { return this->imageViewer; }
+
+    Q_SIGNAL void sceneLoaded();
 
 private:
-  THAStdMultiWidget *multiWidget;
-  QLabel *imageViewer;
+    class THAStdMultiWidget* mMultiWidget;
+    class QLabel* mImageViewer;
 };
 
-#endif//!IO_CONTROLLER_H
+#endif  //! IO_CONTROLLER_H

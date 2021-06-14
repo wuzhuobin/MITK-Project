@@ -70,7 +70,7 @@ void MainWindow::initializeConnection() {
   this->mActionGroup->addAction(this->ui->action_Angle);
 
   connect(IOController::getInstance(), &IOController::sceneLoaded, this,
-          &MainWindow::onSceneLoaded);
+          &MainWindow::onsceneLoaded);
   connect(this->mActionGroup, &QActionGroup::triggered, this,
           &MainWindow::actionsTriggered);
 }
@@ -149,6 +149,6 @@ void MainWindow::actionsTriggered(QAction *action) {
   }
 }
 
-void MainWindow::onSceneLoaded() {
+void MainWindow::onsceneLoaded() {
   this->ui->multiWidget->InitializeMultiWidget();
 }
