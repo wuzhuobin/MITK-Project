@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget* parent) :
     {
         IOController::GetInstance()->LoadScene(fileName);
     }
+    setCurrentActionIndex(0);
 }
 
 MainWindow::~MainWindow()
