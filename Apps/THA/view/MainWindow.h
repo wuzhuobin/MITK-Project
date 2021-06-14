@@ -34,6 +34,8 @@ private:
     Q_SLOT void on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button);
     Q_SLOT void on_pushButtonNext_clicked(bool checked = false);
     Q_SLOT void on_pushButtonBack_clicked(bool checked = false);
+    Q_SLOT void on_pageLogin_accepted();
+    Q_SLOT void on_pageCaseManagement_accepted();
     Q_SLOT void onActionsTriggered(QAction* action) const;
     Q_SLOT void onSceneLoaded();
 };

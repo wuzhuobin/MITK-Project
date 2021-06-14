@@ -18,9 +18,7 @@ const static struct MainWindowResourceInit
 } GInit;
 
 MainWindow::MainWindow(QWidget* parent) :
-    QMainWindow(parent),
-    mUi(new Ui::MainWindow),
-    mActionGroup(new QActionGroup(this))
+    QMainWindow(parent), mUi(new Ui::MainWindow), mActionGroup(new QActionGroup(this))
 {
     mUi->setupUi(this);
 
@@ -33,7 +31,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     // Manage Case
     mActionGroup->addAction(mUi->action_Manage_Case);
-
 
     // CasePlanningWidget
     mActionGroup->addAction(mUi->action_Pelvis_CT_Landmark);
@@ -51,7 +48,7 @@ MainWindow::MainWindow(QWidget* parent) :
             &QAction::triggered,
             mUi->pageCasePlanning,
             &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
-    
+
     // AcetabularPrepWidget
     mActionGroup->addAction(mUi->action_RIO_Registratoin);
     mActionGroup->addAction(mUi->action_Pelvis_Checkpoint);
@@ -83,9 +80,6 @@ MainWindow::MainWindow(QWidget* parent) :
             &QAction::triggered,
             mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
-
-    mUi->stackedWidget->addWidget(mUi->pageCasePlanning);
-    mUi->stackedWidget->addWidget(mUi->pageAcetabularPrep);
 
     mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
     mUi->levelWindow->SetDataStorage(ds);
@@ -232,17 +226,29 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button)
     }
 }
 
-void MainWindow::on_pushButtonNext_clicked(bool  /*checked*/)
+void MainWindow::on_pushButtonNext_clicked(bool /*checked*/)
 {
     MITK_INFO << __func__;
 
     setCurrentActionIndex(++mCurrentActionIndex);
 }
 
-void MainWindow::on_pushButtonBack_clicked(bool  /*checked*/)
+void MainWindow::on_pushButtonBack_clicked(bool /*checked*/)
 {
     MITK_INFO << __func__;
     setCurrentActionIndex(--mCurrentActionIndex);
+}
+
+void MainWindow::on_pageLogin_accepted()
+{
+    MITK_INFO << __func__;
+    setCurrentActionIndex(++mCurrentActionIndex);
+}
+
+void MainWindow::on_pageCaseManagement_accepted()
+{
+    MITK_INFO << __func__;
+    setCurrentActionIndex(++mCurrentActionIndex);
 }
 
 void MainWindow::onActionsTriggered(QAction* action) const
@@ -262,21 +268,27 @@ void MainWindow::onActionsTriggered(QAction* action) const
         mUi->pushButtonNext->setEnabled(true);
         mUi->pushButtonBack->setEnabled(true);
     }
-    
+
     if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Manage_Case))
     {
         mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
         mUi->frameWorkflow->setVisible(false);
+        mUi->pushButtonBack->setVisible(false);
+        mUi->pushButtonNext->setVisible(false);
     }
     else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
     {
         mUi->frameWorkflow->setVisible(true);
+        mUi->pushButtonBack->setVisible(true);
+        mUi->pushButtonNext->setVisible(true);
         mUi->radioButtonCasePlanning->setChecked(true);
         mUi->stackedWidget->setCurrentWidget(mUi->pageCasePlanning);
     }
     else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Cup_Impaction))
     {
         mUi->frameWorkflow->setVisible(true);
+        mUi->pushButtonBack->setVisible(true);
+        mUi->pushButtonNext->setVisible(true);
         mUi->radioButtonAcetabularPrep->setChecked(true);
         mUi->stackedWidget->setCurrentWidget(mUi->pageAcetabularPrep);
     }
