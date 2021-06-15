@@ -12,8 +12,10 @@
 // qt
 #include <qdialog.h>
 #include <qglobal.h>
+#include <qnamespace.h>
 #include <qvariant.h>
 #include <qdebug.h>
+#include <qfilesystemmodel.h>
 
 CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     QDialog(parent), mUi(new Ui::CaseManagementDialog)
@@ -48,6 +50,12 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     //     }
     // });
     connect(this, &CaseManagementDialog::finished, this, &CaseManagementDialog::hide);
+    QFileSystemModel *model = new QFileSystemModel;
+    model->setRootPath(qApp->applicationDirPath() + "/cases");
+    model->setFilter(QDir::Files);
+    model->setReadOnly(true);
+    mUi->tableViewCase->setModel(model);
+    mUi->tableViewCase->setRootIndex(model->index(model->rootPath()));
 }
 
 CaseManagementDialog::~CaseManagementDialog()

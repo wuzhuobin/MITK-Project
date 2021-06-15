@@ -15,13 +15,24 @@
 #include <vtkTransformPolyDataFilter.h>
 
 // qt
+#include <qcoreapplication.h>
+#include <qsqldatabase.h>
+#include <qsqlerror.h>
+#include <qsqlquery.h>
+
 #include <QSharedPointer>
 
-QSharedPointer<IOController> gInstance = QSharedPointer<IOController>(new IOController);
+// QSharedPointer<IOController> gInstance = QSharedPointer<IOController>(new IOController);
 
 IOController* IOController::getInstance()
 {
-    return gInstance.get();
+    static IOController gInstance;
+    return &gInstance;
+}
+
+IOController::IOController(QObject* parent) : QObject(parent)
+{
+    initCaseDataBase();
 }
 
 void IOController::loadScene(const QString& fileName)
@@ -114,4 +125,32 @@ void IOController::addReamer()
 
 void IOController::addReamerCuter() {}
 
-IOController::IOController(QObject* parent) : QObject(parent) {}
+void IOController::initCaseDataBase()
+{
+    auto db = QSqlDatabase::addDatabase("QSQLITE");
+    MITK_INFO << (qApp->applicationDirPath() + "/tha.sql").toStdString();
+    db.setDatabaseName(qApp->applicationDirPath() + "/tha.sql");
+    if (!db.open())
+    {
+        MITK_INFO << db.lastError().text().toStdString();
+    }
+
+    QSqlQuery createTable(
+        "CREATE TABLE IF NOT EXISTS \"Cases\" ("
+        "\"ID\"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+        "\"Name\"	TEXT NOT NULL,"
+        "\"DateTime\"	TEXT NOT NULL,"
+        "\"Description\"	TEXT,"
+        "\"File\"	TEXT"
+        ")");
+    if (!createTable.exec())
+    {
+        MITK_INFO << createTable.lastError().text().toStdString();
+    }
+    QSqlQuery insert("");
+
+    if (insert.exec())
+    {
+        MITK_INFO << createTable.lastError().text().toStdString();
+    }
+}
