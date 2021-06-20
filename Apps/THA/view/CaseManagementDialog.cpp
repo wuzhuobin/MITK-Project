@@ -1,24 +1,29 @@
 #include "CaseManagementDialog.h"
 
+#include "CaseModel.h"
+#include "IOController.h"
 #include "ui_CaseManagementDialog.h"
-// #include "theme.h"
-// #include "AdminMenu.h"
 
 // mitk
-#include <mitkLogMacros.h>
 #include <QmitkDicomExternalDataWidget.h>
 #include <QmitkDicomLocalStorageWidget.h>
+#include <mitkLogMacros.h>
 
 // qt
+#include <qabstractitemmodel.h>
+#include <qdebug.h>
 #include <qdialog.h>
 #include <qglobal.h>
+#include <qitemselectionmodel.h>
+#include <qmessagebox.h>
 #include <qnamespace.h>
+#include <qtableview.h>
 #include <qvariant.h>
-#include <qdebug.h>
-#include <qfilesystemmodel.h>
+
+#include <QTableWidgetItem>
 
 CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
-    QDialog(parent), mUi(new Ui::CaseManagementDialog)
+    QDialog(parent), mUi(new Ui::CaseManagementDialog), mCaseModel(new CaseModel(this))
 {
     mUi->setupUi(this);
     auto* external = new QmitkDicomExternalDataWidget(this);
@@ -35,7 +40,7 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
             internal,
             QOverload<const QStringList&>::of(&QmitkDicomLocalStorageWidget::OnStartDicomImport));
     connect(internal, &QmitkDicomLocalStorageWidget::SignalDicomToDataManager, [](QHash<QString, QVariant> map) {
-        for(auto cit = map.cbegin(); cit !=  map.cend(); ++ cit)
+        for (auto cit = map.cbegin(); cit != map.cend(); ++cit)
         {
             // MITK_INFO << cit.key().toStdString();
             // MITK_INFO << cit.value().toString().toStdString();
@@ -49,13 +54,10 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     //         MITK_INFO << path.toStdString();
     //     }
     // });
+    mUi->tableViewCase->setModel(mCaseModel);
+    mUi->tableViewCase->setRootIndex(mCaseModel->index(mCaseModel->rootPath()));
+
     connect(this, &CaseManagementDialog::finished, this, &CaseManagementDialog::hide);
-    QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath(qApp->applicationDirPath() + "/cases");
-    model->setFilter(QDir::Files);
-    model->setReadOnly(true);
-    mUi->tableViewCase->setModel(model);
-    mUi->tableViewCase->setRootIndex(model->index(model->rootPath()));
 }
 
 CaseManagementDialog::~CaseManagementDialog()
@@ -63,7 +65,17 @@ CaseManagementDialog::~CaseManagementDialog()
     delete mUi;
 }
 
-void CaseManagementDialog::on_nextStepBtn_clicked(bool checked)
+void CaseManagementDialog::on_pushButtonImport_clicked(bool /*checked*/)
 {
-    emit accept();
+    auto indexes = mUi->tableViewCase->selectionModel()->selectedIndexes();
+    if (indexes.isEmpty())
+    {
+        QMessageBox::warning(this, tr("No case selected."), tr("Please select a case."));
+        return;
+    }
+
+    // auto aCase = mCaseModel->rootPath() + "/" + indexes.first().data().toString();
+    auto aCase = mCaseModel->rootPath() + "/" + "THA.mitk";
+    MITK_INFO << aCase.toStdString();
+    IOController::getInstance()->loadScene(aCase);
 }

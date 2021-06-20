@@ -31,45 +31,59 @@
         <property name="textElideMode">
          <enum>Qt::ElideRight</enum>
         </property>
-        <attribute name="horizontalHeaderCascadingSectionResizes">
-         <bool>true</bool>
-        </attribute>
-        <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>200</number>
-        </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
          <bool>true</bool>
         </attribute>
         <attribute name="horizontalHeaderStretchLastSection">
          <bool>true</bool>
         </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="importBtn">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>  Import</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_import.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_import.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="pushButtonImport">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>  Import</string>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_import.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_import.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>40</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -169,67 +183,7 @@
         <item row="1" column="0" colspan="2">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="manageBtn">
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>  Manage</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/others/icon_images/others/40px_manage_icon.png</normaloff>:/others/icon_images/others/40px_manage_icon.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="autoDefault">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectAllBtn">
-            <property name="text">
-             <string>  Select All </string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/others/icon_images/others/40px_select_all.png</normaloff>:/others/icon_images/others/40px_select_all.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="deleteBtn">
-            <property name="text">
-             <string>  Delete</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_clear.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_clear.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="exportBtn">
+           <widget class="QPushButton" name="pushButtonExport">
             <property name="text">
              <string>  exportBtn</string>
             </property>
@@ -246,24 +200,17 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="nextStepBtn">
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="text">
-             <string>  Next</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_next_page.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_next_page.png</iconset>
-            </property>
-            <property name="iconSize">
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
-              <height>40</height>
+              <height>20</height>
              </size>
             </property>
-           </widget>
+           </spacer>
           </item>
          </layout>
         </item>

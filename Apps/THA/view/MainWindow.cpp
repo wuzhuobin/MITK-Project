@@ -273,7 +273,7 @@ void MainWindow::onActionsTriggered(QAction* action) const
         mUi->pushButtonBack->setEnabled(true);
     }
 
-    if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Manage_Case))
+    if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Login))
     {
         mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
         mUi->frameWorkflow->setVisible(false);

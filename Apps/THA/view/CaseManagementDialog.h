@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::CaseManagementDialog* mUi = nullptr;
-    Q_SLOT void on_nextStepBtn_clicked(bool checked = false);
+    class CaseModel *mCaseModel;
+    Q_SLOT void on_pushButtonImport_clicked(bool checked = false);
 };
 #endif  // CASE_MANAGEMENT_DIALOG
