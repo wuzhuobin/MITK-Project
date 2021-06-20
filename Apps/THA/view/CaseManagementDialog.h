@@ -20,5 +20,6 @@ private:
     Ui::CaseManagementDialog* mUi = nullptr;
     class CaseModel *mCaseModel;
     Q_SLOT void on_pushButtonImport_clicked(bool checked = false);
+    Q_SLOT void createCase(QHash<QString, QVariant> map);
 };
 #endif  // CASE_MANAGEMENT_DIALOG

@@ -1,5 +1,6 @@
 #include "CaseManagementDialog.h"
 
+#include "CaseCreationDialog.h"
 #include "CaseModel.h"
 #include "IOController.h"
 #include "ui_CaseManagementDialog.h"
@@ -32,7 +33,7 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     auto* internal = new QmitkDicomLocalStorageWidget(this);
     internal->SetDatabaseDirectory(qApp->applicationDirPath());
     internal->setObjectName("dicomLocalStorageWidget");
-    auto *viewInternalDataButton = internal->findChild<QPushButton*>("viewInternalDataButton");
+    auto* viewInternalDataButton = internal->findChild<QPushButton*>("viewInternalDataButton");
     if (viewInternalDataButton)
     {
         viewInternalDataButton->setText(tr("Create Case"));
@@ -44,15 +45,7 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
             &QmitkDicomExternalDataWidget::SignalStartDicomImport,
             internal,
             QOverload<const QStringList&>::of(&QmitkDicomLocalStorageWidget::OnStartDicomImport));
-    connect(internal, &QmitkDicomLocalStorageWidget::SignalDicomToDataManager, [](QHash<QString, QVariant> map) {
-        for (auto cit = map.cbegin(); cit != map.cend(); ++cit)
-        {
-            // MITK_INFO << cit.key().toStdString();
-            // MITK_INFO << cit.value().toString().toStdString();
-            qDebug() << cit.key();
-            qDebug() << cit.value();
-        }
-    });
+    connect(internal, &QmitkDicomLocalStorageWidget::SignalDicomToDataManager, this, &CaseManagementDialog::createCase);
     // connect(external, &QmitkDicomExternalDataWidget::SignalStartDicomImport, [](const QStringList& list) {
     //     for (const auto& path : list)
     //     {
@@ -83,4 +76,17 @@ void CaseManagementDialog::on_pushButtonImport_clicked(bool /*checked*/)
     auto aCase = mCaseModel->rootPath() + "/" + "THA.mitk";
     MITK_INFO << aCase.toStdString();
     IOController::getInstance()->loadScene(aCase);
+}
+
+void CaseManagementDialog::createCase(QHash<QString, QVariant> map)
+{
+    for (auto cit = map.cbegin(); cit != map.cend(); ++cit)
+    {
+        // MITK_INFO << cit.key().toStdString();
+        // MITK_INFO << cit.value().toString().toStdString();
+        qDebug() << cit.key();
+        qDebug() << cit.value();
+    }
+
+    CaseCreationDialog(mCaseModel->rowCount(), this).exec();
 }
