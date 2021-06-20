@@ -32,6 +32,11 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     auto* internal = new QmitkDicomLocalStorageWidget(this);
     internal->SetDatabaseDirectory(qApp->applicationDirPath());
     internal->setObjectName("dicomLocalStorageWidget");
+    auto *viewInternalDataButton = internal->findChild<QPushButton*>("viewInternalDataButton");
+    if (viewInternalDataButton)
+    {
+        viewInternalDataButton->setText(tr("Create Case"));
+    }
 
     mUi->tabDicomExternalData->layout()->addWidget(external);
     mUi->tabDicomLocalStorage->layout()->addWidget(internal);
