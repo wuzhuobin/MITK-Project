@@ -3,6 +3,7 @@
 #include "CaseCreationDialog.h"
 #include "CaseModel.h"
 #include "IOController.h"
+#include "THADicomLocalStorageWidget.h"
 #include "ui_CaseManagementDialog.h"
 
 // mitk
@@ -23,6 +24,14 @@
 
 #include <QTableWidgetItem>
 
+// ctk
+#include <ctkDICOMThumbnailGenerator.h>
+
+static const struct CaseManagementDialogResourceInit
+{
+    CaseManagementDialogResourceInit() {}
+} GInit;
+
 CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     QDialog(parent), mUi(new Ui::CaseManagementDialog), mCaseModel(new CaseModel(this))
 {
@@ -30,22 +39,24 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     auto* external = new QmitkDicomExternalDataWidget(this);
     external->setObjectName("dicomExternalDataWidget");
 
-    auto* internal = new QmitkDicomLocalStorageWidget(this);
-    internal->SetDatabaseDirectory(qApp->applicationDirPath());
-    internal->setObjectName("dicomLocalStorageWidget");
-    auto* viewInternalDataButton = internal->findChild<QPushButton*>("viewInternalDataButton");
-    if (viewInternalDataButton)
-    {
-        viewInternalDataButton->setText(tr("Create Case"));
-    }
+    mInternal = new THADicomLocalStorageWidget(this);
+    mInternal->setDatabaseDirectory(qApp->applicationDirPath());
+    mInternal->setObjectName("dicomLocalStorageWidget");
+
+    // auto* viewInternalDataButton = internal->findChild<QPushButton*>("viewInternalDataButton");
+    // if (viewInternalDataButton)
+    // {
+    //     viewInternalDataButton->setText(tr("Create Case"));
+    // }
 
     mUi->tabDicomExternalData->layout()->addWidget(external);
-    mUi->tabDicomLocalStorage->layout()->addWidget(internal);
+    mUi->tabDicomLocalStorage->layout()->addWidget(mInternal);
     connect(external,
             &QmitkDicomExternalDataWidget::SignalStartDicomImport,
-            internal,
-            QOverload<const QStringList&>::of(&QmitkDicomLocalStorageWidget::OnStartDicomImport));
-    connect(internal, &QmitkDicomLocalStorageWidget::SignalDicomToDataManager, this, &CaseManagementDialog::createCase);
+            mInternal,
+            QOverload<const QStringList&>::of(&THADicomLocalStorageWidget::onStartDicomImport));
+    connect(
+        mInternal, &QmitkDicomLocalStorageWidget::SignalDicomToDataManager, this, &CaseManagementDialog::createCase);
     // connect(external, &QmitkDicomExternalDataWidget::SignalStartDicomImport, [](const QStringList& list) {
     //     for (const auto& path : list)
     //     {
@@ -80,13 +91,16 @@ void CaseManagementDialog::on_pushButtonImport_clicked(bool /*checked*/)
 
 void CaseManagementDialog::createCase(QHash<QString, QVariant> map)
 {
-    for (auto cit = map.cbegin(); cit != map.cend(); ++cit)
+    auto dicoms = map["FilesForSeries"].toStringList();
+    ctkDICOMThumbnailGenerator gen;
+    gen.setWidth(64);
+    gen.setHeight(64);
+    for (auto dicom : dicoms)
     {
-        // MITK_INFO << cit.key().toStdString();
-        // MITK_INFO << cit.value().toString().toStdString();
-        qDebug() << cit.key();
-        qDebug() << cit.value();
+        auto dicomPrefix = qApp->applicationDirPath() + "/dicom";
+        auto thumbnail = qApp->applicationDirPath() + "/thumb" + dicom.mid(dicomPrefix.size()) + ".png";
+        QDir().mkpath(QFileInfo(thumbnail).path());
+        gen.generateThumbnail(dicom, thumbnail);
     }
-
-    CaseCreationDialog(mCaseModel->rowCount(), this).exec();
+    // CaseCreationDialog(mCaseModel->rowCount(), this).exec();
 }

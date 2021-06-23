@@ -18,7 +18,8 @@ public:
 
 private:
     Ui::CaseManagementDialog* mUi = nullptr;
-    class CaseModel *mCaseModel;
+    class THADicomLocalStorageWidget* mInternal;
+    class CaseModel* mCaseModel;
     Q_SLOT void on_pushButtonImport_clicked(bool checked = false);
     Q_SLOT void createCase(QHash<QString, QVariant> map);
 };
