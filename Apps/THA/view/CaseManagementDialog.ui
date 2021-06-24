@@ -96,91 +96,24 @@
         <bool>false</bool>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
-       <widget class="QWidget" name="tabDicomExternalData">
+       <widget class="THADicomExternalDataWidget" name="tabDicomExternalData">
         <attribute name="title">
          <string>External Data</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_4"/>
        </widget>
-       <widget class="QWidget" name="tabDicomLocalStorage">
+       <widget class="THADicomLocalStorageWidget" name="tabDicomLocalStorage">
         <attribute name="title">
          <string>Local Storage</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_5"/>
        </widget>
       </widget>
      </item>
      <item>
       <widget class="QWidget" name="widget2" native="true">
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1">
-         <widget class="QListView" name="listViewScreenshotPics"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QWidget" name="widget3" native="true">
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
-            <widget class="QLabel" name="labelBonePic1">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="labelBonePic2">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="labelBonePic3">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="labelBonePic4">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="labelBonePic5">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="labelBonePic6">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="labelBonePic7">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="labelBonePic8">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0" colspan="2">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="pushButtonExport">
@@ -221,6 +154,20 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>THADicomExternalDataWidget</class>
+   <extends>QWidget</extends>
+   <header>THADicomExternalDataWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>THADicomLocalStorageWidget</class>
+   <extends>QWidget</extends>
+   <header>THADicomLocalStorageWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
