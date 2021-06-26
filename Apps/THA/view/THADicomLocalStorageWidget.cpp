@@ -6,7 +6,9 @@
 // qt
 #include <qdebug.h>
 #include <qfileinfo.h>
+#include <qglobal.h>
 #include <qpushbutton.h>
+#include <qtableview.h>
 #include <qwidget.h>
 
 // ctk
@@ -17,14 +19,33 @@
 THADicomLocalStorageWidget::THADicomLocalStorageWidget(QWidget* parent) :
     QmitkDicomLocalStorageWidget(parent),
     mThumbnailsWidget(new ctkThumbnailListWidget(this)),
-    mThumbnailGenerator(new ctkDICOMThumbnailGenerator(this))
+    mThumbnailGenerator(new ctkDICOMThumbnailGenerator(this)),
+    mPushButtonCreateCase(new QPushButton(tr("Create Case"), this))
 {
     m_Controls->localFilesGroupBox->layout()->addWidget(mThumbnailsWidget);
+    m_Controls->frame->layout()->addWidget(mPushButtonCreateCase);
+    mPushButtonCreateCase->setEnabled(false);
+
+    auto tables = this->findChildren<QTableView*>("tblDicomDatabaseView");
+    for (auto* table : tables)
+    {
+        table->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+    }
 
     connect(m_Controls->viewInternalDataButton,
             &QPushButton::clicked,
             this,
             &THADicomLocalStorageWidget::on_viewInternalDataButton_clicked);
+
+    connect(mPushButtonCreateCase,
+            &QPushButton::clicked,
+            this,
+            &THADicomLocalStorageWidget::on_pushButtonCreateCase_clicked);
+
+    connect(m_Controls->ctkDicomBrowser,
+            QOverload<const QStringList&>::of(&ctkDICOMTableManager::seriesSelectionChanged),
+            this,
+            &THADicomLocalStorageWidget::onSeriesSelectionChanged);
 }
 
 void THADicomLocalStorageWidget::setDatabaseDirectory(QString newDatabaseDirectory)
@@ -65,4 +86,21 @@ void THADicomLocalStorageWidget::on_viewInternalDataButton_clicked(bool /*checke
             mThumbnailsWidget->addThumbnail(pixmap);
         }
     }
+}
+
+void THADicomLocalStorageWidget::on_pushButtonCreateCase_clicked(bool /*checked*/)
+{
+    auto uids = m_Controls->ctkDicomBrowser->currentSeriesSelection();
+    QStringList filesForSeries;
+    for (const auto& uid : uids)
+    {
+        filesForSeries << m_LocalDatabase->filesForSeries(uid);
+    }
+
+    Q_EMIT pushButtonCreateCaseClicked(filesForSeries);
+}
+
+void THADicomLocalStorageWidget::onSeriesSelectionChanged(const QStringList& selection)
+{
+    mPushButtonCreateCase->setEnabled(!selection.isEmpty());
 }
