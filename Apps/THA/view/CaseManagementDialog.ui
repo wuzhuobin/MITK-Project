@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_3">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QWidget" name="widgetMid" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -89,68 +89,24 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="THADicomExternalDataWidget" name="tabDicomExternalData">
-        <attribute name="title">
-         <string>External Data</string>
-        </attribute>
-       </widget>
-       <widget class="THADicomLocalStorageWidget" name="tabDicomLocalStorage">
-        <attribute name="title">
-         <string>Local Storage</string>
-        </attribute>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QWidget" name="widget2" native="true">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="pushButtonExport">
-            <property name="text">
-             <string>  exportBtn</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_export.png</normaloff>:/40px_button_cutout/icon_images/40px_button_cutout/40px_export.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>40</width>
-              <height>40</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="THADicomLocalStorageWidget" name="tabDicomLocalStorage">
+      <attribute name="title">
+       <string>Local Storage</string>
+      </attribute>
+     </widget>
+     <widget class="THADicomExternalDataWidget" name="tabDicomExternalData">
+      <attribute name="title">
+       <string>External Data</string>
+      </attribute>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

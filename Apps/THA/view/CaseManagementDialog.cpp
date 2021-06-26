@@ -49,8 +49,10 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
             &QmitkDicomExternalDataWidget::SignalStartDicomImport,
             mUi->tabDicomLocalStorage,
             QOverload<const QStringList&>::of(&THADicomLocalStorageWidget::onStartDicomImport));
-    // connect(
-    //     mUi->tabDicomLocalStorage, &QmitkDicomLocalStorageWidget::SignalDicomToDataManager, this, &CaseManagementDialog::createCase);
+    connect(mUi->tabDicomLocalStorage,
+            &THADicomLocalStorageWidget::pushButtonCreateCaseClicked,
+            this,
+            &CaseManagementDialog::createCase);
     // connect(external, &QmitkDicomExternalDataWidget::SignalStartDicomImport, [](const QStringList& list) {
     //     for (const auto& path : list)
     //     {
@@ -83,18 +85,10 @@ void CaseManagementDialog::on_pushButtonImport_clicked(bool /*checked*/)
     IOController::getInstance()->loadScene(aCase);
 }
 
-void CaseManagementDialog::createCase(QHash<QString, QVariant> map)
+void CaseManagementDialog::createCase(const QStringList& dicoms)
 {
-    auto dicoms = map["FilesForSeries"].toStringList();
-    ctkDICOMThumbnailGenerator gen;
-    gen.setWidth(64);
-    gen.setHeight(64);
     for (auto dicom : dicoms)
     {
-        auto dicomPrefix = qApp->applicationDirPath() + "/dicom";
-        auto thumbnail = qApp->applicationDirPath() + "/thumb" + dicom.mid(dicomPrefix.size()) + ".png";
-        QDir().mkpath(QFileInfo(thumbnail).path());
-        gen.generateThumbnail(dicom, thumbnail);
+        MITK_INFO << dicom.toStdString();
     }
-    // CaseCreationDialog(mCaseModel->rowCount(), this).exec();
 }
