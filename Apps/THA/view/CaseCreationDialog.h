@@ -21,6 +21,7 @@ public:
 
 private:
     std::unique_ptr<Ui::CaseCreationDialog> mUi;
+    Q_SLOT void on_lineEditName_textChanged(const QString& text);
 };
 
 #endif  //! CASE_CREATION_DIALOG

@@ -8,6 +8,7 @@ class IOController : public QObject
     Q_OBJECT;
 
 public:
+    static QString getBaseProject();
     static IOController* getInstance();
     explicit IOController(QObject* parent = nullptr);
     void loadScene(const QString& fileName);

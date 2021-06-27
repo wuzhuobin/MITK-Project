@@ -68,7 +68,7 @@ void CaseManagementDialog::on_pushButtonImport_clicked(bool /*checked*/)
     }
 
     // auto aCase = mCaseModel->rootPath() + "/" + indexes.first().data().toString();
-    auto aCase = mCaseModel->rootPath() + "/" + "THA.0";
+    auto aCase = IOController::getBaseProject();
     MITK_INFO << aCase.toStdString();
     IOController::getInstance()->loadScene(aCase);
 }

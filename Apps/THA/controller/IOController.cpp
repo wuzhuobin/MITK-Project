@@ -15,14 +15,18 @@
 #include <vtkTransformPolyDataFilter.h>
 
 // qt
+#include <qapplication.h>
 #include <qcoreapplication.h>
 #include <qsqldatabase.h>
 #include <qsqlerror.h>
 #include <qsqlquery.h>
-
 #include <QSharedPointer>
 
-// QSharedPointer<IOController> gInstance = QSharedPointer<IOController>(new IOController);
+QString IOController::getBaseProject()
+{
+    static QString gBaseProject(qApp->applicationDirPath() + "/THA.mitk");
+    return gBaseProject;
+}
 
 IOController* IOController::getInstance()
 {
