@@ -36,14 +36,9 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
     QDialog(parent), mUi(new Ui::CaseManagementDialog), mCaseModel(new CaseModel(this))
 {
     mUi->setupUi(this);
-
     mUi->tabDicomLocalStorage->setDatabaseDirectory(qApp->applicationDirPath());
-
-    // auto* viewInternalDataButton = internal->findChild<QPushButton*>("viewInternalDataButton");
-    // if (viewInternalDataButton)
-    // {
-    //     viewInternalDataButton->setText(tr("Create Case"));
-    // }
+    mUi->tableViewCase->setModel(mCaseModel);
+    mUi->tableViewCase->setRootIndex(mCaseModel->index(mCaseModel->rootPath()));
 
     connect(mUi->tabDicomExternalData,
             &QmitkDicomExternalDataWidget::SignalStartDicomImport,
@@ -53,14 +48,6 @@ CaseManagementDialog::CaseManagementDialog(QWidget* parent) :
             &THADicomLocalStorageWidget::pushButtonCreateCaseClicked,
             this,
             &CaseManagementDialog::createCase);
-    // connect(external, &QmitkDicomExternalDataWidget::SignalStartDicomImport, [](const QStringList& list) {
-    //     for (const auto& path : list)
-    //     {
-    //         MITK_INFO << path.toStdString();
-    //     }
-    // });
-    mUi->tableViewCase->setModel(mCaseModel);
-    mUi->tableViewCase->setRootIndex(mCaseModel->index(mCaseModel->rootPath()));
 
     connect(this, &CaseManagementDialog::finished, this, &CaseManagementDialog::hide);
 }
@@ -80,9 +67,14 @@ void CaseManagementDialog::on_pushButtonImport_clicked(bool /*checked*/)
     }
 
     // auto aCase = mCaseModel->rootPath() + "/" + indexes.first().data().toString();
-    auto aCase = mCaseModel->rootPath() + "/" + "THA.mitk";
+    auto aCase = mCaseModel->rootPath() + "/" + "THA.0";
     MITK_INFO << aCase.toStdString();
     IOController::getInstance()->loadScene(aCase);
+}
+
+void CaseManagementDialog::on_lineEditSearch_textChanged(const QString& text)
+{
+    mCaseModel->setNameFilters(QStringList() << "*" + text + "*");
 }
 
 void CaseManagementDialog::createCase(const QStringList& dicoms)

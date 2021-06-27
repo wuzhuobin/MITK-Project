@@ -20,6 +20,7 @@ private:
     Ui::CaseManagementDialog* mUi = nullptr;
     class CaseModel* mCaseModel;
     Q_SLOT void on_pushButtonImport_clicked(bool checked = false);
+    Q_SLOT void on_lineEditSearch_textChanged(const QString& text);
     Q_SLOT void createCase(const QStringList& dicoms);
 };
 #endif  // CASE_MANAGEMENT_DIALOG

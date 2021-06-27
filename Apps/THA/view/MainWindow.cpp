@@ -275,10 +275,17 @@ void MainWindow::onActionsTriggered(QAction* action) const
 
     if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Login))
     {
-        mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
         mUi->frameWorkflow->setVisible(false);
         mUi->pushButtonBack->setVisible(false);
         mUi->pushButtonNext->setVisible(false);
+        mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
+    }
+    else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Manage_Case))
+    {
+        mUi->frameWorkflow->setVisible(true);
+        mUi->pushButtonBack->setVisible(true);
+        mUi->pushButtonNext->setVisible(true);
+        mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
     }
     else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
     {

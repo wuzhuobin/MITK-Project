@@ -11,6 +11,7 @@ CaseModel::CaseModel(QObject* parent) : QFileSystemModel(parent)
     setRootPath(qApp->applicationDirPath() + "/cases");
     setFilter(QDir::Files);
     setReadOnly(true);
+    setNameFilterDisables(false);
 }
 
 QVariant CaseModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -36,14 +37,11 @@ QVariant CaseModel::data(const QModelIndex& index, int role) const
 {
     if (index.column() == 0 && role == Qt::DisplayRole)
     {
-        auto splitedCompleteBaseName = fileInfo(index).completeBaseName().split('.');
-        splitedCompleteBaseName.removeLast();
-        return splitedCompleteBaseName.join('.');
+        return fileInfo(index).completeBaseName();
     }
     if (index.column() == 1 && role == Qt::DisplayRole)
     {
-        auto splitedCompleteBaseName = fileInfo(index).completeBaseName().split('.');
-        return splitedCompleteBaseName.last();
+        return fileInfo(index).suffix();
     }
     if (index.column() == 2 && role == Qt::DisplayRole)
     {
