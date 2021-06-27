@@ -34,9 +34,16 @@ int CaseModel::columnCount(const QModelIndex& /*parent*/) const
 
 QVariant CaseModel::data(const QModelIndex& index, int role) const
 {
+    if (index.column() == 0 && role == Qt::DisplayRole)
+    {
+        auto splitedCompleteBaseName = fileInfo(index).completeBaseName().split('.');
+        splitedCompleteBaseName.removeLast();
+        return splitedCompleteBaseName.join('.');
+    }
     if (index.column() == 1 && role == Qt::DisplayRole)
     {
-        return index.row();
+        auto splitedCompleteBaseName = fileInfo(index).completeBaseName().split('.');
+        return splitedCompleteBaseName.last();
     }
     if (index.column() == 2 && role == Qt::DisplayRole)
     {
