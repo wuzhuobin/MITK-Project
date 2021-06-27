@@ -15,6 +15,7 @@
 #include <qabstractitemmodel.h>
 #include <qdebug.h>
 #include <qdialog.h>
+#include <qfileinfo.h>
 #include <qglobal.h>
 #include <qitemselectionmodel.h>
 #include <qmessagebox.h>
@@ -79,8 +80,17 @@ void CaseManagementDialog::on_lineEditSearch_textChanged(const QString& text)
 
 void CaseManagementDialog::createCase(const QStringList& dicoms)
 {
-    for (auto dicom : dicoms)
+    for (const auto& dicom : dicoms)
     {
         MITK_INFO << dicom.toStdString();
     }
+    auto infoList = QDir(mCaseModel->rootPath()).entryInfoList(QDir::Files);
+    
+    auto max = -1;
+    for (const auto& info: infoList)
+    {
+        max = std::max(info.suffix().toInt(), max);
+    }
+
+    CaseCreationDialog(max + 1).exec();
 }

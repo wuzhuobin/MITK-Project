@@ -32,7 +32,7 @@
          <enum>Qt::ElideRight</enum>
         </property>
         <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>200</number>
+         <number>150</number>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
          <bool>true</bool>
