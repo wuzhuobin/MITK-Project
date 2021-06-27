@@ -18,6 +18,7 @@ class CaseCreationDialog : public QDialog
 public:
     explicit CaseCreationDialog(unsigned int id = 0, QWidget* parent = nullptr);
     ~CaseCreationDialog() override;
+    QString getFileName() const;
 
 private:
     std::unique_ptr<Ui::CaseCreationDialog> mUi;

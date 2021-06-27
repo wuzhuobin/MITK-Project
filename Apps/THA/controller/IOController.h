@@ -11,22 +11,15 @@ public:
     static QString getBaseProject();
     static IOController* getInstance();
     explicit IOController(QObject* parent = nullptr);
-    void loadScene(const QString& fileName);
-    // void SetMultiWidget(THAStdMultiWidget *w) { this->multiWidget = w; }
-    // THAStdMultiWidget * GetMultiWidget() const { return this->multiWidget; }
-    // void SetImageViewer(QLabel *viewer) { this->imageViewer = viewer; }
-    // QLabel *GetImageViewer() const { return this->imageViewer; }
+    void loadScene(const QString& fileName) const;
+    bool createScene(const QString& filename, const QStringList& dicoms) const;
 
-    Q_SIGNAL void sceneLoaded();
+    Q_SIGNAL void sceneLoaded() const;
 
 private:
-    class THAStdMultiWidget* mMultiWidget;
-    class QLabel* mImageViewer;
-
-    void addReamerTrajectory();
-    void addReamer();
-    void addReamerCuter();
-    void initCaseDataBase();
+    void addReamerTrajectory() const;
+    void addReamer() const;
+    void initCaseDataBase() const;
 };
 
 #endif  //! IO_CONTROLLER_H

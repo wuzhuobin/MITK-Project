@@ -80,17 +80,20 @@ void CaseManagementDialog::on_lineEditSearch_textChanged(const QString& text)
 
 void CaseManagementDialog::createCase(const QStringList& dicoms)
 {
-    for (const auto& dicom : dicoms)
-    {
-        MITK_INFO << dicom.toStdString();
-    }
     auto infoList = QDir(mCaseModel->rootPath()).entryInfoList(QDir::Files);
-    
+
     auto max = -1;
-    for (const auto& info: infoList)
+    for (const auto& info : infoList)
     {
         max = std::max(info.suffix().toInt(), max);
     }
 
-    CaseCreationDialog(max + 1).exec();
+    CaseCreationDialog d(max + 1, this);
+    if (d.exec() != QDialog::Accepted)
+    {
+        return;
+    }
+    auto fileName = mCaseModel->rootPath() + '/' + d.getFileName();
+
+    MITK_INFO << "Create scene: " << IOController::getInstance()->createScene(fileName, dicoms);
 }

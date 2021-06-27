@@ -3,9 +3,11 @@
 #include "mitkReamerSource.h"
 
 // mitk
+#include <mitkIOUtil.h>
 #include <mitkLogMacros.h>
 #include <mitkRenderingManager.h>
 #include <mitkSceneIO.h>
+#include <mitkStandaloneDataStorage.h>
 #include <mitkSurface.h>
 
 // vtk
@@ -20,6 +22,7 @@
 #include <qsqldatabase.h>
 #include <qsqlerror.h>
 #include <qsqlquery.h>
+
 #include <QSharedPointer>
 
 QString IOController::getBaseProject()
@@ -39,35 +42,48 @@ IOController::IOController(QObject* parent) : QObject(parent)
     initCaseDataBase();
 }
 
-void IOController::loadScene(const QString& fileName)
+void IOController::loadScene(const QString& fileName) const
 {
-    mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
-    mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-    mitk::DataStorage::SetOfObjects::ConstPointer dataNodes = sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
+    auto sceneIO = mitk::SceneIO::New();
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto dataNodes = sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
     MITK_INFO << "DataStorage, num of nodes: " << dataNodes->size();
-    for (const mitk::DataNode* one : *dataNodes)
+    for (const auto& one : *dataNodes)
     {
         MITK_INFO << one->GetName();
     }
 
-    this->addReamer();
-    this->addReamerTrajectory();
-    Q_EMIT this->sceneLoaded();
+    addReamer();
+    addReamerTrajectory();
+    Q_EMIT sceneLoaded();
 }
 
-void IOController::addReamerTrajectory()
+bool IOController::createScene(const QString& filename, const QStringList& dicoms) const
 {
-    mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
-    mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto sceneIO = mitk::SceneIO::New();
+    auto ds = mitk::StandaloneDataStorage::New();
+    sceneIO->LoadScene(getBaseProject().toStdString(), ds);
+    ds->Remove(ds->GetNamedNode("image"));
 
-    mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
+    auto setObObjects = mitk::IOUtil::Load(dicoms.first().toStdString(), *ds);
+    setObObjects->front()->SetName("image");
+
+    return sceneIO->SaveScene(ds->GetAll(), ds, filename.toStdString());
+}
+
+void IOController::addReamerTrajectory() const
+{
+    auto sceneIO = mitk::SceneIO::New();
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+    auto reamerSource = mitk::ReamerSource::New();
     reamerSource->SetSphereRadius(25);
     reamerSource->SetTubeRadius(25);
     reamerSource->SetLength(70);
     reamerSource->Update();
-    mitk::Surface* reamer = reamerSource->GetOutput();
+    auto* reamer = reamerSource->GetOutput();
 
-    vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
+    auto transform = vtkSmartPointer<vtkTransform>::New();
     transform->PostMultiply();
     transform->RotateY(-90);
     transform->RotateX(0);
@@ -79,13 +95,13 @@ void IOController::addReamerTrajectory()
     //     1578.9678664012258);
     transform->Update();
 
-    vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
     transformPolyData->SetInputData(reamer->GetVtkPolyData());
     transformPolyData->SetTransform(transform);
     transformPolyData->Update();
     reamer->SetVtkPolyData(transformPolyData->GetOutput());
 
-    mitk::DataNode::Pointer reamerNode = mitk::DataNode::New();
+    auto reamerNode = mitk::DataNode::New();
     reamerNode->SetData(reamer);
     reamerNode->SetName("reamer_trajectory");
     reamerNode->SetVisibility(false);
@@ -93,19 +109,19 @@ void IOController::addReamerTrajectory()
     ds->Add(reamerNode);
 }
 
-void IOController::addReamer()
+void IOController::addReamer() const
 {
-    mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
-    mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto sceneIO = mitk::SceneIO::New();
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
-    mitk::ReamerSource::Pointer reamerSource = mitk::ReamerSource::New();
+    auto reamerSource = mitk::ReamerSource::New();
     reamerSource->SetSphereRadius(25);
     reamerSource->SetTubeRadius(2);
     reamerSource->SetLength(70);
     reamerSource->Update();
-    mitk::Surface* reamer = reamerSource->GetOutput();
+    auto* reamer = reamerSource->GetOutput();
 
-    vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
+    auto transform = vtkSmartPointer<vtkTransform>::New();
     transform->PostMultiply();
     transform->RotateY(-90);
     transform->RotateX(0);
@@ -113,13 +129,13 @@ void IOController::addReamer()
     transform->Translate(-58.54936906586104, 14.204643754424644, 1578.9678664012258);
     transform->Update();
 
-    vtkSmartPointer<vtkTransformPolyDataFilter> transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
     transformPolyData->SetInputData(reamer->GetVtkPolyData());
     transformPolyData->SetTransform(transform);
     transformPolyData->Update();
     reamer->SetVtkPolyData(transformPolyData->GetOutput());
 
-    mitk::DataNode::Pointer reamerNode = mitk::DataNode::New();
+    auto reamerNode = mitk::DataNode::New();
     reamerNode->SetData(reamer);
     reamerNode->SetName("reamer");
     reamerNode->SetVisibility(false);
@@ -127,9 +143,7 @@ void IOController::addReamer()
     ds->Add(reamerNode);
 }
 
-void IOController::addReamerCuter() {}
-
-void IOController::initCaseDataBase()
+void IOController::initCaseDataBase() const
 {
     auto db = QSqlDatabase::addDatabase("QSQLITE");
     MITK_INFO << (qApp->applicationDirPath() + "/tha.sql").toStdString();
