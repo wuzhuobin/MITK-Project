@@ -3,12 +3,18 @@
 // qt
 #include <qabstractitemmodel.h>
 #include <qcoreapplication.h>
+#include <qdir.h>
 #include <qfilesystemmodel.h>
 #include <qnamespace.h>
 
 CaseModel::CaseModel(QObject* parent) : QFileSystemModel(parent)
 {
-    setRootPath(qApp->applicationDirPath() + "/cases");
+    QDir path(qApp->applicationDirPath() + "/cases");
+    if (!path.exists())
+    {
+        path.mkpath(".");
+    }
+    setRootPath(path.absolutePath());
     setFilter(QDir::Files);
     setReadOnly(true);
     setNameFilterDisables(false);
