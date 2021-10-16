@@ -332,6 +332,7 @@ add_subdirectory(Apps/SpineRobotic)
 add_subdirectory(Apps/mitkReamerSource)
 add_subdirectory(Apps/mitkReamingFilter)
 add_subdirectory(Apps/ClipCloseSurfaceFilter)
+add_subdirectory(Apps/AcetabularPrep)
 
 #-----------------------------------------------------------------------------
 # Installation

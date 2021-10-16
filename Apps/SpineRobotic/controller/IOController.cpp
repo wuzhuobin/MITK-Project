@@ -22,7 +22,7 @@ void IOController::loadScene(QString fileName)
   mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
   mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   mitk::DataStorage::SetOfObjects::ConstPointer dataNodes =
-      sceneIO->loadScene(fileName.toStdString(), ds)->GetAll();
+      sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
   MITK_INFO << "DataStorage, num of nodes: " << dataNodes->size();
   for (const mitk::DataNode *one : *dataNodes)
   {

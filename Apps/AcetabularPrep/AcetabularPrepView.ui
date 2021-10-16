@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AcetabularPrepView</class>
+ <widget class="QWidget" name="AcetabularPrepView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1441</width>
+    <height>1107</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AcetabularPrepView</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QFrame" name="frameMain">
+     <property name="styleSheet">
+      <string notr="true">
+#frameMain{
+  background-color: rgb(0, 0, 0);
+}
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QFrame" name="frame_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="labelRegistrationResult">
+           <property name="styleSheet">
+            <string notr="true">#labelRegistrationResult
+{
+  color: rgb(0, 170, 0);
+  font-size: 24px;
+}</string>
+           </property>
+           <property name="text">
+            <string>REGISTRATION RESULT</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxRegistrationResult">
+           <property name="styleSheet">
+            <string notr="true">#doubleSpinBoxRegistrationResult{
+  background-color: rgb(0, 0, 0);
+  color: rgb(0, 170, 0);
+  font-size: 24px;
+}</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>24</number>
+        </property>
+        <property name="textVisible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" rowspan="2">
+       <widget class="CupParameterGadget" name="cupParameterGadget" native="true"/>
+      </item>
+      <item row="1" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_3"/>
+      </item>
+      <item row="4" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_4"/>
+      </item>
+      <item row="0" column="0" rowspan="5">
+       <widget class="QWidget" name="viewer" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="toolButtonZoom">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="AcetabularPrep.qrc">
+          <normaloff>:/resource/zoom.png</normaloff>:/resource/zoom.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonBrightness">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="AcetabularPrep.qrc">
+          <normaloff>:/resource/brightness.png</normaloff>:/resource/brightness.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonContrast">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="AcetabularPrep.qrc">
+          <normaloff>:/resource/contrast.png</normaloff>:/resource/contrast.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSlider" name="verticalSlider">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CupParameterGadget</class>
+   <extends>QWidget</extends>
+   <header>CupParameterGadget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="AcetabularPrep.qrc"/>
+ </resources>
+ <connections/>
+</ui>
