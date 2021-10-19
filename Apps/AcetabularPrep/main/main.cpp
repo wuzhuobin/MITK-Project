@@ -1,7 +1,7 @@
 // #include <AcetabularPrepPanel.h>
-#include <AcetabularPrepWidget.h>
-#include <AcetabularPrepView.h>
-#include <AcetabularPrepNextBackWidget.h>
+#include "AcetabularPrepWidget.h"
+#include "AcetabularPrepView.h"
+#include "AcetabularPrepNextBackWidget.h"
 
 // qt
 #include <QMainWindow>

@@ -13,8 +13,24 @@ class AcetabularPrepView : public QWidget
 {
   Q_OBJECT
 public:
-  explicit AcetabularPrepView(QWidget *parent = nullptr);
-  ~AcetabularPrepView() override;
+    enum class View
+    {
+        Undefinded = 0,
+        AcetabularPinInstallationAndAcquisition,
+        AcetabularLandmarkAcquisition,
+        AcetabularRegistrationAndVerification,
+        ReamerInstallation,
+        RobotAndReamerRegistration,
+        PinVerification,
+        ReamerVerification,
+        Verification,
+        AcetabularReaming,
+        CupImpaction
+    };
+    explicit AcetabularPrepView(QWidget* parent = nullptr);
+    ~AcetabularPrepView() override;
+
+    void updateView(View view);
 
 private:
   std::unique_ptr<Ui::AcetabularPrepView> mUi;

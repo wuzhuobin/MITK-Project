@@ -18,52 +18,52 @@
 
 AcetabularPrepWidget::AcetabularPrepWidget(AcetabularPrepView *view, QWidget *parent)
     : QStackedWidget(parent)
-    , ui(new Ui::AcetabularPrepWidget)
+    , mUi(new Ui::AcetabularPrepWidget)
     , mView(view)
     , reamingFilter(mitk::ReamingFilter::New())
 {
-  this->ui->setupUi(this);
+  mUi->setupUi(this);
 }
 
 AcetabularPrepWidget::~AcetabularPrepWidget()
 {
-  delete this->ui;
+  delete mUi;
 }
 
 void AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered(bool checked)
 {
   Q_UNUSED(checked);
-  this->setCurrentWidget(this->ui->PelvisCheckpoint);
+  this->setCurrentWidget(mUi->PelvisCheckpoint);
 }
 
 void AcetabularPrepWidget::Action_Pelvis_Landmark_triggered(bool checked)
 {
   Q_UNUSED(checked);
-  this->setCurrentWidget(this->ui->PelvisLandmark);
+  this->setCurrentWidget(mUi->PelvisLandmark);
 }
 
 void AcetabularPrepWidget::Action_Pelvis_Registration_triggered(bool checked)
 {
   Q_UNUSED(checked);
-  this->setCurrentWidget(this->ui->PelvisRegistration);
+  this->setCurrentWidget(mUi->PelvisRegistration);
 }
 
 void AcetabularPrepWidget::Action_RIO_Registratoin_triggered(bool checked)
 {
   Q_UNUSED(checked);
-  this->setCurrentWidget(this->ui->RIORegistration);
+  this->setCurrentWidget(mUi->RIORegistration);
 }
 
 void AcetabularPrepWidget::Action_Cup_Reaming_triggered(bool checked)
 {
   Q_UNUSED(checked);
-  this->setCurrentWidget(this->ui->CupReaming);
+  this->setCurrentWidget(mUi->CupReaming);
 }
 
 void AcetabularPrepWidget::Action_Cup_Impaction_triggered(bool checked)
 {
   Q_UNUSED(checked);
-  this->setCurrentWidget(this->ui->CupImpaction);
+  this->setCurrentWidget(mUi->CupImpaction);
 }
 
 void AcetabularPrepWidget::SetPelvisLandmarkIndex(int index)
@@ -87,48 +87,48 @@ void AcetabularPrepWidget::SetPelvisLandmarkIndex(int index)
   switch (this->pelvisLandmarkIndex)
   {
   case 0:
-    this->ui->checkBoxPosteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxAnteriorAcetabulum->setChecked(false);
-    this->ui->checkBoxSuperiorAcetabulum->setChecked(false);
-    this->ui->pushButtonCaptureLandmark->setEnabled(true);
-    this->ui->pushButtonClearLandmark->setEnabled(false);
-    this->ui->pushButtonClearAllPelvis->setEnabled(false);
+    mUi->checkBoxPosteriorAcetabulum->setChecked(true);
+    mUi->checkBoxAnteriorAcetabulum->setChecked(false);
+    mUi->checkBoxSuperiorAcetabulum->setChecked(false);
+    mUi->pushButtonCaptureLandmark->setEnabled(true);
+    mUi->pushButtonClearLandmark->setEnabled(false);
+    mUi->pushButtonClearAllPelvis->setEnabled(false);
 
     posteriorAcetabulumNode->SetVisibility(true);
     anteriorAcetabulumNode->SetVisibility(false);
     superiorAcetabulumNode->SetVisibility(false);
     break;
   case 1:
-    this->ui->checkBoxPosteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxAnteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxSuperiorAcetabulum->setChecked(false);
-    this->ui->pushButtonCaptureLandmark->setEnabled(true);
-    this->ui->pushButtonClearLandmark->setEnabled(true);
-    this->ui->pushButtonClearAllPelvis->setEnabled(false);
+    mUi->checkBoxPosteriorAcetabulum->setChecked(true);
+    mUi->checkBoxAnteriorAcetabulum->setChecked(true);
+    mUi->checkBoxSuperiorAcetabulum->setChecked(false);
+    mUi->pushButtonCaptureLandmark->setEnabled(true);
+    mUi->pushButtonClearLandmark->setEnabled(true);
+    mUi->pushButtonClearAllPelvis->setEnabled(false);
 
     posteriorAcetabulumNode->SetVisibility(false);
     anteriorAcetabulumNode->SetVisibility(true);
     superiorAcetabulumNode->SetVisibility(false);
     break;
   case 2:
-    this->ui->checkBoxPosteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxAnteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxSuperiorAcetabulum->setChecked(true);
-    this->ui->pushButtonCaptureLandmark->setEnabled(true);
-    this->ui->pushButtonClearLandmark->setEnabled(true);
-    this->ui->pushButtonClearAllPelvis->setEnabled(false);
+    mUi->checkBoxPosteriorAcetabulum->setChecked(true);
+    mUi->checkBoxAnteriorAcetabulum->setChecked(true);
+    mUi->checkBoxSuperiorAcetabulum->setChecked(true);
+    mUi->pushButtonCaptureLandmark->setEnabled(true);
+    mUi->pushButtonClearLandmark->setEnabled(true);
+    mUi->pushButtonClearAllPelvis->setEnabled(false);
 
     posteriorAcetabulumNode->SetVisibility(false);
     anteriorAcetabulumNode->SetVisibility(false);
     superiorAcetabulumNode->SetVisibility(true);
     break;
   case 3:
-    this->ui->checkBoxPosteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxAnteriorAcetabulum->setChecked(true);
-    this->ui->checkBoxSuperiorAcetabulum->setChecked(true);
-    this->ui->pushButtonCaptureLandmark->setEnabled(false);
-    this->ui->pushButtonClearLandmark->setEnabled(true);
-    this->ui->pushButtonClearAllPelvis->setEnabled(true);
+    mUi->checkBoxPosteriorAcetabulum->setChecked(true);
+    mUi->checkBoxAnteriorAcetabulum->setChecked(true);
+    mUi->checkBoxSuperiorAcetabulum->setChecked(true);
+    mUi->pushButtonCaptureLandmark->setEnabled(false);
+    mUi->pushButtonClearLandmark->setEnabled(true);
+    mUi->pushButtonClearAllPelvis->setEnabled(true);
 
     posteriorAcetabulumNode->SetVisibility(false);
     anteriorAcetabulumNode->SetVisibility(false);
@@ -160,23 +160,23 @@ void AcetabularPrepWidget::SetPelvisRegistrationIndex(int index)
   }
   if (this->pelvisRegistrationIndex != registrationPoints->GetSize()) {
     registrationPoints->SetSelectInfo(this->pelvisRegistrationIndex, true);
-    this->ui->pushButtonCaptureRegistration->setEnabled(true);
-    this->ui->pushButtonVerifyRegistration->setEnabled(false);
+    mUi->pushButtonCaptureRegistration->setEnabled(true);
+    mUi->pushButtonVerifyRegistration->setEnabled(false);
     if (this->pelvisRegistrationIndex == 0) {
-      this->ui->pushButtonClearLastPoint->setEnabled(false);
+      mUi->pushButtonClearLastPoint->setEnabled(false);
     }
     else {
-      this->ui->pushButtonClearLastPoint->setEnabled(true);
+      mUi->pushButtonClearLastPoint->setEnabled(true);
     }
   }
   else {
-    this->ui->pushButtonCaptureRegistration->setEnabled(false);
-    this->ui->pushButtonVerifyRegistration->setEnabled(true);
+    mUi->pushButtonCaptureRegistration->setEnabled(false);
+    mUi->pushButtonVerifyRegistration->setEnabled(true);
   }
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-void AcetabularPrepWidget::TransformReamer(unsigned int orientation, double t, double r)
+void AcetabularPrepWidget::transformReamer(unsigned int orientation, double t, double r)
 {
   auto *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto *surface = ds->GetNamedObject<mitk::Surface>("reamer");
@@ -258,93 +258,99 @@ void AcetabularPrepWidget::on_pushButtonVerifyRegistration_clicked(bool checked)
 void AcetabularPrepWidget::on_pushButtonXRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::X, 0, 10);
+  this->transformReamer(ORIENTATION::X, 0, 10);
 }
 
 void AcetabularPrepWidget::on_pushButtonXRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::X, 0, -10);
+  this->transformReamer(ORIENTATION::X, 0, -10);
 }
 
 void AcetabularPrepWidget::on_pushButtonXTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::X, 10, 0);
+  this->transformReamer(ORIENTATION::X, 10, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonXTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::X, -10, 0);
+  this->transformReamer(ORIENTATION::X, -10, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonYRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Y, 0, 10);
+  this->transformReamer(ORIENTATION::Y, 0, 10);
 }
 
 void AcetabularPrepWidget::on_pushButtonYRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Y, 0, -10);
+  this->transformReamer(ORIENTATION::Y, 0, -10);
 }
 
 void AcetabularPrepWidget::on_pushButtonYTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Y, 10, 0);
+  this->transformReamer(ORIENTATION::Y, 10, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonYTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Y, -10, 0);
+  this->transformReamer(ORIENTATION::Y, -10, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonZRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Z, 0, 10);
+  this->transformReamer(ORIENTATION::Z, 0, 10);
 }
 
 void AcetabularPrepWidget::on_pushButtonZRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Z, 0, -10);
+  this->transformReamer(ORIENTATION::Z, 0, -10);
 }
 
 void AcetabularPrepWidget::on_pushButtonZTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Z, 10, 0);
+  this->transformReamer(ORIENTATION::Z, 10, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonZTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  this->TransformReamer(ORIENTATION::Z, -10, 0);
+  this->transformReamer(ORIENTATION::Z, -10, 0);
 }
 
 void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
 {
   Q_UNUSED(index);
 
+  if (currentWidget() == mUi->acetabularPinInstallationAndAcquisitionWidget)
+  {
+    mView->updateView(AcetabularPrepView::View::AcetabularPinInstallationAndAcquisition);
+  }
+  // if (this->currentWidget() == mUi)
+
   //mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  //if (this->currentWidget() == this->ui->PelvisLandmark) {
+  //if (this->currentWidget() == mUi->PelvisLandmark) {
   //  mitk::DataNode *pelvisNode = ds->GetNamedNode("pelvis");
   //  pelvisNode->SetVisibility(true);
   //  this->SetPelvisLandmarkIndex(this->pelvisLandmarkIndex);
   //}
-  //else if (this->currentWidget() == this->ui->PelvisRegistration) {
+  //else if (this->currentWidget() == mUi->PelvisRegistration) {
   //  mitk::DataNode *pelvisRegistrationNode = ds->GetNamedNode("pelvis_registration");
   //  mitk::DataNode *registrationPoints = ds->GetNamedNode("registration_points");
   //  pelvisRegistrationNode->SetVisibility(true);
   //  registrationPoints->SetVisibility(true);
   //  this->SetPelvisRegistrationIndex(this->pelvisRegistrationIndex);
   //}
-  //else if (this->currentWidget() == this->ui->CupReaming) {
+  //else if (this->currentWidget() == mUi->CupReaming) {
   //  // mitk::DataNode *pelvisNode = ds->GetNamedNode("pelvis");
   //  // pelvisNode->SetVisibility(true);
 
@@ -415,7 +421,7 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
   //  reamingPelvisNode->SetFloatProperty("ScalarsRangeMaximum", vtkLut->GetTableRange()[1]);
   //  reamingPelvisNode->SetVisibility(true);
   //}
-  //else if (this->currentWidget() == this->ui->CupImpaction)
+  //else if (this->currentWidget() == mUi->CupImpaction)
   //{
   //  auto *reamingPelvisNode = ds->GetNamedNode("reaming_pelvis");
   //  if (!reamingPelvisNode)

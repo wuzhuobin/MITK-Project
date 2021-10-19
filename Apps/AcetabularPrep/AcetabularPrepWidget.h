@@ -30,7 +30,7 @@ public Q_SLOTS:
   void Action_Cup_Impaction_triggered(bool checked = false);
 
 private:
-  Ui::AcetabularPrepWidget *ui;
+  Ui::AcetabularPrepWidget *mUi;
   AcetabularPrepView *mView;
   int pelvisLandmarkIndex = 0;
   int pelvisRegistrationIndex = 0;
@@ -48,7 +48,7 @@ private:
     Z
   };
 
-  void TransformReamer(unsigned int orientation, double t, double r);
+  void transformReamer(unsigned int orientation, double t, double r);
 
 private Q_SLOTS:
 

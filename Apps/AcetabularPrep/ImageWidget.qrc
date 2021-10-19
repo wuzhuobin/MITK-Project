@@ -13,8 +13,5 @@
     <file>resource/images/rio_registration/9.png</file>
     <file>resource/images/rio_registration/10.png</file>
     <file>resource/images/rio_registration/11.png</file>
-    <file>resource/brightness.png</file>
-    <file>resource/contrast.png</file>
-    <file>resource/zoom.png</file>
   </qresource>
 </RCC>
