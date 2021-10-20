@@ -27,7 +27,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="acetabularPinInstallationAndAcquisitionWidget">
+  <widget class="QWidget" name="pageAcetabularPinInstallationAndAcquisition">
    <layout class="QVBoxLayout" name="verticalLayout_11">
     <item>
      <widget class="QLabel" name="label_5">
@@ -61,7 +61,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="PelvisCTLandmark">
+  <widget class="QWidget" name="pageAcetabularLandmarkAcquisition">
    <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
      <widget class="QLabel" name="label_3">

@@ -331,10 +331,15 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
 {
   Q_UNUSED(index);
 
-  if (currentWidget() == mUi->acetabularPinInstallationAndAcquisitionWidget)
+  if (currentWidget() == mUi->pageAcetabularPinInstallationAndAcquisition)
   {
     mView->updateView(AcetabularPrepView::View::AcetabularPinInstallationAndAcquisition);
   }
+  else if (currentWidget() == mUi->pageAcetabularLandmarkAcquisition)
+  {
+    mView->updateView(AcetabularPrepView::View::AcetabularLandmarkAcquisition);
+  }
+  // else if (currentWidget() == mUi)
   // if (this->currentWidget() == mUi)
 
   //mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
