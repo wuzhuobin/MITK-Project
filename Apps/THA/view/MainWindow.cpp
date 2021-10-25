@@ -83,6 +83,9 @@ MainWindow::MainWindow(QWidget* parent) :
             &QAction::triggered,
             mUi->pageAcetabularPrep,
             &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
+    
+    // Final Results
+    mActionGroup->addAction(mUi->action_Final_Result);
 
     mitk::DataStorage* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
     mUi->levelWindow->SetDataStorage(ds);
@@ -108,8 +111,8 @@ MainWindow::~MainWindow()
 void MainWindow::test()
 {
     MITK_INFO << __func__;
-    // setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Implant_Planning));
-    // IOController::getInstance()->loadScene("THA.mitk");
+    IOController::getInstance()->loadScene(IOController::getBaseProject());
+    setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Pelvis_CT_Landmark));
     // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
 }
 
@@ -132,6 +135,11 @@ void MainWindow::setCurrentActionIndex(int index)
     }
 
     mActionGroup->actions()[mCurrentActionIndex]->trigger();
+}
+
+void MainWindow::showFinalResult()
+{
+
 }
 
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
@@ -227,6 +235,7 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button)
     }
     else if (button == mUi->radioButtonFinalResult)
     {
+        setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Final_Result));
     }
 }
 
@@ -341,6 +350,10 @@ void MainWindow::onActionsTriggered(QAction* action) const
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->multiWidget);
         mUi->multiWidget->SetOther(true);
+    }
+    else if (action == mUi->action_Final_Result)
+    {
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageFinalResult);
     }
     else
     {

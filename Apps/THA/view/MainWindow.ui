@@ -196,6 +196,7 @@
      <widget class="QStackedWidget" name="stackedWidgetViewer">
       <widget class="LoginDialog" name="pageLogin"/>
       <widget class="CaseManagementDialog" name="pageCaseManagement"/>
+      <widget class="QWidget" name="pageFinalResult"/>
       <widget class="QWidget" name="pageMultiWidget">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="spacing">
@@ -694,6 +695,14 @@
     <string>&amp;Manage Case</string>
    </property>
   </action>
+  <action name="action_Final_Result">
+   <property name="text">
+    <string>&amp;Final Result</string>
+   </property>
+   <property name="toolTip">
+    <string>Final Result</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -744,12 +753,6 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupMode">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
@@ -757,5 +760,11 @@
   </buttongroup>
   <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupMode">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroupControl"/>
  </buttongroups>
 </ui>
