@@ -229,8 +229,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true"> background: rgb(0, 0, 0)
-</string>
+           <string notr="true"/>
           </property>
          </widget>
         </item>
