@@ -38,22 +38,22 @@ public:
     Qt::WindowFlags f = nullptr,
     const QString &name = "stdmulti");
   virtual void InitializeMultiWidget() override;
-  int GetView() const { return this->view; }
+  int GetView() const { return mView; }
   void SetView(int mode);
-  int GetMode() const { return this->mode; }
+  int GetMode() const { return mMode; }
   void SetMode(int mode);
   void SetOther(bool other);
   bool GetOther() const;
   void UpdateViewMode();
 private:
-  int view = VIEW_DEFAULT;
-  int mode = MODE_DEFAULT;
-  bool other = false;
-  bool initialized = false;
-  GroupBoxGadget *groupBoxGadget[4];
-  StemParameterGadget *stemParameterGadget[4];
-  ImplantAssessmentGadget *implantAssessmentGadget[4];
-  CupParameterGadget *cupParameterGadget[4];
+  int mView = VIEW_DEFAULT;
+  int mMode = MODE_DEFAULT;
+  bool mOther = false;
+  bool mInitialized = false;
+  GroupBoxGadget *mGroupBoxGadget[4];
+  StemParameterGadget *mStemParameterGadget[4];
+  ImplantAssessmentGadget *mImplantAssessmentGadget[4];
+  CupParameterGadget *mCupParameterGadget[4];
 
 };
 #endif //!THA_STD_MULTI_WIDGET

@@ -47,25 +47,25 @@ THAStdMultiWidget::THAStdMultiWidget(
   Qt::WindowFlags f,
   const QString &name):
   QmitkStdMultiWidget(parent, f, name),
-  groupBoxGadget{
+  mGroupBoxGadget{
     new GroupBoxGadget(GroupBoxGadget::AXIAL, this),
     new GroupBoxGadget(GroupBoxGadget::SAGITTAL, this),
     new GroupBoxGadget(GroupBoxGadget::CORONAL, this),
     new GroupBoxGadget(GroupBoxGadget::CORONAL, this)
   },
-  stemParameterGadget{
+  mStemParameterGadget{
     new StemParameterGadget(this),
     new StemParameterGadget(this),
     new StemParameterGadget(this),
     new StemParameterGadget(this)
   },
-  implantAssessmentGadget{
+  mImplantAssessmentGadget{
     new ImplantAssessmentGadget(this),
     new ImplantAssessmentGadget(this),
     new ImplantAssessmentGadget(this),
     new ImplantAssessmentGadget(this)
   },
-  cupParameterGadget{
+  mCupParameterGadget{
     new CupParameterGadget(this),
     new CupParameterGadget(this),
     new CupParameterGadget(this),
@@ -76,56 +76,56 @@ THAStdMultiWidget::THAStdMultiWidget(
 
 void THAStdMultiWidget::InitializeMultiWidget()
 {
-  this->SetDataStorage(mitk::RenderingManager::GetInstance()->GetDataStorage());
+  SetDataStorage(mitk::RenderingManager::GetInstance()->GetDataStorage());
   QmitkStdMultiWidget::InitializeMultiWidget();
   // Add the displayed views to the DataStorage to see their positions in 2D and 3D
-  this->AddDisplayPlaneSubTree();
+  AddDisplayPlaneSubTree();
   // show image plane in viewer and data storage
-  this->AddPlanesToDataStorage();
+  AddPlanesToDataStorage();
   // Disable the plane widget
-  this->SetCrosshairVisibility(true);
+  SetCrosshairVisibility(true);
 ////////////////////////////////////////////////////////////////////////////////
 /// Customization
 ////////////////////////////////////////////////////////////////////////////////
   
   for (int i = 1; i <= 3; ++i)
   {
-    this->SetWidgetPlaneVisibility(
-      this->GetWidgetPlane(i)->GetName().c_str(), 
+    SetWidgetPlaneVisibility(
+      GetWidgetPlane(i)->GetName().c_str(), 
       false, 
-      mitk::BaseRenderer::GetInstance(this->GetRenderWindow4()->GetVtkRenderWindow())
+      mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow())
     );
   }
 
-  // this->GetRenderWindow4()->GetVtkRenderWindow()->SetMultiSamples(0);   // We do not support MSAA as it is incompatible with depth peeling
-  // this->GetRenderWindow4()->GetVtkRenderWindow()->SetAlphaBitPlanes(true); // Necessary for depth peeling
-  // this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetMaximumNumberOfPeels(50);
-  // this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeeling(true);
-  // this->GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeelingForVolumes(true);
+  // GetRenderWindow4()->GetVtkRenderWindow()->SetMultiSamples(0);   // We do not support MSAA as it is incompatible with depth peeling
+  // GetRenderWindow4()->GetVtkRenderWindow()->SetAlphaBitPlanes(true); // Necessary for depth peeling
+  // GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetMaximumNumberOfPeels(50);
+  // GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeeling(true);
+  // GetRenderWindow4()->GetRenderer()->GetVtkRenderer()->SetUseDepthPeelingForVolumes(true);
   // // Initialize bottom-right view as 3D view
-  // this->GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
+  // GetRenderWindow4()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
 
-  // this->GetRenderWindow1()->GetVtkRenderWindow()->SetWindowName(
-  //   (this->GetRenderWindow1()->objectName() + '1').toStdString().c_str()
+  // GetRenderWindow1()->GetVtkRenderWindow()->SetWindowName(
+  //   (GetRenderWindow1()->objectName() + '1').toStdString().c_str()
   // );
-  // this->GetRenderWindow2()->GetVtkRenderWindow()->SetWindowName(
-  //   (this->GetRenderWindow2()->objectName() + '2').toStdString().c_str()
+  // GetRenderWindow2()->GetVtkRenderWindow()->SetWindowName(
+  //   (GetRenderWindow2()->objectName() + '2').toStdString().c_str()
   // );
-  // this->GetRenderWindow3()->GetVtkRenderWindow()->SetWindowName(
-  //   (this->GetRenderWindow3()->objectName() + '3').toStdString().c_str()
+  // GetRenderWindow3()->GetVtkRenderWindow()->SetWindowName(
+  //   (GetRenderWindow3()->objectName() + '3').toStdString().c_str()
   // );
-  // this->GetRenderWindow4()->GetVtkRenderWindow()->SetWindowName(
-  //   (this->GetRenderWindow4()->objectName() + '4').toStdString().c_str()
+  // GetRenderWindow4()->GetVtkRenderWindow()->SetWindowName(
+  //   (GetRenderWindow4()->objectName() + '4').toStdString().c_str()
   // );
 
   for(int i = 0; i < 4; ++i)
   {
-    QmitkRenderWindow *renderWindow = this->GetRenderWindow(i);
-    QGridLayout *pRenderWindow1Layout = new QGridLayout(renderWindow);
-    pRenderWindow1Layout->addWidget(this->groupBoxGadget[i], 0, 1, Qt::AlignRight | Qt::AlignTop);
-    pRenderWindow1Layout->addWidget(this->stemParameterGadget[i], 1, 1, Qt::AlignRight | Qt::AlignBottom);
-    pRenderWindow1Layout->addWidget(this->cupParameterGadget[i], 2, 1, Qt::AlignRight | Qt::AlignBottom);
-    pRenderWindow1Layout->addWidget(this->implantAssessmentGadget[i], 3, 1, Qt::AlignRight | Qt::AlignBottom);
+    auto *renderWindow = GetRenderWindow(i);
+    auto *pRenderWindow1Layout = new QGridLayout(renderWindow);
+    pRenderWindow1Layout->addWidget(mGroupBoxGadget[i], 0, 1, Qt::AlignRight | Qt::AlignTop);
+    pRenderWindow1Layout->addWidget(mStemParameterGadget[i], 1, 1, Qt::AlignRight | Qt::AlignBottom);
+    pRenderWindow1Layout->addWidget(mCupParameterGadget[i], 2, 1, Qt::AlignRight | Qt::AlignBottom);
+    pRenderWindow1Layout->addWidget(mImplantAssessmentGadget[i], 3, 1, Qt::AlignRight | Qt::AlignBottom);
     renderWindow->setLayout(pRenderWindow1Layout);
   }
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,13 +134,13 @@ void THAStdMultiWidget::InitializeMultiWidget()
   
   for(int i = 0; i < 4; ++i)
   {
-    this->cupParameterGadget[i]->ObserverCup();
-    this->stemParameterGadget[i]->ObserverStem();
+    mCupParameterGadget[i]->ObserverCup();
+    mStemParameterGadget[i]->ObserverStem();
   }
 ////////////////////////////////////////////////////////////////////////////////
-  this->SetView(VIEWS::VIEW_DEFAULT);
-  this->SetMode(MODES::MODE_DEFAULT);
-  this->UpdateViewMode();
+  SetView(VIEWS::VIEW_DEFAULT);
+  SetMode(MODES::MODE_DEFAULT);
+  UpdateViewMode();
 ////////////////////////////////////////////////////////////////////////////////
 /// Preset
 ////////////////////////////////////////////////////////////////////////////////
@@ -157,25 +157,25 @@ void THAStdMultiWidget::InitializeMultiWidget()
 
 void THAStdMultiWidget::SetView(int mode)
 {
-  this->view = mode;
-  this->UpdateViewMode();
+  mView = mode;
+  UpdateViewMode();
 }
 
 void THAStdMultiWidget::SetMode(int mode)
 {
-  this->mode = mode;
-  this->UpdateViewMode();
+  mMode = mode;
+  UpdateViewMode();
 }
 
 void THAStdMultiWidget::SetOther(bool other)
 {
-  this->other = other;
-  this->UpdateViewMode();
+  mOther = other;
+  UpdateViewMode();
 }
 
 bool THAStdMultiWidget::GetOther() const
 {
-  return this->other;
+  return mOther;
 }
 
 void THAStdMultiWidget::UpdateViewMode()
@@ -185,41 +185,41 @@ void THAStdMultiWidget::UpdateViewMode()
 ////////////////////////////////////////////////////////////////////////////////
   for (int i = 0; i < 4; ++i)
   {
-    this->groupBoxGadget[i]->setVisible(false);
-    this->groupBoxGadget[i]->setMode(GroupBoxGadget::DEFAULT);
-    this->stemParameterGadget[i]->setVisible(false);
-    this->implantAssessmentGadget[i]->setVisible(false);
-    this->cupParameterGadget[i]->setVisible(false);
+    mGroupBoxGadget[i]->setVisible(false);
+    mGroupBoxGadget[i]->setMode(GroupBoxGadget::DEFAULT);
+    mStemParameterGadget[i]->setVisible(false);
+    mImplantAssessmentGadget[i]->setVisible(false);
+    mCupParameterGadget[i]->setVisible(false);
   }
-  mitk::DataStorage::SetOfObjects::ConstPointer all = this->GetDataStorage()->GetAll();
-  for (mitk::DataNode *one : *all) {
+  mitk::DataStorage::SetOfObjects::ConstPointer all = GetDataStorage()->GetAll();
+  for (auto one : *all) {
     one->SetVisibility(false);
   }
-  mitk::DataNode *cupCor = this->GetDataStorage()->GetNamedNode("cup_cor");
-  mitk::DataNode *acetabularLiner = this->GetDataStorage()->GetNamedNode("acetabular_liner");
-  mitk::DataNode *acetabularShell = this->GetDataStorage()->GetNamedNode("acetabular_shell");
-  mitk::DataNode *femoralHeadCor = this->GetDataStorage()->GetNamedNode("femoral_head_cor");
-  mitk::DataNode *femoralStem = this->GetDataStorage()->GetNamedNode("femoral_stem");
-  mitk::DataNode *femoralHead = this->GetDataStorage()->GetNamedNode("femoral_head");
-  mitk::DataNode *trochanterNode = this->GetDataStorage()->GetNamedNode("trochanter");
-  mitk::DataNode *trochanterRightLineNode = this->GetDataStorage()->GetNamedNode("trochanter_right_line");
-  mitk::DataNode *trochanterLeftLineNode = this->GetDataStorage()->GetNamedNode("trochanter_left_line");
-  mitk::DataNode *nativeCorNode = this->GetDataStorage()->GetNamedNode("native_cor");
-  mitk::DataNode *psisNode = this->GetDataStorage()->GetNamedNode("psis");
-  mitk::DataNode *asisNode = this->GetDataStorage()->GetNamedNode("asis");
-  mitk::DataNode *hipLengthRight = this->GetDataStorage()->GetNamedNode("hip_length_right");
-  mitk::DataNode *hipLengthLeft = this->GetDataStorage()->GetNamedNode("hip_length_left");
-  mitk::DataNode *pelvisMidline = this->GetDataStorage()->GetNamedNode("pelvis_midline");
-  mitk::DataNode *femurLeftNode = this->GetDataStorage()->GetNamedNode("femur_left");
-  mitk::DataNode *femurRightNode = this->GetDataStorage()->GetNamedNode("femur_right");
-  mitk::DataNode *imageNode = this->GetDataStorage()->GetNamedNode("image");
-  mitk::DataNode *pelvisNode = this->GetDataStorage()->GetNamedNode("pelvis");
+  auto *cupCor = GetDataStorage()->GetNamedNode("cup_cor");
+  auto *acetabularLiner = GetDataStorage()->GetNamedNode("acetabular_liner");
+  auto *acetabularShell = GetDataStorage()->GetNamedNode("acetabular_shell");
+  auto *femoralHeadCor = GetDataStorage()->GetNamedNode("femoral_head_cor");
+  auto *femoralStem = GetDataStorage()->GetNamedNode("femoral_stem");
+  auto *femoralHead = GetDataStorage()->GetNamedNode("femoral_head");
+  auto *trochanterNode = GetDataStorage()->GetNamedNode("trochanter");
+  auto *trochanterRightLineNode = GetDataStorage()->GetNamedNode("trochanter_right_line");
+  auto *trochanterLeftLineNode = GetDataStorage()->GetNamedNode("trochanter_left_line");
+  auto *nativeCorNode = GetDataStorage()->GetNamedNode("native_cor");
+  auto *psisNode = GetDataStorage()->GetNamedNode("psis");
+  auto *asisNode = GetDataStorage()->GetNamedNode("asis");
+  auto *hipLengthRight = GetDataStorage()->GetNamedNode("hip_length_right");
+  auto *hipLengthLeft = GetDataStorage()->GetNamedNode("hip_length_left");
+  auto *pelvisMidline = GetDataStorage()->GetNamedNode("pelvis_midline");
+  auto *femurLeftNode = GetDataStorage()->GetNamedNode("femur_left");
+  auto *femurRightNode = GetDataStorage()->GetNamedNode("femur_right");
+  auto *imageNode = GetDataStorage()->GetNamedNode("image");
+  auto *pelvisNode = GetDataStorage()->GetNamedNode("pelvis");
 
-  if (other)
+  if (mOther)
   {
-    this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
-        this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
-    this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
+    GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+        GetRenderWindowWidget(GetRenderWindow4()).get());
+    GetMultiWidgetLayoutManager()->SetOneBigLayout();
   }
   else
   {
@@ -231,15 +231,15 @@ void THAStdMultiWidget::UpdateViewMode()
     femurLeftNode->SetOpacity(1);
     imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
 
-    switch (this->view)
+    switch (mView)
     {
     case VIEW_REAMING:
     {
-      this->GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
+      GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
       imageNode->SetVisibility(true);
-      mitk::Surface *pelvis = this->GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
-      mitk::Surface *acetabularShell = this->GetDataStorage()->GetNamedObject<mitk::Surface>("acetabular_shell");
-      mitk::Surface *reamerTrajectory = this->GetDataStorage()->GetNamedObject<mitk::Surface>("reamer_trajectory");
+      auto *pelvis = GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
+      auto *acetabularShell = GetDataStorage()->GetNamedObject<mitk::Surface>("acetabular_shell");
+      auto *reamerTrajectory = GetDataStorage()->GetNamedObject<mitk::Surface>("reamer_trajectory");
 
       auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
       transformPolyData->SetInputData(reamerTrajectory->GetVtkPolyData());
@@ -252,8 +252,8 @@ void THAStdMultiWidget::UpdateViewMode()
       reamingFilter->Update();
       vtkPolyData *selected = reamingFilter->GetOutput();
 
-      mitk::Surface::Pointer reamingPelvis = this->GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
-      mitk::DataNode::Pointer reamingPelvisNode = this->GetDataStorage()->GetNamedNode("reaming_pelvis");
+      mitk::Surface::Pointer reamingPelvis = GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
+      mitk::DataNode::Pointer reamingPelvisNode = GetDataStorage()->GetNamedNode("reaming_pelvis");
       if (reamingPelvis == nullptr)
       {
         reamingPelvis = mitk::Surface::New();
@@ -261,7 +261,7 @@ void THAStdMultiWidget::UpdateViewMode()
         reamingPelvisNode->SetName("reaming_pelvis");
         reamingPelvisNode->SetData(reamingPelvis);
         reamingPelvisNode->SetBoolProperty("scalar visibility", true);
-        this->GetDataStorage()->Add(reamingPelvisNode);
+        GetDataStorage()->Add(reamingPelvisNode);
       }
       reamingPelvis->SetVtkPolyData(selected);
       reamingPelvisNode->SetVisibility(true);
@@ -270,21 +270,21 @@ void THAStdMultiWidget::UpdateViewMode()
     case VIEW_CT:
     {
       // imageNode->SetVisibility(true);
-      // //this->EnableStandardLevelWindow();
-      // this->GetMultiWidgetLayoutManager()->SetDefaultLayout();
-      // //this->changeLayoutTo2DImagesLeft();
-      // this->GetRenderWindow4()->setVisible(false);
-      this->GetMultiWidgetLayoutManager()->SetOnly2DHorizontalLayout();
+      // //EnableStandardLevelWindow();
+      // GetMultiWidgetLayoutManager()->SetDefaultLayout();
+      // //changeLayoutTo2DImagesLeft();
+      // GetRenderWindow4()->setVisible(false);
+      GetMultiWidgetLayoutManager()->SetOnly2DHorizontalLayout();
       imageNode->SetVisibility(true);
     }
     break;
     case VIEW_3D_SLICER:
     {
-      // //this->EnableStandardLevelWindow();
-      // this->SetWidgetPlaneVisibility("pelvis", true, renderer1);
-      // this->SetWidgetPlaneVisibility("pelvis", true, renderer2);
-      // this->SetWidgetPlaneVisibility("pelvis", true, renderer3);
-      this->GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
+      // //EnableStandardLevelWindow();
+      // SetWidgetPlaneVisibility("pelvis", true, renderer1);
+      // SetWidgetPlaneVisibility("pelvis", true, renderer2);
+      // SetWidgetPlaneVisibility("pelvis", true, renderer3);
+      GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
       imageNode->SetVisibility(true);
       pelvisNode->SetVisibility(true);
       // femurRightNode->SetVisibility(true);
@@ -293,28 +293,28 @@ void THAStdMultiWidget::UpdateViewMode()
     break;
     case VIEW_X_RAY:
     {
-      this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
-          this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
-      this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
+      GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+          GetRenderWindowWidget(GetRenderWindow4()).get());
+      GetMultiWidgetLayoutManager()->SetOneBigLayout();
       imageNode->SetVisibility(true);
       imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(true));
     }
     break;
     default: // VIEW_DEFAULT
     {
-      this->GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
-          this->GetRenderWindowWidget(this->GetRenderWindow4()).get());
-      this->GetMultiWidgetLayoutManager()->SetOneBigLayout();
+      GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+          GetRenderWindowWidget(GetRenderWindow4()).get());
+      GetMultiWidgetLayoutManager()->SetOneBigLayout();
       pelvisNode->SetVisibility(true);
       femurRightNode->SetVisibility(true);
       femurLeftNode->SetVisibility(true);
-      // mitk::BaseRenderer *renderer = mitk::BaseRenderer::GetInstance(this->GetRenderWindow4()->renderWindow());
-      // this->SetWidgetPlaneVisibility("image", false, renderer);
+      // mitk::BaseRenderer *renderer = mitk::BaseRenderer::GetInstance(GetRenderWindow4()->renderWindow());
+      // SetWidgetPlaneVisibility("image", false, renderer);
     }
     break;
     }
 
-    switch (this->mode)
+    switch (mMode)
     {
     case MODE_PRE_OP:
     {
@@ -329,7 +329,7 @@ void THAStdMultiWidget::UpdateViewMode()
       pelvisMidline->SetVisibility(true);
       femurRightNode->SetVisibility(true);
       femurLeftNode->SetVisibility(true);
-      this->implantAssessmentGadget[3]->setVisible(true);
+      mImplantAssessmentGadget[3]->setVisible(true);
     }
     break;
     case MODE_CUP_PLAN:
@@ -340,14 +340,14 @@ void THAStdMultiWidget::UpdateViewMode()
       nativeCorNode->SetVisibility(true);
       femurRightNode->SetVisibility(false);
       femurLeftNode->SetVisibility(false);
-      this->groupBoxGadget[0]->setVisible(true);
-      this->groupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
-      this->groupBoxGadget[1]->setVisible(true);
-      this->groupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
-      this->groupBoxGadget[2]->setVisible(true);
-      this->groupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
-      this->cupParameterGadget[3]->setVisible(true);
-      this->implantAssessmentGadget[3]->setVisible(true);
+      mGroupBoxGadget[0]->setVisible(true);
+      mGroupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
+      mGroupBoxGadget[1]->setVisible(true);
+      mGroupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
+      mGroupBoxGadget[2]->setVisible(true);
+      mGroupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
+      mCupParameterGadget[3]->setVisible(true);
+      mImplantAssessmentGadget[3]->setVisible(true);
     }
     break;
     case MODE_STEM_PLAN:
@@ -358,14 +358,14 @@ void THAStdMultiWidget::UpdateViewMode()
       nativeCorNode->SetVisibility(true);
       femurRightNode->SetVisibility(false);
       femurLeftNode->SetVisibility(false);
-      this->groupBoxGadget[0]->setVisible(true);
-      this->groupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
-      this->groupBoxGadget[1]->setVisible(true);
-      this->groupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
-      this->groupBoxGadget[2]->setVisible(true);
-      this->groupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
-      this->stemParameterGadget[3]->setVisible(true);
-      this->implantAssessmentGadget[3]->setVisible(true);
+      mGroupBoxGadget[0]->setVisible(true);
+      mGroupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
+      mGroupBoxGadget[1]->setVisible(true);
+      mGroupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
+      mGroupBoxGadget[2]->setVisible(true);
+      mGroupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
+      mStemParameterGadget[3]->setVisible(true);
+      mImplantAssessmentGadget[3]->setVisible(true);
     }
     break;
     case MODE_REDUCED:
@@ -391,7 +391,7 @@ void THAStdMultiWidget::UpdateViewMode()
       femurLeftNode->SetOpacity(0.5);
       femurLeftNode->SetVisibility(true);
       cupCor->SetVisibility(true);
-      this->implantAssessmentGadget[3]->setVisible(true);
+      mImplantAssessmentGadget[3]->setVisible(true);
     }
     break;
     default: //MODE_DEFAULT
@@ -400,16 +400,16 @@ void THAStdMultiWidget::UpdateViewMode()
       // acetabularShell->SetVisibility(false);
       // femoralHead->SetVisibility(false);
       // femoralStem->SetVisibility(false);
-      if (this->view != VIEWS::VIEW_REAMING && this->view != VIEWS::VIEW_X_RAY)
+      if (mView != VIEWS::VIEW_REAMING && mView != VIEWS::VIEW_X_RAY)
       {
         femurRightNode->SetVisibility(true);
         femurLeftNode->SetVisibility(true);
       }
-      this->implantAssessmentGadget[3]->setVisible(true);
+      mImplantAssessmentGadget[3]->setVisible(true);
     }
     break;
     }
   }
-  this->ResetCrosshair();
+  ResetCrosshair();
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

@@ -196,7 +196,7 @@
      <widget class="QStackedWidget" name="stackedWidgetViewer">
       <widget class="LoginDialog" name="pageLogin"/>
       <widget class="CaseManagementDialog" name="pageCaseManagement"/>
-      <widget class="QWidget" name="pageFinalResult"/>
+      <widget class="FinalResultsOpenGLNativeWidget" name="pageFinalResult"/>
       <widget class="QWidget" name="pageMultiWidget">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="spacing">
@@ -747,24 +747,30 @@
    <header>AcetabularPrepWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>FinalResultsOpenGLNativeWidget</class>
+   <extends>QWidget</extends>
+   <header>FinalResultsOpenGLNativeWidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupControl"/>
+  <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupWorkflow"/>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupControl"/>
  </buttongroups>
 </ui>

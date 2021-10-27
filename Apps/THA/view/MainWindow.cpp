@@ -354,6 +354,7 @@ void MainWindow::onActionsTriggered(QAction* action) const
     else if (action == mUi->action_Final_Result)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageFinalResult);
+        mUi->pageFinalResult->initializeWidget();
     }
     else
     {
