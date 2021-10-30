@@ -5,15 +5,9 @@
 #include "ImplantAssessmentGadget.h"
 #include "ReamingFilter2.h"
 #include "StemParameterGadget.h"
+
 // vtk
-// #include <vtkRenderWindow.h>
-// #include <vtkRenderer.h>
-// #include <vtkTransformPolyDataFilter.h>
-// #include <vtkSmartPointer.h>
-// #include <vtkTransform.h>
-// #include <vtkLineSource.h>
-// #include <vtkPolyDataMapper.h>
-// #include <vtkActor.h>
+#include <vtkTransformPolyDataFilter.h>
 
 // qt
 #include <QGridLayout>
@@ -74,12 +68,12 @@ void THAStdMultiWidget::InitializeMultiWidget()
     QmitkStdMultiWidget::InitializeMultiWidget();
     // show image plane in viewer and data storage
     AddPlanesToDataStorage();
+    SetCrosshairVisibility(false);
     ////////////////////////////////////////////////////////////////////////////////
     /// Customization
     ////////////////////////////////////////////////////////////////////////////////
 
-    // Disable the plane widget
-    SetCrosshairVisibility(false);
+    // Disable the plane widget in 3D view
     SetWidgetPlanesVisibility(false, mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
 
     // GetRenderWindow4()->GetVtkRenderWindow()->SetMultiSamples(0);   // We do not support MSAA as it is incompatible
@@ -123,44 +117,65 @@ void THAStdMultiWidget::InitializeMultiWidget()
         mStemParameterGadget[i]->ObserverStem();
     }
     ////////////////////////////////////////////////////////////////////////////////
-    SetView(VIEWS::VIEW_DEFAULT);
-    SetMode(MODES::MODE_DEFAULT);
+    setView(VIEWS::VIEW_DEFAULT);
+    setMode(MODES::MODE_DEFAULT);
     UpdateViewMode();
     ////////////////////////////////////////////////////////////////////////////////
     /// Preset
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
 }
-#include <vtkPointData.h>
-#include <vtkPointDataToCellData.h>
-#include <vtkPolyData.h>
-#include <vtkSelectEnclosedPoints.h>
-#include <vtkSmartPointer.h>
-#include <vtkTransform.h>
-#include <vtkTransformPolyDataFilter.h>
-#include <vtkUnsignedCharArray.h>
 
-void THAStdMultiWidget::SetView(int mode)
+void THAStdMultiWidget::setView(int mode)
 {
     mView = mode;
     UpdateViewMode();
 }
 
-void THAStdMultiWidget::SetMode(int mode)
+void THAStdMultiWidget::setMode(int mode)
 {
     mMode = mode;
     UpdateViewMode();
 }
 
-void THAStdMultiWidget::SetOther(bool other)
+void THAStdMultiWidget::setOther(bool other)
 {
     mOther = other;
     UpdateViewMode();
 }
 
-bool THAStdMultiWidget::GetOther() const
+void THAStdMultiWidget::setMeanIntensityProjection(bool flag)
 {
-    return mOther;
+    mMeanIntensityProjection = flag;
+    auto* imageNode = GetDataStorage()->GetNamedNode("image");
+    imageNode->SetVisibility(true);
+    GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(GetRenderWindowWidget(GetRenderWindow3()).get());
+    GetMultiWidgetLayoutManager()->SetOneBigLayout();
+    // SetWidgetPlanesVisibility(true, mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
+    // SetWidgetPlanesVisibility(true);
+    // GetWidgetPlane3()->SetVisibility(true, mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
+
+    auto* renderer =
+        static_cast<mitk::VtkPropRenderer*>(mitk::BaseRenderer::GetInstance(GetRenderWindow3()->GetVtkRenderWindow()));
+    auto map = renderer->GetMappersMap();
+    for(auto elem : map)
+    {
+        if (elem.second->GetDataNode() == imageNode)
+        {
+            MITK_INFO << elem.first;
+            MITK_INFO << *elem.second;
+        }
+    }
+    // mitk::Mapper* imageMapper;
+    // auto cit = std::find_if(
+    //     map.cbegin(), map.cend(), [&imageNode](auto elem) { return elem.second->GetDataNode() == imageNode; });
+    // if (cit != map.cend())
+    // {
+    //     MITK_INFO << *cit->second;
+    // }
+
+    MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard3D);
+    MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard2D);
 }
 
 void THAStdMultiWidget::UpdateViewMode()
@@ -179,7 +194,11 @@ void THAStdMultiWidget::UpdateViewMode()
     mitk::DataStorage::SetOfObjects::ConstPointer all = GetDataStorage()->GetAll();
     for (const auto& one : *all)
     {
-        one->SetVisibility(false);
+        bool isHelperObject = false;
+        if (!one->GetBoolProperty("helper object", isHelperObject) || !isHelperObject)
+        {
+            one->SetVisibility(false);
+        }
     }
     auto* cupCor = GetDataStorage()->GetNamedNode("cup_cor");
     auto* acetabularLiner = GetDataStorage()->GetNamedNode("acetabular_liner");
@@ -269,25 +288,7 @@ void THAStdMultiWidget::UpdateViewMode()
                 // SetWidgetPlaneVisibility("pelvis", true, renderer3);
                 GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
                 imageNode->SetVisibility(true);
-                auto* renderer = static_cast<mitk::VtkPropRenderer*>(
-                    mitk::BaseRenderer::GetInstance(GetRenderWindow1()->GetVtkRenderWindow()));
-                auto map = renderer->GetMappersMap();
-                // for(auto elem : map)
-                // {
-                //   MITK_INFO << elem.first;
-                //   MITK_INFO << *elem.second;
-                // }
-                // mitk::Mapper* imageMapper;
-                auto cit = std::find_if(map.cbegin(), map.cend(), [&imageNode](auto elem) {
-                    return elem.second->GetDataNode() == imageNode;
-                });
-                if (cit != map.cend())
-                {
-                    MITK_INFO << *cit->second;
-                }
 
-                MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard3D);
-                MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard2D);
                 pelvisNode->SetVisibility(true);
                 // femurRightNode->SetVisibility(true);
                 // femurLeftNode->SetVisibility(true);
