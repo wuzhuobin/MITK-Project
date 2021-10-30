@@ -19,8 +19,8 @@ public:
   static constexpr size_t NUM_OF_RIO_REGISTRATION_IMAGES = 12;
   static constexpr size_t NUM_OF_PELVIS_CHECKPOINT_IMAGES = 1;
   explicit ImageWidget(QWidget *parent = nullptr);
-  void SetMode(MODE mode);
-  MODE GetMode() const;
+  void setMode(MODE mode);
+  MODE getMode() const;
 
 private:
   Ui::ImageWidget *ui; 

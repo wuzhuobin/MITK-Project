@@ -52,3 +52,9 @@ target_include_directories(
   ${PROJECT_SOURCE_DIR}/controller
   ${PROJECT_SOURCE_DIR}/algorithm
 )
+
+target_compile_definitions(
+  ${PROJECT_NAME}
+  PRIVATE
+  US_MODULE_NAME=main
+)

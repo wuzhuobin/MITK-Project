@@ -6,16 +6,16 @@ ImageWidget::ImageWidget(QWidget *parent)
   ui(new Ui::ImageWidget)
 {
   this->ui->setupUi(this);
-  this->SetMode(MODE::PELVIS_CHECKPOINT);
+  this->setMode(MODE::PELVIS_CHECKPOINT);
 }
 
-void ImageWidget::SetMode(MODE mode)
+void ImageWidget::setMode(MODE mode)
 {
   this->mode = mode;
   this->showImage(0);
 }
 
-ImageWidget::MODE ImageWidget::GetMode() const
+ImageWidget::MODE ImageWidget::getMode() const
 {
   return this->mode;
 }

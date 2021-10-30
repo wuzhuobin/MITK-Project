@@ -4,6 +4,7 @@
 #include "AdminMenu.h"
 #include "CasePlanningWidget.h"
 #include "IOController.h"
+#include "THAStdMultiWidget.h"
 #include "ui_MainWindow.h"
 
 // qt
@@ -164,23 +165,23 @@ void MainWindow::on_buttonGroupMode_buttonClicked(QAbstractButton* button) const
 
     if (mUi->toolButtonPrepOpMode->isChecked())
     {
-        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_PRE_OP);
+        mUi->multiWidget->setMode(THAStdMultiWidget::MODES::MODE_PRE_OP);
     }
     else if (mUi->toolButtonCupPlanMode->isChecked())
     {
-        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
+        mUi->multiWidget->setMode(THAStdMultiWidget::MODES::MODE_CUP_PLAN);
     }
     else if (mUi->toolButtonStemPlanMode->isChecked())
     {
-        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_STEM_PLAN);
+        mUi->multiWidget->setMode(THAStdMultiWidget::MODES::MODE_STEM_PLAN);
     }
     else if (mUi->toolButtonReducedMode->isChecked())
     {
-        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_REDUCED);
+        mUi->multiWidget->setMode(THAStdMultiWidget::MODES::MODE_REDUCED);
     }
     else
     {
-        mUi->multiWidget->SetMode(THAStdMultiWidget::MODES::MODE_DEFAULT);
+        mUi->multiWidget->setMode(THAStdMultiWidget::MODES::MODE_DEFAULT);
     }
 }
 
@@ -197,23 +198,23 @@ void MainWindow::on_buttonGroupView_buttonClicked(QAbstractButton* button) const
 
     if (mUi->toolButton3DSlicerView->isChecked())
     {
-        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
+        mUi->multiWidget->setView(THAStdMultiWidget::VIEWS::VIEW_3D_SLICER);
     }
     else if (mUi->toolButtonCTView->isChecked())
     {
-        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_CT);
+        mUi->multiWidget->setView(THAStdMultiWidget::VIEWS::VIEW_CT);
     }
     else if (mUi->toolButtonReamingView->isChecked())
     {
-        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_REAMING);
+        mUi->multiWidget->setView(THAStdMultiWidget::VIEWS::VIEW_REAMING);
     }
     else if (mUi->toolButtonXRayView->isChecked())
     {
-        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_X_RAY);
+        mUi->multiWidget->setView(THAStdMultiWidget::VIEWS::VIEW_X_RAY);
     }
     else
     {
-        mUi->multiWidget->SetView(THAStdMultiWidget::VIEWS::VIEW_DEFAULT);
+        mUi->multiWidget->setView(THAStdMultiWidget::VIEWS::VIEW_DEFAULT);
     }
 }
 
@@ -324,41 +325,41 @@ void MainWindow::onActionsTriggered(QAction* action) const
     else if (action == mUi->action_RIO_Registratoin)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
-        mUi->imageWidget->SetMode(ImageWidget::MODE::RIO_REGISTRATION);
+        mUi->imageWidget->setMode(ImageWidget::MODE::RIO_REGISTRATION);
     }
     else if (action == mUi->action_Pelvis_Checkpoint)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
-        mUi->imageWidget->SetMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
+        mUi->imageWidget->setMode(ImageWidget::MODE::PELVIS_CHECKPOINT);
     }
     else if (action == mUi->action_Pelvis_Landmark)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
-        mUi->multiWidget->SetOther(true);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::Other);
     }
     else if (action == mUi->action_Pelvis_Registration)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
-        mUi->multiWidget->SetOther(true);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::Other);
     }
     else if (action == mUi->action_Cup_Reaming)
     {
-        mUi->stackedWidgetViewer->setCurrentWidget(mUi->multiWidget);
-        mUi->multiWidget->SetOther(true);
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::Other);
     }
     else if (action == mUi->action_Cup_Impaction)
     {
-        mUi->stackedWidgetViewer->setCurrentWidget(mUi->multiWidget);
-        mUi->multiWidget->SetOther(true);
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::Other);
     }
     else if (action == mUi->action_Final_Result)
     {
-        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageFinalResult);
-        mUi->pageFinalResult->initializeWidget();
+        mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::MeanIntensityProjection);
     }
     else
     {
-        mUi->multiWidget->SetOther(false);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::Default);
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
     }
 }

@@ -5,8 +5,11 @@
 #include "ImplantAssessmentGadget.h"
 #include "ReamingFilter2.h"
 #include "StemParameterGadget.h"
+#include "mitkImageVtkMapper2D2.h"
 
 // vtk
+#include <mitkDataNode.h>
+#include <mitkImage.h>
 #include <vtkTransformPolyDataFilter.h>
 
 // qt
@@ -20,10 +23,9 @@
 // #include <mitkSurface.h>
 #include <QmitkRenderWindow.h>
 #include <mitkBaseRenderer.h>
-#include <mitkCommon.h>
+#include <mitkImageVtkMapper2D.h>
 #include <mitkLogMacros.h>
 #include <mitkMapper.h>
-#include <mitkVtkPropRenderer.h>
 
 static const std::set<std::string> DEFAULT_VISIBLE_SET = {"hip_length_right",
                                                           "hip_length_left",
@@ -117,8 +119,8 @@ void THAStdMultiWidget::InitializeMultiWidget()
         mStemParameterGadget[i]->ObserverStem();
     }
     ////////////////////////////////////////////////////////////////////////////////
-    setView(VIEWS::VIEW_DEFAULT);
-    setMode(MODES::MODE_DEFAULT);
+    mView = VIEWS::VIEW_DEFAULT;
+    mMode = MODES::MODE_DEFAULT;
     UpdateViewMode();
     ////////////////////////////////////////////////////////////////////////////////
     /// Preset
@@ -129,54 +131,24 @@ void THAStdMultiWidget::InitializeMultiWidget()
 void THAStdMultiWidget::setView(int mode)
 {
     mView = mode;
+    mCustom = Custom::Default;
     UpdateViewMode();
 }
 
 void THAStdMultiWidget::setMode(int mode)
 {
     mMode = mode;
+    mCustom = Custom::Default;
     UpdateViewMode();
 }
 
-void THAStdMultiWidget::setOther(bool other)
+void THAStdMultiWidget::setCustom(Custom custom)
 {
-    mOther = other;
+    mCustom = custom;
     UpdateViewMode();
 }
 
-void THAStdMultiWidget::setMeanIntensityProjection(bool flag)
-{
-    mMeanIntensityProjection = flag;
-    auto* imageNode = GetDataStorage()->GetNamedNode("image");
-    imageNode->SetVisibility(true);
-    GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(GetRenderWindowWidget(GetRenderWindow3()).get());
-    GetMultiWidgetLayoutManager()->SetOneBigLayout();
-    // SetWidgetPlanesVisibility(true, mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
-    // SetWidgetPlanesVisibility(true);
-    // GetWidgetPlane3()->SetVisibility(true, mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
-
-    auto* renderer =
-        static_cast<mitk::VtkPropRenderer*>(mitk::BaseRenderer::GetInstance(GetRenderWindow3()->GetVtkRenderWindow()));
-    auto map = renderer->GetMappersMap();
-    for(auto elem : map)
-    {
-        if (elem.second->GetDataNode() == imageNode)
-        {
-            MITK_INFO << elem.first;
-            MITK_INFO << *elem.second;
-        }
-    }
-    // mitk::Mapper* imageMapper;
-    // auto cit = std::find_if(
-    //     map.cbegin(), map.cend(), [&imageNode](auto elem) { return elem.second->GetDataNode() == imageNode; });
-    // if (cit != map.cend())
-    // {
-    //     MITK_INFO << *cit->second;
-    // }
-
-    MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard3D);
-    MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard2D);
-}
+void THAStdMultiWidget::setMeanIntensityProjection(bool flag) {}
 
 void THAStdMultiWidget::UpdateViewMode()
 {
@@ -220,194 +192,255 @@ void THAStdMultiWidget::UpdateViewMode()
     auto* imageNode = GetDataStorage()->GetNamedNode("image");
     auto* pelvisNode = GetDataStorage()->GetNamedNode("pelvis");
 
-    if (mOther)
+    switch (mCustom)
     {
-        GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(GetRenderWindowWidget(GetRenderWindow4()).get());
-        GetMultiWidgetLayoutManager()->SetOneBigLayout();
-    }
-    else
-    {
-        // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
-        // while manually setting seems to work
-        femurRightNode->SetOpacity(1);
-        // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
-        // while manually setting seems to work
-        femurLeftNode->SetOpacity(1);
-        imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
+        case Custom::Other:
+            GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+                GetRenderWindowWidget(GetRenderWindow4()).get());
+            GetMultiWidgetLayoutManager()->SetOneBigLayout();
+            break;
+        case Custom::MeanIntensityProjection:
+            auto* imageNode = GetDataStorage()->GetNamedNode("image");
+            imageNode->SetVisibility(false);
+            GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+                GetRenderWindowWidget(GetRenderWindow3()).get());
+            GetMultiWidgetLayoutManager()->SetOneBigLayout();
+            // SetWidgetPlanesVisibility(true,
+            // mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
+            // SetWidgetPlanesVisibility(true);
+            // GetWidgetPlane3()->SetVisibility(true,
+            // mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
+            // auto windows = GetRenderWindows();
+            // for (auto* window : windows)
+            // {
+            //     auto* propRenderer =
+            //         static_cast<mitk::VtkPropRenderer*>(mitk::BaseRenderer::GetInstance(window->GetVtkRenderWindow()));
+            //     auto map = propRenderer->GetMappersMap();
 
-        switch (mView)
-        {
-            case VIEW_REAMING: {
-                GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
-                imageNode->SetVisibility(true);
-                auto* pelvis = GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
-                auto* acetabularShell = GetDataStorage()->GetNamedObject<mitk::Surface>("acetabular_shell");
-                auto* reamerTrajectory = GetDataStorage()->GetNamedObject<mitk::Surface>("reamer_trajectory");
+            //     auto cit = std::find_if(
+            //         map.cbegin(), map.cend(), [&imageNode](auto elem) { return elem.second->GetDataNode() ==
+            //         imageNode; });
 
-                auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-                transformPolyData->SetInputData(reamerTrajectory->GetVtkPolyData());
-                transformPolyData->SetTransform(acetabularShell->GetGeometry()->GetVtkTransform());
-                transformPolyData->Update();
+            //     if (cit != map.cend())
+            //     {
+            //         // auto* mapper = static_cast<mitk::ImageVtkMapper2D*>(cit->second);
+            //         MITK_INFO << *cit->second;
+            //     }
+            // }
 
-                auto reamingFilter = vtkSmartPointer<ReamingFilter2>::New();
-                reamingFilter->SetInputData(pelvis->GetVtkPolyData());
-                reamingFilter->SetInputData(1, transformPolyData->GetOutput());
-                reamingFilter->Update();
-                vtkPolyData* selected = reamingFilter->GetOutput();
+            // auto* propRenderer =
+            //     static_cast<mitk::VtkPropRenderer*>(mitk::BaseRenderer::GetInstance(GetRenderWindow3()->GetVtkRenderWindow()));
+            // auto map = propRenderer->GetMappersMap();
 
-                mitk::Surface::Pointer reamingPelvis =
-                    GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
-                mitk::DataNode::Pointer reamingPelvisNode = GetDataStorage()->GetNamedNode("reaming_pelvis");
-                if (reamingPelvis == nullptr)
-                {
-                    reamingPelvis = mitk::Surface::New();
-                    reamingPelvisNode = mitk::DataNode::New();
-                    reamingPelvisNode->SetName("reaming_pelvis");
-                    reamingPelvisNode->SetData(reamingPelvis);
-                    reamingPelvisNode->SetBoolProperty("scalar visibility", true);
-                    GetDataStorage()->Add(reamingPelvisNode);
+            // auto cit = std::find_if(
+            //     map.cbegin(), map.cend(), [&imageNode](auto elem) { return elem.second->GetDataNode() == imageNode;
+            //     });
+            // if (cit != map.cend())
+            // {
+            //     auto* mapper = static_cast<mitk::ImageVtkMapper2D*>(cit->second);
+            //     const auto* localStorage = mapper->GetConstLocalStorage(propRenderer);
+            //     // localStorage->m_TSFilter->SetThickSliceMode(vtkMitkThickSlicesFilter::MEAN);
+            //     MITK_INFO << *mapper;
+            // }
+
+            // MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard3D);
+            // imageNode->SetMapper(mitk::BaseRenderer::Standard2D, mitk::ImageVtkMapper2D2::New());
+
+            auto* imageC = GetDataStorage()->GetNamedObject<mitk::Image>("image");
+            auto imageCloneNode = mitk::DataNode::New();
+            imageCloneNode->SetName("image-clone");
+            imageCloneNode->SetData(imageC->Clone());
+            imageCloneNode->SetMapper(mitk::BaseRenderer::Standard2D, mitk::ImageVtkMapper2D2::New());
+            GetDataStorage()->Add(imageCloneNode);
+
+            auto* mapper =
+                static_cast<mitk::ImageVtkMapper2D*>(imageCloneNode->GetMapper(mitk::BaseRenderer::Standard2D));
+            MITK_INFO << *mapper;
+            break;
+        default:  // case Custom::Default:
+            // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+            // while manually setting seems to work
+            femurRightNode->SetOpacity(1);
+            // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+            // while manually setting seems to work
+            femurLeftNode->SetOpacity(1);
+            imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
+
+            switch (mView)
+            {
+                case VIEW_REAMING: {
+                    GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
+                    imageNode->SetVisibility(true);
+                    auto* pelvis = GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
+                    auto* acetabularShell = GetDataStorage()->GetNamedObject<mitk::Surface>("acetabular_shell");
+                    auto* reamerTrajectory = GetDataStorage()->GetNamedObject<mitk::Surface>("reamer_trajectory");
+
+                    auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+                    transformPolyData->SetInputData(reamerTrajectory->GetVtkPolyData());
+                    transformPolyData->SetTransform(acetabularShell->GetGeometry()->GetVtkTransform());
+                    transformPolyData->Update();
+
+                    auto reamingFilter = vtkSmartPointer<ReamingFilter2>::New();
+                    reamingFilter->SetInputData(pelvis->GetVtkPolyData());
+                    reamingFilter->SetInputData(1, transformPolyData->GetOutput());
+                    reamingFilter->Update();
+                    vtkPolyData* selected = reamingFilter->GetOutput();
+
+                    mitk::Surface::Pointer reamingPelvis =
+                        GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
+                    mitk::DataNode::Pointer reamingPelvisNode = GetDataStorage()->GetNamedNode("reaming_pelvis");
+                    if (reamingPelvis == nullptr)
+                    {
+                        reamingPelvis = mitk::Surface::New();
+                        reamingPelvisNode = mitk::DataNode::New();
+                        reamingPelvisNode->SetName("reaming_pelvis");
+                        reamingPelvisNode->SetData(reamingPelvis);
+                        reamingPelvisNode->SetBoolProperty("scalar visibility", true);
+                        GetDataStorage()->Add(reamingPelvisNode);
+                    }
+                    reamingPelvis->SetVtkPolyData(selected);
+                    reamingPelvisNode->SetVisibility(true);
                 }
-                reamingPelvis->SetVtkPolyData(selected);
-                reamingPelvisNode->SetVisibility(true);
-            }
-            break;
-            case VIEW_CT: {
-                // imageNode->SetVisibility(true);
-                // //EnableStandardLevelWindow();
-                // GetMultiWidgetLayoutManager()->SetDefaultLayout();
-                // //changeLayoutTo2DImagesLeft();
-                // GetRenderWindow4()->setVisible(false);
-                GetMultiWidgetLayoutManager()->SetOnly2DHorizontalLayout();
-                imageNode->SetVisibility(true);
-            }
-            break;
-            case VIEW_3D_SLICER: {
-                // //EnableStandardLevelWindow();
-                // SetWidgetPlaneVisibility("pelvis", true, renderer1);
-                // SetWidgetPlaneVisibility("pelvis", true, renderer2);
-                // SetWidgetPlaneVisibility("pelvis", true, renderer3);
-                GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
-                imageNode->SetVisibility(true);
+                break;
+                case VIEW_CT: {
+                    // imageNode->SetVisibility(true);
+                    // //EnableStandardLevelWindow();
+                    // GetMultiWidgetLayoutManager()->SetDefaultLayout();
+                    // //changeLayoutTo2DImagesLeft();
+                    // GetRenderWindow4()->setVisible(false);
+                    GetMultiWidgetLayoutManager()->SetOnly2DHorizontalLayout();
+                    imageNode->SetVisibility(true);
+                }
+                break;
+                case VIEW_3D_SLICER: {
+                    // //EnableStandardLevelWindow();
+                    // SetWidgetPlaneVisibility("pelvis", true, renderer1);
+                    // SetWidgetPlaneVisibility("pelvis", true, renderer2);
+                    // SetWidgetPlaneVisibility("pelvis", true, renderer3);
+                    GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
+                    imageNode->SetVisibility(true);
 
-                pelvisNode->SetVisibility(true);
-                // femurRightNode->SetVisibility(true);
-                // femurLeftNode->SetVisibility(true);
-            }
-            break;
-            case VIEW_X_RAY: {
-                GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
-                    GetRenderWindowWidget(GetRenderWindow4()).get());
-                GetMultiWidgetLayoutManager()->SetOneBigLayout();
-                imageNode->SetVisibility(true);
-                imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(true));
-            }
-            break;
-            default:  // VIEW_DEFAULT
-            {
-                GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
-                    GetRenderWindowWidget(GetRenderWindow4()).get());
-                GetMultiWidgetLayoutManager()->SetOneBigLayout();
-                pelvisNode->SetVisibility(true);
-                femurRightNode->SetVisibility(true);
-                femurLeftNode->SetVisibility(true);
-                // mitk::BaseRenderer *renderer = mitk::BaseRenderer::GetInstance(GetRenderWindow4()->renderWindow());
-                // SetWidgetPlaneVisibility("image", false, renderer);
-            }
-            break;
-        }
-
-        switch (mMode)
-        {
-            case MODE_PRE_OP: {
-                trochanterNode->SetVisibility(true);
-                trochanterRightLineNode->SetVisibility(true);
-                trochanterLeftLineNode->SetVisibility(true);
-                nativeCorNode->SetVisibility(true);
-                // psisNode->SetVisibility(true);
-                asisNode->SetVisibility(true);
-                // hipLengthRight->SetVisibility(true);
-                // hipLengthLeft->SetVisibility(true);
-                pelvisMidline->SetVisibility(true);
-                femurRightNode->SetVisibility(true);
-                femurLeftNode->SetVisibility(true);
-                mImplantAssessmentGadget[3]->setVisible(true);
-            }
-            break;
-            case MODE_CUP_PLAN: {
-                cupCor->SetVisibility(true);
-                acetabularLiner->SetVisibility(true);
-                acetabularShell->SetVisibility(true);
-                nativeCorNode->SetVisibility(true);
-                femurRightNode->SetVisibility(false);
-                femurLeftNode->SetVisibility(false);
-                mGroupBoxGadget[0]->setVisible(true);
-                mGroupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
-                mGroupBoxGadget[1]->setVisible(true);
-                mGroupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
-                mGroupBoxGadget[2]->setVisible(true);
-                mGroupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
-                mCupParameterGadget[3]->setVisible(true);
-                mImplantAssessmentGadget[3]->setVisible(true);
-            }
-            break;
-            case MODE_STEM_PLAN: {
-                femoralHeadCor->SetVisibility(true);
-                femoralHead->SetVisibility(true);
-                femoralStem->SetVisibility(true);
-                nativeCorNode->SetVisibility(true);
-                femurRightNode->SetVisibility(false);
-                femurLeftNode->SetVisibility(false);
-                mGroupBoxGadget[0]->setVisible(true);
-                mGroupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
-                mGroupBoxGadget[1]->setVisible(true);
-                mGroupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
-                mGroupBoxGadget[2]->setVisible(true);
-                mGroupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
-                mStemParameterGadget[3]->setVisible(true);
-                mImplantAssessmentGadget[3]->setVisible(true);
-            }
-            break;
-            case MODE_REDUCED: {
-                trochanterNode->SetVisibility(true);
-                trochanterRightLineNode->SetVisibility(true);
-                trochanterLeftLineNode->SetVisibility(true);
-                asisNode->SetVisibility(true);
-                pelvisMidline->SetVisibility(true);
-                acetabularLiner->SetVisibility(true);
-                acetabularShell->SetVisibility(true);
-                cupCor->SetVisibility(true);
-                femoralHead->SetVisibility(true);
-                femoralStem->SetVisibility(true);
-                femoralHeadCor->SetVisibility(true);
-                nativeCorNode->SetVisibility(true);
-                // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
-                // while manually setting seems to work
-                femurRightNode->SetOpacity(0.5);
-                femurRightNode->SetVisibility(true);
-                // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
-                // while manually setting seems to work
-                femurLeftNode->SetOpacity(0.5);
-                femurLeftNode->SetVisibility(true);
-                cupCor->SetVisibility(true);
-                mImplantAssessmentGadget[3]->setVisible(true);
-            }
-            break;
-            default:  // MODE_DEFAULT
-            {
-                // acetabularLiner->SetVisibility(false);
-                // acetabularShell->SetVisibility(false);
-                // femoralHead->SetVisibility(false);
-                // femoralStem->SetVisibility(false);
-                if (mView != VIEWS::VIEW_REAMING && mView != VIEWS::VIEW_X_RAY)
+                    pelvisNode->SetVisibility(true);
+                    // femurRightNode->SetVisibility(true);
+                    // femurLeftNode->SetVisibility(true);
+                }
+                break;
+                case VIEW_X_RAY: {
+                    GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+                        GetRenderWindowWidget(GetRenderWindow4()).get());
+                    GetMultiWidgetLayoutManager()->SetOneBigLayout();
+                    imageNode->SetVisibility(true);
+                    imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(true));
+                }
+                break;
+                default:  // VIEW_DEFAULT
                 {
+                    GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
+                        GetRenderWindowWidget(GetRenderWindow4()).get());
+                    GetMultiWidgetLayoutManager()->SetOneBigLayout();
+                    pelvisNode->SetVisibility(true);
                     femurRightNode->SetVisibility(true);
                     femurLeftNode->SetVisibility(true);
+                    // mitk::BaseRenderer *renderer =
+                    // mitk::BaseRenderer::GetInstance(GetRenderWindow4()->renderWindow());
+                    // SetWidgetPlaneVisibility("image", false, renderer);
                 }
-                mImplantAssessmentGadget[3]->setVisible(true);
+                break;
             }
-            break;
-        }
+
+            switch (mMode)
+            {
+                case MODE_PRE_OP: {
+                    trochanterNode->SetVisibility(true);
+                    trochanterRightLineNode->SetVisibility(true);
+                    trochanterLeftLineNode->SetVisibility(true);
+                    nativeCorNode->SetVisibility(true);
+                    // psisNode->SetVisibility(true);
+                    asisNode->SetVisibility(true);
+                    // hipLengthRight->SetVisibility(true);
+                    // hipLengthLeft->SetVisibility(true);
+                    pelvisMidline->SetVisibility(true);
+                    femurRightNode->SetVisibility(true);
+                    femurLeftNode->SetVisibility(true);
+                    mImplantAssessmentGadget[3]->setVisible(true);
+                }
+                break;
+                case MODE_CUP_PLAN: {
+                    cupCor->SetVisibility(true);
+                    acetabularLiner->SetVisibility(true);
+                    acetabularShell->SetVisibility(true);
+                    nativeCorNode->SetVisibility(true);
+                    femurRightNode->SetVisibility(false);
+                    femurLeftNode->SetVisibility(false);
+                    mGroupBoxGadget[0]->setVisible(true);
+                    mGroupBoxGadget[0]->setMode(GroupBoxGadget::CUP);
+                    mGroupBoxGadget[1]->setVisible(true);
+                    mGroupBoxGadget[1]->setMode(GroupBoxGadget::CUP);
+                    mGroupBoxGadget[2]->setVisible(true);
+                    mGroupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
+                    mCupParameterGadget[3]->setVisible(true);
+                    mImplantAssessmentGadget[3]->setVisible(true);
+                }
+                break;
+                case MODE_STEM_PLAN: {
+                    femoralHeadCor->SetVisibility(true);
+                    femoralHead->SetVisibility(true);
+                    femoralStem->SetVisibility(true);
+                    nativeCorNode->SetVisibility(true);
+                    femurRightNode->SetVisibility(false);
+                    femurLeftNode->SetVisibility(false);
+                    mGroupBoxGadget[0]->setVisible(true);
+                    mGroupBoxGadget[0]->setMode(GroupBoxGadget::STEM);
+                    mGroupBoxGadget[1]->setVisible(true);
+                    mGroupBoxGadget[1]->setMode(GroupBoxGadget::STEM);
+                    mGroupBoxGadget[2]->setVisible(true);
+                    mGroupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
+                    mStemParameterGadget[3]->setVisible(true);
+                    mImplantAssessmentGadget[3]->setVisible(true);
+                }
+                break;
+                case MODE_REDUCED: {
+                    trochanterNode->SetVisibility(true);
+                    trochanterRightLineNode->SetVisibility(true);
+                    trochanterLeftLineNode->SetVisibility(true);
+                    asisNode->SetVisibility(true);
+                    pelvisMidline->SetVisibility(true);
+                    acetabularLiner->SetVisibility(true);
+                    acetabularShell->SetVisibility(true);
+                    cupCor->SetVisibility(true);
+                    femoralHead->SetVisibility(true);
+                    femoralStem->SetVisibility(true);
+                    femoralHeadCor->SetVisibility(true);
+                    nativeCorNode->SetVisibility(true);
+                    // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+                    // while manually setting seems to work
+                    femurRightNode->SetOpacity(0.5);
+                    femurRightNode->SetVisibility(true);
+                    // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
+                    // while manually setting seems to work
+                    femurLeftNode->SetOpacity(0.5);
+                    femurLeftNode->SetVisibility(true);
+                    cupCor->SetVisibility(true);
+                    mImplantAssessmentGadget[3]->setVisible(true);
+                }
+                break;
+                default:  // MODE_DEFAULT
+                {
+                    // acetabularLiner->SetVisibility(false);
+                    // acetabularShell->SetVisibility(false);
+                    // femoralHead->SetVisibility(false);
+                    // femoralStem->SetVisibility(false);
+                    if (mView != VIEWS::VIEW_REAMING && mView != VIEWS::VIEW_X_RAY)
+                    {
+                        femurRightNode->SetVisibility(true);
+                        femurLeftNode->SetVisibility(true);
+                    }
+                    mImplantAssessmentGadget[3]->setVisible(true);
+                }
+                break;
+            }
     }
+
     ResetCrosshair();
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
