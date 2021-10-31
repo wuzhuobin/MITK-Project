@@ -36,7 +36,7 @@ public:
     {
         Default,
         Other,
-        MeanIntensityProjection,
+        MeanIntensity,
     };
 
 public:
@@ -50,7 +50,6 @@ public:
     void setMode(int mode);
     Custom getCustom() const { return mCustom; }
     void setCustom(Custom custom);
-    void setMeanIntensityProjection(bool flag);
 
 private:
     int mView = VIEW_DEFAULT;

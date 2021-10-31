@@ -5,27 +5,20 @@
 #include "ImplantAssessmentGadget.h"
 #include "ReamingFilter2.h"
 #include "StemParameterGadget.h"
-#include "mitkImageVtkMapper2D2.h"
 
 // vtk
-#include <mitkDataNode.h>
-#include <mitkImage.h>
 #include <vtkTransformPolyDataFilter.h>
 
 // qt
 #include <QGridLayout>
-#include <algorithm>
 
 // mitk
-// #include <mitkImage.h>
-// #include <mitkLogMacros.h>
-// #include <mitkSceneIO.h>
-// #include <mitkSurface.h>
 #include <QmitkRenderWindow.h>
 #include <mitkBaseRenderer.h>
 #include <mitkImageVtkMapper2D.h>
 #include <mitkLogMacros.h>
 #include <mitkMapper.h>
+#include <mitkResliceMethodProperty.h>
 
 static const std::set<std::string> DEFAULT_VISIBLE_SET = {"hip_length_right",
                                                           "hip_length_left",
@@ -148,8 +141,6 @@ void THAStdMultiWidget::setCustom(Custom custom)
     UpdateViewMode();
 }
 
-void THAStdMultiWidget::setMeanIntensityProjection(bool flag) {}
-
 void THAStdMultiWidget::UpdateViewMode()
 {
     ////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +162,11 @@ void THAStdMultiWidget::UpdateViewMode()
         {
             one->SetVisibility(false);
         }
+    }
+    for (auto i = 1U; i < 4; ++i)
+    {
+        GetWidgetPlane(i)->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New("disabled"));
+        GetWidgetPlane(i)->SetFloatProperty("reslice.thickslices.sizeinmm", 10.0F);
     }
     auto* cupCor = GetDataStorage()->GetNamedNode("cup_cor");
     auto* acetabularLiner = GetDataStorage()->GetNamedNode("acetabular_liner");
@@ -194,70 +190,29 @@ void THAStdMultiWidget::UpdateViewMode()
 
     switch (mCustom)
     {
-        case Custom::Other:
+        case Custom::Other: {
             GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
                 GetRenderWindowWidget(GetRenderWindow4()).get());
             GetMultiWidgetLayoutManager()->SetOneBigLayout();
-            break;
-        case Custom::MeanIntensityProjection:
-            auto* imageNode = GetDataStorage()->GetNamedNode("image");
-            imageNode->SetVisibility(false);
+        }
+        break;
+        case Custom::MeanIntensity: {
             GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
                 GetRenderWindowWidget(GetRenderWindow3()).get());
             GetMultiWidgetLayoutManager()->SetOneBigLayout();
-            // SetWidgetPlanesVisibility(true,
-            // mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
-            // SetWidgetPlanesVisibility(true);
-            // GetWidgetPlane3()->SetVisibility(true,
-            // mitk::BaseRenderer::GetInstance(GetRenderWindow4()->GetVtkRenderWindow()));
-            // auto windows = GetRenderWindows();
-            // for (auto* window : windows)
-            // {
-            //     auto* propRenderer =
-            //         static_cast<mitk::VtkPropRenderer*>(mitk::BaseRenderer::GetInstance(window->GetVtkRenderWindow()));
-            //     auto map = propRenderer->GetMappersMap();
 
-            //     auto cit = std::find_if(
-            //         map.cbegin(), map.cend(), [&imageNode](auto elem) { return elem.second->GetDataNode() ==
-            //         imageNode; });
+            auto* maskNode = GetDataStorage()->GetNamedNode("mask");
+            maskNode->SetVisibility(true);
+            for (auto i = 1U; i < 4; ++i)
+            {
+                GetWidgetPlane(i)->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New("disabled"));
+                GetWidgetPlane(i)->SetFloatProperty("reslice.thickslices.sizeinmm", 1.0F);
+                GetWidgetPlane(i)->SetIntProperty("reslice.thickslices.num", 0);
+            }
+        }
+        break;
+        default: {  // case Custom::Default: {
 
-            //     if (cit != map.cend())
-            //     {
-            //         // auto* mapper = static_cast<mitk::ImageVtkMapper2D*>(cit->second);
-            //         MITK_INFO << *cit->second;
-            //     }
-            // }
-
-            // auto* propRenderer =
-            //     static_cast<mitk::VtkPropRenderer*>(mitk::BaseRenderer::GetInstance(GetRenderWindow3()->GetVtkRenderWindow()));
-            // auto map = propRenderer->GetMappersMap();
-
-            // auto cit = std::find_if(
-            //     map.cbegin(), map.cend(), [&imageNode](auto elem) { return elem.second->GetDataNode() == imageNode;
-            //     });
-            // if (cit != map.cend())
-            // {
-            //     auto* mapper = static_cast<mitk::ImageVtkMapper2D*>(cit->second);
-            //     const auto* localStorage = mapper->GetConstLocalStorage(propRenderer);
-            //     // localStorage->m_TSFilter->SetThickSliceMode(vtkMitkThickSlicesFilter::MEAN);
-            //     MITK_INFO << *mapper;
-            // }
-
-            // MITK_INFO << *imageNode->GetMapper(mitk::BaseRenderer::Standard3D);
-            // imageNode->SetMapper(mitk::BaseRenderer::Standard2D, mitk::ImageVtkMapper2D2::New());
-
-            auto* imageC = GetDataStorage()->GetNamedObject<mitk::Image>("image");
-            auto imageCloneNode = mitk::DataNode::New();
-            imageCloneNode->SetName("image-clone");
-            imageCloneNode->SetData(imageC->Clone());
-            imageCloneNode->SetMapper(mitk::BaseRenderer::Standard2D, mitk::ImageVtkMapper2D2::New());
-            GetDataStorage()->Add(imageCloneNode);
-
-            auto* mapper =
-                static_cast<mitk::ImageVtkMapper2D*>(imageCloneNode->GetMapper(mitk::BaseRenderer::Standard2D));
-            MITK_INFO << *mapper;
-            break;
-        default:  // case Custom::Default:
             // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
             // while manually setting seems to work
             femurRightNode->SetOpacity(1);
@@ -437,8 +392,8 @@ void THAStdMultiWidget::UpdateViewMode()
                     }
                     mImplantAssessmentGadget[3]->setVisible(true);
                 }
-                break;
             }
+        }
     }
 
     ResetCrosshair();

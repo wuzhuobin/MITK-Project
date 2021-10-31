@@ -109,10 +109,11 @@ MainWindow::~MainWindow()
     delete mUi;
 }
 
+// #include <QApplication>
 void MainWindow::test()
 {
     MITK_INFO << __func__;
-    IOController::getInstance()->loadScene(IOController::getBaseProject());
+    IOController::getInstance()->loadScene(qApp->applicationDirPath() + "/cases/first_case.0");
     setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Pelvis_CT_Landmark));
     // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
 }
@@ -136,11 +137,6 @@ void MainWindow::setCurrentActionIndex(int index)
     }
 
     mActionGroup->actions()[mCurrentActionIndex]->trigger();
-}
-
-void MainWindow::showFinalResult()
-{
-
 }
 
 void MainWindow::on_radioButtonOptions_toggled(bool checked)
@@ -355,7 +351,7 @@ void MainWindow::onActionsTriggered(QAction* action) const
     else if (action == mUi->action_Final_Result)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
-        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::MeanIntensityProjection);
+        mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::MeanIntensity);
     }
     else
     {

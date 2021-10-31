@@ -26,7 +26,6 @@ private:
     QActionGroup* mActionGroup;
     int mCurrentActionIndex = 0;
     void setCurrentActionIndex(int index);
-    void showFinalResult();
     Q_DISABLE_COPY(MainWindow);
 
     Q_SLOT void on_radioButtonOptions_toggled(bool checked);
