@@ -15,7 +15,7 @@
 // mitk
 #include <QmitkRenderWindow.h>
 #include <mitkBaseRenderer.h>
-#include <mitkImageVtkMapper2D.h>
+#include <mitkCoreObjectFactory.h>
 #include <mitkLogMacros.h>
 #include <mitkMapper.h>
 #include <mitkResliceMethodProperty.h>
@@ -166,27 +166,41 @@ void THAStdMultiWidget::UpdateViewMode()
     for (auto i = 1U; i < 4; ++i)
     {
         GetWidgetPlane(i)->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New("disabled"));
-        GetWidgetPlane(i)->SetFloatProperty("reslice.thickslices.sizeinmm", 10.0F);
+        GetWidgetPlane(i)->SetIntProperty("reslice.thickslices.num", 0);
     }
     auto* cupCor = GetDataStorage()->GetNamedNode("cup_cor");
-    auto* acetabularLiner = GetDataStorage()->GetNamedNode("acetabular_liner");
-    auto* acetabularShell = GetDataStorage()->GetNamedNode("acetabular_shell");
-    auto* femoralHeadCor = GetDataStorage()->GetNamedNode("femoral_head_cor");
-    auto* femoralStem = GetDataStorage()->GetNamedNode("femoral_stem");
-    auto* femoralHead = GetDataStorage()->GetNamedNode("femoral_head");
+    auto* acetabularLinerNode = GetDataStorage()->GetNamedNode("acetabular_liner");
+    auto* acetabularShellNode = GetDataStorage()->GetNamedNode("acetabular_shell");
+    auto* femoralHeadCorNode = GetDataStorage()->GetNamedNode("femoral_head_cor");
+    auto* femoralStemNode = GetDataStorage()->GetNamedNode("femoral_stem");
+    auto* femoralHeadNode = GetDataStorage()->GetNamedNode("femoral_head");
     auto* trochanterNode = GetDataStorage()->GetNamedNode("trochanter");
     auto* trochanterRightLineNode = GetDataStorage()->GetNamedNode("trochanter_right_line");
     auto* trochanterLeftLineNode = GetDataStorage()->GetNamedNode("trochanter_left_line");
     auto* nativeCorNode = GetDataStorage()->GetNamedNode("native_cor");
     auto* psisNode = GetDataStorage()->GetNamedNode("psis");
     auto* asisNode = GetDataStorage()->GetNamedNode("asis");
-    auto* hipLengthRight = GetDataStorage()->GetNamedNode("hip_length_right");
-    auto* hipLengthLeft = GetDataStorage()->GetNamedNode("hip_length_left");
-    auto* pelvisMidline = GetDataStorage()->GetNamedNode("pelvis_midline");
+    auto* hipLengthRightNode = GetDataStorage()->GetNamedNode("hip_length_right");
+    auto* hipLengthLeftNode = GetDataStorage()->GetNamedNode("hip_length_left");
+    auto* pelvisMidlineNode = GetDataStorage()->GetNamedNode("pelvis_midline");
     auto* femurLeftNode = GetDataStorage()->GetNamedNode("femur_left");
     auto* femurRightNode = GetDataStorage()->GetNamedNode("femur_right");
     auto* imageNode = GetDataStorage()->GetNamedNode("image");
     auto* pelvisNode = GetDataStorage()->GetNamedNode("pelvis");
+    auto* maskNode = GetDataStorage()->GetNamedNode("mask");
+
+    femoralHeadNode->SetMapper(
+        mitk::BaseRenderer::Standard2D,
+        mitk::CoreObjectFactory::GetInstance()->CreateMapper(femoralHeadNode, mitk::BaseRenderer::Standard2D));
+    femoralStemNode->SetMapper(
+        mitk::BaseRenderer::Standard2D,
+        mitk::CoreObjectFactory::GetInstance()->CreateMapper(femoralStemNode, mitk::BaseRenderer::Standard2D));
+    acetabularLinerNode->SetMapper(
+        mitk::BaseRenderer::Standard2D,
+        mitk::CoreObjectFactory::GetInstance()->CreateMapper(acetabularLinerNode, mitk::BaseRenderer::Standard2D));
+    acetabularShellNode->SetMapper(
+        mitk::BaseRenderer::Standard2D,
+        mitk::CoreObjectFactory::GetInstance()->CreateMapper(acetabularShellNode, mitk::BaseRenderer::Standard2D));
 
     switch (mCustom)
     {
@@ -201,13 +215,32 @@ void THAStdMultiWidget::UpdateViewMode()
                 GetRenderWindowWidget(GetRenderWindow3()).get());
             GetMultiWidgetLayoutManager()->SetOneBigLayout();
 
-            auto* maskNode = GetDataStorage()->GetNamedNode("mask");
             maskNode->SetVisibility(true);
+            // mitk::LevelWindow levelWindow;
+            // maskNode->GetLevelWindow(levelWindow);
+            // levelWindow.SetLevelWindow(levelWindow.GetLevel() - 1024, levelWindow.GetWindow());
+
+            femoralStemNode->SetVisibility(true);
+            femoralHeadNode->SetVisibility(true);
+            acetabularShellNode->SetVisibility(true);
+            acetabularLinerNode->SetVisibility(true);
+
+            femoralHeadNode->SetMapper(
+                mitk::BaseRenderer::Standard2D,
+                mitk::CoreObjectFactory::GetInstance()->CreateMapper(femoralHeadNode, mitk::BaseRenderer::Standard3D));
+            femoralStemNode->SetMapper(
+                mitk::BaseRenderer::Standard2D,
+                mitk::CoreObjectFactory::GetInstance()->CreateMapper(femoralStemNode, mitk::BaseRenderer::Standard3D));
+            acetabularLinerNode->SetMapper(mitk::BaseRenderer::Standard2D,
+                                           mitk::CoreObjectFactory::GetInstance()->CreateMapper(
+                                               acetabularLinerNode, mitk::BaseRenderer::Standard3D));
+            acetabularShellNode->SetMapper(mitk::BaseRenderer::Standard2D,
+                                           mitk::CoreObjectFactory::GetInstance()->CreateMapper(
+                                               acetabularShellNode, mitk::BaseRenderer::Standard3D));
             for (auto i = 1U; i < 4; ++i)
             {
-                GetWidgetPlane(i)->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New("disabled"));
-                GetWidgetPlane(i)->SetFloatProperty("reslice.thickslices.sizeinmm", 1.0F);
-                GetWidgetPlane(i)->SetIntProperty("reslice.thickslices.num", 0);
+                GetWidgetPlane(i)->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New("sum"));
+                GetWidgetPlane(i)->SetIntProperty("reslice.thickslices.num", 50);
             }
         }
         break;
@@ -314,7 +347,7 @@ void THAStdMultiWidget::UpdateViewMode()
                     asisNode->SetVisibility(true);
                     // hipLengthRight->SetVisibility(true);
                     // hipLengthLeft->SetVisibility(true);
-                    pelvisMidline->SetVisibility(true);
+                    pelvisMidlineNode->SetVisibility(true);
                     femurRightNode->SetVisibility(true);
                     femurLeftNode->SetVisibility(true);
                     mImplantAssessmentGadget[3]->setVisible(true);
@@ -322,8 +355,8 @@ void THAStdMultiWidget::UpdateViewMode()
                 break;
                 case MODE_CUP_PLAN: {
                     cupCor->SetVisibility(true);
-                    acetabularLiner->SetVisibility(true);
-                    acetabularShell->SetVisibility(true);
+                    acetabularLinerNode->SetVisibility(true);
+                    acetabularShellNode->SetVisibility(true);
                     nativeCorNode->SetVisibility(true);
                     femurRightNode->SetVisibility(false);
                     femurLeftNode->SetVisibility(false);
@@ -338,9 +371,9 @@ void THAStdMultiWidget::UpdateViewMode()
                 }
                 break;
                 case MODE_STEM_PLAN: {
-                    femoralHeadCor->SetVisibility(true);
-                    femoralHead->SetVisibility(true);
-                    femoralStem->SetVisibility(true);
+                    femoralHeadCorNode->SetVisibility(true);
+                    femoralHeadNode->SetVisibility(true);
+                    femoralStemNode->SetVisibility(true);
                     nativeCorNode->SetVisibility(true);
                     femurRightNode->SetVisibility(false);
                     femurLeftNode->SetVisibility(false);
@@ -359,13 +392,13 @@ void THAStdMultiWidget::UpdateViewMode()
                     trochanterRightLineNode->SetVisibility(true);
                     trochanterLeftLineNode->SetVisibility(true);
                     asisNode->SetVisibility(true);
-                    pelvisMidline->SetVisibility(true);
-                    acetabularLiner->SetVisibility(true);
-                    acetabularShell->SetVisibility(true);
+                    pelvisMidlineNode->SetVisibility(true);
+                    acetabularLinerNode->SetVisibility(true);
+                    acetabularShellNode->SetVisibility(true);
                     cupCor->SetVisibility(true);
-                    femoralHead->SetVisibility(true);
-                    femoralStem->SetVisibility(true);
-                    femoralHeadCor->SetVisibility(true);
+                    femoralHeadNode->SetVisibility(true);
+                    femoralStemNode->SetVisibility(true);
+                    femoralHeadCorNode->SetVisibility(true);
                     nativeCorNode->SetVisibility(true);
                     // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
                     // while manually setting seems to work
