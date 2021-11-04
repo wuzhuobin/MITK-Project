@@ -241,6 +241,7 @@ void THAStdMultiWidget::UpdateViewMode()
             {
                 GetWidgetPlane(i)->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New("sum"));
                 GetWidgetPlane(i)->SetIntProperty("reslice.thickslices.num", 50);
+                // GetWidgetPlane(i)->SetIntProperty("reslice.thickslices.sizeinmm", 50);
             }
         }
         break;
