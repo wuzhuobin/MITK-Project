@@ -188,6 +188,7 @@ void THAStdMultiWidget::UpdateViewMode()
     auto* imageNode = GetDataStorage()->GetNamedNode("image");
     auto* pelvisNode = GetDataStorage()->GetNamedNode("pelvis");
     auto* maskNode = GetDataStorage()->GetNamedNode("mask");
+    auto* maskCutNode = GetDataStorage()->GetNamedNode("mask_cut");
 
     femoralHeadNode->SetMapper(
         mitk::BaseRenderer::Standard2D,
@@ -216,9 +217,6 @@ void THAStdMultiWidget::UpdateViewMode()
             GetMultiWidgetLayoutManager()->SetOneBigLayout();
 
             maskNode->SetVisibility(true);
-            // mitk::LevelWindow levelWindow;
-            // maskNode->GetLevelWindow(levelWindow);
-            // levelWindow.SetLevelWindow(levelWindow.GetLevel() - 1024, levelWindow.GetWindow());
 
             femoralStemNode->SetVisibility(true);
             femoralHeadNode->SetVisibility(true);
@@ -249,11 +247,13 @@ void THAStdMultiWidget::UpdateViewMode()
 
             // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
             // while manually setting seems to work
-            femurRightNode->SetOpacity(1);
+            // femurRightNode->SetOpacity(1);
             // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
             // while manually setting seems to work
-            femurLeftNode->SetOpacity(1);
+            // femurLeftNode->SetOpacity(1);
             imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
+            maskNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
+            maskCutNode->SetProperty("volumerendering", mitk::BoolProperty::New(false));
 
             switch (mView)
             {
@@ -318,8 +318,8 @@ void THAStdMultiWidget::UpdateViewMode()
                     GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
                         GetRenderWindowWidget(GetRenderWindow4()).get());
                     GetMultiWidgetLayoutManager()->SetOneBigLayout();
-                    imageNode->SetVisibility(true);
-                    imageNode->SetProperty("volumerendering", mitk::BoolProperty::New(true));
+                    maskCutNode->SetVisibility(true);
+                    maskCutNode->SetProperty("volumerendering", mitk::BoolProperty::New(true));
                 }
                 break;
                 default:  // VIEW_DEFAULT
@@ -403,12 +403,12 @@ void THAStdMultiWidget::UpdateViewMode()
                     nativeCorNode->SetVisibility(true);
                     // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
                     // while manually setting seems to work
-                    femurRightNode->SetOpacity(0.5);
-                    femurRightNode->SetVisibility(true);
+                    // femurRightNode->SetOpacity(0.5);
+                    // femurRightNode->SetVisibility(true);
                     // Opacity setting in mitkWorkbench may lead to volume rendering fail(show nothing).
                     // while manually setting seems to work
-                    femurLeftNode->SetOpacity(0.5);
-                    femurLeftNode->SetVisibility(true);
+                    // femurLeftNode->SetOpacity(0.5);
+                    // femurLeftNode->SetVisibility(true);
                     cupCor->SetVisibility(true);
                     mImplantAssessmentGadget[3]->setVisible(true);
                 }

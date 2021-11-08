@@ -1,5 +1,4 @@
 // vtk
-#include <unistd.h>
 #include <vtkCallbackCommand.h>
 #include <vtkSmartPointer.h>
 #include <vtkSphereSource.h>
