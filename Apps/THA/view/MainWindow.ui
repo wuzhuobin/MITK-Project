@@ -46,26 +46,6 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QRadioButton" name="radioButtonPreOpRIOCheck">
-           <property name="text">
-            <string>Pre Op RIO Check</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroupWorkflow</string>
-           </attribute>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButtonFemoralPrep">
-           <property name="text">
-            <string>Femoral Prep</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroupWorkflow</string>
-           </attribute>
-          </widget>
-         </item>
-         <item>
           <widget class="QRadioButton" name="radioButtonCasePlanning">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -81,6 +61,26 @@
            </property>
            <property name="checked">
             <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonPreOpRIOCheck">
+           <property name="text">
+            <string>Pre Op RIO Check</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupWorkflow</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonFemoralPrep">
+           <property name="text">
+            <string>Femoral Prep</string>
            </property>
            <attribute name="buttonGroup">
             <string notr="true">buttonGroupWorkflow</string>
@@ -577,6 +577,7 @@
          <layout class="QVBoxLayout" name="verticalLayout_6"/>
         </widget>
         <widget class="CasePlanningWidget" name="pageCasePlanning"/>
+        <widget class="FemoralPrepWidget" name="pageFemoralPrep"/>
         <widget class="AcetabularPrepWidget" name="pageAcetabularPrep"/>
        </widget>
       </item>
@@ -752,15 +753,21 @@
    <header>FinalResultsOpenGLNativeWidget.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>FemoralPrepWidget</class>
+   <extends>QWidget</extends>
+   <header>FemoralPrepWidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>

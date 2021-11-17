@@ -24,7 +24,7 @@ BraceWrapping:
   SplitEmptyFunction: true
   SplitEmptyNamespace: true
   SplitEmptyRecord: true
-ColumnLimit: 120
+ColumnLimit: 80
 DerivePointerAlignment: false
 IndentWidth: 4
 PointerAlignment: Left
