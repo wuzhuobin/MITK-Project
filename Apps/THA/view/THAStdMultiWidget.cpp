@@ -428,7 +428,6 @@ void THAStdMultiWidget::UpdateViewMode()
           mGroupBoxGadget[2]->setVisible(true);
           mGroupBoxGadget[2]->setMode(GroupBoxGadget::CUP);
           mCupParameterGadget[3]->setVisible(true);
-          mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
         case Mode::MODE_STEM_PLAN: {
@@ -445,7 +444,6 @@ void THAStdMultiWidget::UpdateViewMode()
           mGroupBoxGadget[2]->setVisible(true);
           mGroupBoxGadget[2]->setMode(GroupBoxGadget::STEM);
           mStemParameterGadget[3]->setVisible(true);
-          mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
         case Mode::MODE_REDUCED: {
