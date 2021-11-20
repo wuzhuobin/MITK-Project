@@ -13,7 +13,7 @@ class THAStdMultiWidget : public QmitkStdMultiWidget
   Q_OBJECT;
 
 public:
-  enum VIEWS
+  enum class View
   {
     VIEW_DEFAULT = 0,
     VIEW_CT,
@@ -23,7 +23,7 @@ public:
     VIEW_UNTILITY
   };
 
-  enum MODES
+  enum class Mode
   {
     MODE_DEFAULT = 0,
     MODE_PRE_OP,
@@ -36,7 +36,7 @@ public:
   {
     Default,
     Other,
-    MeanIntensity,
+    MaskCut,
   };
 
 public:
@@ -44,16 +44,16 @@ public:
                              Qt::WindowFlags f = nullptr,
                              const QString& name = "stdmulti");
   virtual void InitializeMultiWidget() override;
-  int getView() const { return mView; }
-  void setView(int mode);
-  int getMode() const { return mMode; }
-  void setMode(int mode);
+  View getView() const { return mView; }
+  void setView(View view);
+  Mode getMode() const { return mMode; }
+  void setMode(Mode mode);
   Custom getCustom() const { return mCustom; }
   void setCustom(Custom custom);
 
 private:
-  int mView = VIEW_DEFAULT;
-  int mMode = MODE_DEFAULT;
+  View mView = View::VIEW_DEFAULT;
+  Mode mMode = Mode::MODE_DEFAULT;
   Custom mCustom;
   bool mInitialized = false;
   GroupBoxGadget* mGroupBoxGadget[4];

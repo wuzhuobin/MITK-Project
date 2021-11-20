@@ -14,16 +14,16 @@ ImageWidget::ImageWidget(QWidget *parent)
   ui(new Ui::ImageWidget)
 {
   this->ui->setupUi(this);
-  this->setMode(MODE::PELVIS_CHECKPOINT);
+  this->setMode(Mode::PELVIS_CHECKPOINT);
 }
 
-void ImageWidget::setMode(MODE mode)
+void ImageWidget::setMode(Mode mode)
 {
   this->mode = mode;
   this->showImage(0);
 }
 
-ImageWidget::MODE ImageWidget::getMode() const
+ImageWidget::Mode ImageWidget::getMode() const
 {
   return this->mode;
 }
@@ -34,14 +34,14 @@ void ImageWidget::showImage(size_t index)
   QString path;
   switch (this->mode)
   {
-  case MODE::PELVIS_CHECKPOINT:
+  case Mode::PELVIS_CHECKPOINT:
     num = NUM_OF_PELVIS_CHECKPOINT_IMAGES;
     path = QStringLiteral(":/resource/images/pelvis_checkpoint/%1.png");
     this->ui->progressBarImage->setVisible(false);
     this->ui->pushButtonLeft->setVisible(false);
     this->ui->pushButtonRight->setVisible(false);
     break;
-  case MODE::RIO_REGISTRATION:
+  case Mode::RIO_REGISTRATION:
     num = NUM_OF_RIO_REGISTRATION_IMAGES;
     path = QStringLiteral(":/resource/images/rio_registration/%1.png");
     this->ui->progressBarImage->setVisible(true);

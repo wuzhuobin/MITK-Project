@@ -9,7 +9,7 @@ class ImageWidget: public QWidget
 {
   Q_OBJECT;
 public:
-  enum class MODE
+  enum class Mode
   {
 	PELVIS_CHECKPOINT = 0,
 	PELVIS_LANDMARK,
@@ -19,13 +19,13 @@ public:
   static constexpr size_t NUM_OF_RIO_REGISTRATION_IMAGES = 12;
   static constexpr size_t NUM_OF_PELVIS_CHECKPOINT_IMAGES = 1;
   explicit ImageWidget(QWidget *parent = nullptr);
-  void setMode(MODE mode);
-  MODE getMode() const;
+  void setMode(Mode mode);
+  Mode getMode() const;
 
 private:
   Ui::ImageWidget *ui; 
   size_t currentIndex = NUM_OF_RIO_REGISTRATION_IMAGES;
-  MODE mode = MODE::PELVIS_CHECKPOINT;
+  Mode mode = Mode::PELVIS_CHECKPOINT;
   Q_DISABLE_COPY(ImageWidget);
   void showImage(size_t index);
 private Q_SLOTS:

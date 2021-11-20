@@ -123,8 +123,8 @@ void THAStdMultiWidget::InitializeMultiWidget()
     mStemParameterGadget[i]->ObserverStem();
   }
   ////////////////////////////////////////////////////////////////////////////////
-  mView = VIEWS::VIEW_DEFAULT;
-  mMode = MODES::MODE_DEFAULT;
+  mView = View::VIEW_DEFAULT;
+  mMode = Mode::MODE_DEFAULT;
   UpdateViewMode();
   ////////////////////////////////////////////////////////////////////////////////
   /// Preset
@@ -132,14 +132,14 @@ void THAStdMultiWidget::InitializeMultiWidget()
   ////////////////////////////////////////////////////////////////////////////////
 }
 
-void THAStdMultiWidget::setView(int mode)
+void THAStdMultiWidget::setView(View view)
 {
-  mView = mode;
+  mView = view;
   mCustom = Custom::Default;
   UpdateViewMode();
 }
 
-void THAStdMultiWidget::setMode(int mode)
+void THAStdMultiWidget::setMode(Mode mode)
 {
   mMode = mode;
   mCustom = Custom::Default;
@@ -233,7 +233,7 @@ void THAStdMultiWidget::UpdateViewMode()
       GetMultiWidgetLayoutManager()->SetOneBigLayout();
     }
     break;
-    case Custom::MeanIntensity: {
+    case Custom::MaskCut: {
       // GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
       //     GetRenderWindowWidget(GetRenderWindow3()).get());
       // GetMultiWidgetLayoutManager()->SetOneBigLayout();
@@ -308,7 +308,7 @@ void THAStdMultiWidget::UpdateViewMode()
 
       switch (mView)
       {
-        case VIEW_REAMING: {
+        case View::VIEW_REAMING: {
           GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
           imageNode->SetVisibility(true);
           auto* pelvis =
@@ -350,7 +350,7 @@ void THAStdMultiWidget::UpdateViewMode()
           reamingPelvisNode->SetVisibility(true);
         }
         break;
-        case VIEW_CT: {
+        case View::VIEW_CT: {
           // imageNode->SetVisibility(true);
           // //EnableStandardLevelWindow();
           // GetMultiWidgetLayoutManager()->SetDefaultLayout();
@@ -360,7 +360,7 @@ void THAStdMultiWidget::UpdateViewMode()
           imageNode->SetVisibility(true);
         }
         break;
-        case VIEW_3D_SLICER: {
+        case View::VIEW_3D_SLICER: {
           // //EnableStandardLevelWindow();
           // SetWidgetPlaneVisibility("pelvis", true, renderer1);
           // SetWidgetPlaneVisibility("pelvis", true, renderer2);
@@ -373,7 +373,7 @@ void THAStdMultiWidget::UpdateViewMode()
           // femurLeftNode->SetVisibility(true);
         }
         break;
-        case VIEW_X_RAY: {
+        case View::VIEW_X_RAY: {
           GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
               GetRenderWindowWidget(GetRenderWindow4()).get());
           GetMultiWidgetLayoutManager()->SetOneBigLayout();
@@ -382,7 +382,7 @@ void THAStdMultiWidget::UpdateViewMode()
                                    mitk::BoolProperty::New(true));
         }
         break;
-        default:  // VIEW_DEFAULT
+        default:  // View::VIEW_DEFAULT
         {
           GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
               GetRenderWindowWidget(GetRenderWindow4()).get());
@@ -399,7 +399,7 @@ void THAStdMultiWidget::UpdateViewMode()
 
       switch (mMode)
       {
-        case MODE_PRE_OP: {
+        case Mode::MODE_PRE_OP: {
           trochanterNode->SetVisibility(true);
           trochanterRightLineNode->SetVisibility(true);
           trochanterLeftLineNode->SetVisibility(true);
@@ -414,7 +414,7 @@ void THAStdMultiWidget::UpdateViewMode()
           mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
-        case MODE_CUP_PLAN: {
+        case Mode::MODE_CUP_PLAN: {
           cupCor->SetVisibility(true);
           acetabularLinerNode->SetVisibility(true);
           acetabularShellNode->SetVisibility(true);
@@ -431,7 +431,7 @@ void THAStdMultiWidget::UpdateViewMode()
           mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
-        case MODE_STEM_PLAN: {
+        case Mode::MODE_STEM_PLAN: {
           femoralHeadCorNode->SetVisibility(true);
           femoralHeadNode->SetVisibility(true);
           femoralStemNode->SetVisibility(true);
@@ -448,7 +448,7 @@ void THAStdMultiWidget::UpdateViewMode()
           mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
-        case MODE_REDUCED: {
+        case Mode::MODE_REDUCED: {
           trochanterNode->SetVisibility(true);
           trochanterRightLineNode->SetVisibility(true);
           trochanterLeftLineNode->SetVisibility(true);
@@ -472,13 +472,13 @@ void THAStdMultiWidget::UpdateViewMode()
           mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
-        default:  // MODE_DEFAULT
+        default:  // Mode::MODE_DEFAULT
         {
           // acetabularLiner->SetVisibility(false);
           // acetabularShell->SetVisibility(false);
           // femoralHead->SetVisibility(false);
           // femoralStem->SetVisibility(false);
-          if (mView != VIEWS::VIEW_REAMING && mView != VIEWS::VIEW_X_RAY)
+          if (mView != View::VIEW_REAMING && mView != View::VIEW_X_RAY)
           {
             femurRightNode->SetVisibility(true);
             femurLeftNode->SetVisibility(true);
