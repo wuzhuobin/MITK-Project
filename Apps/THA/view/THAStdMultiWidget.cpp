@@ -409,8 +409,11 @@ void THAStdMultiWidget::UpdateViewMode()
           // hipLengthRight->SetVisibility(true);
           // hipLengthLeft->SetVisibility(true);
           pelvisMidlineNode->SetVisibility(true);
-          femurRightNode->SetVisibility(true);
-          femurLeftNode->SetVisibility(true);
+          if (mView != View::VIEW_REAMING && mView != View::VIEW_X_RAY)
+          {
+            femurRightNode->SetVisibility(true);
+            femurLeftNode->SetVisibility(true);
+          }
           mImplantAssessmentGadget[3]->setVisible(true);
         }
         break;
