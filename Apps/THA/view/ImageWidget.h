@@ -2,35 +2,38 @@
 #define IMAGE_WIDGET_H
 // qt
 #include <QWidget>
-namespace Ui {
-  class ImageWidget;
+namespace Ui
+{
+class ImageWidget;
 }
-class ImageWidget: public QWidget
+class ImageWidget : public QWidget
 {
   Q_OBJECT;
+
 public:
   enum class Mode
   {
-	PELVIS_CHECKPOINT = 0,
-	PELVIS_LANDMARK,
-	PELVIS_REGISTRATION,
-	RIO_REGISTRATION
+    PelvisCheckpoint = 0,
+    PelvisLandmark,
+    PelvisRegistration,
+    FemurLandmark,
+    RioRegistration
   };
   static constexpr size_t NUM_OF_RIO_REGISTRATION_IMAGES = 12;
   static constexpr size_t NUM_OF_PELVIS_CHECKPOINT_IMAGES = 1;
-  explicit ImageWidget(QWidget *parent = nullptr);
+  static constexpr size_t NUM_OF_FEMUR_LANDMARK_IMAGES = 2;
+  explicit ImageWidget(QWidget* parent = nullptr);
   void setMode(Mode mode);
   Mode getMode() const;
 
 private:
-  Ui::ImageWidget *ui; 
+  Ui::ImageWidget* mUi;
   size_t currentIndex = NUM_OF_RIO_REGISTRATION_IMAGES;
-  Mode mode = Mode::PELVIS_CHECKPOINT;
+  Mode mode = Mode::PelvisCheckpoint;
   Q_DISABLE_COPY(ImageWidget);
   void showImage(size_t index);
-private Q_SLOTS:
-  void on_pushButtonRight_clicked(bool checked = false); 
-  void on_pushButtonLeft_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonRight_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonLeft_clicked(bool checked = false);
 };
 
-#endif //!IMAGE_WIDGET_H
+#endif  //! IMAGE_WIDGET_H

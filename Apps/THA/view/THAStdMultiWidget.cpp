@@ -377,8 +377,8 @@ void THAStdMultiWidget::UpdateViewMode()
           GetMultiWidgetLayoutManager()->SetCurrentRenderWindowWidget(
               GetRenderWindowWidget(GetRenderWindow4()).get());
           GetMultiWidgetLayoutManager()->SetOneBigLayout();
-          imageNode->SetVisibility(true);
-          imageNode->SetProperty("volumerendering",
+          maskNode->SetVisibility(true);
+          maskNode->SetProperty("volumerendering",
                                    mitk::BoolProperty::New(true));
         }
         break;

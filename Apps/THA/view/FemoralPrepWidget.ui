@@ -14,7 +14,7 @@
    <string>StackedWidget</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QLabel" name="label_2">
@@ -31,7 +31,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QWidget" name="FemoralLandmarks">
+  <widget class="QWidget" name="FemoralLandmark">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QLabel" name="label_3">
@@ -101,13 +101,13 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Femoral Landmarks</string>
+       <string>Femoral Landmark</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="FemoralCheckpoints">
+  <widget class="QWidget" name="FemoralCheckpoint">
    <layout class="QVBoxLayout" name="verticalLayout_6">
     <item>
      <widget class="QLabel" name="label_5">

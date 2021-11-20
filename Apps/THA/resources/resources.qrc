@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/">
+    <file>images/femur_landmark/0.png</file>
+    <file>images/femur_landmark/1.png</file>
     <file>images/pelvis_checkpoint/0.png</file>
     <file>icons/transform/rotate_anti_clockwise.png</file>
     <file>icons/transform/rotate_clockwise.png</file>

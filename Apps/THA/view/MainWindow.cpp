@@ -321,12 +321,12 @@ void MainWindow::onActionsTriggered(QAction* action) const
     else if (action == mUi->action_RIO_Registratoin)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
-        mUi->imageWidget->setMode(ImageWidget::Mode::RIO_REGISTRATION);
+        mUi->imageWidget->setMode(ImageWidget::Mode::RioRegistration);
     }
     else if (action == mUi->action_Pelvis_Checkpoint)
     {
         mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageImage);
-        mUi->imageWidget->setMode(ImageWidget::Mode::PELVIS_CHECKPOINT);
+        mUi->imageWidget->setMode(ImageWidget::Mode::PelvisCheckpoint);
     }
     else if (action == mUi->action_Pelvis_Landmark)
     {

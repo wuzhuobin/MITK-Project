@@ -767,13 +767,13 @@
  <buttongroups>
   <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
-  <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupView">
+  <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupMode">
+  <buttongroup name="buttonGroupControl"/>
+  <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
