@@ -25,13 +25,13 @@ public:
   explicit ImageWidget(QWidget* parent = nullptr);
   void setMode(Mode mode);
   Mode getMode() const;
+  void showImage(size_t index);
 
 private:
   Ui::ImageWidget* mUi;
   size_t currentIndex = NUM_OF_RIO_REGISTRATION_IMAGES;
   Mode mode = Mode::PelvisCheckpoint;
   Q_DISABLE_COPY(ImageWidget);
-  void showImage(size_t index);
   Q_SLOT void on_pushButtonRight_clicked(bool checked = false);
   Q_SLOT void on_pushButtonLeft_clicked(bool checked = false);
 };

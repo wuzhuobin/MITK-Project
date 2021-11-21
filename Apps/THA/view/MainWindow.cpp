@@ -86,6 +86,22 @@ MainWindow::MainWindow(QWidget* parent) :
           &QAction::triggered,
           mUi->pageFemoralPrep,
           &FemoralPrepWidget::action_Broach_Tracking_triggered);
+  connect(mUi->pageFemoralPrep,
+          &FemoralPrepWidget::checkBoxProximalCheckpointToggled,
+          [this](auto checked) {
+            if (checked)
+            {
+              mUi->imageWidget->showImage(0);
+            }
+          });
+  connect(mUi->pageFemoralPrep,
+          &FemoralPrepWidget::checkBoxDistalCheckpointToggled,
+          [this](auto checked) {
+            if (checked)
+            {
+              mUi->imageWidget->showImage(1);
+            }
+          });
 
   // AcetabularPrepWidget
   mActionGroup->addAction(mUi->action_RIO_Registratoin);
