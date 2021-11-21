@@ -30,37 +30,37 @@ AcetabularPrepWidget::~AcetabularPrepWidget()
   delete mUi;
 }
 
-void AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered(bool checked)
+void AcetabularPrepWidget::action_Pelvis_Checkpoint_triggered(bool checked)
 {
   Q_UNUSED(checked);
   this->setCurrentWidget(mUi->PelvisCheckpoint);
 }
 
-void AcetabularPrepWidget::Action_Pelvis_Landmark_triggered(bool checked)
+void AcetabularPrepWidget::action_Pelvis_Landmark_triggered(bool checked)
 {
   Q_UNUSED(checked);
   this->setCurrentWidget(mUi->PelvisLandmark);
 }
 
-void AcetabularPrepWidget::Action_Pelvis_Registration_triggered(bool checked)
+void AcetabularPrepWidget::action_Pelvis_Registration_triggered(bool checked)
 {
   Q_UNUSED(checked);
   this->setCurrentWidget(mUi->PelvisRegistration);
 }
 
-void AcetabularPrepWidget::Action_RIO_Registratoin_triggered(bool checked)
+void AcetabularPrepWidget::action_RIO_Registratoin_triggered(bool checked)
 {
   Q_UNUSED(checked);
   this->setCurrentWidget(mUi->RIORegistration);
 }
 
-void AcetabularPrepWidget::Action_Cup_Reaming_triggered(bool checked)
+void AcetabularPrepWidget::action_Cup_Reaming_triggered(bool checked)
 {
   Q_UNUSED(checked);
   this->setCurrentWidget(mUi->CupReaming);
 }
 
-void AcetabularPrepWidget::Action_Cup_Impaction_triggered(bool checked)
+void AcetabularPrepWidget::action_Cup_Impaction_triggered(bool checked)
 {
   Q_UNUSED(checked);
   this->setCurrentWidget(mUi->CupImpaction);

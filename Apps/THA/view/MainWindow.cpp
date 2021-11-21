@@ -40,18 +40,21 @@ MainWindow::MainWindow(QWidget* parent) :
     mActionGroup->addAction(mUi->action_Pelvis_CT_Landmark);
     mActionGroup->addAction(mUi->action_Implant_Planning);
     mActionGroup->addAction(mUi->action_Broach_Tracking);
-    connect(mUi->action_Implant_Planning,
-            &QAction::triggered,
-            mUi->pageCasePlanning,
-            &CasePlanningWidget::Action_Implant_Planning_triggered);
-    connect(mUi->action_Broach_Tracking,
-            &QAction::triggered,
-            mUi->pageCasePlanning,
-            &CasePlanningWidget::Action_Broach_Tracking_triggered);
     connect(mUi->action_Pelvis_CT_Landmark,
             &QAction::triggered,
             mUi->pageCasePlanning,
-            &CasePlanningWidget::Action_Pelvis_CT_Landmark_triggered);
+            &CasePlanningWidget::action_Pelvis_CT_Landmark_triggered);
+    connect(mUi->action_Implant_Planning,
+            &QAction::triggered,
+            mUi->pageCasePlanning,
+            &CasePlanningWidget::action_Implant_Planning_triggered);
+    connect(mUi->action_Broach_Tracking,
+            &QAction::triggered,
+            mUi->pageCasePlanning,
+            &CasePlanningWidget::action_Broach_Tracking_triggered);
+    
+    // FemurPrepWidget
+    mActionGroup->addAction(mUi->action_Femur_Landmark);
 
     // AcetabularPrepWidget
     mActionGroup->addAction(mUi->action_RIO_Registratoin);
@@ -63,27 +66,27 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(mUi->action_RIO_Registratoin,
             &QAction::triggered,
             mUi->pageAcetabularPrep,
-            &AcetabularPrepWidget::Action_RIO_Registratoin_triggered);
+            &AcetabularPrepWidget::action_RIO_Registratoin_triggered);
     connect(mUi->action_Pelvis_Checkpoint,
             &QAction::triggered,
             mUi->pageAcetabularPrep,
-            &AcetabularPrepWidget::Action_Pelvis_Checkpoint_triggered);
+            &AcetabularPrepWidget::action_Pelvis_Checkpoint_triggered);
     connect(mUi->action_Pelvis_Landmark,
             &QAction::triggered,
             mUi->pageAcetabularPrep,
-            &AcetabularPrepWidget::Action_Pelvis_Landmark_triggered);
+            &AcetabularPrepWidget::action_Pelvis_Landmark_triggered);
     connect(mUi->action_Pelvis_Registration,
             &QAction::triggered,
             mUi->pageAcetabularPrep,
-            &AcetabularPrepWidget::Action_Pelvis_Registration_triggered);
+            &AcetabularPrepWidget::action_Pelvis_Registration_triggered);
     connect(mUi->action_Cup_Reaming,
             &QAction::triggered,
             mUi->pageAcetabularPrep,
-            &AcetabularPrepWidget::Action_Cup_Reaming_triggered);
+            &AcetabularPrepWidget::action_Cup_Reaming_triggered);
     connect(mUi->action_Cup_Impaction,
             &QAction::triggered,
             mUi->pageAcetabularPrep,
-            &AcetabularPrepWidget::Action_Cup_Impaction_triggered);
+            &AcetabularPrepWidget::action_Cup_Impaction_triggered);
     
     // Final Results
     mActionGroup->addAction(mUi->action_Final_Result);

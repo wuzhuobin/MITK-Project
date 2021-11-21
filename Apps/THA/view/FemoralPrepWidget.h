@@ -18,6 +18,8 @@ class FemoralPrepWidget : public QStackedWidget
 public:
     explicit FemoralPrepWidget(QWidget* parent = nullptr);
 
+    void action_Femur_Landmark_triggered(bool checked = false);
+
 private:
     std::unique_ptr<Ui::FemoralPrepWidget> mUi;
 };

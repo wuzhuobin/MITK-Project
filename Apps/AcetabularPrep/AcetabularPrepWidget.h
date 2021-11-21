@@ -22,12 +22,12 @@ public:
   virtual ~AcetabularPrepWidget() override;
 
 public Q_SLOTS:
-  void Action_Pelvis_Checkpoint_triggered(bool checked = false);
-  void Action_Pelvis_Landmark_triggered(bool checked = false);
-  void Action_Pelvis_Registration_triggered(bool checked = false);
-  void Action_RIO_Registratoin_triggered(bool checked = false);
-  void Action_Cup_Reaming_triggered(bool checked = false);
-  void Action_Cup_Impaction_triggered(bool checked = false);
+  void action_Pelvis_Checkpoint_triggered(bool checked = false);
+  void action_Pelvis_Landmark_triggered(bool checked = false);
+  void action_Pelvis_Registration_triggered(bool checked = false);
+  void action_RIO_Registratoin_triggered(bool checked = false);
+  void action_Cup_Reaming_triggered(bool checked = false);
+  void action_Cup_Impaction_triggered(bool checked = false);
 
 private:
   Ui::AcetabularPrepWidget *mUi;

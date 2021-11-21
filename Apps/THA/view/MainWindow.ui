@@ -703,6 +703,14 @@
     <string>Final Result</string>
    </property>
   </action>
+  <action name="action_Femur_Landmark">
+   <property name="text">
+    <string>&amp;Femur_Landmark</string>
+   </property>
+   <property name="toolTip">
+    <string>Femur_Landmark</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

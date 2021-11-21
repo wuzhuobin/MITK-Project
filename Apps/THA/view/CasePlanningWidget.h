@@ -16,9 +16,9 @@ public:
 
 public Q_SLOTS:
 
-  void Action_Pelvis_CT_Landmark_triggered(bool checked = false);
-  void Action_Implant_Planning_triggered(bool checked = false);
-  void Action_Broach_Tracking_triggered(bool checked = false);
+  void action_Pelvis_CT_Landmark_triggered(bool checked = false);
+  void action_Implant_Planning_triggered(bool checked = false);
+  void action_Broach_Tracking_triggered(bool checked = false);
 
 private:
   Ui::CasePlanningWidget *ui;
