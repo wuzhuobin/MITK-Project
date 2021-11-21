@@ -6,6 +6,14 @@ FemoralPrepWidget::FemoralPrepWidget(QWidget* parent) :
     QStackedWidget(parent), mUi(std::make_unique<Ui::FemoralPrepWidget>())
 {
   mUi->setupUi(this);
+  connect(mUi->checkBoxProximalCheckpoint,
+          &QCheckBox::toggled,
+          this,
+          &FemoralPrepWidget::checkBoxProximalCheckpointToggled);
+  connect(mUi->checkBoxDistalCheckpoint,
+          &QCheckBox::toggled,
+          this,
+          &FemoralPrepWidget::checkBoxDistalCheckpointToggled);
 }
 
 void FemoralPrepWidget::action_Femoral_Landmark_triggered(bool checked)

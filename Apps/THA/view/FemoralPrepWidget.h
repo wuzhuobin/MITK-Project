@@ -23,6 +23,8 @@ public:
   Q_SLOT void action_Femoral_Registration_triggered(bool checked = false);
   Q_SLOT void action_Neck_Resection_Guide_triggered(bool checked = false);
   Q_SLOT void action_Broach_Tracking_triggered(bool checked = false);
+  Q_SIGNAL void checkBoxProximalCheckpointToggled(bool checked);
+  Q_SIGNAL void checkBoxDistalCheckpointToggled(bool checked);
 
 
 private:

@@ -14,7 +14,7 @@
    <string>StackedWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QLabel" name="label_2">
@@ -48,7 +48,7 @@
          <string>Proximal Checkpoint</string>
         </property>
         <attribute name="buttonGroup">
-         <string notr="true">buttonGroup</string>
+         <string notr="true">buttonGroupFemoralLandmark</string>
         </attribute>
        </widget>
       </item>
@@ -58,7 +58,7 @@
          <string>Distal Checkpoint</string>
         </property>
         <attribute name="buttonGroup">
-         <string notr="true">buttonGroup</string>
+         <string notr="true">buttonGroupFemoralLandmark</string>
         </attribute>
        </widget>
       </item>
@@ -540,6 +540,6 @@ View</string>
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroupFemoralLandmark"/>
  </buttongroups>
 </ui>
