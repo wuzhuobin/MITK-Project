@@ -23,22 +23,22 @@
 #include <qwidget.h>
 
 PlanningWidget::PlanningWidget(QWidget *parent)
-    : QWidget(parent), ui(new Ui::PlanningWidget) {
-  this->ui->setupUi(this);
+    : QWidget(parent), mUi(new Ui::PlanningWidget) {
+  this->mUi->setupUi(this);
 
-  connect(this->ui->buttonGroup,
+  connect(this->mUi->buttonGroup,
           QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled),
           this, &PlanningWidget::on_buttonGroup_buttonToggled);
 
-  this->ui->pushButtonReset->setVisible(false);
+  this->mUi->pushButtonReset->setVisible(false);
 
-  connect(this->ui->comboBoxLeft, QOverload<int>::of(&QComboBox::activated),
+  connect(this->mUi->comboBoxLeft, QOverload<int>::of(&QComboBox::activated),
           this, &PlanningWidget::on_comboBoxLeft_activated);
-  connect(this->ui->comboBoxRight, QOverload<int>::of(&QComboBox::activated),
+  connect(this->mUi->comboBoxRight, QOverload<int>::of(&QComboBox::activated),
           this, &PlanningWidget::on_comboBoxRight_activated);
 }
 
-PlanningWidget::~PlanningWidget() { delete this->ui; }
+PlanningWidget::~PlanningWidget() { delete this->mUi; }
 
 void PlanningWidget::changeEvent(QEvent *event) {
   QWidget::changeEvent(event);
@@ -49,14 +49,14 @@ void PlanningWidget::changeEvent(QEvent *event) {
 
 void PlanningWidget::enablePlanningWithBounding(bool enable) {
 
-  for (QAbstractButton *button : this->ui->buttonGroup->buttons()) {
-    if (button != this->ui->pushButtonReset) {
-      this->ui->buttonGroup->removeButton(button);
+  for (QAbstractButton *button : this->mUi->buttonGroup->buttons()) {
+    if (button != this->mUi->pushButtonReset) {
+      this->mUi->buttonGroup->removeButton(button);
       delete button;
     }
   }
-  this->ui->comboBoxLeft->setEnabled(false);
-  this->ui->comboBoxRight->setEnabled(false);
+  this->mUi->comboBoxLeft->setEnabled(false);
+  this->mUi->comboBoxRight->setEnabled(false);
   if (!enable) {
     return;
   }
@@ -103,8 +103,8 @@ void PlanningWidget::enablePlanningWithBounding(bool enable) {
     QToolButton *toolButton = new QToolButton(this);
     toolButton->setCheckable(true);
     toolButton->setText(node->GetName().c_str());
-    this->ui->verticalLayoutButtons->addWidget(toolButton);
-    this->ui->buttonGroup->addButton(toolButton);
+    this->mUi->verticalLayoutButtons->addWidget(toolButton);
+    this->mUi->buttonGroup->addButton(toolButton);
   }
 }
 
@@ -120,20 +120,20 @@ void PlanningWidget::on_buttonGroup_buttonToggled(QAbstractButton *button,
     node->SetVisibility(false);
   }
 
-  if (button == this->ui->pushButtonReset) {
+  if (button == this->mUi->pushButtonReset) {
 
     image = ds->GetNamedNode("image");
     image->SetVisibility(true);
-    this->ui->comboBoxLeft->setEnabled(false);
-    this->ui->comboBoxRight->setEnabled(false);
+    this->mUi->comboBoxLeft->setEnabled(false);
+    this->mUi->comboBoxRight->setEnabled(false);
 
   } else {
 
     std::string name = "image" + button->text().toStdString();
     image = ds->GetNamedNode(name);
     image->SetVisibility(true);
-    this->ui->comboBoxLeft->setEnabled(true);
-    this->ui->comboBoxRight->setEnabled(true);
+    this->mUi->comboBoxLeft->setEnabled(true);
+    this->mUi->comboBoxRight->setEnabled(true);
   }
 
   mitk::RenderingManager::GetInstance()->InitializeViews(
@@ -176,7 +176,7 @@ void PlanningWidget::addPin(QString base, QString typeName) {
 
   if (pinNode == nullptr) {
 
-    QString geometryDataName = this->ui->buttonGroup->checkedButton()->text();
+    QString geometryDataName = this->mUi->buttonGroup->checkedButton()->text();
     mitk::GeometryData *geometryData =
         ds->GetNamedObject<mitk::GeometryData>(geometryDataName.toStdString());
     mitk::Point3D point = geometryData->GetGeometry()->GetCenter();

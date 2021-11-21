@@ -17,7 +17,7 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private:
-  Ui::PlanningWidget *ui;
+  Ui::PlanningWidget *mUi;
   static constexpr const char* PIN_LEFT = "pin_left_";
   static constexpr const char* PIN_RIGHT = "pin_right_";
 

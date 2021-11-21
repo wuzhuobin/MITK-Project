@@ -12,10 +12,10 @@
 #include <mitkDataNode.h>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
+    : QMainWindow(parent), mUi(new Ui::MainWindow),
       mActionGroup(new QActionGroup(this)) {
 
-  this->ui->setupUi(this);
+  this->mUi->setupUi(this);
 
   this->initializeMenu();
   this->initializeConnection();
@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
   }
 }
 
-MainWindow::~MainWindow() { delete this->ui; }
+MainWindow::~MainWindow() { delete this->mUi; }
 
 void MainWindow::test() {
   // this->actionsTriggered(this->ui->action_Segmentation);
@@ -38,36 +38,36 @@ void MainWindow::test() {
 
 void MainWindow::initializeMenu() {
   QMenu *menuShow = new QMenu(this);
-  menuShow->addAction(this->ui->action_Segmentation);
-  menuShow->addAction(this->ui->action_Planning);
-  this->ui->toolButtonShow->setMenu(menuShow);
+  menuShow->addAction(this->mUi->action_Segmentation);
+  menuShow->addAction(this->mUi->action_Planning);
+  this->mUi->toolButtonShow->setMenu(menuShow);
 
   QMenu *menuView = new QMenu(this);
-  menuView->addAction(this->ui->action_Whole_Spine_CT);
-  menuView->addAction(this->ui->action_Single_Vertebra_CT);
-  menuView->addAction(this->ui->action_Whole_Spine_X_Ray);
-  menuView->addAction(this->ui->action_Whole_Spine_MRI);
-  menuView->addAction(this->ui->action_Single_Vertebra_MRI);
-  this->ui->toolButtonView->setMenu(menuView);
+  menuView->addAction(this->mUi->action_Whole_Spine_CT);
+  menuView->addAction(this->mUi->action_Single_Vertebra_CT);
+  menuView->addAction(this->mUi->action_Whole_Spine_X_Ray);
+  menuView->addAction(this->mUi->action_Whole_Spine_MRI);
+  menuView->addAction(this->mUi->action_Single_Vertebra_MRI);
+  this->mUi->toolButtonView->setMenu(menuView);
 
   QMenu *toolMenu = new QMenu(this);
-  toolMenu->addAction(this->ui->action_Length);
-  toolMenu->addAction(this->ui->action_Angle);
-  this->ui->toolButtonTools->setMenu(toolMenu);
+  toolMenu->addAction(this->mUi->action_Length);
+  toolMenu->addAction(this->mUi->action_Angle);
+  this->mUi->toolButtonTools->setMenu(toolMenu);
 }
 
 void MainWindow::initializeConnection() {
 
   this->mActionGroup->setExclusive(true);
-  this->mActionGroup->addAction(this->ui->action_Segmentation);
-  this->mActionGroup->addAction(this->ui->action_Planning);
-  this->mActionGroup->addAction(this->ui->action_Whole_Spine_CT);
-  this->mActionGroup->addAction(this->ui->action_Single_Vertebra_CT);
-  this->mActionGroup->addAction(this->ui->action_Whole_Spine_X_Ray);
-  this->mActionGroup->addAction(this->ui->action_Whole_Spine_MRI);
-  this->mActionGroup->addAction(this->ui->action_Single_Vertebra_MRI);
-  this->mActionGroup->addAction(this->ui->action_Length);
-  this->mActionGroup->addAction(this->ui->action_Angle);
+  this->mActionGroup->addAction(this->mUi->action_Segmentation);
+  this->mActionGroup->addAction(this->mUi->action_Planning);
+  this->mActionGroup->addAction(this->mUi->action_Whole_Spine_CT);
+  this->mActionGroup->addAction(this->mUi->action_Single_Vertebra_CT);
+  this->mActionGroup->addAction(this->mUi->action_Whole_Spine_X_Ray);
+  this->mActionGroup->addAction(this->mUi->action_Whole_Spine_MRI);
+  this->mActionGroup->addAction(this->mUi->action_Single_Vertebra_MRI);
+  this->mActionGroup->addAction(this->mUi->action_Length);
+  this->mActionGroup->addAction(this->mUi->action_Angle);
 
   connect(IOController::getInstance(), &IOController::sceneLoaded, this,
           &MainWindow::onsceneLoaded);
@@ -109,46 +109,46 @@ void MainWindow::on_toolButtonExport_clicked(bool checked) {
 }
 
 void MainWindow::actionsTriggered(QAction *action) {
-  this->ui->stackedWidget->hide();
-  this->ui->segmentationWidget->setEnabled(false);
-  this->ui->planningWidget->setEnabled(false);
-  this->ui->toolsWidget->setEnabled(false);
+  this->mUi->stackedWidget->hide();
+  this->mUi->segmentationWidget->setEnabled(false);
+  this->mUi->planningWidget->setEnabled(false);
+  this->mUi->toolsWidget->setEnabled(false);
   // this->ui->multiWidget->enablePlanarLine(false);
   // this->ui->multiWidget->enablePlanarAngle(false);
-  if (action == this->ui->action_Segmentation) {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->segmentationWidget);
-    this->ui->stackedWidget->show();
-    this->ui->segmentationWidget->setEnabled(true);
-    this->ui->toolButtonPrevious->setEnabled(false);
-    this->ui->toolButtonNext->setEnabled(true);
-  } else if (action == this->ui->action_Planning ||
-             action == this->ui->action_Single_Vertebra_CT) {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->planningWidget);
-    this->ui->stackedWidget->show();
-    this->ui->planningWidget->setEnabled(true);
-    this->ui->toolButtonPrevious->setEnabled(true);
-    this->ui->toolButtonNext->setEnabled(false);
-  } else if (action == this->ui->action_Whole_Spine_CT) {
+  if (action == this->mUi->action_Segmentation) {
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->segmentationWidget);
+    this->mUi->stackedWidget->show();
+    this->mUi->segmentationWidget->setEnabled(true);
+    this->mUi->toolButtonPrevious->setEnabled(false);
+    this->mUi->toolButtonNext->setEnabled(true);
+  } else if (action == this->mUi->action_Planning ||
+             action == this->mUi->action_Single_Vertebra_CT) {
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->planningWidget);
+    this->mUi->stackedWidget->show();
+    this->mUi->planningWidget->setEnabled(true);
+    this->mUi->toolButtonPrevious->setEnabled(true);
+    this->mUi->toolButtonNext->setEnabled(false);
+  } else if (action == this->mUi->action_Whole_Spine_CT) {
     mitk::DataStorage *ds =
         mitk::RenderingManager::GetInstance()->GetDataStorage();
     mitk::DataNode *imageNode = ds->GetNamedNode("image");
     imageNode->SetVisibility(true);
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-  } else if (action == this->ui->action_Length) {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->toolsWidget);
-    this->ui->stackedWidget->show();
-    this->ui->toolsWidget->setEnabled(true);
-    this->ui->toolsWidget->setCurrentPage(ToolsWidget::Page::Line);
+  } else if (action == this->mUi->action_Length) {
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->toolsWidget);
+    this->mUi->stackedWidget->show();
+    this->mUi->toolsWidget->setEnabled(true);
+    this->mUi->toolsWidget->setCurrentPage(ToolsWidget::Page::Line);
     // this->ui->multiWidget->enablePlanarLine(true);
-  } else if (action == this->ui->action_Angle) {
-    this->ui->stackedWidget->setCurrentWidget(this->ui->toolsWidget);
-    this->ui->stackedWidget->show();
-    this->ui->toolsWidget->setEnabled(true);
-    this->ui->toolsWidget->setCurrentPage(ToolsWidget::Page::Angle);
+  } else if (action == this->mUi->action_Angle) {
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->toolsWidget);
+    this->mUi->stackedWidget->show();
+    this->mUi->toolsWidget->setEnabled(true);
+    this->mUi->toolsWidget->setCurrentPage(ToolsWidget::Page::Angle);
     // this->ui->multiWidget->enablePlanarAngle(true);
   }
 }
 
 void MainWindow::onsceneLoaded() {
-  this->ui->multiWidget->InitializeMultiWidget();
+  this->mUi->multiWidget->InitializeMultiWidget();
 }

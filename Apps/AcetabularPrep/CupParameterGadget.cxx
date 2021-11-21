@@ -51,14 +51,14 @@ public:
     mitk::Point3D origin = pointSet->GetPoint(0);
 
     // Since the model has been rotated 40 degreee by default.
-    this_->ui->spinBoxCupPlanInclination->setValue(angleY);
-    this_->ui->spinBox_CupPlanVersion->setValue(angleZ);
+    this_->mUi->spinBoxCupPlanInclination->setValue(angleY);
+    this_->mUi->spinBox_CupPlanVersion->setValue(angleZ);
     mitk::PointSet *pointset = ds->GetNamedObject<mitk::PointSet>(this_->nativeCor.toStdString());
 		mitk::Point3D point3d = pointset->GetPoint(1);
     // @todo current calculation seems to not correct.
-    this_->ui->spinBoxMedial->setValue(origin[0] - point3d[0]);
-    this_->ui->spinBoxPosterior->setValue(origin[1] - point3d[1]);
-    this_->ui->spinBoxSuperior->setValue(origin[2] - point3d[2]);
+    this_->mUi->spinBoxMedial->setValue(origin[0] - point3d[0]);
+    this_->mUi->spinBoxPosterior->setValue(origin[1] - point3d[1]);
+    this_->mUi->spinBoxSuperior->setValue(origin[2] - point3d[2]);
   }
   const CupParameterGadget *this_ = nullptr;
 private:
@@ -73,18 +73,18 @@ CupParameterGadget::CupParameterGadget(
   QWidget *parent
   ):
   QWidget(parent),
-  ui(new Ui::CupParameterGadget),
+  mUi(new Ui::CupParameterGadget),
   acetabularShell(acetabularShell),
   acetabularLiner(acetabularLiner),
   cupCor(cupCor),
   nativeCor(nativeCor)
 {
-  this->ui->setupUi(this);
+  this->mUi->setupUi(this);
 }
 
 CupParameterGadget::~CupParameterGadget()
 {
-  delete this->ui;
+  delete this->mUi;
 }
 
 void CupParameterGadget::ObserverCup() const

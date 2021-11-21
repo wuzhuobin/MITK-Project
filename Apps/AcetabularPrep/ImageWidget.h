@@ -27,7 +27,7 @@ public:
   Mode getMode() const;
 
 private:
-  Ui::ImageWidget* ui;
+  Ui::ImageWidget* mUi;
   size_t currentIndex = NUM_OF_RIO_REGISTRATION_IMAGES;
   Mode mode = Mode::PelvisCheckpoint;
   Q_DISABLE_COPY(ImageWidget);

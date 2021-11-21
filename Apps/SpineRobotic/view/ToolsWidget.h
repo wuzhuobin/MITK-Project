@@ -21,7 +21,7 @@ protected:
   void changeEvent(QEvent *event) override;
 
 private:
-  Ui::ToolsWidget *ui;
+  Ui::ToolsWidget *mUi;
   void updateDistance(itk::Object* object, const itk::EventObject& event);
   void updateAngle(itk::Object* object, const itk::EventObject& event);
   Q_SLOT void on_stackedWidget_currentChanged(int index);

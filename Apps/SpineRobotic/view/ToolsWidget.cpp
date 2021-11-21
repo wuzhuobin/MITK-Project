@@ -18,26 +18,26 @@
 #include <itkCommand.h>
 
 ToolsWidget::ToolsWidget(QWidget *parent)
-    : QWidget(parent), ui(new Ui::ToolsWidget) {
+    : QWidget(parent), mUi(new Ui::ToolsWidget) {
 
-  this->ui->setupUi(this);
+  this->mUi->setupUi(this);
 
-  connect(this->ui->stackedWidget, &QStackedWidget::currentChanged, this,
+  connect(this->mUi->stackedWidget, &QStackedWidget::currentChanged, this,
           &ToolsWidget::on_stackedWidget_currentChanged);
 }
 
-ToolsWidget::~ToolsWidget() { delete this->ui; }
+ToolsWidget::~ToolsWidget() { delete this->mUi; }
 
 void ToolsWidget::setCurrentPage(ToolsWidget::Page page) {
   switch (page) {
   case Page::Line:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->pageLine);
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->pageLine);
     break;
   case Page::Angle:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->pageAngle);
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->pageAngle);
     break;
   default:
-    this->ui->stackedWidget->setCurrentWidget(this->ui->pageDummy);
+    this->mUi->stackedWidget->setCurrentWidget(this->mUi->pageDummy);
   }
 }
 
@@ -54,8 +54,8 @@ void ToolsWidget::updateDistance(itk::Object *object,
 
   double distance = planarLine->GetQuantity(0);
   QString suffix = " " + QString(planarLine->GetFeatureUnit(0));
-  this->ui->doubleSpinBoxDistance->setValue(distance);
-  this->ui->doubleSpinBoxDistance->setSuffix(suffix);
+  this->mUi->doubleSpinBoxDistance->setValue(distance);
+  this->mUi->doubleSpinBoxDistance->setSuffix(suffix);
 }
 
 void ToolsWidget::updateAngle(itk::Object *object,
@@ -67,8 +67,8 @@ void ToolsWidget::updateAngle(itk::Object *object,
   angle /= itk::Math::pi;
   QString suffix =
       " " + QString(planarAngle->GetFeatureUnit(planarAngle->FEATURE_ID_ANGLE));
-  this->ui->doubleSpinBoxAngle->setValue(angle);
-  this->ui->doubleSpinBoxAngle->setSuffix(suffix);
+  this->mUi->doubleSpinBoxAngle->setValue(angle);
+  this->mUi->doubleSpinBoxAngle->setSuffix(suffix);
 }
 
 void ToolsWidget::on_stackedWidget_currentChanged(int index) {
@@ -86,7 +86,7 @@ void ToolsWidget::on_stackedWidget_currentChanged(int index) {
     ds->Remove(planarAngleNode);
   }
 
-  if (this->ui->stackedWidget->widget(index) == this->ui->pageLine) {
+  if (this->mUi->stackedWidget->widget(index) == this->mUi->pageLine) {
 
     typedef itk::MemberCommand<ToolsWidget> MemberCommand;
     MemberCommand::Pointer memberCommand = MemberCommand::New();
@@ -112,7 +112,7 @@ void ToolsWidget::on_stackedWidget_currentChanged(int index) {
     planarFigureInteractor->EnableInteraction(true);
     planarFigureInteractor->SetDataNode(planarLineNode);
 
-  } else if (this->ui->stackedWidget->widget(index) == this->ui->pageAngle) {
+  } else if (this->mUi->stackedWidget->widget(index) == this->mUi->pageAngle) {
 
     typedef itk::MemberCommand<ToolsWidget> MemberCommand;
     MemberCommand::Pointer memberCommand = MemberCommand::New();

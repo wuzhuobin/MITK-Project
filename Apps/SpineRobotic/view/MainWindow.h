@@ -15,7 +15,7 @@ public:
   void test();
 
 private:
-  Ui::MainWindow *ui;
+  Ui::MainWindow *mUi;
   int currentAction = 0;
   class QActionGroup * mActionGroup;
 

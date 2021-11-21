@@ -39,7 +39,6 @@ MainWindow::MainWindow(QWidget* parent) :
     // CasePlanningWidget
     mActionGroup->addAction(mUi->action_Pelvis_CT_Landmark);
     mActionGroup->addAction(mUi->action_Implant_Planning);
-    mActionGroup->addAction(mUi->action_Broach_Tracking);
     connect(mUi->action_Pelvis_CT_Landmark,
             &QAction::triggered,
             mUi->pageCasePlanning,
@@ -48,13 +47,27 @@ MainWindow::MainWindow(QWidget* parent) :
             &QAction::triggered,
             mUi->pageCasePlanning,
             &CasePlanningWidget::action_Implant_Planning_triggered);
-    connect(mUi->action_Broach_Tracking,
-            &QAction::triggered,
-            mUi->pageCasePlanning,
-            &CasePlanningWidget::action_Broach_Tracking_triggered);
+    // connect(mUi->action_Broach_Tracking,
+    //         &QAction::triggered,
+    //         mUi->pageCasePlanning,
+    //         &CasePlanningWidget::action_Broach_Tracking_triggered);
     
     // FemurPrepWidget
-    mActionGroup->addAction(mUi->action_Femur_Landmark);
+    mActionGroup->addAction(mUi->action_Femoral_Landmark);
+    mActionGroup->addAction(mUi->action_Femoral_Checkpoint);
+    mActionGroup->addAction(mUi->action_Femoral_Registration);
+    mActionGroup->addAction(mUi->action_Neck_Resection_Guide);
+    mActionGroup->addAction(mUi->action_Broach_Tracking);
+    connect(mUi->action_Femoral_Landmark,
+            &QAction::triggered, mUi->pageFemoralPrep, &FemoralPrepWidget::action_Femoral_Landmark_triggered);
+    connect(mUi->action_Femoral_Checkpoint,
+            &QAction::triggered, mUi->pageFemoralPrep, &FemoralPrepWidget::action_Femoral_Checkpoint_triggered);
+    connect(mUi->action_Femoral_Registration,
+            &QAction::triggered, mUi->pageFemoralPrep, &FemoralPrepWidget::action_Femoral_Registration_triggered);
+    connect(mUi->action_Neck_Resection_Guide,
+            &QAction::triggered, mUi->pageFemoralPrep, &FemoralPrepWidget::action_Neck_Resection_Guide_triggered);
+    connect(mUi->action_Broach_Tracking,
+            &QAction::triggered, mUi->pageFemoralPrep, &FemoralPrepWidget::action_Broach_Tracking_triggered);
 
     // AcetabularPrepWidget
     mActionGroup->addAction(mUi->action_RIO_Registratoin);
@@ -224,6 +237,7 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button)
     }
     else if (button == mUi->radioButtonFemoralPrep)
     {
+        setCurrentActionIndex(mActionGroup->actions().indexOf(mUi->action_Femoral_Checkpoint));
     }
     else if (button == mUi->radioButtonCasePlanning)
     {
@@ -296,13 +310,21 @@ void MainWindow::onActionsTriggered(QAction* action) const
         mUi->pushButtonNext->setVisible(true);
         mUi->stackedWidget->setCurrentWidget(mUi->pageEmpty);
     }
-    else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
+    else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Implant_Planning))
     {
         mUi->frameWorkflow->setVisible(true);
         mUi->pushButtonBack->setVisible(true);
         mUi->pushButtonNext->setVisible(true);
         mUi->radioButtonCasePlanning->setChecked(true);
         mUi->stackedWidget->setCurrentWidget(mUi->pageCasePlanning);
+    }
+    else if(mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Broach_Tracking))
+    {
+        mUi->frameWorkflow->setVisible(true);
+        mUi->pushButtonBack->setVisible(true);
+        mUi->pushButtonNext->setVisible(true);
+        mUi->radioButtonFemoralPrep->setChecked(true);
+        mUi->stackedWidget->setCurrentWidget(mUi->pageFemoralPrep);
     }
     else if (mActionGroup->actions().indexOf(action) <= mActionGroup->actions().indexOf(mUi->action_Cup_Impaction))
     {

@@ -703,12 +703,36 @@
     <string>Final Result</string>
    </property>
   </action>
-  <action name="action_Femur_Landmark">
+  <action name="action_Femoral_Landmark">
    <property name="text">
-    <string>&amp;Femur_Landmark</string>
+    <string>&amp;Femoral Landmark</string>
    </property>
    <property name="toolTip">
-    <string>Femur_Landmark</string>
+    <string>Femoral Landmark</string>
+   </property>
+  </action>
+  <action name="action_Femoral_Checkpoint">
+   <property name="text">
+    <string>&amp;Femoral Checkpoint</string>
+   </property>
+   <property name="toolTip">
+    <string>Femoral Checkpoint</string>
+   </property>
+  </action>
+  <action name="action_Femoral_Registration">
+   <property name="text">
+    <string>&amp;Femoral Registration</string>
+   </property>
+   <property name="toolTip">
+    <string>Femoral Registration</string>
+   </property>
+  </action>
+  <action name="action_Neck_Resection_Guide">
+   <property name="text">
+    <string>&amp;Neck Resection Guide</string>
+   </property>
+   <property name="toolTip">
+    <string>Neck Resection Guide</string>
    </property>
   </action>
  </widget>
@@ -773,18 +797,18 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupView">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="buttonGroupOptionsOrScreen"/>
+  <buttongroup name="buttonGroupWorkflow"/>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="buttonGroupControl"/>
-  <buttongroup name="buttonGroupView">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
  </buttongroups>
 </ui>

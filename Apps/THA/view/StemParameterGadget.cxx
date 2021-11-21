@@ -43,7 +43,7 @@ public:
       Euler3DTransform::New();
     euler3DTransform->SetMatrix(matrixOffsetTransformBase->GetMatrix());
     double angleZ = euler3DTransform->GetAngleZ() * itk::Math::deg_per_rad;
-		this_->ui->spinBoxFemoralVersion->setValue(itk::Math::Round<int, double>(angleZ));
+		this_->mUi->spinBoxFemoralVersion->setValue(itk::Math::Round<int, double>(angleZ));
 	}
 	const StemParameterGadget *this_ = nullptr;
 private:
@@ -55,16 +55,16 @@ StemParameterGadget::StemParameterGadget(
 	const QString &femoralHead,
 	QWidget *parent) :
 	QWidget(parent),
-  ui(new Ui::StemParameterGadget),
+  mUi(new Ui::StemParameterGadget),
 	femoralStem(femoralStem),
 	femoralHead(femoralHead)
 {
-  this->ui->setupUi(this);
+  this->mUi->setupUi(this);
 }
 
 StemParameterGadget::~StemParameterGadget()
 {
-  delete this->ui;
+  delete this->mUi;
 }
 
 void StemParameterGadget::ObserverStem() const

@@ -18,7 +18,7 @@ public:
   virtual ~ImplantAssessmentGadget() override;
 
 private:
-  Ui::ImplantAssessmentGadget *ui;
+  Ui::ImplantAssessmentGadget *mUi;
 };
 
 #endif // IMPLANT_ASSESSMENT_GADGET_H

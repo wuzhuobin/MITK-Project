@@ -34,7 +34,7 @@ private:
 	friend class StemParameterGadgetCommand;
 
 private:
-  Ui::StemParameterGadget *ui;
+  Ui::StemParameterGadget *mUi;
 };
 
 #endif //!STEM_PARAMTER_GADGET_H

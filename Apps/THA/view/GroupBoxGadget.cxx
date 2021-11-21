@@ -21,7 +21,7 @@ GroupBoxGadget::GroupBoxGadget(int orientation,
  const QString &acetabularLiner,
  QWidget *parent):
   QGroupBox(parent),
-  ui(new Ui::GroupBoxGadget),
+  mUi(new Ui::GroupBoxGadget),
   currentMode(DEFAULT),
   currentOrientation(orientation),
   translationSpeed(2),
@@ -33,12 +33,12 @@ GroupBoxGadget::GroupBoxGadget(int orientation,
   acetabularShell(acetabularShell),
   acetabularLiner(acetabularLiner)
 {
-  this->ui->setupUi(this);
+  this->mUi->setupUi(this);
 }
 
 GroupBoxGadget::~GroupBoxGadget()
 {
-  delete this->ui;
+  delete this->mUi;
 }
 
 void GroupBoxGadget::internalTransform(double position[3], double orientation[3])

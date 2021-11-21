@@ -75,7 +75,7 @@ private Q_SLOTS:
   void on_pushButtonRight_clicked(bool checked = false);
   void on_pushButtonUp_clicked(bool checked = false);
 private:
-  Ui::GroupBoxGadget *ui;
+  Ui::GroupBoxGadget *mUi;
 };
 
 #endif //!GROUP_BOX_GADGET_H

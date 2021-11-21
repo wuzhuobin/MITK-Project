@@ -28,7 +28,7 @@ public:
   void setRotationSpeed(double speed) { this->rotationSpeed = speed; }
 
 private:
-  Ui::GroupBoxGadget *ui;
+  Ui::GroupBoxGadget *mUi;
   Orientation currentOrientation;
   QString target;
   QString targetCor;

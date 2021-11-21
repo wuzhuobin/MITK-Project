@@ -15,12 +15,12 @@
 #include <vtkTransform.h>
 
 GroupBoxGadget::GroupBoxGadget(Orientation orientation, QWidget *parent)
-    : QGroupBox(parent), ui(new Ui::GroupBoxGadget),
+    : QGroupBox(parent), mUi(new Ui::GroupBoxGadget),
       currentOrientation(orientation) {
-  this->ui->setupUi(this);
+  this->mUi->setupUi(this);
 }
 
-GroupBoxGadget::~GroupBoxGadget() { delete this->ui; }
+GroupBoxGadget::~GroupBoxGadget() { delete this->mUi; }
 
 void GroupBoxGadget::internalTransform(double position[3],
                                        double orientation[3]) {

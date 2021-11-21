@@ -14,14 +14,19 @@ class FemoralPrepWidget;
 
 class FemoralPrepWidget : public QStackedWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit FemoralPrepWidget(QWidget* parent = nullptr);
+  explicit FemoralPrepWidget(QWidget* parent = nullptr);
 
-    void action_Femur_Landmark_triggered(bool checked = false);
+  Q_SLOT void action_Femoral_Landmark_triggered(bool checked = false);
+  Q_SLOT void action_Femoral_Checkpoint_triggered(bool checked = false);
+  Q_SLOT void action_Femoral_Registration_triggered(bool checked = false);
+  Q_SLOT void action_Neck_Resection_Guide_triggered(bool checked = false);
+  Q_SLOT void action_Broach_Tracking_triggered(bool checked = false);
+
 
 private:
-    std::unique_ptr<Ui::FemoralPrepWidget> mUi;
+  std::unique_ptr<Ui::FemoralPrepWidget> mUi;
 };
 
 #endif  //! FEMORAL_PREP_WIDGET_H

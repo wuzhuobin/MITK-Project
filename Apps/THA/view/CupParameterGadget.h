@@ -42,7 +42,7 @@ private:
   friend class CupParameterGadgetCommand;
 
 private:
-  Ui::CupParameterGadget *ui;
+  Ui::CupParameterGadget *mUi;
 };
 
 #endif //!CUP_PARAMETER_GADGET_H
