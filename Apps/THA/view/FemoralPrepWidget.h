@@ -26,9 +26,13 @@ public:
   Q_SIGNAL void checkBoxProximalCheckpointToggled(bool checked);
   Q_SIGNAL void checkBoxDistalCheckpointToggled(bool checked);
 
-
 private:
   std::unique_ptr<Ui::FemoralPrepWidget> mUi;
+  bool mProximalCheckpointCaptured = false;
+  bool mDistalCheckpointCaptured = false;
+
+  Q_SLOT void on_checkBoxProximalCheckpoint_toggled(bool checked);
+  Q_SLOT void on_checkBoxDistalCheckpoint_toggled(bool checked);
 };
 
 #endif  //! FEMORAL_PREP_WIDGET_H

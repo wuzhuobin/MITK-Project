@@ -6,14 +6,16 @@ FemoralPrepWidget::FemoralPrepWidget(QWidget* parent) :
     QStackedWidget(parent), mUi(std::make_unique<Ui::FemoralPrepWidget>())
 {
   mUi->setupUi(this);
-  connect(mUi->checkBoxProximalCheckpoint,
-          &QCheckBox::toggled,
-          this,
-          &FemoralPrepWidget::checkBoxProximalCheckpointToggled);
-  connect(mUi->checkBoxDistalCheckpoint,
-          &QCheckBox::toggled,
-          this,
-          &FemoralPrepWidget::checkBoxDistalCheckpointToggled);
+
+  // connection
+  // connect(mUi->checkBoxProximalCheckpoint,
+  //         &QCheckBox::toggled,
+  //         this,
+  //         &FemoralPrepWidget::checkBoxProximalCheckpointToggled);
+  // connect(mUi->checkBoxDistalCheckpoint,
+  //         &QCheckBox::toggled,
+  //         this,
+  //         &FemoralPrepWidget::checkBoxDistalCheckpointToggled);
 }
 
 void FemoralPrepWidget::action_Femoral_Landmark_triggered(bool checked)
@@ -49,4 +51,13 @@ void FemoralPrepWidget::action_Broach_Tracking_triggered(bool checked)
   Q_UNUSED(checked);
 
   this->setCurrentWidget(mUi->BroachTracking);
+}
+
+void FemoralPrepWidget::on_checkBoxProximalCheckpoint_toggled(bool checked)
+{
+  Q_EMIT checkBoxProximalCheckpointToggled(checked);
+}
+void FemoralPrepWidget::on_checkBoxDistalCheckpoint_toggled(bool checked)
+{
+  Q_EMIT checkBoxDistalCheckpointToggled(checked);
 }

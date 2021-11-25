@@ -14,7 +14,7 @@
    <string>StackedWidget</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="page">
    <widget class="QLabel" name="label_2">
@@ -48,7 +48,7 @@
          <string>Proximal Checkpoint</string>
         </property>
         <attribute name="buttonGroup">
-         <string notr="true">buttonGroupFemoralLandmark</string>
+         <string notr="true">buttonGroupFemoralLandmarkCheckbox</string>
         </attribute>
        </widget>
       </item>
@@ -58,7 +58,7 @@
          <string>Distal Checkpoint</string>
         </property>
         <attribute name="buttonGroup">
-         <string notr="true">buttonGroupFemoralLandmark</string>
+         <string notr="true">buttonGroupFemoralLandmarkCheckbox</string>
         </attribute>
        </widget>
       </item>
@@ -67,17 +67,29 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButtonCapture">
+       <widget class="QPushButton" name="pushButtonFemoralLandmarkCapture">
         <property name="text">
          <string>Capture</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupFemoralLandmarkPushButton</string>
+        </attribute>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButtonClearAll">
+       <widget class="QPushButton" name="pushButtonFemoralLandmarkClearAll">
         <property name="text">
          <string>Clear All</string>
         </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupFemoralLandmarkPushButton</string>
+        </attribute>
        </widget>
       </item>
      </layout>
@@ -540,6 +552,7 @@ View</string>
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroupFemoralLandmark"/>
+  <buttongroup name="buttonGroupFemoralLandmarkCheckbox"/>
+  <buttongroup name="buttonGroupFemoralLandmarkPushButton"/>
  </buttongroups>
 </ui>

@@ -274,7 +274,7 @@ void MainWindow::on_buttonGroupWorkflow_buttonClicked(QAbstractButton* button)
   else if (button == mUi->radioButtonFemoralPrep)
   {
     setCurrentActionIndex(
-        mActionGroup->actions().indexOf(mUi->action_Femoral_Checkpoint));
+        mActionGroup->actions().indexOf(mUi->action_Femoral_Landmark));
   }
   else if (button == mUi->radioButtonCasePlanning)
   {
