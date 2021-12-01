@@ -56,8 +56,49 @@ void FemoralPrepWidget::action_Broach_Tracking_triggered(bool checked)
 void FemoralPrepWidget::on_checkBoxProximalCheckpoint_toggled(bool checked)
 {
   Q_EMIT checkBoxProximalCheckpointToggled(checked);
+  if (checked)
+  {
+    mUi->pushButtonFemoralLandmarkCapture->setChecked(mProximalCheckpointCaptured);
+    mUi->pushButtonFemoralLandmarkClearAll->setChecked(!mProximalCheckpointCaptured);
+  }
 }
+
 void FemoralPrepWidget::on_checkBoxDistalCheckpoint_toggled(bool checked)
 {
   Q_EMIT checkBoxDistalCheckpointToggled(checked);
+  if (checked)
+  {
+    mUi->pushButtonFemoralLandmarkCapture->setChecked(mDistalCheckpointCaptured);
+    mUi->pushButtonFemoralLandmarkClearAll->setChecked(!mDistalCheckpointCaptured);
+  }
+}
+
+void FemoralPrepWidget::on_pushButtonFemoralLandmarkCapture_toggled(bool checked)
+{
+  if (checked)
+  {
+    if(mUi->checkBoxProximalCheckpoint->isChecked())
+    {
+      mProximalCheckpointCaptured = true;
+    }
+    else if(mUi->checkBoxDistalCheckpoint->isChecked())
+    {
+      mDistalCheckpointCaptured = true;
+    }
+  }
+}
+
+void FemoralPrepWidget::on_pushButtonFemoralLandmarkClearAll_toggled(bool checked)
+{
+  if (checked)
+  {
+    if(mUi->checkBoxProximalCheckpoint->isChecked())
+    {
+      mProximalCheckpointCaptured = false;
+    }
+    else if(mUi->checkBoxDistalCheckpoint->isChecked())
+    {
+      mDistalCheckpointCaptured = false;
+    }
+  }
 }

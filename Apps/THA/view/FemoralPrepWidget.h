@@ -33,6 +33,8 @@ private:
 
   Q_SLOT void on_checkBoxProximalCheckpoint_toggled(bool checked);
   Q_SLOT void on_checkBoxDistalCheckpoint_toggled(bool checked);
+  Q_SLOT void on_pushButtonFemoralLandmarkCapture_toggled(bool checked);
+  Q_SLOT void on_pushButtonFemoralLandmarkClearAll_toggled(bool checked);
 };
 
 #endif  //! FEMORAL_PREP_WIDGET_H
