@@ -9,6 +9,7 @@
 #include <mitkSceneIO.h>
 #include <mitkStandaloneDataStorage.h>
 #include <mitkSurface.h>
+#include <mitkVtkRepresentationProperty.h>
 
 // vtk
 #include <vtkMatrix4x4.h>
@@ -118,6 +119,8 @@ void IOController::addReamer() const
     reamerSource->SetSphereRadius(25);
     reamerSource->SetTubeRadius(2);
     reamerSource->SetLength(70);
+    reamerSource->SetThetaResolution(10);
+    reamerSource->SetPhiResolution(10);
     reamerSource->Update();
     auto* reamer = reamerSource->GetOutput();
 
@@ -139,6 +142,8 @@ void IOController::addReamer() const
     reamerNode->SetData(reamer);
     reamerNode->SetName("reamer");
     reamerNode->SetVisibility(false);
+    reamerNode->SetProperty("material.representation",
+                            mitk::VtkRepresentationProperty::New("Wireframe"));
 
     ds->Add(reamerNode);
 }

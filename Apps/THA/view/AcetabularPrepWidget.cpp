@@ -353,7 +353,6 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
 
     mitk::DataNode *reamerNode = ds->GetNamedNode("reamer");
     reamerNode->SetVisibility(true);
-    reamerNode->SetOpacity(0.2);
     reamerNode->SetColor(0, 0, 1);
 
     mitk::DataNode::Pointer reamingPelvisNode = ds->GetNamedNode("reaming_pelvis");
