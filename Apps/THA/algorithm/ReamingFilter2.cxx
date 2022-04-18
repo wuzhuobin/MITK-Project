@@ -1,61 +1,189 @@
 #include "ReamingFilter2.h"
 
 // vtk
-#include <vtkObjectFactory.h>
-#include <vtkSmartPointer.h>
-#include <vtkPolyData.h>
+#include <vtkImageData.h>
 #include <vtkInformation.h>
 #include <vtkInformationVector.h>
-#include <vtkSelectEnclosedPoints.h>
-#include <vtkPointData.h>
-#include <vtkUnsignedCharArray.h>
+#include <vtkObjectFactory.h>
+#include <vtkPolyData.h>
+#include <vtkSmartPointer.h>
+#include <vtkImageDilateErode3D.h>
+#include <vtkImageMathematics.h>
+#include <vtkImageStencil.h>
+#include <vtkPolyDataToImageStencil.h>
+#include <vtkTransformPolyDataFilter.h>
+#include <vtkAbstractTransform.h>
+#include <vtkDiscreteFlyingEdges3D.h>
 
 vtkStandardNewMacro(ReamingFilter2);
+vtkCxxSetObjectMacro(ReamingFilter2, ImageTransform, vtkAbstractTransform);
 
-void ReamingFilter2::PrintSelf(ostream &os, vtkIndent indent)
+void ReamingFilter2::PrintSelf(ostream& os, vtkIndent indent)
 {
   Superclass::PrintSelf(os, indent);
 }
 
-ReamingFilter2::ReamingFilter2()
+ReamingFilter2::ReamingFilter2():
+  TransformPolyDataFilter1(Ptr<vtkTransformPolyDataFilter>::New()),
+  TransformPolyDataFilter2(Ptr<vtkTransformPolyDataFilter>::New()),
+  PolyDataToImageStencil(Ptr<vtkPolyDataToImageStencil>::New()),
+  ImageStencil(Ptr<vtkImageStencil>::New()),
+  Erode(Ptr<vtkImageDilateErode3D>::New()),
+  ImageSubstractTrajectory(Ptr<vtkImageMathematics>::New()),
+  ImageMultiplyBy2(Ptr<vtkImageMathematics>::New()),
+  ImageAddTrajectory(Ptr<vtkImageMathematics>::New()),
+  ImageAddErode(Ptr<vtkImageMathematics>::New()),
+  DiscreteFlyingEdges(Ptr<vtkDiscreteFlyingEdges3D>::New()),
+  TransformPolyDataFilter3(Ptr<vtkTransformPolyDataFilter>::New())
 {
-  this->SetNumberOfInputPorts(2);
-  this->SetNumberOfOutputPorts(1);
+  SetNumberOfInputPorts(3);
+  SetNumberOfOutputPorts(1);
 }
 
-int ReamingFilter2::RequestData(vtkInformation *info, vtkInformationVector **input,
-                                vtkInformationVector *output)
+void ReamingFilter2::SetPelvis(vtkImageData* pelvis)
 {
+  SetInputData(0, pelvis);
+}
 
-  vtkPolyData *input0 = vtkPolyData::GetData(input[0]);
-  vtkPolyData *input1 = vtkPolyData::GetData(input[1]);
-  vtkPolyData *output0 = vtkPolyData::GetData(output);
+vtkImageData* ReamingFilter2::GetPelvis()
+{
+  return vtkImageData::SafeDownCast(GetInput(0));
+}
 
+void ReamingFilter2::SetReamer(vtkPolyData* reamer)
+{
+  SetInputData(1, reamer);
+}
 
-  vtkSmartPointer<vtkSelectEnclosedPoints> selectedEnclosedPoints =
-    vtkSmartPointer<vtkSelectEnclosedPoints>::New();
-  selectedEnclosedPoints->SetInputData(input0);
-  selectedEnclosedPoints->SetSurfaceData(input1);
-  selectedEnclosedPoints->Update();
+vtkPolyData* ReamingFilter2::GetReamer()
+{
+  return vtkPolyData::SafeDownCast(GetInput(1));
+}
 
-  vtkDataArray *selectedPoints =
-    selectedEnclosedPoints->GetOutput()->GetPointData()->GetArray("SelectedPoints");
+void ReamingFilter2::SetReamerTrajectory(vtkPolyData* trajectory)
+{
+  SetInputData(2, trajectory);
+}
 
-  vtkSmartPointer<vtkUnsignedCharArray> colors =
-    vtkSmartPointer<vtkUnsignedCharArray>::New();
-  colors->SetNumberOfComponents(3);
-  colors->SetName("colors");
-  
-  for (vtkIdType i = 0; i < selectedPoints->GetNumberOfTuples(); ++i) {
+vtkPolyData* ReamingFilter2::GetReamerTrajectory()
+{
+  return vtkPolyData::SafeDownCast(GetInput(2));
+}
 
-    selectedPoints->GetComponent(i, 0) == 1 ?
-      colors->InsertNextTuple3(0, 255, 0) : colors->InsertNextTuple3(255, 255, 255);
-  }
+// #include <mitkIOUtil.h>
+// #include <mitkImage.h>
 
-  selectedEnclosedPoints->GetOutput()->GetPointData()->SetScalars(colors);
-  selectedEnclosedPoints->GetOutput()->GetPointData()->RemoveArray("SelectedPoints");
+// static void saveImage(vtkImageData* imageData, const std::string & path)
+// {
+//   auto image = mitk::Image::New();
+//   image->Initialize(imageData);
+//   mitk::IOUtil::Save(image, path);
+// }
 
-  output0->ShallowCopy(selectedEnclosedPoints->GetOutput());
+#include <vtkNIFTIImageWriter.h>
+
+static void saveImage2(vtkImageData * imageData, const std::string & path)
+{
+  auto writer = vtkSmartPointer<vtkNIFTIImageWriter>::New();
+  writer->SetInputData(imageData);
+  writer->SetFileName(path.c_str());
+  writer->Write();
+}
+
+int ReamingFilter2::RequestData(vtkInformation* info,
+                                vtkInformationVector** input,
+                                vtkInformationVector* output)
+{
+  auto* input0 = vtkImageData::GetData(input[0]);
+  auto* input1 = vtkPolyData::GetData(input[1]);
+  auto* input2 = vtkPolyData::GetData(input[2]);
+  auto* output0 = vtkPolyData::GetData(output);
+
+  saveImage2(input0, "test/input0.nii");
+
+  TransformPolyDataFilter1->SetInputData(input1);
+  TransformPolyDataFilter1->SetTransform(ImageTransform->GetInverse());
+  TransformPolyDataFilter1->Update();
+
+  TransformPolyDataFilter2->SetInputData(input2);
+  TransformPolyDataFilter2->SetTransform(ImageTransform->GetInverse());
+  TransformPolyDataFilter2->Update();
+
+  PolyDataToImageStencil->SetInputConnection(TransformPolyDataFilter2->GetOutputPort());
+  PolyDataToImageStencil->SetOutputOrigin(input0->GetOrigin());
+  PolyDataToImageStencil->SetOutputSpacing(input0->GetSpacing());
+  PolyDataToImageStencil->SetOutputWholeExtent(input0->GetExtent());
+  PolyDataToImageStencil->Update();
+
+  ImageStencil->SetInputData(input0);
+  ImageStencil->SetStencilConnection(PolyDataToImageStencil->GetOutputPort());
+  ImageStencil->SetBackgroundValue(0);
+  ImageStencil->SetReverseStencil(false);
+  ImageStencil->Update();
+  saveImage2(ImageStencil->GetOutput(), "test/ImageStencil.nii");
+
+  // ImageSubstractTrajectory->SetInputConnection(0, ->GetOutputPort());
+  ImageSubstractTrajectory->SetInputData(0, input0);
+  ImageSubstractTrajectory->SetInputConnection(1, ImageStencil->GetOutputPort());
+  ImageSubstractTrajectory->SetOperationToSubtract();
+  ImageSubstractTrajectory->Update();
+  saveImage2(ImageSubstractTrajectory->GetOutput(), "test/ImageSubstractTrajectory.nii");
+
+  ImageMultiplyBy2->SetInputConnection(0, ImageSubstractTrajectory->GetOutputPort());
+  ImageMultiplyBy2->SetConstantK(2);
+  ImageMultiplyBy2->SetOperationToMultiplyByK();
+  ImageMultiplyBy2->Update();
+  saveImage2(ImageMultiplyBy2->GetOutput(), "test/MultiplyBy2.nii");
+
+  // ImageDilateErode3D->SetInputData(input0);
+  Erode->SetInputConnection(ImageSubstractTrajectory->GetOutputPort());
+  Erode->SetKernelSize(Size, Size, Size);
+  Erode->SetErodeValue(1);
+  Erode->SetDilateValue(0);
+  Erode->Update();
+  saveImage2(Erode->GetOutput(), "test/erode.nii");
+
+  ImageAddTrajectory->SetInputConnection(0, Erode->GetOutputPort());
+  ImageAddTrajectory->SetInputConnection(1, ImageStencil->GetOutputPort());
+  ImageAddTrajectory->SetOperationToAdd();
+  ImageAddTrajectory->Update();
+  saveImage2(ImageAddTrajectory->GetOutput(), "test/ImageAddTrajectory.nii");
+
+  ImageAddErode->SetInputConnection(0, ImageAddTrajectory->GetOutputPort());
+  ImageAddErode->SetInputConnection(1, ImageMultiplyBy2->GetOutputPort());
+  ImageAddErode->SetOperationToAdd();
+  ImageAddErode->Update();
+  saveImage2(ImageAddErode->GetOutput(), "test/ImageAddErode.nii");
+
+  DiscreteFlyingEdges->SetInputConnection(ImageAddErode->GetOutputPort());
+  DiscreteFlyingEdges->GenerateValues(3, 1, 3);
+  DiscreteFlyingEdges->Update();
+
+  TransformPolyDataFilter3->SetInputConnection(DiscreteFlyingEdges->GetOutputPort());
+  TransformPolyDataFilter3->SetTransform(ImageTransform);
+  TransformPolyDataFilter3->Update();
+
+  output0->ShallowCopy(TransformPolyDataFilter3->GetOutput());
 
   return 1;
+}
+
+int ReamingFilter2::FillInputPortInformation(int port, vtkInformation* info)
+{
+  if (port == 0)
+  {
+    info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkImageData");
+    return 1;
+  }
+  else if (port == 1)
+  {
+    info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkPolyData");
+    return 1;
+  }
+  else if (port == 2)
+  {
+    info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkPolyData");
+    return 1;
+  }
+  return 0;
 }
