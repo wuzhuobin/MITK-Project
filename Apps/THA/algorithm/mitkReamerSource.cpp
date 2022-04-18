@@ -4,50 +4,52 @@
 #include <mitkSurface.h>
 
 // vtk
-#include <vtkSphereSource.h>
-#include <vtkLineSource.h>
-#include <vtkTubeFilter.h>
 #include <vtkAppendPolyData.h>
 #include <vtkFillHolesFilter.h>
+#include <vtkLineSource.h>
 #include <vtkNew.h>
+#include <vtkSphereSource.h>
+#include <vtkTubeFilter.h>
 
 namespace mitk
 {
 void ReamerSource::GenerateData()
 {
-  mitk::Surface * output = this->GetOutput();
+  mitk::Surface* output = GetOutput();
   vtkNew<vtkSphereSource> sphereSource;
-  sphereSource->SetCenter(0, 0, this->m_SphereRadius);
-  sphereSource->SetThetaResolution(this->m_ThetaResolution);
-  sphereSource->SetPhiResolution(this->m_PhiResolution);
+  sphereSource->SetCenter(0, 0, m_SphereRadius);
+  sphereSource->SetThetaResolution(m_ThetaResolution);
+  sphereSource->SetPhiResolution(m_PhiResolution);
   sphereSource->SetStartPhi(90);
   sphereSource->SetEndPhi(180);
-  sphereSource->SetRadius(this->m_SphereRadius);
+  sphereSource->SetRadius(m_SphereRadius);
   sphereSource->Update();
 
   vtkNew<vtkFillHolesFilter> fillHole;
   fillHole->SetInputData(sphereSource->GetOutput());
-  fillHole->SetHoleSize(this->m_SphereRadius * this->m_SphereRadius * vtkMath::Pi());
+  fillHole->SetHoleSize(m_SphereRadius * m_SphereRadius * vtkMath::Pi());
   fillHole->Update();
-
-  vtkNew<vtkLineSource> lineSource;
-  lineSource->SetPoint1(0, 0, this->m_SphereRadius);
-  lineSource->SetPoint2(0, 0, this->m_SphereRadius + this->m_Length);
-  lineSource->Update();
-
-  vtkNew<vtkTubeFilter> tubeFilter;
-  tubeFilter->SetInputData(lineSource->GetOutput());
-  tubeFilter->SetRadius(this->m_TubeRadius);
-  tubeFilter->SetNumberOfSides(this->m_ThetaResolution);
-  tubeFilter->SetCapping(true);
-  tubeFilter->Update();
 
   vtkNew<vtkAppendPolyData> appendPolyData;
   appendPolyData->AddInputData(fillHole->GetOutput());
-  appendPolyData->AddInputData(tubeFilter->GetOutput());
+  if (m_HaveTube)
+  {
+    vtkNew<vtkLineSource> lineSource;
+    lineSource->SetPoint1(0, 0, m_SphereRadius);
+    lineSource->SetPoint2(0, 0, m_SphereRadius + m_Length);
+    lineSource->Update();
+
+    vtkNew<vtkTubeFilter> tubeFilter;
+    tubeFilter->SetInputData(lineSource->GetOutput());
+    tubeFilter->SetRadius(m_TubeRadius);
+    tubeFilter->SetNumberOfSides(m_ThetaResolution);
+    tubeFilter->SetCapping(true);
+    tubeFilter->Update();
+
+    appendPolyData->AddInputData(tubeFilter->GetOutput());
+  }
+
   appendPolyData->Update();
-
   output->SetVtkPolyData(appendPolyData->GetOutput());
-
 }
-}
+}  // namespace mitk

@@ -42,6 +42,7 @@ target_link_libraries(
   MitkSegmentation
   MitkDICOMUI
   Qt5::Sql
+  ${VTK_LIBRARIES}
 )
 
 target_include_directories(
@@ -57,4 +58,11 @@ target_compile_definitions(
   ${PROJECT_NAME}
   PRIVATE
   US_MODULE_NAME=main
+)
+
+vtk_module_autoinit(
+  TARGETS 
+  ${PROJECT_NAME}
+  MODULES
+  ${VTK_LIBRARIES}
 )
