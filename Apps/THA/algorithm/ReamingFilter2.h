@@ -13,6 +13,7 @@ class vtkImageStencil;
 class vtkAbstractTransform;
 class vtkTransformPolyDataFilter;
 class vtkDiscreteFlyingEdges3D;
+class vtkWindowedSincPolyDataFilter;
 class ReamingFilter2 : public vtkPolyDataAlgorithm
 {
 public:
@@ -41,8 +42,10 @@ protected:
 
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter1;
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter2;
-  Ptr<vtkPolyDataToImageStencil> PolyDataToImageStencil;
-  Ptr<vtkImageStencil> ImageStencil;
+  Ptr<vtkPolyDataToImageStencil> PolyDataToImageStencil1;
+  Ptr<vtkPolyDataToImageStencil> PolyDataToImageStencil2;
+  Ptr<vtkImageStencil> ImageStencil1;
+  Ptr<vtkImageStencil> ImageStencil2;
   Ptr<vtkImageDilateErode3D> Erode;
   Ptr<vtkImageMathematics> ImageSubstractTrajectory;
   Ptr<vtkImageMathematics> ImageMultiplyBy2;
@@ -50,6 +53,7 @@ protected:
   Ptr<vtkImageMathematics> ImageAddErode;
   Ptr<vtkDiscreteFlyingEdges3D> DiscreteFlyingEdges;
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter3;
+  Ptr<vtkWindowedSincPolyDataFilter> WindowedSincPolyDataFilter;
 
   ReamingFilter2();
   int RequestData(vtkInformation* info,
