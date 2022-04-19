@@ -129,7 +129,11 @@ void IOController::addReamer() const
     transform->RotateY(-90);
     transform->RotateX(0);
     transform->RotateZ(0);
-    transform->Translate(-58.54936906586104, 14.204643754424644, 1578.9678664012258);
+    // transform->Translate(-58.54936906586104, 14.204643754424644, 1578.9678664012258);
+    transform->Translate(
+        -108.54936906586104,
+        14.204643754424644,
+        1578.9678664012258);
     transform->Update();
 
     auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();

@@ -165,7 +165,7 @@ void MainWindow::test()
   IOController::getInstance()->loadScene(qApp->applicationDirPath() +
                                          "/cases/first_case.0");
   setCurrentActionIndex(
-      mActionGroup->actions().indexOf(mUi->action_Pelvis_CT_Landmark));
+      mActionGroup->actions().indexOf(mUi->action_Cup_Reaming));
   // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
 }
 

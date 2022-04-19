@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>199</width>
-    <height>551</height>
+    <width>439</width>
+    <height>584</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -591,12 +591,18 @@
          <property name="text">
           <string>X+</string>
          </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="pushButtonXTM">
          <property name="text">
           <string>X-</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -605,12 +611,18 @@
          <property name="text">
           <string>X/</string>
          </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="0" column="3">
         <widget class="QPushButton" name="pushButtonXRM">
          <property name="text">
           <string>X\</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -619,12 +631,18 @@
          <property name="text">
           <string>Y+</string>
          </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="1" column="1">
         <widget class="QPushButton" name="pushButtonYTM">
          <property name="text">
           <string>Y-</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -633,12 +651,18 @@
          <property name="text">
           <string>Y/</string>
          </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="1" column="3">
         <widget class="QPushButton" name="pushButtonYRM">
          <property name="text">
           <string>Y\</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -647,12 +671,18 @@
          <property name="text">
           <string>Z+</string>
          </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="2" column="1">
         <widget class="QPushButton" name="pushButtonZTM">
          <property name="text">
           <string>Z-</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -661,12 +691,18 @@
          <property name="text">
           <string>Z/</string>
          </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="2" column="3">
         <widget class="QPushButton" name="pushButtonZRM">
          <property name="text">
           <string>Z\</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

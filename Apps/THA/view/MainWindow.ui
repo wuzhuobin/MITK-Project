@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
+    <width>1600</width>
     <height>1000</height>
    </rect>
   </property>
@@ -797,18 +797,18 @@
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupView">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupOptionsOrScreen"/>
   <buttongroup name="buttonGroupWorkflow"/>
+  <buttongroup name="buttonGroupControl"/>
   <buttongroup name="buttonGroupMode">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroupControl"/>
  </buttongroups>
 </ui>

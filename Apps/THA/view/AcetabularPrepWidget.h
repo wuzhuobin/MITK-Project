@@ -3,21 +3,24 @@
 
 #include "mitkReamingFilter.h"
 
-// mitk
-#include <mitkSurface.h>
-
 // qt
 #include <QStackedWidget>
 
-namespace Ui{
+// vtk
+#include <vtkSmartPointer.h>
+
+class ReamingFilter2;
+namespace Ui
+{
 class AcetabularPrepWidget;
 }
 
 class AcetabularPrepWidget : public QStackedWidget
 {
   Q_OBJECT;
+
 public:
-  explicit AcetabularPrepWidget(QWidget *parent = nullptr);
+  explicit AcetabularPrepWidget(QWidget* parent = nullptr);
   virtual ~AcetabularPrepWidget() override;
 
 public Q_SLOTS:
@@ -29,24 +32,24 @@ public Q_SLOTS:
   void action_Cup_Impaction_triggered(bool checked = false);
 
 private:
-  Ui::AcetabularPrepWidget *ui;
+  Ui::AcetabularPrepWidget* mUi;
   int pelvisLandmarkIndex = 0;
   int pelvisRegistrationIndex = 0;
 
-  mitk::ReamingFilter::Pointer reamingFilter;
-  mitk::Surface::Pointer realReamer;
+  vtkSmartPointer<ReamingFilter2> mReamingFilter;
 
   Q_DISABLE_COPY(AcetabularPrepWidget);
-  void SetPelvisLandmarkIndex(int index);
-  void SetPelvisRegistrationIndex(int index);
+  void setPelvisLandmarkIndex(int index);
+  void setPelvisRegistrationIndex(int index);
 
-  enum ORIENTATION {
+  enum class Orientation
+  {
     X = 0,
     Y,
     Z
   };
 
-  void TransformReamer(unsigned int orientation, double t, double r);
+  void transformReamer(Orientation orientation, double t, double r);
 
 private Q_SLOTS:
 
@@ -90,4 +93,4 @@ private Q_SLOTS:
 
   void on_pushButtonZTM_clicked(bool checked = false);
 };
-#endif //! ACETABULAR_PREP_WIDGET
+#endif  //! ACETABULAR_PREP_WIDGET
