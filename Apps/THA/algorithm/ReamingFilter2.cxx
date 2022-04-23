@@ -22,9 +22,15 @@ vtkCxxSetObjectMacro(ReamingFilter2, ImageTransform, vtkAbstractTransform);
 void ReamingFilter2::PrintSelf(ostream& os, vtkIndent indent)
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Size: " << this->Size << "\n";
+  os << indent << "UseSmooth: " << this->UseSmooth << "\n";
+  os << indent << "Reset: " << this->Reset << "\n";
+  os << indent << "ImageTransform: ";
+  ImageTransform->PrintSelf(os, indent.GetNextIndent());
 }
 
 ReamingFilter2::ReamingFilter2() :
+    IntermediateImage(Ptr<vtkImageData>::New()),
     TransformPolyDataFilter1(Ptr<vtkTransformPolyDataFilter>::New()),
     TransformPolyDataFilter2(Ptr<vtkTransformPolyDataFilter>::New()),
     PolyDataToImageStencil1(Ptr<vtkPolyDataToImageStencil>::New()),
@@ -74,114 +80,111 @@ vtkPolyData* ReamingFilter2::GetReamerTrajectory()
   return vtkPolyData::SafeDownCast(GetInput(2));
 }
 
-#include <vtkNIFTIImageWriter.h>
-
-static void saveImage2(vtkImageData* imageData, const std::string& path)
-{
-  // auto writer = vtkSmartPointer<vtkNIFTIImageWriter>::New();
-  // writer->SetInputData(imageData);
-  // writer->SetFileName(path.c_str());
-  // writer->Write();
-}
-
 int ReamingFilter2::RequestData(vtkInformation* info,
                                 vtkInformationVector** input,
                                 vtkInformationVector* output)
 {
-  auto* input0 = vtkImageData::GetData(input[0]);
-  auto* input1 = vtkPolyData::GetData(input[1]);
-  auto* input2 = vtkPolyData::GetData(input[2]);
+  auto* pelvis = vtkImageData::GetData(input[0]);
+  auto* reamer = vtkPolyData::GetData(input[1]);
+  auto* trajectory = vtkPolyData::GetData(input[2]);
   auto* output0 = vtkPolyData::GetData(output);
 
-  saveImage2(input0, "test/input0.nii");
+  if (GetReset())
+  {
+    TransformPolyDataFilter2->SetInputData(trajectory);
+    TransformPolyDataFilter2->SetTransform(ImageTransform->GetInverse());
+    TransformPolyDataFilter2->Update();
 
-  TransformPolyDataFilter2->SetInputData(input2);
-  TransformPolyDataFilter2->SetTransform(ImageTransform->GetInverse());
-  TransformPolyDataFilter2->Update();
+    PolyDataToImageStencil2->SetInputConnection(
+        TransformPolyDataFilter2->GetOutputPort());
+    PolyDataToImageStencil2->SetOutputOrigin(pelvis->GetOrigin());
+    PolyDataToImageStencil2->SetOutputSpacing(pelvis->GetSpacing());
+    PolyDataToImageStencil2->SetOutputWholeExtent(pelvis->GetExtent());
+    PolyDataToImageStencil2->Update();
 
-  PolyDataToImageStencil2->SetInputConnection(
-      TransformPolyDataFilter2->GetOutputPort());
-  PolyDataToImageStencil2->SetOutputOrigin(input0->GetOrigin());
-  PolyDataToImageStencil2->SetOutputSpacing(input0->GetSpacing());
-  PolyDataToImageStencil2->SetOutputWholeExtent(input0->GetExtent());
-  PolyDataToImageStencil2->Update();
+    ImageStencil2->SetInputData(pelvis);
+    ImageStencil2->SetStencilConnection(
+        PolyDataToImageStencil2->GetOutputPort());
+    ImageStencil2->SetBackgroundValue(0);
+    ImageStencil2->SetReverseStencil(false);
+    ImageStencil2->Update();
 
-  ImageStencil2->SetInputData(input0);
-  ImageStencil2->SetStencilConnection(PolyDataToImageStencil2->GetOutputPort());
-  ImageStencil2->SetBackgroundValue(0);
-  ImageStencil2->SetReverseStencil(false);
-  ImageStencil2->Update();
-  saveImage2(ImageStencil2->GetOutput(), "test/ImageStencil.nii");
+    // ImageSubstractTrajectory->SetInputConnection(0, ->GetOutputPort());
+    ImageSubstractTrajectory->SetInputData(0, pelvis);
+    ImageSubstractTrajectory->SetInputConnection(
+        1, ImageStencil2->GetOutputPort());
+    ImageSubstractTrajectory->SetOperationToSubtract();
+    ImageSubstractTrajectory->Update();
 
-  // ImageSubstractTrajectory->SetInputConnection(0, ->GetOutputPort());
-  ImageSubstractTrajectory->SetInputData(0, input0);
-  ImageSubstractTrajectory->SetInputConnection(1,
-                                               ImageStencil2->GetOutputPort());
-  ImageSubstractTrajectory->SetOperationToSubtract();
-  ImageSubstractTrajectory->Update();
-  saveImage2(ImageSubstractTrajectory->GetOutput(),
-             "test/ImageSubstractTrajectory.nii");
+    ImageMultiplyBy2->SetInputConnection(
+        0, ImageSubstractTrajectory->GetOutputPort());
+    ImageMultiplyBy2->SetConstantK(2);
+    ImageMultiplyBy2->SetOperationToMultiplyByK();
+    ImageMultiplyBy2->Update();
 
-  ImageMultiplyBy2->SetInputConnection(
-      0, ImageSubstractTrajectory->GetOutputPort());
-  ImageMultiplyBy2->SetConstantK(2);
-  ImageMultiplyBy2->SetOperationToMultiplyByK();
-  ImageMultiplyBy2->Update();
-  saveImage2(ImageMultiplyBy2->GetOutput(), "test/MultiplyBy2.nii");
+    Erode->SetInputConnection(ImageSubstractTrajectory->GetOutputPort());
+    Erode->SetKernelSize(Size, Size, Size);
+    Erode->SetErodeValue(1);
+    Erode->SetDilateValue(0);
+    Erode->Update();
 
-  Erode->SetInputConnection(ImageSubstractTrajectory->GetOutputPort());
-  Erode->SetKernelSize(Size, Size, Size);
-  Erode->SetErodeValue(1);
-  Erode->SetDilateValue(0);
-  Erode->Update();
-  saveImage2(Erode->GetOutput(), "test/erode.nii");
+    ImageAddTrajectory->SetInputConnection(0, Erode->GetOutputPort());
+    ImageAddTrajectory->SetInputConnection(1, ImageStencil2->GetOutputPort());
+    ImageAddTrajectory->SetOperationToAdd();
+    ImageAddTrajectory->Update();
 
-  ImageAddTrajectory->SetInputConnection(0, Erode->GetOutputPort());
-  ImageAddTrajectory->SetInputConnection(1, ImageStencil2->GetOutputPort());
-  ImageAddTrajectory->SetOperationToAdd();
-  ImageAddTrajectory->Update();
-  saveImage2(ImageAddTrajectory->GetOutput(), "test/ImageAddTrajectory.nii");
-
-  ImageAddErode->SetInputConnection(0, ImageAddTrajectory->GetOutputPort());
-  ImageAddErode->SetInputConnection(1, ImageMultiplyBy2->GetOutputPort());
-  ImageAddErode->SetOperationToAdd();
-  ImageAddErode->Update();
-  saveImage2(ImageAddErode->GetOutput(), "test/ImageAddErode.nii");
-
-  TransformPolyDataFilter1->SetInputData(input1);
+    ImageAddErode->SetInputConnection(0, ImageAddTrajectory->GetOutputPort());
+    ImageAddErode->SetInputConnection(1, ImageMultiplyBy2->GetOutputPort());
+    ImageAddErode->SetOperationToAdd();
+    ImageAddErode->Update();
+    IntermediateImage->ShallowCopy(ImageAddErode->GetOutput());
+    SetReset(false);
+  }
+  TransformPolyDataFilter1->SetInputData(reamer);
   TransformPolyDataFilter1->SetTransform(ImageTransform->GetInverse());
   TransformPolyDataFilter1->Update();
 
   PolyDataToImageStencil1->SetInputConnection(
       TransformPolyDataFilter1->GetOutputPort());
-  PolyDataToImageStencil1->SetOutputOrigin(input0->GetOrigin());
-  PolyDataToImageStencil1->SetOutputSpacing(input0->GetSpacing());
-  PolyDataToImageStencil1->SetOutputWholeExtent(input0->GetExtent());
+  PolyDataToImageStencil1->SetOutputOrigin(pelvis->GetOrigin());
+  PolyDataToImageStencil1->SetOutputSpacing(pelvis->GetSpacing());
+  PolyDataToImageStencil1->SetOutputWholeExtent(pelvis->GetExtent());
   PolyDataToImageStencil1->Update();
 
-  ImageStencil1->SetInputConnection(ImageAddErode->GetOutputPort());
+  // ImageStencil1->SetInputConnection(ImageAddErode->GetOutputPort());
+  ImageStencil1->SetInputData(IntermediateImage);
   ImageStencil1->SetStencilConnection(PolyDataToImageStencil1->GetOutputPort());
   ImageStencil1->SetBackgroundValue(0);
   ImageStencil1->SetReverseStencil(true);
   ImageStencil1->Update();
+  IntermediateImage->ShallowCopy(ImageStencil1->GetOutput());
 
   DiscreteFlyingEdges->SetInputConnection(ImageStencil1->GetOutputPort());
   DiscreteFlyingEdges->GenerateValues(3, 1, 3);
   DiscreteFlyingEdges->Update();
 
-  WindowedSincPolyDataFilter->SetInputConnection(
-      DiscreteFlyingEdges->GetOutputPort());
-  WindowedSincPolyDataFilter->SetNumberOfIterations(15);
-  WindowedSincPolyDataFilter->SetBoundarySmoothing(false);
-  WindowedSincPolyDataFilter->SetFeatureEdgeSmoothing(false);
-  WindowedSincPolyDataFilter->SetFeatureAngle(120);
-  WindowedSincPolyDataFilter->SetPassBand(0.001);
-  WindowedSincPolyDataFilter->SetNonManifoldSmoothing(true);
-  WindowedSincPolyDataFilter->SetNormalizeCoordinates(true);
-  WindowedSincPolyDataFilter->Update();
+  if (UseSmooth)
+  {
+    WindowedSincPolyDataFilter->SetInputConnection(
+        DiscreteFlyingEdges->GetOutputPort());
+    WindowedSincPolyDataFilter->SetNumberOfIterations(15);
+    WindowedSincPolyDataFilter->SetBoundarySmoothing(false);
+    WindowedSincPolyDataFilter->SetFeatureEdgeSmoothing(false);
+    WindowedSincPolyDataFilter->SetFeatureAngle(120);
+    WindowedSincPolyDataFilter->SetPassBand(0.001);
+    WindowedSincPolyDataFilter->SetNonManifoldSmoothing(true);
+    WindowedSincPolyDataFilter->SetNormalizeCoordinates(true);
+    WindowedSincPolyDataFilter->Update();
 
-  TransformPolyDataFilter3->SetInputConnection(
-      DiscreteFlyingEdges->GetOutputPort());
+    TransformPolyDataFilter3->SetInputConnection(
+        DiscreteFlyingEdges->GetOutputPort());
+  }
+  else
+  {
+    TransformPolyDataFilter3->SetInputConnection(
+        DiscreteFlyingEdges->GetOutputPort());
+  }
+
   TransformPolyDataFilter3->SetTransform(ImageTransform);
   TransformPolyDataFilter3->Update();
 

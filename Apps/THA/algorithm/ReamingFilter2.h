@@ -21,15 +21,38 @@ public:
   vtkTypeMacro(ReamingFilter2, vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent) override;
 
+  /** @{ */
+  /**
+   * @brief Input0
+   */
   void SetPelvis(vtkImageData* pelvis);
   vtkImageData* GetPelvis();
+  /** @} */
+  /** @{ */
+  /**
+   * @brief Input1
+   */
   void SetReamer(vtkPolyData* reamer);
   vtkPolyData* GetReamer();
+  /** @} */
+  /** @{ */
+  /**
+   * @brief Input2
+   */
   void SetReamerTrajectory(vtkPolyData* trajectory);
   vtkPolyData* GetReamerTrajectory();
+  /** @} */
 
   vtkSetMacro(Size, int);
   vtkGetMacro(Size, int);
+
+  vtkBooleanMacro(UseSmooth, bool);
+  vtkSetMacro(UseSmooth, bool);
+  vtkGetMacro(UseSmooth, bool);
+
+  vtkBooleanMacro(Reset, bool);
+  vtkSetMacro(Reset, bool);
+  vtkGetMacro(Reset, bool);
 
   virtual void SetImageTransform(vtkAbstractTransform* ImageTransform);
   vtkGetObjectMacro(ImageTransform, vtkAbstractTransform);
@@ -38,7 +61,10 @@ protected:
   template <typename T>
   using Ptr = vtkSmartPointer<T>;
   int Size = 2;
+  bool UseSmooth = false;
+  bool Reset = true;
   vtkAbstractTransform* ImageTransform = nullptr;
+  Ptr<vtkImageData> IntermediateImage;
 
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter1;
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter2;
