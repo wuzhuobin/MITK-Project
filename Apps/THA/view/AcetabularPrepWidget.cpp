@@ -15,6 +15,7 @@
 
 // vtk
 #include <vtkLookupTable.h>
+#include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 
 AcetabularPrepWidget::AcetabularPrepWidget(QWidget* parent) :
@@ -140,6 +141,21 @@ void AcetabularPrepWidget::setPelvisLandmarkIndex(int index)
       break;
   }
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+vtkSmartPointer<vtkPolyData> AcetabularPrepWidget::GetTransformedVtkPolyData(
+    mitk::Surface* surface)
+{
+  auto* vtkMatrix = surface->GetGeometry()->GetVtkMatrix();
+  auto spacing = surface->GetGeometry()->GetSpacing();
+  auto transform = vtkSmartPointer<vtkTransform>::New();
+  transform->SetMatrix(vtkMatrix);
+  transform->Scale(1 / spacing[0], 1 / spacing[1], 1 / spacing[2]);
+  auto transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+  transformFilter->SetInputData(surface->GetVtkPolyData());
+  transformFilter->SetTransform(transform);
+  transformFilter->Update();
+  return transformFilter->GetOutput();
 }
 
 void AcetabularPrepWidget::setPelvisRegistrationIndex(int index)
@@ -351,34 +367,44 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
   }
   else if (currentWidget() == mUi->CupReaming)
   {
+    auto* acetabularShell =
+        ds->GetNamedObject<mitk::Surface>("acetabular_shell");
+
     auto* reamerTrajectoryNode = ds->GetNamedNode("reamer_trajectory");
     // reamerTrajectoryNode->SetVisibility(true);
     // reamerTrajectoryNode->SetOpacity(0.2);
     // reamerTrajectoryNode->SetColor(0, 1, 0);
-
-    auto* reamerNode = ds->GetNamedNode("reamer");
-    reamerNode->SetVisibility(true);
-    reamerNode->SetColor(0, 0, 1);
-
-    auto acetabularShell =
-        ds->GetNamedObject<mitk::Surface>("acetabular_shell");
     auto* reamerTrajectory =
         static_cast<mitk::Surface*>(reamerTrajectoryNode->GetData());
     reamerTrajectory->GetGeometry()
         ->SetIndexToWorldTransformWithoutChangingSpacing(
             acetabularShell->GetGeometry()->GetIndexToWorldTransform());
+
+    auto* reamerNode = ds->GetNamedNode("reamer");
+    reamerNode->SetVisibility(true);
+    reamerNode->SetColor(0, 0, 1);
     auto* reamer = static_cast<mitk::Surface*>(reamerNode->GetData());
     reamer->GetGeometry()->SetIndexToWorldTransformWithoutChangingSpacing(
         acetabularShell->GetGeometry()->GetIndexToWorldTransform());
 
     auto* overlay = ds->GetNamedObject<mitk::Image>("overlay");
+    auto* overlayMatrix = overlay->GetGeometry()->GetVtkMatrix();
+    auto overlaySpacing = overlay->GetGeometry()->GetSpacing();
+    auto transform = vtkSmartPointer<vtkTransform>::New();
+    transform->SetMatrix(overlayMatrix);
+    transform->Scale(
+        1 / overlaySpacing[0], 1 / overlaySpacing[1], 1 / overlaySpacing[2]);
 
     mReamingFilter->SetPelvis(overlay->GetVtkImageData());
+    // Since it is transformed manually, no need to re-transformed
+    // mReamingFilter->SetReamerTrajectory(
+    //     GetTransformedVtkPolyData(reamerTrajectory));
+    // mReamingFilter->SetReamer(GetTransformedVtkPolyData(reamer));
     mReamingFilter->SetReamerTrajectory(reamerTrajectory->GetVtkPolyData());
     mReamingFilter->SetReamer(reamer->GetVtkPolyData());
     mReamingFilter->SetSize(3);
-    mReamingFilter->SetImageTransform(
-        overlay->GetGeometry()->GetVtkTransform());
+    mReamingFilter->SetImageTransform(transform);
+    mReamingFilter->SetExtent(100, 250, 200, 300, 1150, 1270);
     mReamingFilter->Update();
 
     mitk::DataNode::Pointer reamingPelvisNode =

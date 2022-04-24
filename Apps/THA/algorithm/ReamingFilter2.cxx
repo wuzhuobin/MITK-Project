@@ -3,6 +3,7 @@
 // vtk
 #include <vtkAbstractTransform.h>
 #include <vtkDiscreteFlyingEdges3D.h>
+#include <vtkExtractVOI.h>
 #include <vtkImageData.h>
 #include <vtkImageDilateErode3D.h>
 #include <vtkImageMathematics.h>
@@ -31,6 +32,7 @@ void ReamingFilter2::PrintSelf(ostream& os, vtkIndent indent)
 
 ReamingFilter2::ReamingFilter2() :
     IntermediateImage(Ptr<vtkImageData>::New()),
+    ExtractVOI(Ptr<vtkExtractVOI>::New()),
     TransformPolyDataFilter1(Ptr<vtkTransformPolyDataFilter>::New()),
     TransformPolyDataFilter2(Ptr<vtkTransformPolyDataFilter>::New()),
     PolyDataToImageStencil1(Ptr<vtkPolyDataToImageStencil>::New()),
@@ -91,26 +93,33 @@ int ReamingFilter2::RequestData(vtkInformation* info,
 
   if (GetReset())
   {
+    ExtractVOI->SetInputData(pelvis);
+    ExtractVOI->SetVOI(Extent);
+    ExtractVOI->Update();
+
     TransformPolyDataFilter2->SetInputData(trajectory);
     TransformPolyDataFilter2->SetTransform(ImageTransform->GetInverse());
     TransformPolyDataFilter2->Update();
 
     PolyDataToImageStencil2->SetInputConnection(
         TransformPolyDataFilter2->GetOutputPort());
-    PolyDataToImageStencil2->SetOutputOrigin(pelvis->GetOrigin());
-    PolyDataToImageStencil2->SetOutputSpacing(pelvis->GetSpacing());
-    PolyDataToImageStencil2->SetOutputWholeExtent(pelvis->GetExtent());
+    PolyDataToImageStencil2->SetOutputOrigin(
+        ExtractVOI->GetOutput()->GetOrigin());
+    PolyDataToImageStencil2->SetOutputSpacing(
+        ExtractVOI->GetOutput()->GetSpacing());
+    PolyDataToImageStencil2->SetOutputWholeExtent(
+        ExtractVOI->GetOutput()->GetExtent());
     PolyDataToImageStencil2->Update();
 
-    ImageStencil2->SetInputData(pelvis);
+    ImageStencil2->SetInputConnection(ExtractVOI->GetOutputPort());
     ImageStencil2->SetStencilConnection(
         PolyDataToImageStencil2->GetOutputPort());
     ImageStencil2->SetBackgroundValue(0);
     ImageStencil2->SetReverseStencil(false);
     ImageStencil2->Update();
 
-    // ImageSubstractTrajectory->SetInputConnection(0, ->GetOutputPort());
-    ImageSubstractTrajectory->SetInputData(0, pelvis);
+    ImageSubstractTrajectory->SetInputConnection(0,
+                                                 ExtractVOI->GetOutputPort());
     ImageSubstractTrajectory->SetInputConnection(
         1, ImageStencil2->GetOutputPort());
     ImageSubstractTrajectory->SetOperationToSubtract();
@@ -146,9 +155,12 @@ int ReamingFilter2::RequestData(vtkInformation* info,
 
   PolyDataToImageStencil1->SetInputConnection(
       TransformPolyDataFilter1->GetOutputPort());
-  PolyDataToImageStencil1->SetOutputOrigin(pelvis->GetOrigin());
-  PolyDataToImageStencil1->SetOutputSpacing(pelvis->GetSpacing());
-  PolyDataToImageStencil1->SetOutputWholeExtent(pelvis->GetExtent());
+  PolyDataToImageStencil1->SetOutputOrigin(
+      ExtractVOI->GetOutput()->GetOrigin());
+  PolyDataToImageStencil1->SetOutputSpacing(
+      ExtractVOI->GetOutput()->GetSpacing());
+  PolyDataToImageStencil1->SetOutputWholeExtent(
+      ExtractVOI->GetOutput()->GetExtent());
   PolyDataToImageStencil1->Update();
 
   // ImageStencil1->SetInputConnection(ImageAddErode->GetOutputPort());
@@ -177,7 +189,7 @@ int ReamingFilter2::RequestData(vtkInformation* info,
     WindowedSincPolyDataFilter->Update();
 
     TransformPolyDataFilter3->SetInputConnection(
-        DiscreteFlyingEdges->GetOutputPort());
+        WindowedSincPolyDataFilter->GetOutputPort());
   }
   else
   {

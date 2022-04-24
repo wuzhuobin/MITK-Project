@@ -6,6 +6,7 @@
 #include <vtkSmartPointer.h>
 
 class vtkImageData;
+class vtkExtractVOI;
 class vtkImageDilateErode3D;
 class vtkImageMathematics;
 class vtkPolyDataToImageStencil;
@@ -46,6 +47,9 @@ public:
   vtkSetMacro(Size, int);
   vtkGetMacro(Size, int);
 
+  vtkSetVector6Macro(Extent, int);
+  vtkGetVector6Macro(Extent, int);
+
   vtkBooleanMacro(UseSmooth, bool);
   vtkSetMacro(UseSmooth, bool);
   vtkGetMacro(UseSmooth, bool);
@@ -61,11 +65,13 @@ protected:
   template <typename T>
   using Ptr = vtkSmartPointer<T>;
   int Size = 2;
+  int Extent[6] = {0, -1, 0, -1, 0, -1};
   bool UseSmooth = false;
   bool Reset = true;
   vtkAbstractTransform* ImageTransform = nullptr;
   Ptr<vtkImageData> IntermediateImage;
 
+  Ptr<vtkExtractVOI> ExtractVOI;
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter1;
   Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter2;
   Ptr<vtkPolyDataToImageStencil> PolyDataToImageStencil1;

@@ -39,6 +39,8 @@ private:
   vtkSmartPointer<ReamingFilter2> mReamingFilter;
 
   Q_DISABLE_COPY(AcetabularPrepWidget);
+  static vtkSmartPointer<vtkPolyData> GetTransformedVtkPolyData(
+      mitk::Surface* surface);
   void setPelvisLandmarkIndex(int index);
   void setPelvisRegistrationIndex(int index);
 
