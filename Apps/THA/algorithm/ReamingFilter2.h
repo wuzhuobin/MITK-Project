@@ -1,5 +1,5 @@
-#ifndef REAMING_FILTER_1_H
-#define REAMING_FILTER_1_H
+#ifndef REAMING_FILTER_2_H
+#define REAMING_FILTER_2_H
 
 // vtk
 #include <vtkPolyDataAlgorithm.h>
@@ -94,4 +94,4 @@ protected:
   int FillInputPortInformation(int port, vtkInformation* info) override;
 };
 
-#endif  // !REAMING_FILTER_1_H
+#endif  // !REAMING_FILTER_2_H
