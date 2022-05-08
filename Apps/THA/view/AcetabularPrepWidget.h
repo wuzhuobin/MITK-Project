@@ -21,7 +21,7 @@ class AcetabularPrepWidget : public QStackedWidget
 
 public:
   explicit AcetabularPrepWidget(QWidget* parent = nullptr);
-  virtual ~AcetabularPrepWidget() override;
+  ~AcetabularPrepWidget() override;
 
 public Q_SLOTS:
   void action_Pelvis_Checkpoint_triggered(bool checked = false);

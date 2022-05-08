@@ -5,16 +5,9 @@
 #include <vtkPolyDataAlgorithm.h>
 #include <vtkSmartPointer.h>
 
-class vtkImageData;
-class vtkExtractVOI;
-class vtkImageDilateErode3D;
-class vtkImageMathematics;
-class vtkPolyDataToImageStencil;
-class vtkImageStencil;
-class vtkAbstractTransform;
-class vtkTransformPolyDataFilter;
-class vtkDiscreteFlyingEdges3D;
-class vtkWindowedSincPolyDataFilter;
+class vtkBooleanOperationPolyDataFilter;
+class vtkTriangleFilter;
+class vtkCleanPolyData;
 class ReamingFilter3 : public vtkPolyDataAlgorithm
 {
 public:
@@ -22,13 +15,6 @@ public:
   vtkTypeMacro(ReamingFilter3, vtkPolyDataAlgorithm);
   void PrintSelf(ostream& os, vtkIndent indent) override;
 
-  /** @{ */
-  /**
-   * @brief Input0
-   */
-  void SetPelvis(vtkImageData* pelvis);
-  vtkImageData* GetPelvis();
-  /** @} */
   /** @{ */
   /**
    * @brief Input1
@@ -47,9 +33,6 @@ public:
   vtkSetMacro(Size, int);
   vtkGetMacro(Size, int);
 
-  vtkSetVector6Macro(Extent, int);
-  vtkGetVector6Macro(Extent, int);
-
   vtkBooleanMacro(UseSmooth, bool);
   vtkSetMacro(UseSmooth, bool);
   vtkGetMacro(UseSmooth, bool);
@@ -58,34 +41,28 @@ public:
   vtkSetMacro(Reset, bool);
   vtkGetMacro(Reset, bool);
 
-  virtual void SetImageTransform(vtkAbstractTransform* ImageTransform);
-  vtkGetObjectMacro(ImageTransform, vtkAbstractTransform);
+  vtkBooleanMacro(UseTriangleInput, bool);
+  vtkSetMacro(UseTriangleInput, bool);
+  vtkGetMacro(UseTriangleInput, bool);
+
+  vtkBooleanMacro(UseTriangleReamer, bool);
+  vtkSetMacro(UseTriangleReamer, bool);
+  vtkGetMacro(UseTriangleReamer, bool);
 
 protected:
   template <typename T>
   using Ptr = vtkSmartPointer<T>;
   int Size = 2;
-  int Extent[6] = {0, -1, 0, -1, 0, -1};
   bool UseSmooth = false;
   bool Reset = true;
-  vtkAbstractTransform* ImageTransform = nullptr;
-  Ptr<vtkImageData> IntermediateImage;
+  bool UseTriangleInput = false;
+  bool UseTriangleReamer = true;
 
-  Ptr<vtkExtractVOI> ExtractVOI;
-  Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter1;
-  Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter2;
-  Ptr<vtkPolyDataToImageStencil> PolyDataToImageStencil1;
-  Ptr<vtkPolyDataToImageStencil> PolyDataToImageStencil2;
-  Ptr<vtkImageStencil> ImageStencil1;
-  Ptr<vtkImageStencil> ImageStencil2;
-  Ptr<vtkImageDilateErode3D> Erode;
-  Ptr<vtkImageMathematics> ImageSubstractTrajectory;
-  Ptr<vtkImageMathematics> ImageMultiplyBy2;
-  Ptr<vtkImageMathematics> ImageAddTrajectory;
-  Ptr<vtkImageMathematics> ImageAddErode;
-  Ptr<vtkDiscreteFlyingEdges3D> DiscreteFlyingEdges;
-  Ptr<vtkTransformPolyDataFilter> TransformPolyDataFilter3;
-  Ptr<vtkWindowedSincPolyDataFilter> WindowedSincPolyDataFilter;
+  Ptr<vtkBooleanOperationPolyDataFilter> BooleanOperationPolyDataFilter;
+  Ptr<vtkTriangleFilter> TriangleFilter1;
+  Ptr<vtkCleanPolyData> CleanPolyData1;
+  Ptr<vtkTriangleFilter> TriangleFilter2;
+  Ptr<vtkCleanPolyData> CleanPolyData2;
 
   ReamingFilter3();
   int RequestData(vtkInformation* info,
