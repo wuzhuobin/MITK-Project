@@ -14,6 +14,8 @@
 #include <mitkVtkRepresentationProperty.h>
 
 // vtk
+#include <vtkBox.h>
+#include <vtkClipPolyData.h>
 #include <vtkCubeSource.h>
 #include <vtkNew.h>
 #include <vtkTransform.h>
@@ -27,11 +29,23 @@ int main(int argc, char* argv[])
   auto dataStorage = mitk::StandaloneDataStorage::New();
   std::string fileName = "../../../Data/left (smoothed).vtp";
   auto left = mitk::IOUtil::Load<mitk::Surface>(fileName);
+
+  auto box = vtkNew<vtkBox>();
+  box->SetBounds(70, 70 + 100, -20, -20 + 100, 1137, 1137 + 116);
+
+  auto clip = vtkNew<vtkClipPolyData>();
+  clip->SetInputData(left->GetVtkPolyData());
+  clip->SetClipFunction(box);
+  clip->InsideOutOn();
+  clip->Update();
+  left->SetVtkPolyData(clip->GetOutput());
+
   auto leftNode = mitk::DataNode::New();
   leftNode->SetData(left);
   leftNode->SetName("left");
   leftNode->SetColor(0, 1, 0);
   leftNode->SetOpacity(0.5);
+  leftNode->SetVisibility(false);
   dataStorage->Add(leftNode);
 
   auto cubeSource = vtkNew<vtkCubeSource>();
@@ -61,17 +75,16 @@ int main(int argc, char* argv[])
   // reamingFilter3->SetReamer(cube->GetVtkPolyData());
   reamingFilter3->SetInputConnection(1,
                                      transformPolyDataFilter->GetOutputPort());
-  reamingFilter3->SetUseTriangleInput(false);
   reamingFilter3->Update();
 
   auto reaming = mitk::Surface::New();
-  reaming->SetVtkPolyData(transformPolyDataFilter->GetOutput());
+  reaming->SetVtkPolyData(reamingFilter3->GetOutput());
 
   auto reamingNode = mitk::DataNode::New();
   reamingNode->SetName("reaming");
   reamingNode->SetData(reaming);
   reamingNode->SetColor(1, 0, 0);
-  reamingNode->SetOpacity(0.5);
+  // reamingNode->SetOpacity(0.5);
   dataStorage->Add(reamingNode);
 
   QmitkRenderWindow renderWindow;
@@ -80,13 +93,14 @@ int main(int argc, char* argv[])
   renderWindow.show();
   renderWindow.resize(800, 600);
 
-  MITK_INFO << *transform << '\n';
   QTransformWidget transformWidget(transform, [&]() {
-    MITK_INFO << *transform << '\n';
     transformPolyDataFilter->Update();
     reamingFilter3->Update();
     cube->SetVtkPolyData(transformPolyDataFilter->GetOutput());
     reaming->SetVtkPolyData(reamingFilter3->GetOutput());
+    MITK_INFO << *transform << '\n';
+    MITK_INFO << *reamingFilter3->GetInput() << '\n';
+    MITK_INFO << *reamingFilter3->GetOutput() << '\n';
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   });
   transformWidget.show();
