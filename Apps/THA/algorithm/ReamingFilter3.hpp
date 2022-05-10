@@ -8,6 +8,7 @@
 class vtkBooleanOperationPolyDataFilter;
 class vtkTriangleFilter;
 class vtkCleanPolyData;
+class vtkDecimatePro;
 class ReamingFilter3 : public vtkPolyDataAlgorithm
 {
 public:
@@ -41,26 +42,33 @@ public:
   vtkSetMacro(Reset, bool);
   vtkGetMacro(Reset, bool);
 
-  vtkBooleanMacro(UseTriangleInput, bool);
-  vtkSetMacro(UseTriangleInput, bool);
-  vtkGetMacro(UseTriangleInput, bool);
+  vtkBooleanMacro(Decimate, bool);
+  vtkSetMacro(Decimate, bool);
+  vtkGetMacro(Decimate, bool);
 
-  vtkBooleanMacro(UseTriangleReamer, bool);
-  vtkSetMacro(UseTriangleReamer, bool);
-  vtkGetMacro(UseTriangleReamer, bool);
+  // vtkBooleanMacro(UseTriangleInput, bool);
+  // vtkSetMacro(UseTriangleInput, bool);
+  // vtkGetMacro(UseTriangleInput, bool);
+
+  // vtkBooleanMacro(UseTriangleReamer, bool);
+  // vtkSetMacro(UseTriangleReamer, bool);
+  // vtkGetMacro(UseTriangleReamer, bool);
 
 protected:
   template <typename T>
   using Ptr = vtkSmartPointer<T>;
   int Size = 2;
   bool UseSmooth = false;
+  bool Decimate = true;
   bool Reset = true;
-  bool UseTriangleInput = false;
+  bool UseTriangleInput = true;
   bool UseTriangleReamer = true;
 
+  Ptr<vtkPolyData> IntermediatePolyData;
   Ptr<vtkBooleanOperationPolyDataFilter> BooleanOperationPolyDataFilter;
   Ptr<vtkTriangleFilter> TriangleFilter1;
   Ptr<vtkCleanPolyData> CleanPolyData1;
+  Ptr<vtkDecimatePro> DecimatePro;
   Ptr<vtkTriangleFilter> TriangleFilter2;
   Ptr<vtkCleanPolyData> CleanPolyData2;
 

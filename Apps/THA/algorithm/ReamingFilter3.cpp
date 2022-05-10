@@ -3,12 +3,14 @@
 // vtk
 #include <vtkBooleanOperationPolyDataFilter.h>
 #include <vtkCleanPolyData.h>
+#include <vtkDecimatePro.h>
 #include <vtkInformation.h>
 #include <vtkInformationVector.h>
 #include <vtkObjectFactory.h>
 #include <vtkPolyData.h>
 #include <vtkSmartPointer.h>
 #include <vtkTriangleFilter.h>
+#include <vtkWindowedSincPolyDataFilter.h>
 
 vtkStandardNewMacro(ReamingFilter3);
 
@@ -21,10 +23,12 @@ void ReamingFilter3::PrintSelf(ostream& os, vtkIndent indent)
 }
 
 ReamingFilter3::ReamingFilter3() :
+    IntermediatePolyData(Ptr<vtkPolyData>::New()),
     BooleanOperationPolyDataFilter(
         Ptr<vtkBooleanOperationPolyDataFilter>::New()),
     TriangleFilter1(Ptr<vtkTriangleFilter>::New()),
     CleanPolyData1(Ptr<vtkCleanPolyData>::New()),
+    DecimatePro(Ptr<vtkDecimatePro>::New()),
     TriangleFilter2(Ptr<vtkTriangleFilter>::New()),
     CleanPolyData2(Ptr<vtkCleanPolyData>::New())
 
@@ -63,42 +67,46 @@ int ReamingFilter3::RequestData(vtkInformation* info,
   // auto* trajectory = vtkPolyData::GetData(input[2]);
   auto* output0 = vtkPolyData::GetData(output);
 
-  if (UseTriangleInput)
+  if (GetReset())
   {
     TriangleFilter1->SetInputData(input0);
     TriangleFilter1->Update();
 
-    CleanPolyData1->SetInputConnection(TriangleFilter1->GetOutputPort());
+    if (GetDecimate())
+    {
+      DecimatePro->SetInputConnection(TriangleFilter1->GetOutputPort());
+      DecimatePro->SetTargetReduction(0.9);
+      DecimatePro->Update();
+      CleanPolyData1->SetInputConnection(DecimatePro->GetOutputPort());
+    }
+    else
+    {
+      CleanPolyData1->SetInputConnection(TriangleFilter1->GetOutputPort());
+    }
     CleanPolyData1->Update();
-
     BooleanOperationPolyDataFilter->SetInputConnection(
         0, CleanPolyData1->GetOutputPort());
+
+    SetReset(false);
   }
   else
   {
-    BooleanOperationPolyDataFilter->SetInputData(0, input0);
+    BooleanOperationPolyDataFilter->SetInputData(0, IntermediatePolyData);
   }
+  TriangleFilter2->SetInputData(reamer);
+  TriangleFilter2->Update();
 
-  if (UseTriangleReamer)
-  {
-    TriangleFilter2->SetInputData(reamer);
-    TriangleFilter2->Update();
-
-    CleanPolyData2->SetInputConnection(TriangleFilter2->GetOutputPort());
-    CleanPolyData2->Update();
-    BooleanOperationPolyDataFilter->SetInputConnection(
-        1, CleanPolyData2->GetOutputPort());
-  }
-  else
-  {
-    BooleanOperationPolyDataFilter->SetInputData(1, reamer);
-  }
+  CleanPolyData2->SetInputConnection(TriangleFilter2->GetOutputPort());
+  CleanPolyData2->Update();
+  BooleanOperationPolyDataFilter->SetInputConnection(
+      1, CleanPolyData2->GetOutputPort());
 
   BooleanOperationPolyDataFilter->SetOperation(
       vtkBooleanOperationPolyDataFilter::VTK_DIFFERENCE);
   BooleanOperationPolyDataFilter->Update();
 
   output0->ShallowCopy(BooleanOperationPolyDataFilter->GetOutput());
+  IntermediatePolyData->DeepCopy(output0);
 
   return 1;
 }

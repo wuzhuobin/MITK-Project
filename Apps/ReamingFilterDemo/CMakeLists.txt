@@ -1,4 +1,4 @@
-project(ReamingFilter3)
+project(ReamingFilterDemo)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)

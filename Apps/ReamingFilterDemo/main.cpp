@@ -18,6 +18,7 @@
 #include <vtkClipPolyData.h>
 #include <vtkCubeSource.h>
 #include <vtkNew.h>
+#include <vtkSphereSource.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 
@@ -55,26 +56,33 @@ int main(int argc, char* argv[])
   cubeSource->SetZLength(30);
   cubeSource->Update();
 
+  auto sphereSource = vtkNew<vtkSphereSource>();
+  sphereSource->SetCenter(134, 17, 1154);
+  sphereSource->SetRadius(30);
+  sphereSource->SetThetaResolution(100);
+  sphereSource->SetPhiResolution(100);
+  sphereSource->Update();
+
   auto transform = vtkNew<vtkTransform>();
   auto transformPolyDataFilter = vtkNew<vtkTransformPolyDataFilter>();
   transformPolyDataFilter->SetInputData(cubeSource->GetOutput());
   transformPolyDataFilter->SetTransform(transform);
   transformPolyDataFilter->Update();
 
-  auto cube = mitk::Surface::New();
-  cube->SetVtkPolyData(transformPolyDataFilter->GetOutput());
-  auto cubeNode = mitk::DataNode::New();
-  cubeNode->SetName("cube");
-  cubeNode->SetData(cube);
-  cubeNode->SetProperty("material.representation",
-                        mitk::VtkRepresentationProperty::New("Wireframe"));
-  dataStorage->Add(cubeNode);
+  auto reamer = mitk::Surface::New();
+  reamer->SetVtkPolyData(transformPolyDataFilter->GetOutput());
+  auto reamerNode = mitk::DataNode::New();
+  reamerNode->SetName("reamer");
+  reamerNode->SetData(reamer);
+  reamerNode->SetProperty("material.representation",
+                          mitk::VtkRepresentationProperty::New("Wireframe"));
+  dataStorage->Add(reamerNode);
 
   auto reamingFilter3 = vtkNew<ReamingFilter3>();
   reamingFilter3->SetInputData(left->GetVtkPolyData());
-  // reamingFilter3->SetReamer(cube->GetVtkPolyData());
   reamingFilter3->SetInputConnection(1,
                                      transformPolyDataFilter->GetOutputPort());
+  reamingFilter3->SetDecimate(false);
   reamingFilter3->Update();
 
   auto reaming = mitk::Surface::New();
@@ -95,20 +103,16 @@ int main(int argc, char* argv[])
 
   QTransformWidget transformWidget(transform, [&]() {
     transformPolyDataFilter->Update();
+    reamingFilter3->SetReset(true);
     reamingFilter3->Update();
-    cube->SetVtkPolyData(transformPolyDataFilter->GetOutput());
+    reamer->SetVtkPolyData(transformPolyDataFilter->GetOutput());
     reaming->SetVtkPolyData(reamingFilter3->GetOutput());
-    MITK_INFO << *transform << '\n';
-    MITK_INFO << *reamingFilter3->GetInput() << '\n';
-    MITK_INFO << *reamingFilter3->GetOutput() << '\n';
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   });
   transformWidget.show();
 
-  // mitk::RenderingManager::GetInstance()->InitializeViews();
   mitk::RenderingManager::GetInstance()->InitializeViews(
       dataStorage->ComputeBoundingGeometry3D());
-  // mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 
   return app.exec();
 }
