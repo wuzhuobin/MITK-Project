@@ -165,7 +165,7 @@ void MainWindow::test()
   IOController::getInstance()->loadScene(qApp->applicationDirPath() +
                                          "/cases/first_case.0");
   setCurrentActionIndex(
-      mActionGroup->actions().indexOf(mUi->action_Cup_Reaming));
+      mActionGroup->actions().indexOf(mUi->action_Cup_Impaction));
   // mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageCaseManagement);
 }
 
