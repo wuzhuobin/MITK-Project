@@ -93,85 +93,100 @@ int ReamingFilter2::RequestData(vtkInformation* info,
 
   if (GetReset())
   {
-    ExtractVOI->SetInputData(image);
-    ExtractVOI->SetVOI(Extent);
-    ExtractVOI->Update();
-
-    TransformPolyDataFilter2->SetInputData(trajectory);
-    TransformPolyDataFilter2->SetTransform(ImageTransform->GetInverse());
-    TransformPolyDataFilter2->Update();
-
-    PolyDataToImageStencil2->SetInputConnection(
-        TransformPolyDataFilter2->GetOutputPort());
-    PolyDataToImageStencil2->SetOutputOrigin(
-        ExtractVOI->GetOutput()->GetOrigin());
-    PolyDataToImageStencil2->SetOutputSpacing(
-        ExtractVOI->GetOutput()->GetSpacing());
-    PolyDataToImageStencil2->SetOutputWholeExtent(
-        ExtractVOI->GetOutput()->GetExtent());
-    PolyDataToImageStencil2->Update();
-
-    ImageStencil2->SetInputConnection(ExtractVOI->GetOutputPort());
-    ImageStencil2->SetStencilConnection(
-        PolyDataToImageStencil2->GetOutputPort());
-    ImageStencil2->SetBackgroundValue(0);
-    ImageStencil2->SetReverseStencil(false);
-    ImageStencil2->Update();
-
-    ImageSubstractTrajectory->SetInputConnection(0,
-                                                 ExtractVOI->GetOutputPort());
-    ImageSubstractTrajectory->SetInputConnection(
-        1, ImageStencil2->GetOutputPort());
-    ImageSubstractTrajectory->SetOperationToSubtract();
-    ImageSubstractTrajectory->Update();
-
-    ImageMultiplyBy2->SetInputConnection(
-        0, ImageSubstractTrajectory->GetOutputPort());
-    ImageMultiplyBy2->SetConstantK(2);
-    ImageMultiplyBy2->SetOperationToMultiplyByK();
-    ImageMultiplyBy2->Update();
-
-    Erode->SetInputConnection(ImageSubstractTrajectory->GetOutputPort());
-    Erode->SetKernelSize(Size, Size, Size);
-    Erode->SetErodeValue(1);
-    Erode->SetDilateValue(0);
-    Erode->Update();
-
-    ImageAddTrajectory->SetInputConnection(0, Erode->GetOutputPort());
-    ImageAddTrajectory->SetInputConnection(1, ImageStencil2->GetOutputPort());
-    ImageAddTrajectory->SetOperationToAdd();
-    ImageAddTrajectory->Update();
-
-    ImageAddErode->SetInputConnection(0, ImageAddTrajectory->GetOutputPort());
-    ImageAddErode->SetInputConnection(1, ImageMultiplyBy2->GetOutputPort());
-    ImageAddErode->SetOperationToAdd();
-    ImageAddErode->Update();
-    IntermediateImage->ShallowCopy(ImageAddErode->GetOutput());
     SetReset(false);
+    if (trajectory)
+    {
+      ExtractVOI->SetInputData(image);
+      ExtractVOI->SetVOI(Extent);
+      ExtractVOI->Update();
+
+      TransformPolyDataFilter2->SetInputData(trajectory);
+      TransformPolyDataFilter2->SetTransform(ImageTransform->GetInverse());
+      TransformPolyDataFilter2->Update();
+
+      PolyDataToImageStencil2->SetInputConnection(
+          TransformPolyDataFilter2->GetOutputPort());
+      PolyDataToImageStencil2->SetOutputOrigin(
+          ExtractVOI->GetOutput()->GetOrigin());
+      PolyDataToImageStencil2->SetOutputSpacing(
+          ExtractVOI->GetOutput()->GetSpacing());
+      PolyDataToImageStencil2->SetOutputWholeExtent(
+          ExtractVOI->GetOutput()->GetExtent());
+      PolyDataToImageStencil2->Update();
+
+      ImageStencil2->SetInputConnection(ExtractVOI->GetOutputPort());
+      ImageStencil2->SetStencilConnection(
+          PolyDataToImageStencil2->GetOutputPort());
+      ImageStencil2->SetBackgroundValue(0);
+      ImageStencil2->SetReverseStencil(false);
+      ImageStencil2->Update();
+
+      ImageSubstractTrajectory->SetInputConnection(0,
+                                                   ExtractVOI->GetOutputPort());
+      ImageSubstractTrajectory->SetInputConnection(
+          1, ImageStencil2->GetOutputPort());
+      ImageSubstractTrajectory->SetOperationToSubtract();
+      ImageSubstractTrajectory->Update();
+
+      ImageMultiplyBy2->SetInputConnection(
+          0, ImageSubstractTrajectory->GetOutputPort());
+      ImageMultiplyBy2->SetConstantK(2);
+      ImageMultiplyBy2->SetOperationToMultiplyByK();
+      ImageMultiplyBy2->Update();
+
+      Erode->SetInputConnection(ImageSubstractTrajectory->GetOutputPort());
+      Erode->SetKernelSize(Size, Size, Size);
+      Erode->SetErodeValue(1);
+      Erode->SetDilateValue(0);
+      Erode->Update();
+
+      ImageAddTrajectory->SetInputConnection(0, Erode->GetOutputPort());
+      ImageAddTrajectory->SetInputConnection(1, ImageStencil2->GetOutputPort());
+      ImageAddTrajectory->SetOperationToAdd();
+      ImageAddTrajectory->Update();
+
+      ImageAddErode->SetInputConnection(0, ImageAddTrajectory->GetOutputPort());
+      ImageAddErode->SetInputConnection(1, ImageMultiplyBy2->GetOutputPort());
+      ImageAddErode->SetOperationToAdd();
+      ImageAddErode->Update();
+      IntermediateImage->ShallowCopy(ImageAddErode->GetOutput());
+    }
+    else
+    {
+      IntermediateImage->ShallowCopy(image);
+    }
   }
-  TransformPolyDataFilter1->SetInputData(reamer);
-  TransformPolyDataFilter1->SetTransform(ImageTransform->GetInverse());
-  TransformPolyDataFilter1->Update();
+  if (reamer)
+  {
+    TransformPolyDataFilter1->SetInputData(reamer);
+    TransformPolyDataFilter1->SetTransform(ImageTransform->GetInverse());
+    TransformPolyDataFilter1->Update();
 
-  PolyDataToImageStencil1->SetInputConnection(
-      TransformPolyDataFilter1->GetOutputPort());
-  PolyDataToImageStencil1->SetOutputOrigin(
-      ExtractVOI->GetOutput()->GetOrigin());
-  PolyDataToImageStencil1->SetOutputSpacing(
-      ExtractVOI->GetOutput()->GetSpacing());
-  PolyDataToImageStencil1->SetOutputWholeExtent(
-      ExtractVOI->GetOutput()->GetExtent());
-  PolyDataToImageStencil1->Update();
+    PolyDataToImageStencil1->SetInputConnection(
+        TransformPolyDataFilter1->GetOutputPort());
+    PolyDataToImageStencil1->SetOutputOrigin(
+        ExtractVOI->GetOutput()->GetOrigin());
+    PolyDataToImageStencil1->SetOutputSpacing(
+        ExtractVOI->GetOutput()->GetSpacing());
+    PolyDataToImageStencil1->SetOutputWholeExtent(
+        ExtractVOI->GetOutput()->GetExtent());
+    PolyDataToImageStencil1->Update();
 
-  // ImageStencil1->SetInputConnection(ImageAddErode->GetOutputPort());
-  ImageStencil1->SetInputData(IntermediateImage);
-  ImageStencil1->SetStencilConnection(PolyDataToImageStencil1->GetOutputPort());
-  ImageStencil1->SetBackgroundValue(0);
-  ImageStencil1->SetReverseStencil(true);
-  ImageStencil1->Update();
-  IntermediateImage->ShallowCopy(ImageStencil1->GetOutput());
+    // ImageStencil1->SetInputConnection(ImageAddErode->GetOutputPort());
+    ImageStencil1->SetInputData(IntermediateImage);
+    ImageStencil1->SetStencilConnection(
+        PolyDataToImageStencil1->GetOutputPort());
+    ImageStencil1->SetBackgroundValue(0);
+    ImageStencil1->SetReverseStencil(true);
+    ImageStencil1->Update();
+    IntermediateImage->ShallowCopy(ImageStencil1->GetOutput());
 
-  DiscreteFlyingEdges->SetInputConnection(ImageStencil1->GetOutputPort());
+    DiscreteFlyingEdges->SetInputConnection(ImageStencil1->GetOutputPort());
+  }
+  else
+  {
+    DiscreteFlyingEdges->SetInputData(IntermediateImage);
+  }
   DiscreteFlyingEdges->GenerateValues(3, 1, 3);
   DiscreteFlyingEdges->Update();
 
