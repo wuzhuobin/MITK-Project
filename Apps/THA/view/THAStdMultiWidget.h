@@ -7,6 +7,7 @@ class GroupBoxGadget;
 class StemParameterGadget;
 class ImplantAssessmentGadget;
 class CupParameterGadget;
+class CupImpactionParameterGadget;
 
 class THAStdMultiWidget : public QmitkStdMultiWidget
 {
@@ -37,6 +38,7 @@ public:
     Default,
     Other,
     MaskCut,
+    CupImpaction
   };
 
 public:
@@ -60,6 +62,7 @@ private:
   StemParameterGadget* mStemParameterGadget[4];
   ImplantAssessmentGadget* mImplantAssessmentGadget[4];
   CupParameterGadget* mCupParameterGadget[4];
+  CupImpactionParameterGadget* mCupImpactionParameterGadget[4];
   void UpdateViewMode();
 };
 #endif  //! THA_STD_MULTI_WIDGET

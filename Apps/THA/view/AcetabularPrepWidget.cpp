@@ -6,15 +6,11 @@
 // mitk
 #include <mitkDataStorage.h>
 #include <mitkLogMacros.h>
-#include <mitkLookupTable.h>
-#include <mitkLookupTableProperty.h>
 #include <mitkPointSet.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
-#include <mitkVtkScalarModeProperty.h>
 
 // vtk
-#include <vtkLookupTable.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 
@@ -408,52 +404,14 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
     mReamingFilter->SetExtent(100, 250, 200, 300, 1150, 1270);
     mReamingFilter->Update();
 
-    mitk::DataNode::Pointer reamingPelvisNode =
-        ds->GetNamedNode("reaming_pelvis");
-    if (!reamingPelvisNode)
-    {
-      auto vtkLut = vtkSmartPointer<vtkLookupTable>::New();
-      vtkLut->SetTableRange(0, 3);
-      vtkLut->SetNumberOfTableValues(4);
-      vtkLut->SetTableValue(0, 0, 0, 0, 0);
-      vtkLut->SetTableValue(1, 0, 1, 0, 1);
-      vtkLut->SetTableValue(2, 1, 1, 1, 1);
-      vtkLut->SetTableValue(3, 1, 0, 0, 1);
-      vtkLut->Build();
-
-      auto lut = mitk::LookupTable::New();
-      lut->SetVtkLookupTable(vtkLut);
-
-      auto lutProperty = mitk::LookupTableProperty::New(lut);
-
-      reamingPelvisNode = mitk::DataNode::New();
-      reamingPelvisNode->SetName("reaming_pelvis");
-      reamingPelvisNode->SetData(mitk::Surface::New());
-      reamingPelvisNode->SetProperty("LookupTable", lutProperty);
-      reamingPelvisNode->SetProperty(
-          "scalar mode", mitk::VtkScalarModeProperty::New("Default"));
-      reamingPelvisNode->SetBoolProperty("color mode", true);
-      reamingPelvisNode->SetBoolProperty("scalar visibility", true);
-      reamingPelvisNode->SetFloatProperty("ScalarsRangeMinimum",
-                                          vtkLut->GetTableRange()[0]);
-      reamingPelvisNode->SetFloatProperty("ScalarsRangeMaximum",
-                                          vtkLut->GetTableRange()[1]);
-
-      ds->Add(reamingPelvisNode);
-    }
+    auto* reamingPelvisNode = ds->GetNamedNode("reaming_pelvis");
+    reamingPelvisNode->SetVisibility(true);
     auto* reamingPelvis =
         static_cast<mitk::Surface*>(reamingPelvisNode->GetData());
     reamingPelvis->SetVtkPolyData(mReamingFilter->GetOutput());
-    reamingPelvisNode->SetVisibility(true);
   }
   else if (currentWidget() == mUi->CupImpaction)
   {
-    auto* reamingPelvisNode = ds->GetNamedNode("reaming_pelvis");
-    if (!reamingPelvisNode)
-    {
-      return;
-    }
-    reamingPelvisNode->SetVisibility(true);
     auto acetabularShell =
         ds->GetNamedObject<mitk::Surface>("acetabular_shell");
     auto acetabularShellImpacting = acetabularShell->Clone();
@@ -463,7 +421,7 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
     acetabularShellImpactingNode->SetName("acetabular_shell_impacting");
     acetabularShellImpactingNode->SetVisibility(true);
     acetabularShellImpactingNode->SetColor(0, 0, 1);
-    acetabularShellImpactingNode->SetOpacity(0.5);
+    // acetabularShellImpactingNode->SetOpacity(0.5);
 
     ds->Add(acetabularShellImpactingNode);
   }
