@@ -52,12 +52,12 @@ ReamingFilter2::ReamingFilter2() :
   SetNumberOfOutputPorts(1);
 }
 
-void ReamingFilter2::SetPelvis(vtkImageData* pelvis)
+void ReamingFilter2::SetImage(vtkImageData* image)
 {
-  SetInputData(0, pelvis);
+  SetInputData(0, image);
 }
 
-vtkImageData* ReamingFilter2::GetPelvis()
+vtkImageData* ReamingFilter2::GetImage()
 {
   return vtkImageData::SafeDownCast(GetInput(0));
 }
@@ -86,14 +86,14 @@ int ReamingFilter2::RequestData(vtkInformation* info,
                                 vtkInformationVector** input,
                                 vtkInformationVector* output)
 {
-  auto* pelvis = vtkImageData::GetData(input[0]);
+  auto* image = vtkImageData::GetData(input[0]);
   auto* reamer = vtkPolyData::GetData(input[1]);
   auto* trajectory = vtkPolyData::GetData(input[2]);
   auto* output0 = vtkPolyData::GetData(output);
 
   if (GetReset())
   {
-    ExtractVOI->SetInputData(pelvis);
+    ExtractVOI->SetInputData(image);
     ExtractVOI->SetVOI(Extent);
     ExtractVOI->Update();
 
@@ -210,17 +210,21 @@ int ReamingFilter2::FillInputPortInformation(int port, vtkInformation* info)
   if (port == 0)
   {
     info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkImageData");
+    info->Set(vtkAlgorithm::INPUT_IS_OPTIONAL(), 0);
     return 1;
   }
   else if (port == 1)
   {
-    info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkPolyData");
-    return 1;
+    info->Set(vtkAlgorithm::INPUT_IS_OPTIONAL(), 1);
+    return Superclass::FillInputPortInformation(port, info);
   }
   else if (port == 2)
   {
-    info->Set(vtkAlgorithm::INPUT_REQUIRED_DATA_TYPE(), "vtkPolyData");
-    return 1;
+    info->Set(vtkAlgorithm::INPUT_IS_OPTIONAL(), 1);
+    return Superclass::FillInputPortInformation(port, info);
   }
-  return 0;
+  else
+  {
+    return Superclass::FillInputPortInformation(port, info);
+  }
 }

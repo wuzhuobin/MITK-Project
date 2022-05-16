@@ -26,8 +26,8 @@ public:
   /**
    * @brief Input0
    */
-  void SetPelvis(vtkImageData* pelvis);
-  vtkImageData* GetPelvis();
+  void SetImage(vtkImageData* image);
+  vtkImageData* GetImage();
   /** @} */
   /** @{ */
   /**

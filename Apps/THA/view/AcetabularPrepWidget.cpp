@@ -395,7 +395,7 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
     transform->Scale(
         1 / overlaySpacing[0], 1 / overlaySpacing[1], 1 / overlaySpacing[2]);
 
-    mReamingFilter->SetPelvis(overlay->GetVtkImageData());
+    mReamingFilter->SetImage(overlay->GetVtkImageData());
     // Since it is transformed manually, no need to re-transformed
     // mReamingFilter->SetReamerTrajectory(
     //     GetTransformedVtkPolyData(reamerTrajectory));
