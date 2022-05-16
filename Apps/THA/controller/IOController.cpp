@@ -61,6 +61,8 @@ void IOController::loadScene(const QString& fileName) const
 
   addReamer();
   addReamerTrajectory();
+  addReamingPelvis();
+  addImpactingAcetabularShell();
   Q_EMIT sceneLoaded();
 }
 
@@ -210,6 +212,22 @@ void IOController::addReamingPelvis() const
                                       vtkLut->GetTableRange()[1]);
 
   ds->Add(reamingPelvisNode);
+}
+
+void IOController::addImpactingAcetabularShell() const
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto* acetabularShell = ds->GetNamedObject<mitk::Surface>("acetabular_shell");
+  auto acetabularShellImpacting = acetabularShell->Clone();
+
+  auto acetabularShellImpactingNode = mitk::DataNode::New();
+  acetabularShellImpactingNode->SetData(acetabularShellImpacting);
+  acetabularShellImpactingNode->SetName("impacting_acetabular_shell");
+  acetabularShellImpactingNode->SetVisibility(true);
+  acetabularShellImpactingNode->SetColor(0, 0, 1);
+
+  ds->Add(acetabularShellImpactingNode);
 }
 
 void IOController::initCaseDataBase() const

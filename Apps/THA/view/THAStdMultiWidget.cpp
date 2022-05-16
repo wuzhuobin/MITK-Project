@@ -302,13 +302,6 @@ void THAStdMultiWidget::UpdateViewMode()
     break;
     case Custom::CupImpaction: {
       mCupImpactionParameterGadget[3]->setVisible(true);
-      auto* reamingPelvisNode =
-          GetDataStorage()->GetNamedNode("reaming_pelvis");
-      if (!reamingPelvisNode)
-      {
-        return;
-      }
-      reamingPelvisNode->SetVisibility(true);
     }
     break;
     default: {  // case Custom::Default: {

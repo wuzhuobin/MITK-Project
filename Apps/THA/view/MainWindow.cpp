@@ -421,7 +421,7 @@ void MainWindow::onActionsTriggered(QAction* action) const
   else if (action == mUi->action_Cup_Impaction)
   {
     mUi->stackedWidgetViewer->setCurrentWidget(mUi->pageMultiWidget);
-    mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::Other);
+    mUi->multiWidget->setCustom(THAStdMultiWidget::Custom::CupImpaction);
   }
   else if (action == mUi->action_Final_Result)
   {

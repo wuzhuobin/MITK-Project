@@ -412,18 +412,12 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
   }
   else if (currentWidget() == mUi->CupImpaction)
   {
-    auto acetabularShell =
-        ds->GetNamedObject<mitk::Surface>("acetabular_shell");
-    auto acetabularShellImpacting = acetabularShell->Clone();
+    auto* reamingPelvisNode = ds->GetNamedNode("reaming_pelvis");
+    reamingPelvisNode->SetVisibility(true);
 
-    auto acetabularShellImpactingNode = mitk::DataNode::New();
-    acetabularShellImpactingNode->SetData(acetabularShellImpacting);
-    acetabularShellImpactingNode->SetName("acetabular_shell_impacting");
-    acetabularShellImpactingNode->SetVisibility(true);
-    acetabularShellImpactingNode->SetColor(0, 0, 1);
-    // acetabularShellImpactingNode->SetOpacity(0.5);
-
-    ds->Add(acetabularShellImpactingNode);
+    auto impactingAcetabularShellNode =
+        ds->GetNamedNode("impacting_acetabular_shell");
+    impactingAcetabularShellNode->SetVisibility(true);
   }
 
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(

@@ -20,6 +20,7 @@ private:
   void addReamerTrajectory() const;
   void addReamer() const;
   void addReamingPelvis() const;
+  void addImpactingAcetabularShell() const;
   void initCaseDataBase() const;
 };
 
