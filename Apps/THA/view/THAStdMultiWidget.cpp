@@ -7,6 +7,7 @@
 #include "StemParameterGadget.h"
 
 // vtk
+#include <vtkLookupTable.h>
 #include <vtkTransformPolyDataFilter.h>
 
 // qt
@@ -16,9 +17,12 @@
 #include <QmitkRenderWindow.h>
 #include <mitkBaseRenderer.h>
 #include <mitkCoreObjectFactory.h>
+#include <mitkImage.h>
 #include <mitkLogMacros.h>
+#include <mitkLookupTableProperty.h>
 #include <mitkMapper.h>
 #include <mitkResliceMethodProperty.h>
+#include <mitkVtkScalarModeProperty.h>
 
 static const std::set<std::string> DEFAULT_VISIBLE_SET = {
     "hip_length_right",
@@ -311,42 +315,71 @@ void THAStdMultiWidget::UpdateViewMode()
         case View::VIEW_REAMING: {
           GetMultiWidgetLayoutManager()->SetAll2DLeft3DRightLayout();
           imageNode->SetVisibility(true);
-          auto* pelvis =
-              GetDataStorage()->GetNamedObject<mitk::Surface>("pelvis");
-          auto* acetabularShell =
-              GetDataStorage()->GetNamedObject<mitk::Surface>(
-                  "acetabular_shell");
-          auto* reamerTrajectory =
-              GetDataStorage()->GetNamedObject<mitk::Surface>(
-                  "reamer_trajectory");
 
-          auto transformPolyData =
-              vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-          transformPolyData->SetInputData(reamerTrajectory->GetVtkPolyData());
-          transformPolyData->SetTransform(
-              acetabularShell->GetGeometry()->GetVtkTransform());
-          transformPolyData->Update();
-
-          auto reamingFilter = vtkSmartPointer<ReamingFilter2>::New();
-          reamingFilter->SetInputData(pelvis->GetVtkPolyData());
-          reamingFilter->SetInputData(1, transformPolyData->GetOutput());
-          reamingFilter->Update();
-          vtkPolyData* selected = reamingFilter->GetOutput();
-
-          mitk::Surface::Pointer reamingPelvis =
-              GetDataStorage()->GetNamedObject<mitk::Surface>("reaming_pelvis");
           mitk::DataNode::Pointer reamingPelvisNode =
               GetDataStorage()->GetNamedNode("reaming_pelvis");
-          if (reamingPelvis == nullptr)
+          if (!reamingPelvisNode)
           {
-            reamingPelvis = mitk::Surface::New();
+            auto* overlay =
+                GetDataStorage()->GetNamedObject<mitk::Image>("overlay");
+            auto* overlayMatrix = overlay->GetGeometry()->GetVtkMatrix();
+            auto overlaySpacing = overlay->GetGeometry()->GetSpacing();
+            auto transform = vtkSmartPointer<vtkTransform>::New();
+            transform->SetMatrix(overlayMatrix);
+            transform->Scale(1 / overlaySpacing[0],
+                             1 / overlaySpacing[1],
+                             1 / overlaySpacing[2]);
+            auto* reamerTrajectory =
+                GetDataStorage()->GetNamedObject<mitk::Surface>(
+                    "reamer_trajectory");
+            ///< @todo
+            // Since it is transformed manually, no need to re-transformed
+            // mReamingFilter->SetReamerTrajectory(
+            //     GetTransformedVtkPolyData(reamerTrajectory));
+            // mReamingFilter->SetReamer(GetTransformedVtkPolyData(reamer));
+
+            auto reamingFilter = vtkSmartPointer<ReamingFilter2>::New();
+            reamingFilter->SetImage(overlay->GetVtkImageData());
+            reamingFilter->SetReamerTrajectory(
+                reamerTrajectory->GetVtkPolyData());
+            reamingFilter->SetSize(3);
+            reamingFilter->SetImageTransform(transform);
+            reamingFilter->SetExtent(100, 250, 200, 300, 1150, 1270);
+            reamingFilter->SetUseSmooth(true);
+            reamingFilter->Update();
+
+            auto reamingPelvis = mitk::Surface::New();
+            reamingPelvis->SetVtkPolyData(reamingFilter->GetOutput());
+
+            auto vtkLut = vtkSmartPointer<vtkLookupTable>::New();
+            vtkLut->SetTableRange(0, 3);
+            vtkLut->SetNumberOfTableValues(4);
+            vtkLut->SetTableValue(0, 0, 0, 0, 0);
+            vtkLut->SetTableValue(1, 0, 1, 0, 1);
+            vtkLut->SetTableValue(2, 1, 1, 1, 1);
+            vtkLut->SetTableValue(3, 1, 0, 0, 1);
+            vtkLut->Build();
+
+            auto lut = mitk::LookupTable::New();
+            lut->SetVtkLookupTable(vtkLut);
+
+            auto lutProperty = mitk::LookupTableProperty::New(lut);
+
             reamingPelvisNode = mitk::DataNode::New();
             reamingPelvisNode->SetName("reaming_pelvis");
             reamingPelvisNode->SetData(reamingPelvis);
+            reamingPelvisNode->SetProperty("LookupTable", lutProperty);
+            reamingPelvisNode->SetProperty(
+                "scalar mode", mitk::VtkScalarModeProperty::New("Default"));
+            reamingPelvisNode->SetBoolProperty("color mode", true);
             reamingPelvisNode->SetBoolProperty("scalar visibility", true);
+            reamingPelvisNode->SetFloatProperty("ScalarsRangeMinimum",
+                                                vtkLut->GetTableRange()[0]);
+            reamingPelvisNode->SetFloatProperty("ScalarsRangeMaximum",
+                                                vtkLut->GetTableRange()[1]);
+
             GetDataStorage()->Add(reamingPelvisNode);
           }
-          reamingPelvis->SetVtkPolyData(selected);
           reamingPelvisNode->SetVisibility(true);
         }
         break;
@@ -379,7 +412,7 @@ void THAStdMultiWidget::UpdateViewMode()
           GetMultiWidgetLayoutManager()->SetOneBigLayout();
           maskNode->SetVisibility(true);
           maskNode->SetProperty("volumerendering",
-                                   mitk::BoolProperty::New(true));
+                                mitk::BoolProperty::New(true));
         }
         break;
         default:  // View::VIEW_DEFAULT

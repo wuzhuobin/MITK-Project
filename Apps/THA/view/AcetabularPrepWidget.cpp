@@ -396,6 +396,7 @@ void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
         1 / overlaySpacing[0], 1 / overlaySpacing[1], 1 / overlaySpacing[2]);
 
     mReamingFilter->SetImage(overlay->GetVtkImageData());
+    ///< @todo
     // Since it is transformed manually, no need to re-transformed
     // mReamingFilter->SetReamerTrajectory(
     //     GetTransformedVtkPolyData(reamerTrajectory));
