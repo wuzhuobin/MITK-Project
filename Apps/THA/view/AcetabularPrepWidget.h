@@ -53,46 +53,69 @@ private:
 
   void transformReamer(Orientation orientation, double t, double r);
 
-private Q_SLOTS:
+private:
+  Q_SLOT void on_AcetabularPrepWidget_currentChanged(int index);
 
-  void on_AcetabularPrepWidget_currentChanged(int index);
+  Q_SLOT void on_pushButtonCaptureLandmark_clicked(bool checked = false);
 
-  void on_pushButtonCaptureLandmark_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonClearLandmark_clicked(bool checked = false);
 
-  void on_pushButtonClearLandmark_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonClearAllPelvis_clicked(bool checked = false);
 
-  void on_pushButtonClearAllPelvis_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonCaptureRegistration_clicked(bool checked = false);
 
-  void on_pushButtonCaptureRegistration_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonClearLastPoint_clicked(bool checked = false);
 
-  void on_pushButtonClearLastPoint_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonClearAllPoints_clicked(bool checked = false);
 
-  void on_pushButtonClearAllPoints_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonVerifyRegistration_clicked(bool checked = false);
 
-  void on_pushButtonVerifyRegistration_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformXRA_clicked(bool checked = false);
 
-  void on_pushButtonXRA_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformXRM_clicked(bool checked = false);
 
-  void on_pushButtonXRM_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformXTA_clicked(bool checked = false);
 
-  void on_pushButtonXTA_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformXTM_clicked(bool checked = false);
 
-  void on_pushButtonXTM_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformYRA_clicked(bool checked = false);
 
-  void on_pushButtonYRA_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformYRM_clicked(bool checked = false);
 
-  void on_pushButtonYRM_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformYTA_clicked(bool checked = false);
 
-  void on_pushButtonYTA_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformYTM_clicked(bool checked = false);
 
-  void on_pushButtonYTM_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformZRA_clicked(bool checked = false);
 
-  void on_pushButtonZRA_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformZRM_clicked(bool checked = false);
 
-  void on_pushButtonZRM_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformZTA_clicked(bool checked = false);
 
-  void on_pushButtonZTA_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonReamerTransformZTM_clicked(bool checked = false);
 
-  void on_pushButtonZTM_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonCupImpactionXRA_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionXRM_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionXTA_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionXTM_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionYRA_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionYRM_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionYTA_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionYTM_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionZRA_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionZRM_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionZTA_clicked(bool checked = false);
+
+  Q_SLOT void on_pushButtonCupImpactionZTM_clicked(bool checked = false);
 };
 #endif  //! ACETABULAR_PREP_WIDGET

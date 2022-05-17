@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>185</width>
-    <height>264</height>
+    <width>168</width>
+    <height>276</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -53,14 +53,6 @@
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label_CupInclination">
-        <property name="font">
-         <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true">.QLabel {
   color:white;
@@ -118,14 +110,6 @@ font-weight: bold;
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_CupVersion">
-        <property name="font">
-         <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true">.QLabel {
   color:white;
@@ -183,14 +167,6 @@ font-weight: bold;
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_Superior">
-        <property name="font">
-         <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true">.QLabel {
   color:white;
@@ -257,14 +233,6 @@ font-weight: bold;
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_Medial">
-        <property name="font">
-         <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true">.QLabel {
   color:white;
@@ -331,14 +299,6 @@ font-weight: bold;
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_Posterior">
-        <property name="font">
-         <font>
-          <family>黑体</family>
-          <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
         <property name="styleSheet">
          <string notr="true">.QLabel {
   color:white;

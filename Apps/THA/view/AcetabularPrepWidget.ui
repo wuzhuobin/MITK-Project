@@ -587,7 +587,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QPushButton" name="pushButtonXTA">
+        <widget class="QPushButton" name="pushButtonReamerTransformXTA">
          <property name="text">
           <string>X+</string>
          </property>
@@ -597,7 +597,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButtonXTM">
+        <widget class="QPushButton" name="pushButtonReamerTransformXTM">
          <property name="text">
           <string>X-</string>
          </property>
@@ -607,7 +607,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButtonXRA">
+        <widget class="QPushButton" name="pushButtonReamerTransformXRA">
          <property name="text">
           <string>X/</string>
          </property>
@@ -617,7 +617,7 @@
         </widget>
        </item>
        <item row="0" column="3">
-        <widget class="QPushButton" name="pushButtonXRM">
+        <widget class="QPushButton" name="pushButtonReamerTransformXRM">
          <property name="text">
           <string>X\</string>
          </property>
@@ -627,7 +627,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QPushButton" name="pushButtonYTA">
+        <widget class="QPushButton" name="pushButtonReamerTransformYTA">
          <property name="text">
           <string>Y+</string>
          </property>
@@ -637,7 +637,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QPushButton" name="pushButtonYTM">
+        <widget class="QPushButton" name="pushButtonReamerTransformYTM">
          <property name="text">
           <string>Y-</string>
          </property>
@@ -647,7 +647,7 @@
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QPushButton" name="pushButtonYRA">
+        <widget class="QPushButton" name="pushButtonReamerTransformYRA">
          <property name="text">
           <string>Y/</string>
          </property>
@@ -657,7 +657,7 @@
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QPushButton" name="pushButtonYRM">
+        <widget class="QPushButton" name="pushButtonReamerTransformYRM">
          <property name="text">
           <string>Y\</string>
          </property>
@@ -667,7 +667,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QPushButton" name="pushButtonZTA">
+        <widget class="QPushButton" name="pushButtonReamerTransformZTA">
          <property name="text">
           <string>Z+</string>
          </property>
@@ -677,7 +677,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QPushButton" name="pushButtonZTM">
+        <widget class="QPushButton" name="pushButtonReamerTransformZTM">
          <property name="text">
           <string>Z-</string>
          </property>
@@ -687,7 +687,7 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QPushButton" name="pushButtonZRA">
+        <widget class="QPushButton" name="pushButtonReamerTransformZRA">
          <property name="text">
           <string>Z/</string>
          </property>
@@ -697,7 +697,7 @@
         </widget>
        </item>
        <item row="2" column="3">
-        <widget class="QPushButton" name="pushButtonZRM">
+        <widget class="QPushButton" name="pushButtonReamerTransformZRM">
          <property name="text">
           <string>Z\</string>
          </property>
@@ -816,6 +816,138 @@
     </item>
     <item>
      <widget class="QPlainTextEdit" name="plainTextEdit_2"/>
+    </item>
+    <item>
+     <widget class="QFrame" name="frameReamerTransform_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButtonCupImpactionZTM">
+         <property name="text">
+          <string>Z-</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButtonCupImpactionXTM">
+         <property name="text">
+          <string>X-</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButtonCupImpactionXTA">
+         <property name="text">
+          <string>X+</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButtonCupImpactionZTA">
+         <property name="text">
+          <string>Z+</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="pushButtonCupImpactionYRA">
+         <property name="text">
+          <string>Y/</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButtonCupImpactionXRA">
+         <property name="text">
+          <string>X/</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="pushButtonCupImpactionYRM">
+         <property name="text">
+          <string>Y\</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="pushButtonCupImpactionZRA">
+         <property name="text">
+          <string>Z/</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="pushButtonCupImpactionZRM">
+         <property name="text">
+          <string>Z\</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButtonCupImpactionYTA">
+         <property name="text">
+          <string>Y+</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButtonCupImpactionYTM">
+         <property name="text">
+          <string>Y-</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="pushButtonCupImpactionXRM">
+         <property name="text">
+          <string>X\</string>
+         </property>
+         <property name="autoRepeat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
      <spacer name="verticalSpacer_3">

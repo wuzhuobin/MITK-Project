@@ -271,73 +271,135 @@ void AcetabularPrepWidget::on_pushButtonVerifyRegistration_clicked(bool checked)
 {
 }
 
-void AcetabularPrepWidget::on_pushButtonXRA_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformXRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::X, 0, 5);
 }
 
-void AcetabularPrepWidget::on_pushButtonXRM_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformXRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::X, 0, -5);
 }
 
-void AcetabularPrepWidget::on_pushButtonXTA_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformXTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::X, 5, 0);
 }
 
-void AcetabularPrepWidget::on_pushButtonXTM_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformXTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::X, -5, 0);
 }
 
-void AcetabularPrepWidget::on_pushButtonYRA_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformYRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Y, 0, 5);
 }
 
-void AcetabularPrepWidget::on_pushButtonYRM_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformYRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Y, 0, -5);
 }
 
-void AcetabularPrepWidget::on_pushButtonYTA_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformYTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Y, 5, 0);
 }
 
-void AcetabularPrepWidget::on_pushButtonYTM_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformYTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Y, -5, 0);
 }
 
-void AcetabularPrepWidget::on_pushButtonZRA_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformZRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Z, 0, 5);
 }
 
-void AcetabularPrepWidget::on_pushButtonZRM_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformZRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Z, 0, -5);
 }
 
-void AcetabularPrepWidget::on_pushButtonZTA_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformZTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Z, 5, 0);
 }
 
-void AcetabularPrepWidget::on_pushButtonZTM_clicked(bool checked)
+void AcetabularPrepWidget::on_pushButtonReamerTransformZTM_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+  transformReamer(Orientation::Z, -5, 0);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionXRA_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionXRM_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionXTA_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionXTM_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionYRA_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionYRM_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionYTA_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionYTM_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionZRA_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionZRM_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionZTA_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+  transformReamer(Orientation::Z, 5, 0);
+}
+
+void AcetabularPrepWidget::on_pushButtonCupImpactionZTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
   transformReamer(Orientation::Z, -5, 0);
