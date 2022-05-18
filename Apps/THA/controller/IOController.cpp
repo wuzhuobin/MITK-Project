@@ -63,6 +63,7 @@ void IOController::loadScene(const QString& fileName) const
   addReamerTrajectory();
   addReamingPelvis();
   addImpactingAcetabularShell();
+  addImpactingAcetabularShellCor();
   Q_EMIT sceneLoaded();
 }
 
@@ -228,6 +229,21 @@ void IOController::addImpactingAcetabularShell() const
   acetabularShellImpactingNode->SetColor(0, 0, 1);
 
   ds->Add(acetabularShellImpactingNode);
+}
+
+void IOController::addImpactingAcetabularShellCor() const
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto* cor = ds->GetNamedObject<mitk::PointSet>("cup_cor");
+  auto impactingAcetabularShellCor = cor->Clone();
+
+  auto corImpactingAcetabularShellCorNode = mitk::DataNode::New();
+  corImpactingAcetabularShellCorNode->SetData(impactingAcetabularShellCor);
+  corImpactingAcetabularShellCorNode->SetName("impacting_acetabular_shell_cor");
+  corImpactingAcetabularShellCorNode->SetVisibility(true);
+
+  ds->Add(corImpactingAcetabularShellCorNode);
 }
 
 void IOController::initCaseDataBase() const

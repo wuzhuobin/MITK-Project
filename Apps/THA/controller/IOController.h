@@ -14,13 +14,15 @@ public:
   void loadScene(const QString& fileName) const;
   bool createScene(const QString& filename, const QStringList& dicoms) const;
 
-  Q_SIGNAL void sceneLoaded() const;
-
-private:
   void addReamerTrajectory() const;
   void addReamer() const;
   void addReamingPelvis() const;
   void addImpactingAcetabularShell() const;
+  void addImpactingAcetabularShellCor() const;
+
+  Q_SIGNAL void sceneLoaded() const;
+
+private:
   void initCaseDataBase() const;
 };
 
