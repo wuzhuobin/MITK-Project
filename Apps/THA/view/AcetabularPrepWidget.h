@@ -52,8 +52,8 @@ private:
   };
 
   void transformReamer(Orientation orientation, double t, double r);
+  void transformImpactingCup(Orientation orientation, double t, double r);
 
-private:
   Q_SLOT void on_AcetabularPrepWidget_currentChanged(int index);
 
   Q_SLOT void on_pushButtonCaptureLandmark_clicked(bool checked = false);

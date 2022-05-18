@@ -231,6 +231,33 @@ void AcetabularPrepWidget::transformReamer(Orientation orientation,
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
+void AcetabularPrepWidget::transformImpactingCup(Orientation orientation,
+                                                 double t,
+                                                 double r)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* impactingAcetabularShellCor =
+      ds->GetNamedObject<mitk::PointSet>("impacting_acetabular_shell_cor");
+  auto center = impactingAcetabularShellCor->GetPoint(0);
+  auto* impactingAcetabularShell =
+      ds->GetNamedObject<mitk::Surface>("impacting_acetabular_shell");
+  auto* matrix = impactingAcetabularShell->GetGeometry()->GetVtkMatrix();
+  auto transform = vtkSmartPointer<vtkTransform>::New();
+  transform->PostMultiply();
+  transform->SetMatrix(matrix);
+  transform->Translate(-center[0], -center[1], -center[2]);
+  transform->RotateY(orientation == Orientation::Y ? r : 0);
+  transform->RotateX(orientation == Orientation::X ? r : 0);
+  transform->RotateZ(orientation == Orientation::Z ? r : 0);
+  transform->Translate(center[0], center[1], center[2]);
+  transform->Translate(orientation == Orientation::X ? t : 0,
+                       orientation == Orientation::Y ? t : 0,
+                       orientation == Orientation::Z ? t : 0);
+  impactingAcetabularShell->GetGeometry()->SetIndexToWorldTransformByVtkMatrix(
+      transform->GetMatrix());
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
 void AcetabularPrepWidget::on_pushButtonCaptureLandmark_clicked(bool checked)
 {
   Q_UNUSED(checked);
@@ -346,63 +373,73 @@ void AcetabularPrepWidget::on_pushButtonReamerTransformZTM_clicked(bool checked)
 void AcetabularPrepWidget::on_pushButtonCupImpactionXRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::X, 0, 5);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionXRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::X, 0, -5);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionXTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::X, 5, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionXTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::X, -5, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionYRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::Y, 0, 5);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionYRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::Y, 0, -5);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionYTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::Y, 5, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionYTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::Y, -5, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionZRA_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::Z, 0, 5);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionZRM_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  transformImpactingCup(Orientation::Z, 0, -5);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionZTA_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  transformReamer(Orientation::Z, 5, 0);
+  transformImpactingCup(Orientation::Z, 5, 0);
 }
 
 void AcetabularPrepWidget::on_pushButtonCupImpactionZTM_clicked(bool checked)
 {
   Q_UNUSED(checked);
-  transformReamer(Orientation::Z, -5, 0);
+  transformImpactingCup(Orientation::Z, -5, 0);
 }
 
 void AcetabularPrepWidget::on_AcetabularPrepWidget_currentChanged(int index)
