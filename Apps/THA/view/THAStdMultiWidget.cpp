@@ -128,6 +128,7 @@ void THAStdMultiWidget::InitializeMultiWidget()
   {
     mCupParameterGadget[i]->ObserverCup();
     mStemParameterGadget[i]->ObserverStem();
+    mCupImpactionParameterGadget[i]->observerCupImpaction();
   }
   ////////////////////////////////////////////////////////////////////////////////
   mView = View::VIEW_DEFAULT;

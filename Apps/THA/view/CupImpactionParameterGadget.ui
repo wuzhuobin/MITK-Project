@@ -47,7 +47,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QSpinBox" name="spinBoActualxCupVersion">
+       <widget class="QSpinBox" name="spinBoxActualCupVersion">
         <property name="styleSheet">
          <string notr="true">QSpinBox{
 color:white; 
