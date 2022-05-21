@@ -221,12 +221,14 @@ void IOController::addImpactingAcetabularShell() const
 
   auto* acetabularShell = ds->GetNamedObject<mitk::Surface>("acetabular_shell");
   auto acetabularShellImpacting = acetabularShell->Clone();
-
+  acetabularShellImpacting->GetGeometry()
+      ->GetIndexToWorldTransform()
+      ->SetIdentity();
   auto acetabularShellImpactingNode = mitk::DataNode::New();
-  acetabularShellImpactingNode->SetData(acetabularShellImpacting);
   acetabularShellImpactingNode->SetName("impacting_acetabular_shell");
   acetabularShellImpactingNode->SetVisibility(true);
   acetabularShellImpactingNode->SetColor(0, 0, 1);
+  acetabularShellImpactingNode->SetData(acetabularShellImpacting);
 
   ds->Add(acetabularShellImpactingNode);
 }
@@ -237,6 +239,9 @@ void IOController::addImpactingAcetabularShellCor() const
 
   auto* cor = ds->GetNamedObject<mitk::PointSet>("cup_cor");
   auto impactingAcetabularShellCor = cor->Clone();
+  impactingAcetabularShellCor->GetGeometry()
+      ->GetIndexToWorldTransform()
+      ->SetIdentity();
 
   auto corImpactingAcetabularShellCorNode = mitk::DataNode::New();
   corImpactingAcetabularShellCorNode->SetData(impactingAcetabularShellCor);
