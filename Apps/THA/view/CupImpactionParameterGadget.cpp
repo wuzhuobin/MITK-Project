@@ -15,6 +15,7 @@
 
 // mitk
 #include <mitkDataStorage.h>
+#include <mitkPointSet.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
 
@@ -26,10 +27,12 @@ CupImpactionParameterGadget::CupImpactionParameterGadget(
     const QString& acetabularShell,
     const QString& impactingAcetabularShell,
     const QString& cupCor,
+    const QString& impactingAcetabularShellCor,
     QWidget* parent) :
     mAcetabularShell(acetabularShell),
     mImpactingAcetabularShell(impactingAcetabularShell),
     mCupCor(cupCor),
+    mImpactingAcetabularShellCor(impactingAcetabularShellCor),
     QWidget(parent),
     mUi(new Ui::CupImpactionParameterGadget)
 {
@@ -82,6 +85,15 @@ void CupImpactionParameterGadget::updateActualSpinBoxes()
 
   mUi->spinBoxActualCupInclination->setValue(angleY);
   mUi->spinBoxActualCupVersion->setValue(angleZ);
+
+  auto* cupCor = ds->GetNamedObject<mitk::PointSet>(mCupCor.toStdString());
+  auto cupCorPoint = cupCor->GetPointSet()->GetPoint(0);
+  auto* impactingAcetabularShellCor = ds->GetNamedObject<mitk::PointSet>(
+      mImpactingAcetabularShellCor.toStdString());
+  auto impactingAcetabularShellCorPoint =
+      impactingAcetabularShellCor->GetPointSet()->GetPoint(0);
+  mUi->spinBoxActualDistanceRemaining->setValue(
+      cupCorPoint.EuclideanDistanceTo(impactingAcetabularShellCorPoint));
 }
 
 void CupImpactionParameterGadget::updatePlannedSpinBoxes()
@@ -95,7 +107,6 @@ void CupImpactionParameterGadget::updatePlannedSpinBoxes()
   using Euler3DTransform = itk::Euler3DTransform<mitk::ScalarType>;
   auto euler3DTransform = Euler3DTransform::New();
   euler3DTransform->SetMatrix(matrix);
-  MITK_INFO << *euler3DTransform;
   auto angleY = euler3DTransform->GetAngleY() * itk::Math::deg_per_rad;
   auto angleZ = euler3DTransform->GetAngleZ() * itk::Math::deg_per_rad;
 

@@ -260,8 +260,6 @@ void AcetabularPrepWidget::transformImpactingCup(Orientation orientation,
                        orientation == Orientation::Z ? t : 0);
   impactingAcetabularShell->GetGeometry()->SetIndexToWorldTransformByVtkMatrix(
       transform->GetMatrix());
-  impactingAcetabularShellCor->GetGeometry()
-      ->SetIndexToWorldTransformByVtkMatrix(transform->GetMatrix());
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 

@@ -30,12 +30,16 @@ public:
       const QString& impactingAcetabularShell =
           QStringLiteral("impacting_acetabular_shell"),
       const QString& cupCor = QStringLiteral("cup_cor"),
+      const QString& impactingAcetabularShellCor =
+          QStringLiteral("impacting_acetabular_shell_cor"),
       QWidget* parent = nullptr);
   explicit CupImpactionParameterGadget(QWidget* parent) :
-      CupImpactionParameterGadget(QStringLiteral("acetabular_shell"),
-                                  QStringLiteral("impacting_acetabular_shell"),
-                                  QStringLiteral("cup_cor"),
-                                  parent)
+      CupImpactionParameterGadget(
+          QStringLiteral("acetabular_shell"),
+          QStringLiteral("impacting_acetabular_shell"),
+          QStringLiteral("cup_cor"),
+          QStringLiteral("impacting_acetabular_shell_cor"),
+          parent)
   {
   }
   ~CupImpactionParameterGadget() override;
@@ -49,6 +53,7 @@ private:
   QString mAcetabularShell;
   QString mImpactingAcetabularShell;
   QString mCupCor;
+  QString mImpactingAcetabularShellCor;
   std::unique_ptr<Ui::CupImpactionParameterGadget> mUi;
   Q_DISABLE_COPY(CupImpactionParameterGadget)
 };
