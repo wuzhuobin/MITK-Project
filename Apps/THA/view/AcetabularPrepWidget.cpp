@@ -239,6 +239,11 @@ void AcetabularPrepWidget::transformImpactingCup(Orientation orientation,
   auto* impactingAcetabularShellCor =
       ds->GetNamedObject<mitk::PointSet>("impacting_acetabular_shell_cor");
   auto center = impactingAcetabularShellCor->GetPoint(0);
+  auto newCenter = center;
+  newCenter[0] += orientation == Orientation::X ? t : 0;
+  newCenter[1] += orientation == Orientation::Y ? t : 0;
+  newCenter[2] += orientation == Orientation::Z ? t : 0;
+  impactingAcetabularShellCor->SetPoint(0, newCenter);
   auto* impactingAcetabularShell =
       ds->GetNamedObject<mitk::Surface>("impacting_acetabular_shell");
   auto* matrix = impactingAcetabularShell->GetGeometry()->GetVtkMatrix();
@@ -255,6 +260,8 @@ void AcetabularPrepWidget::transformImpactingCup(Orientation orientation,
                        orientation == Orientation::Z ? t : 0);
   impactingAcetabularShell->GetGeometry()->SetIndexToWorldTransformByVtkMatrix(
       transform->GetMatrix());
+  impactingAcetabularShellCor->GetGeometry()
+      ->SetIndexToWorldTransformByVtkMatrix(transform->GetMatrix());
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
