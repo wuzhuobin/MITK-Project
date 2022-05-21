@@ -55,11 +55,14 @@ void CupImpactionParameterGadget::observerCupImpaction()
       ->AddObserver(itk::ModifiedEvent(), impactingAcetabularShellCommand);
   impactingAcetabularShell->Modified();
 
-  // auto* acetabularShell =
-  //     ds->GetNamedObject<mitk::Surface>(mAcetabularShell.toStdString());
-  // acetabularShell->GetGeometry()->GetIndexToWorldTransform()->AddObserver(
-  //     itk::ModifiedEvent(), CupImpactionParameterGadgetCommand::New());
-  // acetabularShell->Modified();
+  auto acetabularShellCommand = CupImpactionParameterGadgetCommand::New();
+  acetabularShellCommand->SetCallbackFunction(
+      this, &CupImpactionParameterGadget::updatePlannedSpinBoxes);
+  auto* acetabularShell =
+      ds->GetNamedObject<mitk::Surface>(mAcetabularShell.toStdString());
+  acetabularShell->GetGeometry()->GetIndexToWorldTransform()->AddObserver(
+      itk::ModifiedEvent(), acetabularShellCommand);
+  acetabularShell->Modified();
 }
 
 void CupImpactionParameterGadget::updateActualSpinBoxes()
@@ -79,4 +82,23 @@ void CupImpactionParameterGadget::updateActualSpinBoxes()
 
   mUi->spinBoxActualCupInclination->setValue(angleY);
   mUi->spinBoxActualCupVersion->setValue(angleZ);
+}
+
+void CupImpactionParameterGadget::updatePlannedSpinBoxes()
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* acetabularShell =
+      ds->GetNamedObject<mitk::Surface>(mAcetabularShell.toStdString());
+  auto matrix =
+      acetabularShell->GetGeometry()->GetIndexToWorldTransform()->GetMatrix();
+
+  using Euler3DTransform = itk::Euler3DTransform<mitk::ScalarType>;
+  auto euler3DTransform = Euler3DTransform::New();
+  euler3DTransform->SetMatrix(matrix);
+  MITK_INFO << *euler3DTransform;
+  auto angleY = euler3DTransform->GetAngleY() * itk::Math::deg_per_rad;
+  auto angleZ = euler3DTransform->GetAngleZ() * itk::Math::deg_per_rad;
+
+  mUi->spinBoxPlannedCupInclination->setValue(angleY);
+  mUi->spinBoxPlannedCupVersion->setValue(angleZ);
 }

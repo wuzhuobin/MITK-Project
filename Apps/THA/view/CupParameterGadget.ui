@@ -123,7 +123,7 @@ Version</string>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox_CupPlanVersion">
+       <widget class="QSpinBox" name="spinBoxCupPlanVersion">
         <property name="minimumSize">
          <size>
           <width>55</width>

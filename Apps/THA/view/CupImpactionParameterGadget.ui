@@ -117,8 +117,11 @@ font-weight: bold;
         <property name="suffix">
          <string>°</string>
         </property>
+        <property name="minimum">
+         <number>-9999999</number>
+        </property>
         <property name="maximum">
-         <number>180</number>
+         <number>9999999</number>
         </property>
        </widget>
       </item>
@@ -177,8 +180,11 @@ font-weight: bold;
         <property name="suffix">
          <string>°</string>
         </property>
+        <property name="minimum">
+         <number>-999999</number>
+        </property>
         <property name="maximum">
-         <number>180</number>
+         <number>999999</number>
         </property>
        </widget>
       </item>
