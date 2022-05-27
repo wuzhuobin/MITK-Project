@@ -333,6 +333,7 @@ add_subdirectory(Apps/mitkReamerSource)
 add_subdirectory(Apps/mitkReamingFilter)
 add_subdirectory(Apps/ClipCloseSurfaceFilter)
 add_subdirectory(Apps/ReamingFilterDemo)
+add_subdirectory(Apps/BoneSegmentation)
 
 #-----------------------------------------------------------------------------
 # Installation
