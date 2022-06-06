@@ -14,6 +14,9 @@
 #include <mitkImageToItk.h>
 
 // itk
+#include <itkBinaryBallStructuringElement.h>
+#include <itkBinaryFillholeImageFilter.h>
+#include <itkBinaryMorphologicalOpeningImageFilter.h>
 #include <itkBinaryThresholdImageFilter.h>
 #include <itkConfidenceConnectedImageFilter.h>
 #include <itkConnectedComponentImageFilter.h>
@@ -24,6 +27,7 @@
 #include <itkRelabelComponentImageFilter.h>
 #include <itkThresholdImageFilter.h>
 #include <itkTileImageFilter.h>
+#include <itkVotingBinaryHoleFillingImageFilter.h>
 
 using ImageType = itk::Image<short, 3>;
 
@@ -134,7 +138,8 @@ void otsuThresholdSliceBySlice(ImageType* input, ImageType* output)
   binaryThresholdFilter->SetOutsideValue(0);
   binaryThresholdFilter->Update();
 
-  using SliceType = itk::Image<short, 2>;
+  using SliceType =
+      itk::Image<ImageType::PixelType, ImageType::ImageDimension - 1>;
   using TileImageFilterType = itk::TileImageFilter<SliceType, ImageType>;
   auto tileImageFilter = TileImageFilterType::New();
 
@@ -174,7 +179,43 @@ void otsuThresholdSliceBySlice(ImageType* input, ImageType* output)
     otsuThresholdImageFilter->SetOutsideValue(1);
     otsuThresholdImageFilter->Update();
 
-    tileImageFilter->SetInput(z, otsuThresholdImageFilter->GetOutput());
+    // using VotingBinaryHoleFillingImageFilter =
+    //     itk::VotingBinaryHoleFillingImageFilter<SliceType, SliceType>;
+    // auto votingBinaryHoleFillingImageFilter =
+    //     VotingBinaryHoleFillingImageFilter::New();
+    // votingBinaryHoleFillingImageFilter->SetInput(
+    //     otsuThresholdImageFilter->GetOutput());
+    // votingBinaryHoleFillingImageFilter->SetForegroundValue(1);
+    // votingBinaryHoleFillingImageFilter->Update();
+
+    using BinaryFillHoleImageFilter = itk::BinaryFillholeImageFilter<SliceType>;
+    auto binaryFillHoleImageFilter = BinaryFillHoleImageFilter::New();
+    binaryFillHoleImageFilter->SetInput(otsuThresholdImageFilter->GetOutput());
+    binaryFillHoleImageFilter->SetForegroundValue(1);
+    binaryFillHoleImageFilter->Update();
+
+    // using BinaryBallStructuringElement =
+    //     itk::BinaryBallStructuringElement<SliceType::PixelType,
+    //                                       SliceType::ImageDimension>;
+    // BinaryBallStructuringElement structuringElement;
+    // structuringElement.SetRadius(3);
+    // structuringElement.CreateStructuringElement();
+
+    // using BinaryMorphologicalOpeningImageFilter =
+    //     itk::BinaryMorphologicalOpeningImageFilter<
+    //         SliceType,
+    //         SliceType,
+    //         BinaryBallStructuringElement>;
+    // auto binaryMorphologicalOpeningImageFilter =
+    //     BinaryMorphologicalOpeningImageFilter::New();
+    // binaryMorphologicalOpeningImageFilter->SetInput(
+    //     otsuThresholdImageFilter->GetOutput());
+    // binaryMorphologicalOpeningImageFilter->SetKernel(structuringElement);
+    // binaryMorphologicalOpeningImageFilter->SetBackgroundValue(0);
+    // binaryMorphologicalOpeningImageFilter->SetForegroundValue(1);
+    // binaryMorphologicalOpeningImageFilter->Update();
+
+    tileImageFilter->SetInput(z, binaryFillHoleImageFilter->GetOutput());
   }
   TileImageFilterType::LayoutArrayType layout;
   layout[0] = 1;
