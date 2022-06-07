@@ -5,47 +5,49 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 file(
-  GLOB_RECURSE H
-  *.h*
+  GLOB_RECURSE INC
+  ${PROJECT_SOURCE_DIR}/*.h*
 )
 
 file(
-  GLOB_RECURSE CPP
-  *.c*
-)
-
-file(
-  GLOB_RECURSE UI
-  *.c*
+  GLOB_RECURSE SRC
+  ${PROJECT_SOURCE_DIR}/*.c*
 )
 
 file(
   GLOB_RECURSE QRC
-  *.qrc
+  ${PROJECT_SOURCE_DIR}/*.qrc
 )
 
-add_executable(
+file(
+  GLOB_RECURSE UI
+  ${PROJECT_SOURCE_DIR}/*.ui
+)
+
+add_library(
   ${PROJECT_NAME}
-  ${H}
-  ${CPP}
+  ${INC}
+  ${SRC}
   ${QRC}
+  ${UI}
+)
+
+target_include_directories(
+  ${PROJECT_NAME}
+  PUBLIC
+  ${PROJECT_BINARY_DIR}
+  ${PROJECT_SOURCE_DIR}/view
+  ${PROJECT_SOURCE_DIR}/model
+  ${PROJECT_SOURCE_DIR}/controller
+  ${PROJECT_SOURCE_DIR}/algorithm
 )
 
 target_link_libraries(
   ${PROJECT_NAME}
-  PRIVATE
+  PUBLIC
   MitkCore
   MitkQtWidgets
   MitkSceneSerialization
   MitkBoundingShape
   # MitkSegmentation
-)
-
-target_include_directories(
-  ${PROJECT_NAME}
-  PRIVATE
-  ${PROJECT_SOURCE_DIR}/view
-  ${PROJECT_SOURCE_DIR}/model
-  ${PROJECT_SOURCE_DIR}/controller
-  ${PROJECT_SOURCE_DIR}/algorithm
 )

@@ -7,30 +7,31 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 file(
-  GLOB_RECURSE H
-  *.h*
+  GLOB_RECURSE INC
+  ${PROJECT_SOURCE_DIR}/*.h*
 )
 
 file(
-  GLOB_RECURSE CPP
-  *.c*
-)
-
-file(
-  GLOB_RECURSE UI
-  *.c*
+  GLOB_RECURSE SRC
+  ${PROJECT_SOURCE_DIR}/*.c*
 )
 
 file(
   GLOB_RECURSE QRC
-  *.qrc
+  ${PROJECT_SOURCE_DIR}/*.qrc
+)
+
+file(
+  GLOB_RECURSE UI
+  ${PROJECT_SOURCE_DIR}/*.ui
 )
 
 add_library(
   ${PROJECT_NAME}
-  ${H}
-  ${CPP}
+  ${SRC}
   ${QRC}
+  ${INC}
+  ${UI}
 )
 
 target_link_libraries(
