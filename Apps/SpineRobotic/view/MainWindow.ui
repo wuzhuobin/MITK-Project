@@ -14,9 +14,9 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QStackedWidget" name="stackedWidgetView">
         <property name="sizePolicy">
@@ -25,9 +25,256 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <widget class="SRStdMultiWidget" name="multiWidget"/>
+        <widget class="QWidget" name="pageMultiWidget">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="SRStdMultiWidget" name="multiWidget" native="true"/>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QToolButton" name="toolButton">
+               <property name="text">
+                <string>Screw</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_2">
+               <property name="text">
+                <string>Path</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_4">
+               <property name="text">
+                <string>Plate</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_5">
+               <property name="text">
+                <string>Interval</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_6">
+               <property name="text">
+                <string>Lateral</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_10">
+               <property name="text">
+                <string>Posterior</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_13">
+               <property name="text">
+                <string>Image</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QFrame" name="frame">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame {
+  background: rgb(0, 0, 0)
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QToolButton" name="toolButton_3">
+             <property name="text">
+              <string>Default</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonShow">
+             <property name="text">
+              <string>Show</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonView">
+             <property name="text">
+              <string>View</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonTools">
+             <property name="text">
+              <string>Tools</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonAdd">
+             <property name="text">
+              <string>Add</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_7">
+             <property name="text">
+              <string>Select</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_8">
+             <property name="text">
+              <string>Marking</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_9">
+             <property name="text">
+              <string>Edit</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonDelete">
+             <property name="text">
+              <string>Delete</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_11">
+             <property name="text">
+              <string>Undo</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_12">
+             <property name="text">
+              <string>Redo</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonLoad">
+             <property name="text">
+              <string>Load</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButtonExport">
+             <property name="text">
+              <string>Export</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_15">
+             <property name="text">
+              <string>Align</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_16">
+             <property name="text">
+              <string>Planning</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_17">
+             <property name="text">
+              <string>Fusion</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_18">
+             <property name="text">
+              <string>IntraOp</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="sizePolicy">
@@ -40,191 +287,39 @@
         <widget class="SegmentationWidget" name="segmentationWidget"/>
         <widget class="PlanningWidget" name="planningWidget"/>
         <widget class="ToolsWidget" name="toolsWidget"/>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QToolButton" name="toolButtonPrevious">
-        <property name="text">
-         <string>Previous</string>
-        </property>
+        <widget class="CasePlanningWidget" name="casePlanningWidget"/>
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QFrame {
-  background: rgb(0, 0, 0)
-}</string>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
         </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QToolButton" name="toolButton_3">
-           <property name="text">
-            <string>Default</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonShow">
-           <property name="text">
-            <string>Show</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonView">
-           <property name="text">
-            <string>View</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonTools">
-           <property name="text">
-            <string>Tools</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonAdd">
-           <property name="text">
-            <string>Add</string>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_7">
-           <property name="text">
-            <string>Select</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_8">
-           <property name="text">
-            <string>Marking</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_9">
-           <property name="text">
-            <string>Edit</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonDelete">
-           <property name="text">
-            <string>Delete</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_11">
-           <property name="text">
-            <string>Undo</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_12">
-           <property name="text">
-            <string>Redo</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonLoad">
-           <property name="text">
-            <string>Load</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButtonExport">
-           <property name="text">
-            <string>Export</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_15">
-           <property name="text">
-            <string>Align</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_16">
-           <property name="text">
-            <string>Planning</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_17">
-           <property name="text">
-            <string>Fusion</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_18">
-           <property name="text">
-            <string>IntraOp</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+       </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButtonNext">
-        <property name="text">
-         <string>Next</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QToolButton" name="toolButtonPrevious">
+          <property name="text">
+           <string>Previous</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonNext">
+          <property name="text">
+           <string>Next</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -278,6 +373,36 @@
     <string>&amp;Angle</string>
    </property>
   </action>
+  <action name="action_Screw_Planning">
+   <property name="text">
+    <string>&amp;Screw Planning</string>
+   </property>
+  </action>
+  <action name="action_Path_Planning">
+   <property name="text">
+    <string>&amp;Path Planning</string>
+   </property>
+  </action>
+  <action name="action_Plate_Planning">
+   <property name="text">
+    <string>&amp;Plate Planning</string>
+   </property>
+  </action>
+  <action name="action_Interval_Planning">
+   <property name="text">
+    <string>&amp;Interval Planning</string>
+   </property>
+  </action>
+  <action name="action_Lateral_Planning">
+   <property name="text">
+    <string>&amp;Lateral Planning</string>
+   </property>
+  </action>
+  <action name="action_Posterior_Planning">
+   <property name="text">
+    <string>&amp;Posterior Planning</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -302,6 +427,12 @@
    <class>ToolsWidget</class>
    <extends>QWidget</extends>
    <header>ToolsWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CasePlanningWidget</class>
+   <extends>QWidget</extends>
+   <header>CasePlanningWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
