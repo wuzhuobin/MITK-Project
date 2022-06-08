@@ -40,7 +40,7 @@ private:
   Q_SLOT void on_pageLogin_accepted();
   Q_SLOT void on_pageCaseManagement_accepted();
   Q_SLOT void onActionsTriggered(QAction* action) const;
-  Q_SLOT void onsceneLoaded();
+  Q_SLOT void onSceneLoaded();
 };
 
 #endif  //! MAIN_WINDOW_H

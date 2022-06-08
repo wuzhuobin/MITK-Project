@@ -11,17 +11,45 @@
 
 // mitk
 #include <mitkDataNode.h>
+#include <mitkLogMacros.h>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
-    mUi(new Ui::MainWindow),
+    mUi(std::make_unique<Ui::MainWindow>()),
     mActionGroup(new QActionGroup(this))
 {
   mUi->setupUi(this);
 
   initializeMenu();
+
+  mActionGroup->setExclusive(true);
+
+  // SegmentationWidget
+  mActionGroup->addAction(mUi->action_Segmentation);
+
+  // CasePlanningWidget
+  mActionGroup->addAction(mUi->action_Screw_Planning);
+  mActionGroup->addAction(mUi->action_Path_Planning);
+  mActionGroup->addAction(mUi->action_Plate_Planning);
+  mActionGroup->addAction(mUi->action_Interval_Planning);
+  mActionGroup->addAction(mUi->action_Lateral_Planning);
+  mActionGroup->addAction(mUi->action_Posterior_Planning);
+
+  // PlanningWidget
+  mActionGroup->addAction(mUi->action_Planning);
+
+  // ToolsWidget
+  mActionGroup->addAction(mUi->action_Length);
+  mActionGroup->addAction(mUi->action_Angle);
+
+  // Others
+  mActionGroup->addAction(mUi->action_Whole_Spine_CT);
+  mActionGroup->addAction(mUi->action_Single_Vertebra_CT);
+  mActionGroup->addAction(mUi->action_Whole_Spine_X_Ray);
+  mActionGroup->addAction(mUi->action_Whole_Spine_MRI);
+  mActionGroup->addAction(mUi->action_Single_Vertebra_MRI);
+
   initializeConnection();
-  actionsTriggered(nullptr);
 
   QString fileName = QCoreApplication::arguments().size() > 1
                          ? QCoreApplication::arguments()[1]
@@ -29,14 +57,11 @@ MainWindow::MainWindow(QWidget* parent) :
   if (!fileName.isEmpty())
   {
     IOController::getInstance()->loadScene(fileName);
-    // setCurrentActionIndex(0);
   }
+  setCurrentActionIndex(0);
 }
 
-MainWindow::~MainWindow()
-{
-  delete mUi;
-}
+MainWindow::~MainWindow() = default;
 
 void MainWindow::test()
 {
@@ -68,51 +93,43 @@ void MainWindow::initializeMenu()
 
 void MainWindow::initializeConnection()
 {
-  mActionGroup->setExclusive(true);
-  mActionGroup->addAction(mUi->action_Segmentation);
-  mActionGroup->addAction(mUi->action_Screw_Planning);
-  mActionGroup->addAction(mUi->action_Path_Planning);
-  mActionGroup->addAction(mUi->action_Plate_Planning);
-  mActionGroup->addAction(mUi->action_Interval_Planning);
-  mActionGroup->addAction(mUi->action_Lateral_Planning);
-  mActionGroup->addAction(mUi->action_Posterior_Planning);
-  mActionGroup->addAction(mUi->action_Planning);
-  mActionGroup->addAction(mUi->action_Whole_Spine_CT);
-  mActionGroup->addAction(mUi->action_Single_Vertebra_CT);
-  mActionGroup->addAction(mUi->action_Whole_Spine_X_Ray);
-  mActionGroup->addAction(mUi->action_Whole_Spine_MRI);
-  mActionGroup->addAction(mUi->action_Single_Vertebra_MRI);
-  mActionGroup->addAction(mUi->action_Length);
-  mActionGroup->addAction(mUi->action_Angle);
-
   connect(IOController::getInstance(),
           &IOController::sceneLoaded,
           this,
-          &MainWindow::onsceneLoaded);
+          &MainWindow::onSceneLoaded);
   connect(mActionGroup,
           &QActionGroup::triggered,
           this,
-          &MainWindow::actionsTriggered);
+          &MainWindow::onActionsTriggered);
+}
+
+void MainWindow::setCurrentActionIndex(int index)
+{
+  // bounding
+  MITK_INFO << index;
+  if (index >= mActionGroup->actions().size())
+  {
+    mCurrentActionIndex = mActionGroup->actions().size() - 1;
+  }
+  else if (index < 0)
+  {
+    mCurrentActionIndex = 0;
+  }
+  else
+  {
+    mCurrentActionIndex = index;
+  }
+  mActionGroup->actions()[mCurrentActionIndex]->trigger();
 }
 
 void MainWindow::on_toolButtonNext_clicked(bool checked)
 {
-  if (++currentActionIndex < mActionGroup->actions().size())
-  {
-    actionsTriggered(mActionGroup->actions()[currentActionIndex]);
-  }
+  setCurrentActionIndex(++mCurrentActionIndex);
 }
 
 void MainWindow::on_toolButtonPrevious_clicked(bool checked)
 {
-  if (--currentActionIndex < 0)
-  {
-    actionsTriggered(nullptr);
-  }
-  else
-  {
-    actionsTriggered(mActionGroup->actions()[currentActionIndex]);
-  }
+  setCurrentActionIndex(--mCurrentActionIndex);
 }
 
 void MainWindow::on_toolButtonLoad_clicked(bool checked)
@@ -137,30 +154,52 @@ void MainWindow::on_toolButtonExport_clicked(bool checked)
   IOController::getInstance()->saveScene(fileName);
 }
 
-void MainWindow::actionsTriggered(QAction* action)
+void MainWindow::onActionsTriggered(QAction* action)
 {
+  if (action == mActionGroup->actions().last())
+  {
+    mUi->toolButtonNext->setEnabled(false);
+    mUi->toolButtonPrevious->setEnabled(true);
+  }
+  else if (action == mActionGroup->actions().first())
+  {
+    mUi->toolButtonNext->setEnabled(true);
+    mUi->toolButtonPrevious->setEnabled(false);
+  }
+  else
+  {
+    mUi->toolButtonNext->setEnabled(true);
+    mUi->toolButtonPrevious->setEnabled(true);
+  }
+
+  if (mActionGroup->actions().indexOf(action) <=
+      mActionGroup->actions().indexOf(mUi->action_Segmentation))
+  {
+    mUi->stackedWidget->setCurrentWidget(mUi->segmentationWidget);
+  }
+  else if (mActionGroup->actions().indexOf(action) <=
+           mActionGroup->actions().indexOf(mUi->action_Posterior_Planning))
+  {
+    mUi->stackedWidget->setCurrentWidget(mUi->planningWidget);
+  }
+
   mUi->stackedWidget->hide();
   mUi->segmentationWidget->setEnabled(false);
   mUi->planningWidget->setEnabled(false);
   mUi->toolsWidget->setEnabled(false);
-  // ui->multiWidget->enablePlanarLine(false);
-  // ui->multiWidget->enablePlanarAngle(false);
+
   if (action == mUi->action_Segmentation)
   {
     mUi->stackedWidget->setCurrentWidget(mUi->segmentationWidget);
     mUi->stackedWidget->show();
     mUi->segmentationWidget->setEnabled(true);
-    mUi->toolButtonPrevious->setEnabled(false);
-    mUi->toolButtonNext->setEnabled(true);
   }
   else if (action == mUi->action_Planning ||
            action == mUi->action_Single_Vertebra_CT)
   {
-    mUi->stackedWidget->setCurrentWidget(mUi->planningWidget);
+    mUi->stackedWidget->setCurrentWidget(mUi->casePlanningWidget);
     mUi->stackedWidget->show();
     mUi->planningWidget->setEnabled(true);
-    mUi->toolButtonPrevious->setEnabled(true);
-    mUi->toolButtonNext->setEnabled(false);
   }
   else if (action == mUi->action_Whole_Spine_CT)
   {
@@ -188,7 +227,7 @@ void MainWindow::actionsTriggered(QAction* action)
   }
 }
 
-void MainWindow::onsceneLoaded()
+void MainWindow::onSceneLoaded()
 {
   mUi->multiWidget->InitializeMultiWidget();
 }
