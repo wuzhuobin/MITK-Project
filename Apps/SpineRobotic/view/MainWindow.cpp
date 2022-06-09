@@ -93,6 +93,26 @@ void MainWindow::initializeMenu()
 
 void MainWindow::initializeConnection()
 {
+  connect(mUi->action_Screw_Planning,
+          &QAction::triggered,
+          mUi->casePlanningWidget,
+          &CasePlanningWidget::onActionScrewPlanningTriggered);
+  connect(mUi->action_Path_Planning,
+          &QAction::triggered,
+          mUi->casePlanningWidget,
+          &CasePlanningWidget::onActionPathPlanningTriggered);
+  connect(mUi->action_Interval_Planning,
+          &QAction::triggered,
+          mUi->casePlanningWidget,
+          &CasePlanningWidget::onActionIntervalPlanningTriggered);
+  connect(mUi->action_Lateral_Planning,
+          &QAction::triggered,
+          mUi->casePlanningWidget,
+          &CasePlanningWidget::onActionLateralPlanningTriggered);
+  connect(mUi->action_Posterior_Planning,
+          &QAction::triggered,
+          mUi->casePlanningWidget,
+          &CasePlanningWidget::onActionPosteriorPlanningTriggered);
   connect(IOController::getInstance(),
           &IOController::sceneLoaded,
           this,
@@ -180,10 +200,10 @@ void MainWindow::onActionsTriggered(QAction* action)
   else if (mActionGroup->actions().indexOf(action) <=
            mActionGroup->actions().indexOf(mUi->action_Posterior_Planning))
   {
-    mUi->stackedWidget->setCurrentWidget(mUi->planningWidget);
+    MITK_INFO << action->objectName().toStdString();
+    mUi->stackedWidget->setCurrentWidget(mUi->casePlanningWidget);
   }
 
-  mUi->stackedWidget->hide();
   mUi->segmentationWidget->setEnabled(false);
   mUi->planningWidget->setEnabled(false);
   mUi->toolsWidget->setEnabled(false);

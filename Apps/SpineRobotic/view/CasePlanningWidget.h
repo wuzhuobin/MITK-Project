@@ -27,6 +27,11 @@ class CasePlanningWidget : public QStackedWidget
 public:
   explicit CasePlanningWidget(QWidget* parent = nullptr);
   ~CasePlanningWidget() override;
+  Q_SLOT void onActionScrewPlanningTriggered(bool checked = false);
+  Q_SLOT void onActionPathPlanningTriggered(bool checked = false);
+  Q_SLOT void onActionIntervalPlanningTriggered(bool checked = false);
+  Q_SLOT void onActionLateralPlanningTriggered(bool checked = false);
+  Q_SLOT void onActionPosteriorPlanningTriggered(bool checked = false);
 
 private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;

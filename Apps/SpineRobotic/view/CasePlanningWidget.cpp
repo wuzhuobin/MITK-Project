@@ -20,3 +20,31 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
 }
 
 CasePlanningWidget::~CasePlanningWidget() = default;
+
+void CasePlanningWidget::onActionScrewPlanningTriggered(bool checked)
+{
+  Q_UNUSED(checked);
+  setCurrentWidget(mUi->screwPlanning);
+}
+
+void CasePlanningWidget::onActionPathPlanningTriggered(bool checked)
+{
+  Q_UNUSED(checked);
+  setCurrentWidget(mUi->pathPlanning);
+}
+void CasePlanningWidget::onActionIntervalPlanningTriggered(bool checked)
+{
+  Q_UNUSED(checked);
+  setCurrentWidget(mUi->intervalPlanning);
+}
+void CasePlanningWidget::onActionLateralPlanningTriggered(bool checked)
+{
+  Q_UNUSED(checked);
+  setCurrentWidget(mUi->lateralPlanning);
+}
+
+void CasePlanningWidget::onActionPosteriorPlanningTriggered(bool checked)
+{
+  Q_UNUSED(checked);
+  setCurrentWidget(mUi->posteriorPlanning);
+}
