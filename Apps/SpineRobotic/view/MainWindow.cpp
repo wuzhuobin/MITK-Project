@@ -66,8 +66,9 @@ MainWindow::~MainWindow() = default;
 void MainWindow::test()
 {
   auto fileName = QApplication::applicationDirPath() + "/SpineRobotic.mitk";
+  setCurrentActionIndex(
+      mActionGroup->actions().indexOf(mUi->action_Screw_Planning));
   IOController::getInstance()->loadScene(fileName);
-  // actionsTriggered(ui->action_Segmentation);
 }
 
 void MainWindow::initializeMenu()

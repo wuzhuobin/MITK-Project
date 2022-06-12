@@ -133,7 +133,7 @@ void THAStdMultiWidget::InitializeMultiWidget()
   ////////////////////////////////////////////////////////////////////////////////
   mView = View::VIEW_DEFAULT;
   mMode = Mode::MODE_DEFAULT;
-  UpdateViewMode();
+  updateViewMode();
   ////////////////////////////////////////////////////////////////////////////////
   /// Preset
   ////////////////////////////////////////////////////////////////////////////////
@@ -144,23 +144,23 @@ void THAStdMultiWidget::setView(View view)
 {
   mView = view;
   mCustom = Custom::Default;
-  UpdateViewMode();
+  updateViewMode();
 }
 
 void THAStdMultiWidget::setMode(Mode mode)
 {
   mMode = mode;
   mCustom = Custom::Default;
-  UpdateViewMode();
+  updateViewMode();
 }
 
 void THAStdMultiWidget::setCustom(Custom custom)
 {
   mCustom = custom;
-  UpdateViewMode();
+  updateViewMode();
 }
 
-void THAStdMultiWidget::UpdateViewMode()
+void THAStdMultiWidget::updateViewMode()
 {
   ////////////////////////////////////////////////////////////////////////////////
   /// Set Visibility

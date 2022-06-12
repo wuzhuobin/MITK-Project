@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>335</width>
+    <width>361</width>
     <height>679</height>
    </rect>
   </property>
@@ -27,13 +27,13 @@
   <widget class="QWidget" name="screwPlanning">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="groupBoxScrews">
       <property name="title">
        <string>Screw</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="pushButtonNewScrew">
          <property name="text">
           <string>New Screw</string>
          </property>
@@ -52,7 +52,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxScrewDiameter"/>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
@@ -62,10 +62,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+       <widget class="QSpinBox" name="spinBoxScrewLength"/>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pushButtonScrewConfirm">
         <property name="text">
          <string>Confirm</string>
         </property>

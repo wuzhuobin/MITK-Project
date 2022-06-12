@@ -21,6 +21,8 @@ namespace Ui
 {
 class CasePlanningWidget;
 }
+class QButtonGroup;
+class QAbstractButton;
 class CasePlanningWidget : public QStackedWidget
 {
   Q_OBJECT
@@ -35,6 +37,12 @@ public:
 
 private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
+  QButtonGroup* mButtonGroupScrew;
+
+  Q_SLOT void on_pushButtonNewScrew_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonScrewConfirm_clicked(bool checked = false);
+  Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
+                                              bool checked = false);
 };
 
 #endif  //! CASE_PLANNING_WIDGET_H

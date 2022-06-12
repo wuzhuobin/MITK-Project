@@ -63,6 +63,6 @@ private:
   ImplantAssessmentGadget* mImplantAssessmentGadget[4];
   CupParameterGadget* mCupParameterGadget[4];
   CupImpactionParameterGadget* mCupImpactionParameterGadget[4];
-  void UpdateViewMode();
+  void updateViewMode();
 };
 #endif  //! THA_STD_MULTI_WIDGET
