@@ -31,6 +31,7 @@ public:
   ~ScrewSettingsWidget() override;
   QRadioButton* getRadioButton() const;
 
+  const QString getScrewName() const;
   double getDiameter() const;
   void setDiameter(double diameter);
   int getLength() const;
@@ -39,6 +40,7 @@ public:
 private:
   std::unique_ptr<Ui::ScrewSettingsWidget> mUi;
   Q_SLOT void on_toolButtonDelete_clicked(bool checked = false);
+  Q_SLOT void on_toolButtonHide_toggled(bool checked);
 };
 
 #endif  //! SCREW_SETTINGS_WIDGET_H

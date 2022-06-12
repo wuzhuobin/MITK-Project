@@ -1,3 +1,13 @@
+/**
+ * @file IOController.cpp
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-06-12
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "IOController.h"
 
 // mitk
@@ -5,42 +15,41 @@
 #include <mitkRenderingManager.h>
 #include <mitkSceneIO.h>
 
-
 // qt
 #include <QSharedPointer>
-#include <qobjectdefs.h>
 
-QSharedPointer<IOController> instance = QSharedPointer<IOController>(new IOController);
+QSharedPointer<IOController> instance =
+    QSharedPointer<IOController>(new IOController);
 
-IOController * IOController::getInstance()
+IOController* IOController::getInstance()
 {
   return instance.get();
 }
 
 void IOController::loadScene(QString fileName)
 {
-  mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
-  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  mitk::DataStorage::SetOfObjects::ConstPointer dataNodes =
-      sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
+  auto sceneIO = mitk::SceneIO::New();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto dataNodes = sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
   MITK_INFO << "DataStorage, num of nodes: " << dataNodes->size();
-  for (const mitk::DataNode *one : *dataNodes)
+  for (const mitk::DataNode* one : *dataNodes)
   {
     MITK_INFO << one->GetName();
   }
-  Q_EMIT  this->sceneLoaded();
+  Q_EMIT this->sceneLoaded();
 }
 
 void IOController::saveScene(QString fileName)
 {
-  mitk::SceneIO::Pointer sceneIO = mitk::SceneIO::New();
-  mitk::DataStorage *ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto sceneIO = mitk::SceneIO::New();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   bool isSuccess = sceneIO->SaveScene(ds->GetAll(), ds, fileName.toStdString());
   if (isSuccess)
   {
     MITK_INFO << "Saved to " + fileName.toStdString() + ".";
   }
-  else {
+  else
+  {
     MITK_INFO << "Failed to save to " + fileName.toStdString() + ".";
   }
 }

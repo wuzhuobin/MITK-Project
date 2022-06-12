@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
+    <width>372</width>
     <height>46</height>
    </rect>
   </property>
@@ -22,9 +22,12 @@
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="toolButton">
+    <widget class="QToolButton" name="toolButtonHide">
      <property name="text">
       <string>Hide</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

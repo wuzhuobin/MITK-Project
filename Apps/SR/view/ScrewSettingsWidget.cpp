@@ -16,6 +16,11 @@
 // qt
 #include <QButtonGroup>
 
+// mitk
+#include <mitkDataStorage.h>
+#include <mitkLogMacros.h>
+#include <mitkRenderingManager.h>
+
 ScrewSettingsWidget::ScrewSettingsWidget(const QString& screwName,
                                          QWidget* parent) :
     QWidget(parent), mUi(std::make_unique<Ui::ScrewSettingsWidget>())
@@ -30,6 +35,11 @@ ScrewSettingsWidget::~ScrewSettingsWidget() = default;
 QRadioButton* ScrewSettingsWidget::getRadioButton() const
 {
   return mUi->radioButtonScrew;
+}
+
+const QString ScrewSettingsWidget::getScrewName() const
+{
+  return mUi->radioButtonScrew->text();
 }
 
 double ScrewSettingsWidget::getDiameter() const
@@ -55,6 +65,20 @@ void ScrewSettingsWidget::setLength(int length)
 void ScrewSettingsWidget::on_toolButtonDelete_clicked(bool checked)
 {
   Q_UNUSED(checked);
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
-  delete this;
+  ds->Remove(ds->GetNamedNode(getScrewName().toStdString()));
+  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  deleteLater();
+}
+
+void ScrewSettingsWidget::on_toolButtonHide_toggled(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* screwNode = ds->GetNamedNode(getScrewName().toStdString());
+  screwNode->SetVisibility(!checked);
+
+  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
