@@ -33,7 +33,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButtonNewScrew">
+        <widget class="QPushButton" name="pushButtonScrewNew">
          <property name="text">
           <string>New Screw</string>
          </property>
@@ -97,7 +97,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="pushButtonPathNew">
          <property name="text">
           <string>New Path</string>
          </property>
@@ -105,6 +105,27 @@
        </item>
       </layout>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Diameter:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxPathDiameter"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonPathConfirm">
+        <property name="text">
+         <string>Confirm</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <spacer name="verticalSpacer_2">

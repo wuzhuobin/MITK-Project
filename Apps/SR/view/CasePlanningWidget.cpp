@@ -70,7 +70,7 @@ void CasePlanningWidget::onActionPosteriorPlanningTriggered(bool checked)
   setCurrentWidget(mUi->posteriorPlanning);
 }
 
-void CasePlanningWidget::on_pushButtonNewScrew_clicked(bool checked)
+void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
 {
   Q_UNUSED(checked);
 
@@ -110,6 +110,16 @@ void CasePlanningWidget::on_pushButtonScrewConfirm_clicked(bool checked)
       screwSettingsWidget->setLength(mUi->spinBoxScrewLength->value());
     }
   }
+}
+
+void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
+void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)
+{
+  Q_UNUSED(checked);
 }
 
 void CasePlanningWidget::onButtonGroupScrewButtonToggled(

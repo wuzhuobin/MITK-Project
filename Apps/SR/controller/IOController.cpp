@@ -15,15 +15,11 @@
 #include <mitkRenderingManager.h>
 #include <mitkSceneIO.h>
 
-// qt
-#include <QSharedPointer>
-
-QSharedPointer<IOController> instance =
-    QSharedPointer<IOController>(new IOController);
+static IOController gInstance;
 
 IOController* IOController::getInstance()
 {
-  return instance.get();
+  return &gInstance;
 }
 
 void IOController::loadScene(QString fileName)
@@ -36,7 +32,7 @@ void IOController::loadScene(QString fileName)
   {
     MITK_INFO << one->GetName();
   }
-  Q_EMIT this->sceneLoaded();
+  Q_EMIT sceneLoaded();
 }
 
 void IOController::saveScene(QString fileName)
@@ -53,7 +49,3 @@ void IOController::saveScene(QString fileName)
     MITK_INFO << "Failed to save to " + fileName.toStdString() + ".";
   }
 }
-
-// IOController::IOController(QObject *parent): QObject(parent)
-// {
-// }

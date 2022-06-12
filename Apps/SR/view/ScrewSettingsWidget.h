@@ -1,6 +1,6 @@
 /**
  * @file ScrewSettingsWidget.h
- * @author wuzhuobin (zhuobin.wu@domain.com)
+ * @author wuzhuobin (jiejin2022@163.com.com)
  * @brief
  * @version 0.1
  * @date 2022-06-11
@@ -26,7 +26,7 @@ class ScrewSettingsWidget : public QWidget
 {
   Q_OBJECT
 public:
-  explicit ScrewSettingsWidget(const QString& screwName,
+  explicit ScrewSettingsWidget(const QString& screwName = QString(),
                                QWidget* parent = nullptr);
   ~ScrewSettingsWidget() override;
   QRadioButton* getRadioButton() const;

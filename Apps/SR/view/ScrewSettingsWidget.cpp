@@ -1,6 +1,6 @@
 /**
  * @file ScrewSettingsWidget.cpp
- * @author wuzhuobin (zhuobin.wu@domain.com)
+ * @author wuzhuobin (jiejin2022@163.com)
  * @brief
  * @version 0.1
  * @date 2022-06-11

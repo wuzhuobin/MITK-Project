@@ -1,3 +1,13 @@
+/**
+ * @file THAStdMultiWidget.h
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-06-13
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #ifndef THA_STD_MULTI_WIDGET
 #define THA_STD_MULTI_WIDGET
 // mitk

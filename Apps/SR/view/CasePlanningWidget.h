@@ -1,6 +1,6 @@
 /**
  * @file CasePlanningWidget.h
- * @author wuzhuobin (zhuobin.wu@domain.com)
+ * @author wuzhuobin (jiejin2022@163.com)
  * @brief
  * @version 0.1
  * @date 2022-06-08
@@ -39,8 +39,10 @@ private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
   QButtonGroup* mButtonGroupScrew;
 
-  Q_SLOT void on_pushButtonNewScrew_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonScrewNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonScrewConfirm_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonPathNew_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonPathConfirm_clicked(bool checked = false);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
 };
