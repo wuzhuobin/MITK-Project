@@ -17,12 +17,18 @@
 // #include <mitkPlanarLine.h>
 #include <usModuleRegistry.h>
 
+static SRStdMultiWidget* gInstance = nullptr;
+SRStdMultiWidget* SRStdMultiWidget::getInstance()
+{
+  return gInstance;
+}
+
 SRStdMultiWidget::SRStdMultiWidget(QWidget* parent,
                                    Qt::WindowFlags f,
                                    const QString& name) :
     QmitkStdMultiWidget(parent, f, name),
     // planarFigureInteractor(mitk::PlanarFigureInteractor::New()),
-    groupBoxGadget{
+    mGroupBoxGadget{
         new GroupBoxGadget(GroupBoxGadget::Orientation::AXIAL, this),
         new GroupBoxGadget(GroupBoxGadget::Orientation::SAGITTAL, this),
         new GroupBoxGadget(GroupBoxGadget::Orientation::CORONAL, this),
@@ -34,7 +40,7 @@ SRStdMultiWidget::SRStdMultiWidget(QWidget* parent,
   // planarFigureInteractor->SetEventConfig(
   //     "PlanarFigureConfig.xml",
   //     us::ModuleRegistry::GetModule("MitkPlanarFigure"));
-
+  gInstance = this;
   enableGroupBox(false);
 }
 
@@ -49,25 +55,45 @@ void SRStdMultiWidget::InitializeMultiWidget()
   // show image plane in viewer and data storage
   AddPlanesToDataStorage();
   // Disable the plane widget
-  SetCrosshairVisibility(false);
+  // SetCrosshairVisibility(false);
+  SetWidgetPlanesVisibility(true,
+                            mitk::BaseRenderer::GetInstance(
+                                GetRenderWindow1()->GetVtkRenderWindow()));
+  SetWidgetPlanesVisibility(true,
+                            mitk::BaseRenderer::GetInstance(
+                                GetRenderWindow2()->GetVtkRenderWindow()));
+  SetWidgetPlanesVisibility(true,
+                            mitk::BaseRenderer::GetInstance(
+                                GetRenderWindow3()->GetVtkRenderWindow()));
+  SetWidgetPlanesVisibility(false,
+                            mitk::BaseRenderer::GetInstance(
+                                GetRenderWindow4()->GetVtkRenderWindow()));
 
   for (int i = 0; i < 4; ++i)
   {
-    QmitkRenderWindow* renderWindow = GetRenderWindow(i);
-    QGridLayout* pRenderWindow1Layout = new QGridLayout(renderWindow);
+    auto* renderWindow = GetRenderWindow(i);
+    auto* pRenderWindow1Layout = new QGridLayout(renderWindow);
     pRenderWindow1Layout->addWidget(
-        groupBoxGadget[i], 0, 1, Qt::AlignRight | Qt::AlignTop);
+        mGroupBoxGadget[i], 0, 1, Qt::AlignRight | Qt::AlignTop);
     renderWindow->setLayout(pRenderWindow1Layout);
   }
 
   updateViewMode();
 }
 
+void SRStdMultiWidget::setTransformTarget(const QString& transformTarget)
+{
+  for (auto i = 0; i < 4; ++i)
+  {
+    mGroupBoxGadget[i]->setTarget(transformTarget);
+  }
+}
+
 void SRStdMultiWidget::enableGroupBox(bool flag)
 {
-  for (int i = 0; i < 4; ++i)
+  for (auto i = 0; i < 4; ++i)
   {
-    groupBoxGadget[i]->setVisible(flag);
+    mGroupBoxGadget[i]->setVisible(flag);
   }
 }
 
@@ -94,7 +120,7 @@ void SRStdMultiWidget::updateViewMode()
   auto all = GetDataStorage()->GetAll();
   for (const auto& one : *all)
   {
-    bool isHelperObject = false;
+    auto isHelperObject = false;
     if (!one->GetBoolProperty("helper object", isHelperObject) ||
         !isHelperObject)
     {

@@ -36,6 +36,13 @@ static const std::set<std::string> DEFAULT_VISIBLE_SET = {
     "femur_right",
     "image"};
 
+static THAStdMultiWidget* gInstance = nullptr;
+
+THAStdMultiWidget* THAStdMultiWidget::getInstance()
+{
+  return gInstance;
+}
+
 THAStdMultiWidget::THAStdMultiWidget(QWidget* parent,
                                      Qt::WindowFlags f,
                                      const QString& name) :
@@ -61,6 +68,7 @@ THAStdMultiWidget::THAStdMultiWidget(QWidget* parent,
                                  new CupImpactionParameterGadget(this),
                                  new CupImpactionParameterGadget(this)}
 {
+  gInstance = this;
 }
 
 void THAStdMultiWidget::InitializeMultiWidget()

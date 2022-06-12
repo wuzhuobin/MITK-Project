@@ -41,7 +41,7 @@ public:
     CupImpaction
   };
 
-public:
+  static THAStdMultiWidget* getInstance();
   explicit THAStdMultiWidget(QWidget* parent = nullptr,
                              Qt::WindowFlags f = nullptr,
                              const QString& name = "stdmulti");

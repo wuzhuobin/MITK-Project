@@ -11,6 +11,7 @@
 
 #include "CasePlanningWidget.h"
 
+#include "SRStdMultiWidget.h"
 #include "ScrewSettingsWidget.h"
 #include "ui_CasePlanningWidget.h"
 
@@ -31,6 +32,12 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     mButtonGroupScrew(new QButtonGroup(this))
 {
   mUi->setupUi(this);
+
+  connect(mButtonGroupScrew,
+          static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
+              &QButtonGroup::buttonToggled),
+          this,
+          &CasePlanningWidget::onButtonGroupScrewButtonToggled);
 }
 
 CasePlanningWidget::~CasePlanningWidget() = default;
@@ -108,11 +115,14 @@ void CasePlanningWidget::on_pushButtonScrewConfirm_clicked(bool checked)
 void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     QAbstractButton* button, bool checked)
 {
+  auto* multiWidget = SRStdMultiWidget::getInstance();
   if (!checked)
   {
     return;
   }
   auto screwName = button->text();
+  multiWidget->enableGroupBox(true);
+  multiWidget->setTransformTarget(screwName);
   auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
   auto* screwSettingsWidget =
       findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
