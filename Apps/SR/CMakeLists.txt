@@ -1,4 +1,4 @@
-project(SpineRobotic)
+project(SR)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)

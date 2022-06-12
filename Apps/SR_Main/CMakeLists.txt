@@ -1,4 +1,4 @@
-project(SpineRobotic_Main)
+project(SR_Main)
 
 add_executable(
   ${PROJECT_NAME}
@@ -8,5 +8,5 @@ add_executable(
 target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC
-  SpineRobotic
+  SR
 )
