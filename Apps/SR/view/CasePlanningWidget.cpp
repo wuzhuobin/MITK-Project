@@ -11,6 +11,7 @@
 
 #include "CasePlanningWidget.h"
 
+#include "PathSettingsWidget.h"
 #include "SRStdMultiWidget.h"
 #include "ScrewSettingsWidget.h"
 #include "ui_CasePlanningWidget.h"
@@ -29,7 +30,8 @@
 CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     QStackedWidget(parent),
     mUi(std::make_unique<Ui::CasePlanningWidget>()),
-    mButtonGroupScrew(new QButtonGroup(this))
+    mButtonGroupScrew(new QButtonGroup(this)),
+    mButtonGroupPath(new QButtonGroup(this))
 {
   mUi->setupUi(this);
 
@@ -115,6 +117,13 @@ void CasePlanningWidget::on_pushButtonScrewConfirm_clicked(bool checked)
 void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
 {
   Q_UNUSED(checked);
+
+  auto size = mButtonGroupPath->buttons().size();
+  QString pathName("path");
+  auto newPathName = QString(pathName + "_%1").arg(size + 1);
+  auto* pathSettingsWidget = new PathSettingsWidget(newPathName, this);
+  mButtonGroupPath->addButton(pathSettingsWidget->getRadioButton());
+  mUi->groupBoxPaths->layout()->addWidget(pathSettingsWidget);
 }
 
 void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)

@@ -18,6 +18,43 @@ PathSettingsWidget::PathSettingsWidget(const QString& pathName,
     QWidget(parent), mUi(std::make_unique<Ui::PathSettingsWidget>())
 {
   mUi->setupUi(this);
+  mUi->radioButtonScrew->setText(pathName);
 }
 
 PathSettingsWidget::~PathSettingsWidget() = default;
+
+QRadioButton* PathSettingsWidget::getRadioButton() const
+{
+  return mUi->radioButtonScrew;
+}
+
+double PathSettingsWidget::getDiameter() const
+{
+  return mUi->doubleSpinBoxDiameter->value();
+}
+
+void PathSettingsWidget::setDiameter(double diameter)
+{
+  mUi->doubleSpinBoxDiameter->setValue(diameter);
+}
+
+void PathSettingsWidget::on_toolButtonDelete_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+  //   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  //   ds->Remove(ds->GetNamedNode(getPathName().toStdString()));
+  //   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
+  //   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  deleteLater();
+}
+
+void PathSettingsWidget::on_toolButtonHide_toggled(bool checked)
+{
+  //   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  //   auto* screwNode = ds->GetNamedNode(getPathName().toStdString());
+  //   screwNode->SetVisibility(!checked);
+
+  //   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
+  //   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}

@@ -91,7 +91,7 @@
   <widget class="QWidget" name="pathPlanning">
    <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="groupBoxPaths">
       <property name="title">
        <string>Path</string>
       </property>

@@ -38,6 +38,7 @@ public:
 private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
   QButtonGroup* mButtonGroupScrew;
+  QButtonGroup* mButtonGroupPath;
 
   Q_SLOT void on_pushButtonScrewNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonScrewConfirm_clicked(bool checked = false);

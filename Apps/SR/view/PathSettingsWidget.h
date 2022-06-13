@@ -22,16 +22,22 @@ namespace Ui
 {
 class PathSettingsWidget;
 }
+class QRadioButton;
 class PathSettingsWidget : public QWidget
 {
   Q_OBJECT
 public:
-  explicit PathSettingsWidget(const QString& pathName,
+  explicit PathSettingsWidget(const QString& pathName = QString(),
                               QWidget* parent = nullptr);
   ~PathSettingsWidget() override;
+  QRadioButton* getRadioButton() const;
+  double getDiameter() const;
+  void setDiameter(double diameter);
 
 private:
   std::unique_ptr<Ui::PathSettingsWidget> mUi;
+  Q_SLOT void on_toolButtonDelete_clicked(bool checked = false);
+  Q_SLOT void on_toolButtonHide_toggled(bool checked);
 };
 
 #endif  // !PATH_SETTINGS_WIDGET_H
