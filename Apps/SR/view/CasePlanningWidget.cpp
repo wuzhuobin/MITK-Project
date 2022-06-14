@@ -20,6 +20,8 @@
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
 #include <mitkLogMacros.h>
+#include <mitkPointSet.h>
+#include <mitkPointSetDataInteractor.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
 
@@ -90,6 +92,7 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   screwNode->SetData(screw->Clone());
   screwNode->SetVisibility(true);
   ds->Add(screwNode);
+
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
@@ -124,6 +127,21 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   auto* pathSettingsWidget = new PathSettingsWidget(newPathName, this);
   mButtonGroupPath->addButton(pathSettingsWidget->getRadioButton());
   mUi->groupBoxPaths->layout()->addWidget(pathSettingsWidget);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto pathNode = mitk::DataNode::New();
+  pathNode->SetName(newPathName.toStdString());
+  pathNode->SetData(mitk::PointSet::New());
+  pathNode->SetVisibility(true);
+  ds->Add(pathNode);
+
+  auto pointSetInteractor = mitk::PointSetDataInteractor::New();
+  pointSetInteractor->LoadStateMachine("PointSet.xml");
+  pointSetInteractor->SetEventConfig("PointSetConfig.xml");
+  pointSetInteractor->SetDataNode(pathNode);
+
+  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)

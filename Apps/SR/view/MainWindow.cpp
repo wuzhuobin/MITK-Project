@@ -1,3 +1,13 @@
+/**
+ * @file MainWindow.cpp
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-06-14
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "MainWindow.h"
 
 #include "IOController.h"
@@ -67,7 +77,7 @@ void MainWindow::test()
 {
   auto fileName = QApplication::applicationDirPath() + "/SpineRobotic.mitk";
   setCurrentActionIndex(
-      mActionGroup->actions().indexOf(mUi->action_Screw_Planning));
+      mActionGroup->actions().indexOf(mUi->action_Path_Planning));
   IOController::getInstance()->loadScene(fileName);
 }
 

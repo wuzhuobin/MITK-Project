@@ -18,6 +18,7 @@ PathSettingsWidget::PathSettingsWidget(const QString& pathName,
     QWidget(parent), mUi(std::make_unique<Ui::PathSettingsWidget>())
 {
   mUi->setupUi(this);
+  setObjectName("PathSettingsWidget_" + pathName);
   mUi->radioButtonScrew->setText(pathName);
 }
 

@@ -1,3 +1,13 @@
+/**
+ * @file MainWindow.h
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-06-14
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
