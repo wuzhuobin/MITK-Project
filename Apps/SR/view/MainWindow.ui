@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1242</width>
-    <height>894</height>
+    <width>1202</width>
+    <height>887</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_4">
+   <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -30,73 +30,6 @@
           <item>
            <widget class="SRStdMultiWidget" name="multiWidget" native="true"/>
           </item>
-          <item>
-           <widget class="QFrame" name="frame_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QToolButton" name="toolButton">
-               <property name="text">
-                <string>Screw</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_2">
-               <property name="text">
-                <string>Path</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_4">
-               <property name="text">
-                <string>Plate</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_5">
-               <property name="text">
-                <string>Interval</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_6">
-               <property name="text">
-                <string>Lateral</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_10">
-               <property name="text">
-                <string>Posterior</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolButton_13">
-               <property name="text">
-                <string>Image</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
          </layout>
         </widget>
        </widget>
@@ -104,7 +37,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QFrame" name="frame">
+         <widget class="QFrame" name="frameLegacy">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
             <horstretch>0</horstretch>
@@ -124,7 +57,7 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QToolButton" name="toolButton_3">
+            <widget class="QToolButton" name="toolButtonDefault">
              <property name="text">
               <string>Default</string>
              </property>
@@ -183,21 +116,21 @@
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_7">
+            <widget class="QToolButton" name="toolButtonSelect">
              <property name="text">
               <string>Select</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_8">
+            <widget class="QToolButton" name="toolButtonMarking">
              <property name="text">
               <string>Marking</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_9">
+            <widget class="QToolButton" name="toolButtonEdit">
              <property name="text">
               <string>Edit</string>
              </property>
@@ -211,14 +144,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_11">
+            <widget class="QToolButton" name="toolButtonUndo">
              <property name="text">
               <string>Undo</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_12">
+            <widget class="QToolButton" name="toolButtonRedo">
              <property name="text">
               <string>Redo</string>
              </property>
@@ -239,28 +172,28 @@
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_15">
+            <widget class="QToolButton" name="toolButtonAlign">
              <property name="text">
               <string>Align</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_16">
+            <widget class="QToolButton" name="toolButtonPlanning">
              <property name="text">
               <string>Planning</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_17">
+            <widget class="QToolButton" name="toolButtonFusion">
              <property name="text">
               <string>Fusion</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton_18">
+            <widget class="QToolButton" name="toolButtonIntraOp">
              <property name="text">
               <string>IntraOp</string>
              </property>
@@ -271,7 +204,142 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QFrame" name="frame_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QToolButton" name="toolButton_7">
+           <property name="text">
+            <string>Screw View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_9">
+           <property name="text">
+            <string>Path View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_8">
+           <property name="text">
+            <string>Planar View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_3">
+           <property name="text">
+            <string>Cambered View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_15">
+           <property name="text">
+            <string>Cylinder View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_14">
+           <property name="text">
+            <string>Wedge View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_12">
+           <property name="text">
+            <string>Hemivertebra View</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_11">
+           <property name="text">
+            <string>cobb</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QToolButton" name="toolButton">
+         <property name="text">
+          <string>Screw</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_2">
+         <property name="text">
+          <string>Path</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_4">
+         <property name="text">
+          <string>Plate</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_5">
+         <property name="text">
+          <string>Interval</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_6">
+         <property name="text">
+          <string>Lateral</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_10">
+         <property name="text">
+          <string>Posterior</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_13">
+         <property name="text">
+          <string>Image</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">

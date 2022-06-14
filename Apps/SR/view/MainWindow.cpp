@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget* parent) :
     mActionGroup(new QActionGroup(this))
 {
   mUi->setupUi(this);
+  mUi->frameLegacy->setVisible(false);
 
   initializeMenu();
 
