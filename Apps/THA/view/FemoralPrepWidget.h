@@ -17,6 +17,7 @@ class FemoralPrepWidget : public QStackedWidget
   Q_OBJECT
 public:
   explicit FemoralPrepWidget(QWidget* parent = nullptr);
+  ~FemoralPrepWidget() override;
 
   Q_SLOT void action_Femoral_Landmark_triggered(bool checked = false);
   Q_SLOT void action_Femoral_Checkpoint_triggered(bool checked = false);
