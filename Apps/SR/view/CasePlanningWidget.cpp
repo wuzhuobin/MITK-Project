@@ -133,12 +133,16 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   pathNode->SetName(newPathName.toStdString());
   pathNode->SetData(mitk::PointSet::New());
   pathNode->SetVisibility(true);
+  pathNode->SetBooleanProperty("show contour", true);
+  pathNode->SetBooleanProperty("show points", true);
+  pathNode->SetBooleanProperty("fill shape", true);
   ds->Add(pathNode);
 
   auto pointSetInteractor = mitk::PointSetDataInteractor::New();
   pointSetInteractor->LoadStateMachine("PointSet.xml");
   pointSetInteractor->SetEventConfig("PointSetConfig.xml");
   pointSetInteractor->SetDataNode(pathNode);
+  pointSetInteractor->SetMaxPoints(2);
 
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
