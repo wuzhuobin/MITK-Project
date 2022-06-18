@@ -46,6 +46,8 @@ private:
   Q_SLOT void on_pushButtonPathConfirm_clicked(bool checked = false);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
+  Q_SLOT void onButtonGroupPathButtonToggled(QAbstractButton* button,
+                                             bool checked = false);
 };
 
 #endif  //! CASE_PLANNING_WIDGET_H

@@ -31,6 +31,7 @@ public:
                               QWidget* parent = nullptr);
   ~PathSettingsWidget() override;
   QRadioButton* getRadioButton() const;
+  const QString getPathName() const;
   double getDiameter() const;
   void setDiameter(double diameter);
 
