@@ -51,8 +51,8 @@ void PathSettingsWidget::setDiameter(double diameter)
   auto* pathNode = ds->GetNamedNode(getPathName().toStdString());
 
   pathNode->SetIntProperty("line width", diameter);
-  pathNode->SetFloatProperty("point 2D size", diameter);
-  pathNode->SetFloatProperty("pointsize", diameter);
+  // pathNode->SetFloatProperty("point 2D size", diameter);
+  // pathNode->SetFloatProperty("pointsize", diameter);
   pathNode->SetFloatProperty("contoursize", diameter * 0.5);
 }
 

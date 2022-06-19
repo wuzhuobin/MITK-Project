@@ -44,6 +44,14 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     mButtonGroupInterval(new QButtonGroup(this))
 {
   mUi->setupUi(this);
+  connect(mUi->spinBoxIntervalSize,
+          QOverload<int>::of(&QSpinBox::valueChanged),
+          mUi->horizontalSliderIntervalSize,
+          &QSlider::setValue);
+  connect(mUi->horizontalSliderIntervalSize,
+          &QSlider::valueChanged,
+          mUi->spinBoxIntervalSize,
+          &QSpinBox::setValue);
 
   connect(mButtonGroupScrew,
           static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
@@ -55,6 +63,19 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
               &QButtonGroup::buttonToggled),
           this,
           &CasePlanningWidget::onButtonGroupPathButtonToggled);
+  connect(mButtonGroupPlate,
+          static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
+              &QButtonGroup::buttonToggled),
+          this,
+          &CasePlanningWidget::onButtonGroupPlateButtonToggled);
+  connect(mButtonGroupInterval,
+          static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
+              &QButtonGroup::buttonToggled),
+          this,
+          &CasePlanningWidget::onButtonGroupIntervalButtonToggled);
+
+  auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
+  toolManager->InitializeTools();
 }
 
 CasePlanningWidget::~CasePlanningWidget() = default;
@@ -95,6 +116,37 @@ void CasePlanningWidget::onActionPosteriorPlanningTriggered(bool checked)
   setCurrentWidget(mUi->posteriorPlanning);
 }
 
+void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
+{
+  Q_UNUSED(index);
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto* multiWidget = SRStdMultiWidget::getInstance();
+  multiWidget->enableGroupBox(false);
+  switch (index)
+  {
+    case 0:
+      break;
+    case 1: {
+      break;
+    }
+    case 2: {
+      break;
+    }
+    case 3: {
+      break;
+    }
+    case 4: {
+      break;
+    }
+    case 5: {
+      break;
+    }
+    default:
+      break;
+  }
+}
+
 void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
 {
   Q_UNUSED(checked);
@@ -104,10 +156,25 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   auto newScrewName = QString(screwName + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  // auto* multiWidget = SRStdMultiWidget::getInstance();
+  // auto pos = multiWidget->GetSelectedPosition("");
+  auto* stdmultiWidget0Plane =
+      ds->GetNamedObject<mitk::PlaneGeometryData>("stdmulti.widget0.plane");
+  auto* stdmultiWidget1Plane =
+      ds->GetNamedObject<mitk::PlaneGeometryData>("stdmulti.widget1.plane");
+  auto* stdmultiWidget2Plane =
+      ds->GetNamedObject<mitk::PlaneGeometryData>("stdmulti.widget2.plane");
+  mitk::Vector3D translate;
+  translate[0] = stdmultiWidget0Plane->GetPlaneGeometry()->GetCenter()[0];
+  translate[1] = stdmultiWidget1Plane->GetPlaneGeometry()->GetCenter()[1];
+  translate[2] = stdmultiWidget2Plane->GetPlaneGeometry()->GetCenter()[2];
+
   auto* screw = ds->GetNamedObject<mitk::Surface>(screwName.toStdString());
+  auto newScrew = screw->Clone();
+  newScrew->GetGeometry()->Translate(translate);
   auto screwNode = mitk::DataNode::New();
   screwNode->SetName(newScrewName.toStdString());
-  screwNode->SetData(screw->Clone());
+  screwNode->SetData(newScrew);
   screwNode->SetVisibility(true);
   ds->Add(screwNode);
 
@@ -210,7 +277,6 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   auto* image = ds->GetNamedObject<mitk::Image>("image");
 
   auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
-  toolManager->InitializeTools();
   toolManager->SetDataStorage(*ds);
   toolManager->RegisterClient();
   auto drawPaintBrushId =
@@ -233,16 +299,30 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
+void CasePlanningWidget::on_spinBoxIntervalSize_valueChanged(int value)
+{
+  auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
+  auto drawPaintBrushId =
+      toolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+  if (drawPaintBrushId == -1)
+  {
+    return;
+  }
+
+  auto* drawPaintBrush = static_cast<mitk::DrawPaintbrushTool*>(
+      toolManager->GetToolById(drawPaintBrushId));
+  drawPaintBrush->SetSize(value);
+}
 
 void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     QAbstractButton* button, bool checked)
 {
-  auto* multiWidget = SRStdMultiWidget::getInstance();
   if (!checked)
   {
     return;
   }
   auto screwName = button->text();
+  auto* multiWidget = SRStdMultiWidget::getInstance();
   multiWidget->enableGroupBox(true);
   multiWidget->setTransformTarget(screwName);
   auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
@@ -259,7 +339,6 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
 void CasePlanningWidget::onButtonGroupPathButtonToggled(QAbstractButton* button,
                                                         bool checked)
 {
-  auto* multiWidget = SRStdMultiWidget::getInstance();
   if (!checked)
   {
     return;
@@ -272,4 +351,31 @@ void CasePlanningWidget::onButtonGroupPathButtonToggled(QAbstractButton* button,
   {
     mUi->doubleSpinBoxPathDiameter->setValue(pathSettingsWidget->getDiameter());
   }
+}
+
+void CasePlanningWidget::onButtonGroupPlateButtonToggled(
+    QAbstractButton* button, bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+}
+
+void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
+    QAbstractButton* button, bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+  auto intervalName = button->text();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* imageNode = ds->GetNamedNode("image");
+  auto* intervalNode = ds->GetNamedNode(intervalName.toStdString());
+  auto* toolManager =
+      mitk::ToolManagerProvider::GetInstance()->GetToolManager();
+  toolManager->SetDataStorage(*ds);
+  toolManager->SetReferenceData(imageNode);
+  toolManager->SetWorkingData(intervalNode);
 }

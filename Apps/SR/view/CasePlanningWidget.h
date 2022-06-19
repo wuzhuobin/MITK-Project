@@ -43,16 +43,22 @@ private:
   QButtonGroup* mButtonGroupPlate;
   QButtonGroup* mButtonGroupInterval;
 
+  Q_SLOT void on_CasePlanningWidget_currentChanged(int index);
   Q_SLOT void on_pushButtonScrewNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonScrewConfirm_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPathNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPathConfirm_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPlateNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonIntervalNew_clicked(bool checked = false);
+  Q_SLOT void on_spinBoxIntervalSize_valueChanged(int value);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
   Q_SLOT void onButtonGroupPathButtonToggled(QAbstractButton* button,
                                              bool checked = false);
+  Q_SLOT void onButtonGroupPlateButtonToggled(QAbstractButton* button,
+                                              bool checked = false);
+  Q_SLOT void onButtonGroupIntervalButtonToggled(QAbstractButton* button,
+                                                 bool checked = false);
 };
 
 #endif  //! CASE_PLANNING_WIDGET_H
