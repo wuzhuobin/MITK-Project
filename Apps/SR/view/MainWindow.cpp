@@ -113,6 +113,10 @@ void MainWindow::initializeConnection()
           &QAction::triggered,
           mUi->casePlanningWidget,
           &CasePlanningWidget::onActionPathPlanningTriggered);
+  connect(mUi->action_Plate_Planning,
+          &QAction::triggered,
+          mUi->casePlanningWidget,
+          &CasePlanningWidget::onActionPlatePlanningTriggered);
   connect(mUi->action_Interval_Planning,
           &QAction::triggered,
           mUi->casePlanningWidget,
@@ -235,9 +239,8 @@ void MainWindow::onActionsTriggered(QAction* action)
   }
   else if (action == mUi->action_Whole_Spine_CT)
   {
-    mitk::DataStorage* ds =
-        mitk::RenderingManager::GetInstance()->GetDataStorage();
-    mitk::DataNode* imageNode = ds->GetNamedNode("image");
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto* imageNode = ds->GetNamedNode("image");
     imageNode->SetVisibility(true);
     mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   }

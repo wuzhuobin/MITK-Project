@@ -11,6 +11,7 @@
 
 #include "CasePlanningWidget.h"
 
+#include "CasePlanningSettingsWidget.h"
 #include "PathSettingsWidget.h"
 #include "SRStdMultiWidget.h"
 #include "ScrewSettingsWidget.h"
@@ -19,12 +20,15 @@
 // mitk
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
+#include <mitkDrawPaintbrushTool.h>
 #include <mitkLogMacros.h>
 #include <mitkPointSet.h>
 #include <mitkPointSetDataInteractor.h>
 #include <mitkPointSetShapeProperty.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
+#include <mitkToolManager.h>
+#include <usModuleRegistry.h>
 
 // qt
 #include <QButtonGroup>
@@ -34,7 +38,9 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     QStackedWidget(parent),
     mUi(std::make_unique<Ui::CasePlanningWidget>()),
     mButtonGroupScrew(new QButtonGroup(this)),
-    mButtonGroupPath(new QButtonGroup(this))
+    mButtonGroupPath(new QButtonGroup(this)),
+    mButtonGroupPlate(new QButtonGroup(this)),
+    mButtonGroupInterval(new QButtonGroup(this))
 {
   mUi->setupUi(this);
 
@@ -63,11 +69,19 @@ void CasePlanningWidget::onActionPathPlanningTriggered(bool checked)
   Q_UNUSED(checked);
   setCurrentWidget(mUi->pathPlanning);
 }
+
+void CasePlanningWidget::onActionPlatePlanningTriggered(bool checked)
+{
+  Q_UNUSED(checked);
+  setCurrentWidget(mUi->platePlanning);
+}
+
 void CasePlanningWidget::onActionIntervalPlanningTriggered(bool checked)
 {
   Q_UNUSED(checked);
   setCurrentWidget(mUi->intervalPlanning);
 }
+
 void CasePlanningWidget::onActionLateralPlanningTriggered(bool checked)
 {
   Q_UNUSED(checked);
@@ -178,6 +192,40 @@ void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)
       pathSettingsWidget->setDiameter(mUi->doubleSpinBoxPathDiameter->value());
     }
   }
+}
+
+void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked) {}
+
+void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  auto size = mButtonGroupInterval->buttons().size();
+  QString intervalName("interval");
+  auto newIntervalName = QString(intervalName + "_%1").arg(size + 1);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* image = ds->GetNamedObject<mitk::Image>("image");
+
+  auto drawPaintBrush = mitk::DrawPaintbrushTool::New();
+  // drawPaintBrush->LoadStateMachine(
+  //     "ToolWithWheelInteraction.xml",
+  //     us::ModuleRegistry::GetModule("MitkSegmentation"));
+  drawPaintBrush->SetEventConfig(
+      "SegmentationToolsConfig.xml",
+      us::ModuleRegistry::GetModule("MitkSegmentation"));
+  float colorFloat[3] = {1.0f, 0.0f, 0.0f};
+  auto intervalNode = drawPaintBrush->CreateEmptySegmentationNode(
+      image, newIntervalName.toStdString(), colorFloat);
+  ds->Add(intervalNode);
+
+  auto* intervalSettingsWidget =
+      new CasePlanningSettingsWidget(newIntervalName, this);
+  mButtonGroupInterval->addButton(intervalSettingsWidget->getRadioButton());
+  mUi->groupBoxIntervals->layout()->addWidget(intervalSettingsWidget);
+
+  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void CasePlanningWidget::onButtonGroupScrewButtonToggled(

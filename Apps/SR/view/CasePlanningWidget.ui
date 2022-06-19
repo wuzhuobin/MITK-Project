@@ -148,7 +148,7 @@
   <widget class="QWidget" name="platePlanning">
    <layout class="QVBoxLayout" name="verticalLayout_7">
     <item>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="groupBoxPlates">
       <property name="title">
        <string>Plate</string>
       </property>
@@ -181,7 +181,7 @@
   <widget class="QWidget" name="intervalPlanning">
    <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
-     <widget class="QGroupBox" name="groupBoxInterval">
+     <widget class="QGroupBox" name="groupBoxIntervals">
       <property name="title">
        <string>Interval</string>
       </property>
@@ -214,7 +214,7 @@
   <widget class="QWidget" name="lateralPlanning">
    <layout class="QVBoxLayout" name="verticalLayout_11">
     <item>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="groupBoxLaterals">
       <property name="title">
        <string>Lateral</string>
       </property>
@@ -247,7 +247,7 @@
   <widget class="QWidget" name="posteriorPlanning">
    <layout class="QVBoxLayout" name="verticalLayout_13">
     <item>
-     <widget class="QGroupBox" name="groupBoxPosterior">
+     <widget class="QGroupBox" name="groupBoxPosteriors">
       <property name="title">
        <string>Posterior</string>
       </property>

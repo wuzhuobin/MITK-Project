@@ -31,6 +31,7 @@ public:
   ~CasePlanningWidget() override;
   Q_SLOT void onActionScrewPlanningTriggered(bool checked = false);
   Q_SLOT void onActionPathPlanningTriggered(bool checked = false);
+  Q_SLOT void onActionPlatePlanningTriggered(bool checked = false);
   Q_SLOT void onActionIntervalPlanningTriggered(bool checked = false);
   Q_SLOT void onActionLateralPlanningTriggered(bool checked = false);
   Q_SLOT void onActionPosteriorPlanningTriggered(bool checked = false);
@@ -39,11 +40,15 @@ private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
   QButtonGroup* mButtonGroupScrew;
   QButtonGroup* mButtonGroupPath;
+  QButtonGroup* mButtonGroupPlate;
+  QButtonGroup* mButtonGroupInterval;
 
   Q_SLOT void on_pushButtonScrewNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonScrewConfirm_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPathNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPathConfirm_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonPlateNew_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonIntervalNew_clicked(bool checked = false);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
   Q_SLOT void onButtonGroupPathButtonToggled(QAbstractButton* button,
