@@ -28,6 +28,7 @@
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
 #include <mitkToolManager.h>
+#include <mitkToolManagerProvider.h>
 #include <usModuleRegistry.h>
 
 // qt
@@ -205,19 +206,24 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   auto newIntervalName = QString(intervalName + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* imageNode = ds->GetNamedNode("image");
   auto* image = ds->GetNamedObject<mitk::Image>("image");
 
-  auto drawPaintBrush = mitk::DrawPaintbrushTool::New();
-  // drawPaintBrush->LoadStateMachine(
-  //     "ToolWithWheelInteraction.xml",
-  //     us::ModuleRegistry::GetModule("MitkSegmentation"));
-  drawPaintBrush->SetEventConfig(
-      "SegmentationToolsConfig.xml",
-      us::ModuleRegistry::GetModule("MitkSegmentation"));
+  auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
+  toolManager->InitializeTools();
+  toolManager->SetDataStorage(*ds);
+  toolManager->RegisterClient();
+  auto drawPaintBrushId =
+      toolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+  auto* drawPaintBrush = toolManager->GetToolById(drawPaintBrushId);
+
   float colorFloat[3] = {1.0f, 0.0f, 0.0f};
   auto intervalNode = drawPaintBrush->CreateEmptySegmentationNode(
       image, newIntervalName.toStdString(), colorFloat);
   ds->Add(intervalNode);
+  toolManager->SetReferenceData(imageNode);
+  toolManager->SetWorkingData(intervalNode);
+  toolManager->ActivateTool(drawPaintBrushId);
 
   auto* intervalSettingsWidget =
       new CasePlanningSettingsWidget(newIntervalName, this);
