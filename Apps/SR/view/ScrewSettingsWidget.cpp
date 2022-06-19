@@ -62,6 +62,11 @@ void ScrewSettingsWidget::setLength(int length)
   mUi->spinBoxLength->setValue(length);
 }
 
+bool ScrewSettingsWidget::isHidden() const
+{
+  return mUi->toolButtonHide->isChecked();
+}
+
 void ScrewSettingsWidget::on_toolButtonDelete_clicked(bool checked)
 {
   Q_UNUSED(checked);

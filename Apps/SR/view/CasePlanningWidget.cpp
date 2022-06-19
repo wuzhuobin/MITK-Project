@@ -118,16 +118,32 @@ void CasePlanningWidget::onActionPosteriorPlanningTriggered(bool checked)
 
 void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
 {
-  Q_UNUSED(index);
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto screwSettingsWidgets = findChildren<ScrewSettingsWidget*>();
+  for (auto* screwSettingsWidget : screwSettingsWidgets)
+  {
+    ds->GetNamedNode(screwSettingsWidget->getScrewName().toStdString())
+        ->SetVisibility(false);
+  }
 
   auto* multiWidget = SRStdMultiWidget::getInstance();
   multiWidget->enableGroupBox(false);
   switch (index)
   {
-    case 0:
+    case 0: {  // dummy
       break;
-    case 1: {
+    }
+    case 1: {  // screw
+      auto screwSettingsWidgets = findChildren<ScrewSettingsWidget*>();
+      for (auto* widget : screwSettingsWidgets)
+      {
+        if (!widget->isHidden())
+        {
+          ds->GetNamedNode(widget->getScrewName().toStdString())
+              ->SetVisibility(true);
+        }
+      }
       break;
     }
     case 2: {
@@ -145,6 +161,7 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     default:
       break;
   }
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
@@ -184,7 +201,6 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   mButtonGroupScrew->addButton(screwSettingsWidget->getRadioButton());
   mUi->groupBoxScrews->layout()->addWidget(screwSettingsWidget);
 
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
@@ -240,7 +256,6 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   mButtonGroupPath->addButton(pathSettingsWidget->getRadioButton());
   mUi->groupBoxPaths->layout()->addWidget(pathSettingsWidget);
 
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
@@ -296,7 +311,6 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   mButtonGroupInterval->addButton(intervalSettingsWidget->getRadioButton());
   mUi->groupBoxIntervals->layout()->addWidget(intervalSettingsWidget);
 
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 void CasePlanningWidget::on_spinBoxIntervalSize_valueChanged(int value)
