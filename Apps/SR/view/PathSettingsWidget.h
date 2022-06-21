@@ -34,6 +34,7 @@ public:
   const QString getPathName() const;
   double getDiameter() const;
   void setDiameter(double diameter);
+  bool getVisibility() const;
 
 private:
   std::unique_ptr<Ui::PathSettingsWidget> mUi;

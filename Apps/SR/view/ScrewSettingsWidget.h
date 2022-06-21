@@ -36,7 +36,7 @@ public:
   void setDiameter(double diameter);
   int getLength() const;
   void setLength(int length);
-  bool isHidden() const;
+  bool getVisibility() const;
 
 private:
   std::unique_ptr<Ui::ScrewSettingsWidget> mUi;

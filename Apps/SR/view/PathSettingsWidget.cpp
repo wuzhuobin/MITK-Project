@@ -44,6 +44,11 @@ double PathSettingsWidget::getDiameter() const
   return mUi->doubleSpinBoxDiameter->value();
 }
 
+bool PathSettingsWidget::getVisibility() const
+{
+  return !mUi->toolButtonHide->isChecked();
+}
+
 void PathSettingsWidget::setDiameter(double diameter)
 {
   mUi->doubleSpinBoxDiameter->setValue(diameter);

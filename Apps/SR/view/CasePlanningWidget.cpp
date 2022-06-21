@@ -23,11 +23,9 @@
 #include <mitkDrawPaintbrushTool.h>
 #include <mitkLogMacros.h>
 #include <mitkPointSet.h>
-#include <mitkPointSetDataInteractor.h>
 #include <mitkPointSetShapeProperty.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
-#include <mitkToolManager.h>
 #include <mitkToolManagerProvider.h>
 #include <usModuleRegistry.h>
 
@@ -40,8 +38,10 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     mUi(std::make_unique<Ui::CasePlanningWidget>()),
     mButtonGroupScrew(new QButtonGroup(this)),
     mButtonGroupPath(new QButtonGroup(this)),
+    mPointSetDataInteractor(mitk::PointSetDataInteractor::New()),
     mButtonGroupPlate(new QButtonGroup(this)),
-    mButtonGroupInterval(new QButtonGroup(this))
+    mButtonGroupInterval(new QButtonGroup(this)),
+    mToolManager(mitk::ToolManagerProvider::GetInstance()->GetToolManager())
 {
   mUi->setupUi(this);
   connect(mUi->spinBoxIntervalSize,
@@ -74,8 +74,11 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
           this,
           &CasePlanningWidget::onButtonGroupIntervalButtonToggled);
 
-  auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
-  toolManager->InitializeTools();
+  mPointSetDataInteractor->LoadStateMachine("PointSet.xml");
+  mPointSetDataInteractor->SetEventConfig("PointSetConfig.xml");
+  mPointSetDataInteractor->SetMaxPoints(2);
+
+  mToolManager->InitializeTools();
 }
 
 CasePlanningWidget::~CasePlanningWidget() = default;
@@ -127,6 +130,13 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
         ->SetVisibility(false);
   }
 
+  auto pathSettingsWidgets = findChildren<PathSettingsWidget*>();
+  for (auto* pathSettingsWidget : pathSettingsWidgets)
+  {
+    ds->GetNamedNode(pathSettingsWidget->getPathName().toStdString())
+        ->SetVisibility(false);
+  }
+
   auto* multiWidget = SRStdMultiWidget::getInstance();
   multiWidget->enableGroupBox(false);
   switch (index)
@@ -135,10 +145,9 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
       break;
     }
     case 1: {  // screw
-      auto screwSettingsWidgets = findChildren<ScrewSettingsWidget*>();
       for (auto* widget : screwSettingsWidgets)
       {
-        if (!widget->isHidden())
+        if (widget->getVisibility())
         {
           ds->GetNamedNode(widget->getScrewName().toStdString())
               ->SetVisibility(true);
@@ -146,7 +155,15 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
       }
       break;
     }
-    case 2: {
+    case 2: {  // path
+      for (auto* widget : pathSettingsWidgets)
+      {
+        if (widget->getVisibility())
+        {
+          ds->GetNamedNode(widget->getPathName().toStdString())
+              ->SetVisibility(true);
+        }
+      }
       break;
     }
     case 3: {
@@ -199,6 +216,7 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   screwSettingsWidget->setDiameter(5.0);
   screwSettingsWidget->setLength(10.0);
   mButtonGroupScrew->addButton(screwSettingsWidget->getRadioButton());
+  screwSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxScrews->layout()->addWidget(screwSettingsWidget);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
@@ -245,15 +263,10 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   pathNode->SetBoolProperty("fill shape", true);
   ds->Add(pathNode);
 
-  auto pointSetInteractor = mitk::PointSetDataInteractor::New();
-  pointSetInteractor->LoadStateMachine("PointSet.xml");
-  pointSetInteractor->SetEventConfig("PointSetConfig.xml");
-  pointSetInteractor->SetDataNode(pathNode);
-  pointSetInteractor->SetMaxPoints(2);
-
   auto* pathSettingsWidget = new PathSettingsWidget(newPathName, this);
   pathSettingsWidget->setDiameter(10);
   mButtonGroupPath->addButton(pathSettingsWidget->getRadioButton());
+  pathSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxPaths->layout()->addWidget(pathSettingsWidget);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
@@ -291,40 +304,39 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   auto* imageNode = ds->GetNamedNode("image");
   auto* image = ds->GetNamedObject<mitk::Image>("image");
 
-  auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
-  toolManager->SetDataStorage(*ds);
-  toolManager->RegisterClient();
+  mToolManager->SetDataStorage(*ds);
+  mToolManager->RegisterClient();
   auto drawPaintBrushId =
-      toolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
-  auto* drawPaintBrush = toolManager->GetToolById(drawPaintBrushId);
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+  auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
 
   float colorFloat[3] = {1.0f, 0.0f, 0.0f};
   auto intervalNode = drawPaintBrush->CreateEmptySegmentationNode(
       image, newIntervalName.toStdString(), colorFloat);
   ds->Add(intervalNode);
-  toolManager->SetReferenceData(imageNode);
-  toolManager->SetWorkingData(intervalNode);
-  toolManager->ActivateTool(drawPaintBrushId);
+  mToolManager->SetReferenceData(imageNode);
+  mToolManager->SetWorkingData(intervalNode);
+  mToolManager->ActivateTool(drawPaintBrushId);
 
   auto* intervalSettingsWidget =
       new CasePlanningSettingsWidget(newIntervalName, this);
   mButtonGroupInterval->addButton(intervalSettingsWidget->getRadioButton());
+  intervalSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxIntervals->layout()->addWidget(intervalSettingsWidget);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 void CasePlanningWidget::on_spinBoxIntervalSize_valueChanged(int value)
 {
-  auto toolManager = mitk::ToolManagerProvider::GetInstance()->GetToolManager();
   auto drawPaintBrushId =
-      toolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
   if (drawPaintBrushId == -1)
   {
     return;
   }
 
   auto* drawPaintBrush = static_cast<mitk::DrawPaintbrushTool*>(
-      toolManager->GetToolById(drawPaintBrushId));
+      mToolManager->GetToolById(drawPaintBrushId));
   drawPaintBrush->SetSize(value);
 }
 
@@ -336,9 +348,6 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     return;
   }
   auto screwName = button->text();
-  auto* multiWidget = SRStdMultiWidget::getInstance();
-  multiWidget->enableGroupBox(true);
-  multiWidget->setTransformTarget(screwName);
   auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
   auto* screwSettingsWidget =
       findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
@@ -347,6 +356,9 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     mUi->doubleSpinBoxScrewDiameter->setValue(
         screwSettingsWidget->getDiameter());
     mUi->spinBoxScrewLength->setValue(screwSettingsWidget->getLength());
+    auto* multiWidget = SRStdMultiWidget::getInstance();
+    multiWidget->enableGroupBox(true);
+    multiWidget->setTransformTarget(screwName);
   }
 }
 
@@ -364,6 +376,12 @@ void CasePlanningWidget::onButtonGroupPathButtonToggled(QAbstractButton* button,
   if (pathSettingsWidget)
   {
     mUi->doubleSpinBoxPathDiameter->setValue(pathSettingsWidget->getDiameter());
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto* pathNode = ds->GetNamedNode(pathName.toStdString());
+    if (pathNode)
+    {
+      mPointSetDataInteractor->SetDataNode(pathNode);
+    }
   }
 }
 
@@ -387,9 +405,7 @@ void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* imageNode = ds->GetNamedNode("image");
   auto* intervalNode = ds->GetNamedNode(intervalName.toStdString());
-  auto* toolManager =
-      mitk::ToolManagerProvider::GetInstance()->GetToolManager();
-  toolManager->SetDataStorage(*ds);
-  toolManager->SetReferenceData(imageNode);
-  toolManager->SetWorkingData(intervalNode);
+  mToolManager->SetDataStorage(*ds);
+  mToolManager->SetReferenceData(imageNode);
+  mToolManager->SetWorkingData(intervalNode);
 }

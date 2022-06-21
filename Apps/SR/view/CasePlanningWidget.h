@@ -12,7 +12,12 @@
 #ifndef CASE_PLANNING_WIDGET_H
 #define CASE_PLANNING_WIDGET_H
 
+// qt
 #include <QStackedWidget>
+
+// mitk
+#include <mitkPointSetDataInteractor.h>
+#include <mitkToolManager.h>
 
 // std
 #include <memory>
@@ -40,8 +45,10 @@ private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
   QButtonGroup* mButtonGroupScrew;
   QButtonGroup* mButtonGroupPath;
+  mitk::PointSetDataInteractor::Pointer mPointSetDataInteractor;
   QButtonGroup* mButtonGroupPlate;
   QButtonGroup* mButtonGroupInterval;
+  mitk::ToolManager::Pointer mToolManager;
 
   Q_SLOT void on_CasePlanningWidget_currentChanged(int index);
   Q_SLOT void on_pushButtonScrewNew_clicked(bool checked = false);
