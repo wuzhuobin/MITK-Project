@@ -42,6 +42,11 @@ const QString CasePlanningSettingsWidget::getCasePlanningName() const
   return mUi->radioButton->text();
 }
 
+bool CasePlanningSettingsWidget::getVisibility() const
+{
+  return !mUi->toolButtonHide->isChecked();
+}
+
 void CasePlanningSettingsWidget::on_toolButtonDelete_clicked(bool checked)
 {
   Q_UNUSED(checked);

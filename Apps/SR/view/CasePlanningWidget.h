@@ -56,6 +56,7 @@ private:
   Q_SLOT void on_pushButtonPathNew_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPathConfirm_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPlateNew_clicked(bool checked = false);
+  Q_SLOT void on_spinBoxPlateSize_valueChanged(int value);
   Q_SLOT void on_pushButtonIntervalNew_clicked(bool checked = false);
   Q_SLOT void on_spinBoxIntervalSize_valueChanged(int value);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,

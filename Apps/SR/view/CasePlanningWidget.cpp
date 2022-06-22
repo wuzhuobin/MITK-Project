@@ -52,6 +52,14 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
           &QSlider::valueChanged,
           mUi->spinBoxIntervalSize,
           &QSpinBox::setValue);
+  connect(mUi->spinBoxPlateSize,
+          QOverload<int>::of(&QSpinBox::valueChanged),
+          mUi->horizontalSliderPlateSize,
+          &QSlider::setValue);
+  connect(mUi->horizontalSliderPlateSize,
+          &QSlider::valueChanged,
+          mUi->spinBoxPlateSize,
+          &QSpinBox::setValue);
 
   connect(mButtonGroupScrew,
           static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
@@ -123,17 +131,33 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
 {
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
-  auto screwSettingsWidgets = findChildren<ScrewSettingsWidget*>();
+  auto screwSettingsWidgets =
+      findChildren<ScrewSettingsWidget*>(QRegularExpression("screw_[0-9]?"));
   for (auto* screwSettingsWidget : screwSettingsWidgets)
   {
     ds->GetNamedNode(screwSettingsWidget->getScrewName().toStdString())
         ->SetVisibility(false);
   }
 
-  auto pathSettingsWidgets = findChildren<PathSettingsWidget*>();
+  auto pathSettingsWidgets = findChildren<PathSettingsWidget*>("path_[0-9]?");
   for (auto* pathSettingsWidget : pathSettingsWidgets)
   {
     ds->GetNamedNode(pathSettingsWidget->getPathName().toStdString())
+        ->SetVisibility(false);
+  }
+  auto plateSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
+      QRegularExpression("plate_[0-9]?"));
+  for (auto* plateSettingsWidget : plateSettingsWidgets)
+  {
+    ds->GetNamedNode(plateSettingsWidget->getCasePlanningName().toStdString())
+        ->SetVisibility(false);
+  }
+  auto intervalSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
+      QRegularExpression("interval_[0-9]?"));
+  for (auto* intervalSettingsWidget : intervalSettingsWidgets)
+  {
+    ds->GetNamedNode(
+          intervalSettingsWidget->getCasePlanningName().toStdString())
         ->SetVisibility(false);
   }
 
@@ -147,26 +171,25 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     case 1: {  // screw
       for (auto* widget : screwSettingsWidgets)
       {
-        if (widget->getVisibility())
-        {
-          ds->GetNamedNode(widget->getScrewName().toStdString())
-              ->SetVisibility(true);
-        }
+        ds->GetNamedNode(widget->getScrewName().toStdString())
+            ->SetVisibility(widget->getVisibility());
       }
       break;
     }
     case 2: {  // path
       for (auto* widget : pathSettingsWidgets)
       {
-        if (widget->getVisibility())
-        {
-          ds->GetNamedNode(widget->getPathName().toStdString())
-              ->SetVisibility(true);
-        }
+        ds->GetNamedNode(widget->getPathName().toStdString())
+            ->SetVisibility(widget->getVisibility());
       }
       break;
     }
-    case 3: {
+    case 3: {  // plate
+      for (auto* widget : plateSettingsWidgets)
+      {
+        ds->GetNamedNode(widget->getCasePlanningName().toStdString())
+            ->SetVisibility(widget->getVisibility());
+      }
       break;
     }
     case 4: {
@@ -290,7 +313,54 @@ void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)
   }
 }
 
-void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked) {}
+void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  auto size = mButtonGroupPlate->buttons().size();
+  QString plateName("plate");
+  auto newPlateName = QString(plateName + "_%1").arg(size + 1);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* imageNode = ds->GetNamedNode("image");
+  auto* image = ds->GetNamedObject<mitk::Image>("image");
+
+  mToolManager->SetDataStorage(*ds);
+  mToolManager->RegisterClient();
+  auto drawPaintBrushId =
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+  auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
+
+  float colorFloat[3] = {1.0f, 0.0f, 0.0f};
+  auto plateNode = drawPaintBrush->CreateEmptySegmentationNode(
+      image, newPlateName.toStdString(), colorFloat);
+  ds->Add(plateNode);
+  mToolManager->SetReferenceData(imageNode);
+  mToolManager->SetWorkingData(plateNode);
+  mToolManager->ActivateTool(drawPaintBrushId);
+
+  auto* plateSettingsWidget =
+      new CasePlanningSettingsWidget(newPlateName, this);
+  mButtonGroupPlate->addButton(plateSettingsWidget->getRadioButton());
+  plateSettingsWidget->getRadioButton()->setChecked(true);
+  mUi->groupBoxPlates->layout()->addWidget(plateSettingsWidget);
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void CasePlanningWidget::on_spinBoxPlateSize_valueChanged(int value)
+{
+  auto drawPaintBrushId =
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+  if (drawPaintBrushId == -1)
+  {
+    return;
+  }
+
+  auto* drawPaintBrush = static_cast<mitk::DrawPaintbrushTool*>(
+      mToolManager->GetToolById(drawPaintBrushId));
+  drawPaintBrush->SetSize(value);
+}
 
 void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
 {
@@ -392,6 +462,13 @@ void CasePlanningWidget::onButtonGroupPlateButtonToggled(
   {
     return;
   }
+  auto plateName = button->text();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* imageNode = ds->GetNamedNode("image");
+  auto* plateNode = ds->GetNamedNode(plateName.toStdString());
+  mToolManager->SetDataStorage(*ds);
+  mToolManager->SetReferenceData(imageNode);
+  mToolManager->SetWorkingData(plateNode);
 }
 
 void CasePlanningWidget::onButtonGroupIntervalButtonToggled(

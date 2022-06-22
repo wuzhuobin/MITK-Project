@@ -33,6 +33,7 @@ public:
 
   QRadioButton* getRadioButton() const;
   const QString getCasePlanningName() const;
+  bool getVisibility() const;
 
 private:
   std::unique_ptr<Ui::CasePlanningSettingsWidget> mUi;
