@@ -44,6 +44,7 @@ public:
 private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
   QButtonGroup* mButtonGroupScrew;
+  mitk::PointSetDataInteractor::Pointer mPointSetDataInteractorScrew;
   QButtonGroup* mButtonGroupPath;
   mitk::PointSetDataInteractor::Pointer mPointSetDataInteractor;
   QButtonGroup* mButtonGroupPlate;

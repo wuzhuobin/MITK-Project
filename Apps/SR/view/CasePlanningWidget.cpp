@@ -33,10 +33,33 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 
+class PointSetDataInteractorScrew : public mitk::PointSetDataInteractor
+{
+public:
+  mitkClassMacro(PointSetDataInteractorScrew, mitk::PointSetDataInteractor);
+  itkFactorylessNewMacro(Self);
+  itkCloneMacro(Self);
+
+  itkSetObjectMacro(Screw, mitk::DataNode);
+  itkGetObjectMacro(Screw, mitk::DataNode);
+
+protected:
+  void FinishMove(mitk::StateMachineAction* action,
+                  mitk::InteractionEvent* event) override
+  {
+    MITK_INFO << __func__;
+    Superclass::FinishMove(action, event);
+  }
+
+private:
+  mitk::DataNode::Pointer m_Screw;
+};
+
 CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     QStackedWidget(parent),
     mUi(std::make_unique<Ui::CasePlanningWidget>()),
     mButtonGroupScrew(new QButtonGroup(this)),
+    mPointSetDataInteractorScrew(PointSetDataInteractorScrew::New()),
     mButtonGroupPath(new QButtonGroup(this)),
     mPointSetDataInteractor(mitk::PointSetDataInteractor::New()),
     mButtonGroupPlate(new QButtonGroup(this)),
@@ -81,6 +104,10 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
               &QButtonGroup::buttonToggled),
           this,
           &CasePlanningWidget::onButtonGroupIntervalButtonToggled);
+
+  mPointSetDataInteractorScrew->LoadStateMachine("PointSet.xml");
+  mPointSetDataInteractorScrew->SetEventConfig("PointSetConfig.xml");
+  mPointSetDataInteractorScrew->SetMaxPoints(2);
 
   mPointSetDataInteractor->LoadStateMachine("PointSet.xml");
   mPointSetDataInteractor->SetEventConfig("PointSetConfig.xml");
@@ -161,8 +188,8 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
         ->SetVisibility(false);
   }
 
-  auto* multiWidget = SRStdMultiWidget::getInstance();
-  multiWidget->enableGroupBox(false);
+  // auto* multiWidget = SRStdMultiWidget::getInstance();
+  // multiWidget->enableGroupBox(false);
   switch (index)
   {
     case 0: {  // dummy
@@ -209,33 +236,28 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   Q_UNUSED(checked);
 
   auto size = mButtonGroupScrew->buttons().size();
-  QString screwName("screw");
-  auto newScrewName = QString(screwName + "_%1").arg(size + 1);
+  QString screwNamePrefix("screw");
+  auto screwName = QString(screwNamePrefix + "_%1").arg(size + 1);
+  auto screwPointSetName =
+      QString(screwNamePrefix + "_point_set" + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  // auto* multiWidget = SRStdMultiWidget::getInstance();
-  // auto pos = multiWidget->GetSelectedPosition("");
-  auto* stdmultiWidget0Plane =
-      ds->GetNamedObject<mitk::PlaneGeometryData>("stdmulti.widget0.plane");
-  auto* stdmultiWidget1Plane =
-      ds->GetNamedObject<mitk::PlaneGeometryData>("stdmulti.widget1.plane");
-  auto* stdmultiWidget2Plane =
-      ds->GetNamedObject<mitk::PlaneGeometryData>("stdmulti.widget2.plane");
-  mitk::Vector3D translate;
-  translate[0] = stdmultiWidget0Plane->GetPlaneGeometry()->GetCenter()[0];
-  translate[1] = stdmultiWidget1Plane->GetPlaneGeometry()->GetCenter()[1];
-  translate[2] = stdmultiWidget2Plane->GetPlaneGeometry()->GetCenter()[2];
 
-  auto* screw = ds->GetNamedObject<mitk::Surface>(screwName.toStdString());
-  auto newScrew = screw->Clone();
-  newScrew->GetGeometry()->Translate(translate);
+  auto* originalScrew =
+      ds->GetNamedObject<mitk::Surface>(screwNamePrefix.toStdString());
   auto screwNode = mitk::DataNode::New();
-  screwNode->SetName(newScrewName.toStdString());
-  screwNode->SetData(newScrew);
+  screwNode->SetName(screwName.toStdString());
+  screwNode->SetData(originalScrew->Clone());
   screwNode->SetVisibility(true);
   ds->Add(screwNode);
 
-  auto* screwSettingsWidget = new ScrewSettingsWidget(newScrewName, this);
+  auto pointSetScrewNode = mitk::DataNode::New();
+  pointSetScrewNode->SetName(screwPointSetName.toStdString());
+  pointSetScrewNode->SetData(mitk::PointSet::New());
+  pointSetScrewNode->SetVisibility(true);
+  ds->Add(pointSetScrewNode);
+
+  auto* screwSettingsWidget = new ScrewSettingsWidget(screwName, this);
   screwSettingsWidget->setDiameter(5.0);
   screwSettingsWidget->setLength(10.0);
   mButtonGroupScrew->addButton(screwSettingsWidget->getRadioButton());
@@ -270,12 +292,12 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   Q_UNUSED(checked);
 
   auto size = mButtonGroupPath->buttons().size();
-  QString pathName("path");
-  auto newPathName = QString(pathName + "_%1").arg(size + 1);
+  QString pathNamePrefix("path");
+  auto pathName = QString(pathNamePrefix + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto pathNode = mitk::DataNode::New();
-  pathNode->SetName(newPathName.toStdString());
+  pathNode->SetName(pathName.toStdString());
   pathNode->SetData(mitk::PointSet::New());
   pathNode->SetVisibility(true);
   pathNode->SetProperty(
@@ -286,7 +308,7 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   pathNode->SetBoolProperty("fill shape", true);
   ds->Add(pathNode);
 
-  auto* pathSettingsWidget = new PathSettingsWidget(newPathName, this);
+  auto* pathSettingsWidget = new PathSettingsWidget(pathName, this);
   pathSettingsWidget->setDiameter(10);
   mButtonGroupPath->addButton(pathSettingsWidget->getRadioButton());
   pathSettingsWidget->getRadioButton()->setChecked(true);
@@ -318,8 +340,8 @@ void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
   Q_UNUSED(checked);
 
   auto size = mButtonGroupPlate->buttons().size();
-  QString plateName("plate");
-  auto newPlateName = QString(plateName + "_%1").arg(size + 1);
+  QString plateNamePrefix("plate");
+  auto plateName = QString(plateNamePrefix + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* imageNode = ds->GetNamedNode("image");
@@ -333,14 +355,13 @@ void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
 
   float colorFloat[3] = {1.0f, 0.0f, 0.0f};
   auto plateNode = drawPaintBrush->CreateEmptySegmentationNode(
-      image, newPlateName.toStdString(), colorFloat);
+      image, plateName.toStdString(), colorFloat);
   ds->Add(plateNode);
   mToolManager->SetReferenceData(imageNode);
   mToolManager->SetWorkingData(plateNode);
   mToolManager->ActivateTool(drawPaintBrushId);
 
-  auto* plateSettingsWidget =
-      new CasePlanningSettingsWidget(newPlateName, this);
+  auto* plateSettingsWidget = new CasePlanningSettingsWidget(plateName, this);
   mButtonGroupPlate->addButton(plateSettingsWidget->getRadioButton());
   plateSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxPlates->layout()->addWidget(plateSettingsWidget);
@@ -367,8 +388,8 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   Q_UNUSED(checked);
 
   auto size = mButtonGroupInterval->buttons().size();
-  QString intervalName("interval");
-  auto newIntervalName = QString(intervalName + "_%1").arg(size + 1);
+  QString intervalNamePrefix("interval");
+  auto intervalName = QString(intervalNamePrefix + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* imageNode = ds->GetNamedNode("image");
@@ -382,14 +403,14 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
 
   float colorFloat[3] = {1.0f, 0.0f, 0.0f};
   auto intervalNode = drawPaintBrush->CreateEmptySegmentationNode(
-      image, newIntervalName.toStdString(), colorFloat);
+      image, intervalName.toStdString(), colorFloat);
   ds->Add(intervalNode);
   mToolManager->SetReferenceData(imageNode);
   mToolManager->SetWorkingData(intervalNode);
   mToolManager->ActivateTool(drawPaintBrushId);
 
   auto* intervalSettingsWidget =
-      new CasePlanningSettingsWidget(newIntervalName, this);
+      new CasePlanningSettingsWidget(intervalName, this);
   mButtonGroupInterval->addButton(intervalSettingsWidget->getRadioButton());
   intervalSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxIntervals->layout()->addWidget(intervalSettingsWidget);
@@ -426,9 +447,17 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     mUi->doubleSpinBoxScrewDiameter->setValue(
         screwSettingsWidget->getDiameter());
     mUi->spinBoxScrewLength->setValue(screwSettingsWidget->getLength());
-    auto* multiWidget = SRStdMultiWidget::getInstance();
-    multiWidget->enableGroupBox(true);
-    multiWidget->setTransformTarget(screwName);
+    // auto* multiWidget = SRStdMultiWidget::getInstance();
+    // multiWidget->enableGroupBox(true);
+    // multiWidget->setTransformTarget(screwName);
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto screwPointSetName = screwName.split("_").join("_point_set_");
+    auto* screwNode = ds->GetNamedNode(screwName.toStdString());
+    auto* screwPointSetNode = ds->GetNamedNode(screwPointSetName.toStdString());
+    if (screwPointSetNode && screwNode)
+    {
+      mPointSetDataInteractorScrew->SetDataNode(screwPointSetNode);
+    }
   }
 }
 
