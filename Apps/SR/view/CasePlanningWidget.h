@@ -12,6 +12,8 @@
 #ifndef CASE_PLANNING_WIDGET_H
 #define CASE_PLANNING_WIDGET_H
 
+#include "PointSetDataInteractorScrew.h"
+
 // qt
 #include <QStackedWidget>
 
@@ -44,7 +46,7 @@ public:
 private:
   std::unique_ptr<Ui::CasePlanningWidget> mUi;
   QButtonGroup* mButtonGroupScrew;
-  mitk::PointSetDataInteractor::Pointer mPointSetDataInteractorScrew;
+  PointSetDataInteractorScrew::Pointer mPointSetDataInteractorScrew;
   QButtonGroup* mButtonGroupPath;
   mitk::PointSetDataInteractor::Pointer mPointSetDataInteractor;
   QButtonGroup* mButtonGroupPlate;

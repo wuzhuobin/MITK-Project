@@ -33,28 +33,6 @@
 #include <QButtonGroup>
 #include <QRadioButton>
 
-class PointSetDataInteractorScrew : public mitk::PointSetDataInteractor
-{
-public:
-  mitkClassMacro(PointSetDataInteractorScrew, mitk::PointSetDataInteractor);
-  itkFactorylessNewMacro(Self);
-  itkCloneMacro(Self);
-
-  itkSetObjectMacro(Screw, mitk::DataNode);
-  itkGetObjectMacro(Screw, mitk::DataNode);
-
-protected:
-  void FinishMove(mitk::StateMachineAction* action,
-                  mitk::InteractionEvent* event) override
-  {
-    MITK_INFO << __func__;
-    Superclass::FinishMove(action, event);
-  }
-
-private:
-  mitk::DataNode::Pointer m_Screw;
-};
-
 CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     QStackedWidget(parent),
     mUi(std::make_unique<Ui::CasePlanningWidget>()),
