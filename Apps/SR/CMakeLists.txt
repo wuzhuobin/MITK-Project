@@ -50,4 +50,5 @@ target_link_libraries(
   MitkSceneSerialization
   MitkBoundingShape
   MitkSegmentation
+  MitkDataTypesExt
 )

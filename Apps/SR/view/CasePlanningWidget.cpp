@@ -22,12 +22,19 @@
 #include <mitkDataStorage.h>
 #include <mitkDrawPaintbrushTool.h>
 #include <mitkLogMacros.h>
+#include <mitkPlane.h>
 #include <mitkPointSet.h>
 #include <mitkPointSetShapeProperty.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
 #include <mitkToolManagerProvider.h>
 #include <usModuleRegistry.h>
+
+// vtk
+#include <vtkFloatArray.h>
+#include <vtkPointData.h>
+#include <vtkPolyData.h>
+#include <vtkSmartPointer.h>
 
 // qt
 #include <QButtonGroup>
@@ -42,6 +49,10 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     mPointSetDataInteractor(mitk::PointSetDataInteractor::New()),
     mButtonGroupPlate(new QButtonGroup(this)),
     mButtonGroupInterval(new QButtonGroup(this)),
+    mClippingPlaneInteractors{mitk::ClippingPlaneInteractor3D::New(),
+                              mitk::ClippingPlaneInteractor3D::New()},
+    mButtonGroupLateral(new QButtonGroup(this)),
+    mButtonGroupPosterior(new QButtonGroup(this)),
     mToolManager(mitk::ToolManagerProvider::GetInstance()->GetToolManager())
 {
   mUi->setupUi(this);
@@ -82,6 +93,11 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
               &QButtonGroup::buttonToggled),
           this,
           &CasePlanningWidget::onButtonGroupIntervalButtonToggled);
+  connect(mButtonGroupLateral,
+          static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
+              &QButtonGroup::buttonToggled),
+          this,
+          &CasePlanningWidget::onButtonGroupLateralButtonToggled);
 
   mPointSetDataInteractorScrew->LoadStateMachine("PointSet.xml");
   mPointSetDataInteractorScrew->SetEventConfig("PointSetConfig.xml");
@@ -90,6 +106,16 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
   mPointSetDataInteractor->LoadStateMachine("PointSet.xml");
   mPointSetDataInteractor->SetEventConfig("PointSetConfig.xml");
   mPointSetDataInteractor->SetMaxPoints(2);
+
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->LoadStateMachine(
+        "ClippingPlaneInteraction3D.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneTranslationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
 
   mToolManager->InitializeTools();
 }
@@ -409,6 +435,56 @@ void CasePlanningWidget::on_spinBoxIntervalSize_valueChanged(int value)
   drawPaintBrush->SetSize(value);
 }
 
+void CasePlanningWidget::on_pushButtonLateralNew_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  auto size = mButtonGroupLateral->buttons().size();
+  QString lateralNamePrefix("lateral");
+  auto lateralName = QString(lateralNamePrefix + "_%1").arg(size + 1);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* image = ds->GetNamedObject<mitk::Image>("image");
+
+  auto extentX = image->GetGeometry()->GetExtentInMM(0);
+  auto extentY = image->GetGeometry()->GetExtentInMM(1);
+
+  for (auto i = 0; i < 2; ++i)
+  {
+    auto lateral0 = mitk::Plane::New();
+    lateral0->SetOrigin(image->GetGeometry()->GetCenter());
+    lateral0->SetExtent(extentX, extentY);
+
+    auto scalars0 = vtkSmartPointer<vtkFloatArray>::New();
+    scalars0->SetName("Distance");
+    scalars0->SetNumberOfComponents(1);
+    scalars0->SetNumberOfTuples(
+        lateral0->GetVtkPolyData()->GetNumberOfPoints());
+    lateral0->GetVtkPolyData()->GetPointData()->SetScalars(scalars0);
+
+    auto lateralNode0 = mitk::DataNode::New();
+    lateralNode0->SetName(
+        (lateralName + "_" + QString::number(i)).toStdString());
+    lateralNode0->SetData(lateral0);
+    lateralNode0->SetVisibility(true);
+    lateralNode0->SetBoolProperty("pickable", true);
+    ds->Add(lateralNode0);
+  }
+
+  auto* lateralSettingsWidget =
+      new CasePlanningSettingsWidget(lateralName, this);
+  mButtonGroupLateral->addButton(lateralSettingsWidget->getRadioButton());
+  lateralSettingsWidget->getRadioButton()->setChecked(true);
+  mUi->groupBoxLaterals->layout()->addWidget(lateralSettingsWidget);
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void CasePlanningWidget::on_pushButtonPosteriorNew_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+}
+
 void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     QAbstractButton* button, bool checked)
 {
@@ -492,4 +568,21 @@ void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
   mToolManager->SetDataStorage(*ds);
   mToolManager->SetReferenceData(imageNode);
   mToolManager->SetWorkingData(intervalNode);
+}
+void CasePlanningWidget::onButtonGroupLateralButtonToggled(
+    QAbstractButton* button, bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+
+  auto lateralName = button->text();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  for (auto i = 0; i < 2; ++i)
+  {
+    auto* lateralNode0 = ds->GetNamedNode(
+        (lateralName + "_" + QString::number(i)).toStdString());
+    mClippingPlaneInteractors[i]->SetDataNode(lateralNode0);
+  }
 }

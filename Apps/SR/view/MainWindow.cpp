@@ -78,7 +78,7 @@ void MainWindow::test()
 {
   auto fileName = QApplication::applicationDirPath() + "/SpineRobotic.mitk";
   setCurrentActionIndex(
-      mActionGroup->actions().indexOf(mUi->action_Plate_Planning));
+      mActionGroup->actions().indexOf(mUi->action_Lateral_Planning));
   IOController::getInstance()->loadScene(fileName);
 }
 

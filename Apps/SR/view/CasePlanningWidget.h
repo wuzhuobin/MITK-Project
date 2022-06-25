@@ -18,6 +18,7 @@
 #include <QStackedWidget>
 
 // mitk
+#include <mitkClippingPlaneInteractor3D.h>
 #include <mitkPointSetDataInteractor.h>
 #include <mitkToolManager.h>
 
@@ -51,6 +52,9 @@ private:
   mitk::PointSetDataInteractor::Pointer mPointSetDataInteractor;
   QButtonGroup* mButtonGroupPlate;
   QButtonGroup* mButtonGroupInterval;
+  QButtonGroup* mButtonGroupLateral;
+  mitk::ClippingPlaneInteractor3D::Pointer mClippingPlaneInteractors[2];
+  QButtonGroup* mButtonGroupPosterior;
   mitk::ToolManager::Pointer mToolManager;
 
   Q_SLOT void on_CasePlanningWidget_currentChanged(int index);
@@ -62,6 +66,8 @@ private:
   Q_SLOT void on_spinBoxPlateSize_valueChanged(int value);
   Q_SLOT void on_pushButtonIntervalNew_clicked(bool checked = false);
   Q_SLOT void on_spinBoxIntervalSize_valueChanged(int value);
+  Q_SLOT void on_pushButtonLateralNew_clicked(bool checked = false);
+  Q_SLOT void on_pushButtonPosteriorNew_clicked(bool checked = false);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
   Q_SLOT void onButtonGroupPathButtonToggled(QAbstractButton* button,
@@ -70,6 +76,8 @@ private:
                                               bool checked = false);
   Q_SLOT void onButtonGroupIntervalButtonToggled(QAbstractButton* button,
                                                  bool checked = false);
+  Q_SLOT void onButtonGroupLateralButtonToggled(QAbstractButton* button,
+                                                bool checked = false);
 };
 
 #endif  //! CASE_PLANNING_WIDGET_H
