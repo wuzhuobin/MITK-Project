@@ -162,34 +162,64 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
 {
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
-  auto screwSettingsWidgets =
-      findChildren<ScrewSettingsWidget*>(QRegularExpression("screw_[0-9]?"));
+  auto screwSettingsWidgets = findChildren<ScrewSettingsWidget*>(
+      QRegularExpression("ScrewSettingsWidget_screw_[0-9]?"));
   for (auto* screwSettingsWidget : screwSettingsWidgets)
   {
+    MITK_INFO << screwSettingsWidget->getScrewName().toStdString();
     ds->GetNamedNode(screwSettingsWidget->getScrewName().toStdString())
         ->SetVisibility(false);
+    ds->GetNamedNode(screwSettingsWidget->getScrewName()
+                         .split("_")
+                         .join("_point_set_")
+                         .toStdString())
+        ->SetVisibility(false);
   }
+  mPointSetDataInteractorScrew->SetDataNode(nullptr);
 
-  auto pathSettingsWidgets = findChildren<PathSettingsWidget*>("path_[0-9]?");
+  auto pathSettingsWidgets =
+      findChildren<PathSettingsWidget*>("PathSettingsWidget_path_[0-9]?");
   for (auto* pathSettingsWidget : pathSettingsWidgets)
   {
     ds->GetNamedNode(pathSettingsWidget->getPathName().toStdString())
         ->SetVisibility(false);
   }
+  mPointSetDataInteractor->SetDataNode(nullptr);
+
   auto plateSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
-      QRegularExpression("plate_[0-9]?"));
+      QRegularExpression("CasePlanningSettingsWidget_plate_[0-9]?"));
   for (auto* plateSettingsWidget : plateSettingsWidgets)
   {
     ds->GetNamedNode(plateSettingsWidget->getCasePlanningName().toStdString())
         ->SetVisibility(false);
   }
+  mToolManager->SetReferenceData(nullptr);
+  mToolManager->SetWorkingData(nullptr);
+
   auto intervalSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
-      QRegularExpression("interval_[0-9]?"));
+      QRegularExpression("CasePlanningSettingsWidget_interval_[0-9]?"));
   for (auto* intervalSettingsWidget : intervalSettingsWidgets)
   {
     ds->GetNamedNode(
           intervalSettingsWidget->getCasePlanningName().toStdString())
         ->SetVisibility(false);
+  }
+
+  auto lateralSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
+      QRegularExpression("CasePlanningSettingsWidget_lateral_[0-9]?"));
+  for (auto* lateralSettingsWidgets : lateralSettingsWidgets)
+  {
+    for (auto i = 0; i < 2; ++i)
+    {
+      ds->GetNamedNode((lateralSettingsWidgets->getCasePlanningName() + "_" +
+                        QString::number(i))
+                           .toStdString())
+          ->SetVisibility(false);
+    }
+  }
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->SetDataNode(nullptr);
   }
 
   // auto* multiWidget = SRStdMultiWidget::getInstance();
@@ -202,8 +232,19 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     case 1: {  // screw
       for (auto* widget : screwSettingsWidgets)
       {
-        ds->GetNamedNode(widget->getScrewName().toStdString())
-            ->SetVisibility(widget->getVisibility());
+        auto* screwNode =
+            ds->GetNamedNode(widget->getScrewName().toStdString());
+        auto* screwPointSetNode = ds->GetNamedNode(widget->getScrewName()
+                                                       .split("_")
+                                                       .join("_point_set_")
+                                                       .toStdString());
+        if (widget->getRadioButton()->isChecked())
+        {
+          mPointSetDataInteractorScrew->SetDataNode(screwPointSetNode);
+          mPointSetDataInteractorScrew->SetScrew(screwNode);
+        }
+        screwPointSetNode->SetVisibility(widget->getVisibility());
+        screwNode->SetVisibility(widget->getVisibility());
       }
       break;
     }
@@ -545,9 +586,6 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     mUi->doubleSpinBoxScrewDiameter->setValue(
         screwSettingsWidget->getDiameter());
     mUi->spinBoxScrewLength->setValue(screwSettingsWidget->getLength());
-    // auto* multiWidget = SRStdMultiWidget::getInstance();
-    // multiWidget->enableGroupBox(true);
-    // multiWidget->setTransformTarget(screwName);
     auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
     auto screwPointSetName = screwName.split("_").join("_point_set_");
     auto* screwNode = ds->GetNamedNode(screwName.toStdString());
@@ -555,6 +593,7 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
     if (screwPointSetNode && screwNode)
     {
       mPointSetDataInteractorScrew->SetDataNode(screwPointSetNode);
+      mPointSetDataInteractorScrew->SetScrew(screwNode);
     }
   }
 }
@@ -631,7 +670,7 @@ void CasePlanningWidget::onIntervalHideClicked(bool checked)
   auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
   auto* intervalNode =
       ds->GetNamedNode(widget->getCasePlanningName().toStdString());
-  intervalNode->SetVisibility(checked);
+  intervalNode->SetVisibility(!checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
@@ -676,8 +715,7 @@ void CasePlanningWidget::onLateralHideClicked(bool checked)
     auto* lateralNode = ds->GetNamedNode(
         (widget->getCasePlanningName() + "_" + QString::number(i))
             .toStdString());
-    MITK_INFO << *lateralNode;
-    lateralNode->SetVisibility(checked);
+    lateralNode->SetVisibility(!checked);
   }
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

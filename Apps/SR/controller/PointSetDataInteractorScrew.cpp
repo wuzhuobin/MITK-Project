@@ -10,3 +10,10 @@
  */
 
 #include "PointSetDataInteractorScrew.h"
+
+using namespace mitk;
+void PointSetDataInteractorScrew::FinishMove(StateMachineAction* action,
+                                             InteractionEvent* event)
+{
+  Superclass::FinishMove(action, event);
+}

@@ -28,11 +28,7 @@ public:
 
 protected:
   void FinishMove(mitk::StateMachineAction* action,
-                  mitk::InteractionEvent* event) override
-  {
-    MITK_INFO << __func__;
-    Superclass::FinishMove(action, event);
-  }
+                  mitk::InteractionEvent* event) override;
 
 private:
   mitk::DataNode::Pointer m_Screw;

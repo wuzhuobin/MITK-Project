@@ -72,7 +72,11 @@ void ScrewSettingsWidget::on_toolButtonDelete_clicked(bool checked)
   Q_UNUSED(checked);
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
-  ds->Remove(ds->GetNamedNode(getScrewName().toStdString()));
+  auto* screwNode = ds->GetNamedNode(getScrewName().toStdString());
+  auto* screwPointSetNode = ds->GetNamedNode(
+      getScrewName().split("_").join("_point_set_").toStdString());
+  ds->Remove(screwNode);
+  ds->Remove(screwPointSetNode);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   deleteLater();
 }
@@ -81,7 +85,10 @@ void ScrewSettingsWidget::on_toolButtonHide_toggled(bool checked)
 {
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* screwNode = ds->GetNamedNode(getScrewName().toStdString());
+  auto* screwPointSetNode = ds->GetNamedNode(
+      getScrewName().split("_").join("_point_set_").toStdString());
   screwNode->SetVisibility(!checked);
+  screwPointSetNode->SetVisibility(!checked);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
