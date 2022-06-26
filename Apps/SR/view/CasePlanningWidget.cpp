@@ -418,6 +418,14 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   mButtonGroupInterval->addButton(intervalSettingsWidget->getRadioButton());
   intervalSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxIntervals->layout()->addWidget(intervalSettingsWidget);
+  connect(intervalSettingsWidget,
+          &CasePlanningSettingsWidget::deleteClicked,
+          this,
+          &CasePlanningWidget::onIntervalDeleteClicked);
+  connect(intervalSettingsWidget,
+          &CasePlanningSettingsWidget::hideClicked,
+          this,
+          &CasePlanningWidget::onIntervalHideClicked);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
@@ -476,8 +484,44 @@ void CasePlanningWidget::on_pushButtonLateralNew_clicked(bool checked)
   mButtonGroupLateral->addButton(lateralSettingsWidget->getRadioButton());
   lateralSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxLaterals->layout()->addWidget(lateralSettingsWidget);
+  connect(lateralSettingsWidget,
+          &CasePlanningSettingsWidget::hideClicked,
+          this,
+          &CasePlanningWidget::onLateralHideClicked);
+  connect(lateralSettingsWidget,
+          &CasePlanningSettingsWidget::deleteClicked,
+          this,
+          &CasePlanningWidget::onLateralDeleteClicked);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void CasePlanningWidget::on_radioButtonLateralTranslate_toggled(bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneTranslationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
+}
+
+void CasePlanningWidget::on_radioButtonLateralRotate_toggled(bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneRotationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
 }
 
 void CasePlanningWidget::on_pushButtonPosteriorNew_clicked(bool checked)
@@ -569,6 +613,28 @@ void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
   mToolManager->SetReferenceData(imageNode);
   mToolManager->SetWorkingData(intervalNode);
 }
+
+void CasePlanningWidget::onIntervalDeleteClicked(bool checked)
+{
+  Q_UNUSED(checked);
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  ds->Remove(ds->GetNamedNode(widget->getCasePlanningName().toStdString()));
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  widget->deleteLater();
+}
+
+void CasePlanningWidget::onIntervalHideClicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  auto* intervalNode =
+      ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+  intervalNode->SetVisibility(checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
 void CasePlanningWidget::onButtonGroupLateralButtonToggled(
     QAbstractButton* button, bool checked)
 {
@@ -585,4 +651,33 @@ void CasePlanningWidget::onButtonGroupLateralButtonToggled(
         (lateralName + "_" + QString::number(i)).toStdString());
     mClippingPlaneInteractors[i]->SetDataNode(lateralNode0);
   }
+}
+
+void CasePlanningWidget::onLateralDeleteClicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  for (auto i = 0; i < 2; ++i)
+  {
+    ds->Remove(ds->GetNamedNode(
+        (widget->getCasePlanningName() + "_" + QString::number(i))
+            .toStdString()));
+  }
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  widget->deleteLater();
+}
+
+void CasePlanningWidget::onLateralHideClicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  for (auto i = 0; i < 2; ++i)
+  {
+    auto* lateralNode = ds->GetNamedNode(
+        (widget->getCasePlanningName() + "_" + QString::number(i))
+            .toStdString());
+    MITK_INFO << *lateralNode;
+    lateralNode->SetVisibility(checked);
+  }
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

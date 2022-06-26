@@ -35,9 +35,8 @@ public:
   const QString getCasePlanningName() const;
   bool getVisibility() const;
 
-protected:
-  Q_SLOT void on_toolButtonDelete_clicked(bool checked = false) override;
-  Q_SLOT void on_toolButtonHide_toggled(bool checked) override;
+  Q_SIGNAL void deleteClicked(bool checked = false);
+  Q_SIGNAL void hideClicked(bool checked = false);
 
 private:
   std::unique_ptr<Ui::CasePlanningSettingsWidget> mUi;

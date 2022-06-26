@@ -28,6 +28,14 @@ CasePlanningSettingsWidget::CasePlanningSettingsWidget(
   mUi->setupUi(this);
   setObjectName("CasePlanningSettingsWidget_" + objectName);
   mUi->radioButton->setText(objectName);
+  connect(mUi->toolButtonDelete,
+          &QToolButton::clicked,
+          this,
+          &CasePlanningSettingsWidget::deleteClicked);
+  connect(mUi->toolButtonHide,
+          &QToolButton::clicked,
+          this,
+          &CasePlanningSettingsWidget::hideClicked);
 }
 
 CasePlanningSettingsWidget::~CasePlanningSettingsWidget() = default;
@@ -45,26 +53,4 @@ const QString CasePlanningSettingsWidget::getCasePlanningName() const
 bool CasePlanningSettingsWidget::getVisibility() const
 {
   return !mUi->toolButtonHide->isChecked();
-}
-
-void CasePlanningSettingsWidget::on_toolButtonDelete_clicked(bool checked)
-{
-  Q_UNUSED(checked);
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-
-  ds->Remove(ds->GetNamedNode(getCasePlanningName().toStdString()));
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-  deleteLater();
-}
-
-void CasePlanningSettingsWidget::on_toolButtonHide_toggled(bool checked)
-{
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* caseplanningNode =
-      ds->GetNamedNode(getCasePlanningName().toStdString());
-  caseplanningNode->SetVisibility(!checked);
-
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

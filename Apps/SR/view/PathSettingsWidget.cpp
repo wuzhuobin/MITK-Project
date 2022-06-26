@@ -67,7 +67,6 @@ void PathSettingsWidget::on_toolButtonDelete_clicked(bool checked)
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
   ds->Remove(ds->GetNamedNode(getPathName().toStdString()));
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   deleteLater();
 }
@@ -78,6 +77,5 @@ void PathSettingsWidget::on_toolButtonHide_toggled(bool checked)
   auto* pathNode = ds->GetNamedNode(getPathName().toStdString());
   pathNode->SetVisibility(!checked);
 
-  mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(ds);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

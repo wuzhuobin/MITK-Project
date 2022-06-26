@@ -67,6 +67,8 @@ private:
   Q_SLOT void on_pushButtonIntervalNew_clicked(bool checked = false);
   Q_SLOT void on_spinBoxIntervalSize_valueChanged(int value);
   Q_SLOT void on_pushButtonLateralNew_clicked(bool checked = false);
+  Q_SLOT void on_radioButtonLateralTranslate_toggled(bool checked);
+  Q_SLOT void on_radioButtonLateralRotate_toggled(bool checked);
   Q_SLOT void on_pushButtonPosteriorNew_clicked(bool checked = false);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
@@ -76,8 +78,12 @@ private:
                                               bool checked = false);
   Q_SLOT void onButtonGroupIntervalButtonToggled(QAbstractButton* button,
                                                  bool checked = false);
+  Q_SLOT void onIntervalDeleteClicked(bool checked);
+  Q_SLOT void onIntervalHideClicked(bool checked);
   Q_SLOT void onButtonGroupLateralButtonToggled(QAbstractButton* button,
                                                 bool checked = false);
+  Q_SLOT void onLateralDeleteClicked(bool checked);
+  Q_SLOT void onLateralHideClicked(bool checked);
 };
 
 #endif  //! CASE_PLANNING_WIDGET_H

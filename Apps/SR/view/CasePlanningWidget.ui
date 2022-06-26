@@ -240,19 +240,46 @@
    </layout>
   </widget>
   <widget class="QWidget" name="lateralPlanning">
-   <layout class="QVBoxLayout" name="verticalLayout_11">
+   <layout class="QVBoxLayout" name="verticalLayout_13">
     <item>
      <widget class="QGroupBox" name="groupBoxLaterals">
       <property name="title">
        <string>Lateral</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_10">
+      <layout class="QVBoxLayout" name="verticalLayout_12">
        <item>
         <widget class="QPushButton" name="pushButtonLateralNew">
          <property name="text">
           <string>New Lateral</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QRadioButton" name="radioButtonLateralTranslate">
+           <property name="text">
+            <string>Translate</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonLateralRotate">
+           <property name="text">
+            <string>Rotate</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroup</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -273,19 +300,40 @@
    </layout>
   </widget>
   <widget class="QWidget" name="posteriorPlanning">
-   <layout class="QVBoxLayout" name="verticalLayout_13">
+   <layout class="QVBoxLayout" name="verticalLayout_11">
     <item>
      <widget class="QGroupBox" name="groupBoxPosteriors">
       <property name="title">
        <string>Posterior</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_12">
+      <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
         <widget class="QPushButton" name="pushButtonPosteriorNew">
          <property name="text">
           <string>New Posterior</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QRadioButton" name="radioButtonPosteriorTranslate">
+           <property name="text">
+            <string>Translate</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonPosteriorRotate">
+           <property name="text">
+            <string>Rotate</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -308,4 +356,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>
