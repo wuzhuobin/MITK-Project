@@ -177,10 +177,12 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
   }
   mPointSetDataInteractorScrew->SetDataNode(nullptr);
 
-  auto pathSettingsWidgets =
-      findChildren<PathSettingsWidget*>("PathSettingsWidget_path_[0-9]?");
+  auto pathSettingsWidgets = findChildren<PathSettingsWidget*>(
+      QRegularExpression("PathSettingsWidget_path_[0-9]?"));
   for (auto* pathSettingsWidget : pathSettingsWidgets)
   {
+    MITK_INFO << pathSettingsWidget->objectName().toStdString();
+    MITK_INFO << pathSettingsWidget->getPathName().toStdString();
     ds->GetNamedNode(pathSettingsWidget->getPathName().toStdString())
         ->SetVisibility(false);
   }
@@ -193,8 +195,8 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     ds->GetNamedNode(plateSettingsWidget->getCasePlanningName().toStdString())
         ->SetVisibility(false);
   }
-  mToolManager->SetReferenceData(nullptr);
   mToolManager->SetWorkingData(nullptr);
+  mToolManager->SetReferenceData(nullptr);
 
   auto intervalSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
       QRegularExpression("CasePlanningSettingsWidget_interval_[0-9]?"));
@@ -204,6 +206,8 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
           intervalSettingsWidget->getCasePlanningName().toStdString())
         ->SetVisibility(false);
   }
+  mToolManager->SetWorkingData(nullptr);
+  mToolManager->SetReferenceData(nullptr);
 
   auto lateralSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
       QRegularExpression("CasePlanningSettingsWidget_lateral_[0-9]?"));
@@ -251,23 +255,60 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     case 2: {  // path
       for (auto* widget : pathSettingsWidgets)
       {
-        ds->GetNamedNode(widget->getPathName().toStdString())
-            ->SetVisibility(widget->getVisibility());
+        auto* pathNode = ds->GetNamedNode(widget->getPathName().toStdString());
+        pathNode->SetVisibility(widget->getVisibility());
+        if (widget->getRadioButton()->isChecked())
+        {
+          mPointSetDataInteractor->SetDataNode(pathNode);
+        }
       }
       break;
     }
     case 3: {  // plate
       for (auto* widget : plateSettingsWidgets)
       {
-        ds->GetNamedNode(widget->getCasePlanningName().toStdString())
-            ->SetVisibility(widget->getVisibility());
+        auto* plateNode =
+            ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+        auto* imageNode = ds->GetNamedNode("image");
+        plateNode->SetVisibility(widget->getVisibility());
+        if (widget->getRadioButton()->isChecked())
+        {
+          mToolManager->SetWorkingData(plateNode);
+          mToolManager->SetReferenceData(imageNode);
+        }
       }
       break;
     }
-    case 4: {
+    case 4: {  // interval
+      for (auto* widget : intervalSettingsWidgets)
+      {
+        auto* intervalNode =
+            ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+        auto* imageNode = ds->GetNamedNode("image");
+        intervalNode->SetVisibility(widget->getVisibility());
+        if (widget->getRadioButton()->isChecked())
+        {
+          mToolManager->SetWorkingData(intervalNode);
+          mToolManager->SetReferenceData(imageNode);
+        }
+      }
       break;
     }
-    case 5: {
+    case 5: {  // laterval
+      for (auto* widget : lateralSettingsWidgets)
+      {
+        for (auto i = 0; i < 2; ++i)
+        {
+          auto* laterNode = ds->GetNamedNode(
+              (widget->getCasePlanningName() + "_" + QString::number(i))
+                  .toStdString());
+          laterNode->SetVisibility(widget->getVisibility());
+          if (widget->getRadioButton()->isChecked())
+          {
+            mClippingPlaneInteractors[i]->SetDataNode(laterNode);
+          }
+        }
+      }
       break;
     }
     default:

@@ -27,11 +27,14 @@ public:
   itkGetObjectMacro(Screw, mitk::DataNode);
 
 protected:
+  void AddPoint(mitk::StateMachineAction* action,
+                mitk::InteractionEvent* event) override;
   void FinishMove(mitk::StateMachineAction* action,
                   mitk::InteractionEvent* event) override;
 
 private:
   mitk::DataNode::Pointer m_Screw;
+  void updateScrew();
 };
 
 #endif  // ! POINT_SET_DATA_INTERACTOR_SCREW_H
