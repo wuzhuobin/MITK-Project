@@ -15,6 +15,10 @@
 #include <mitkInteractionEvent.h>
 #include <mitkLogMacros.h>
 
+// itk
+#include <vnl/vnl_cross.h>
+#include <vnl/vnl_vector.h>
+
 using namespace mitk;
 
 void PointSetDataInteractorScrew::AddPoint(
@@ -46,24 +50,40 @@ void PointSetDataInteractorScrew::updateScrew()
   auto point1 = pointSet->GetPoint(1);
   auto* screw = GetScrew()->GetData();
   auto screwGeometry = screw->GetGeometry();
-
-  mitk::AffineTransform3D::OutputVectorType newOffset;
-  newOffset.SetVnlVector(point0.GetVnlVector() + point1.GetVnlVector());
-  newOffset *= 0.5;
+  screwGeometry->SetIdentity();
 
   mitk::AffineTransform3D::OutputVectorType newAxis;
   newAxis.SetVnlVector(point0.GetVnlVector() - point1.GetVnlVector());
 
   auto direction = 0;
   auto oldAxis = screwGeometry->GetAxisVector(0);
+  direction = oldAxis.GetNorm() > screwGeometry->GetAxisVector(1).GetNorm()
+                  ? direction
+                  : 1;
   oldAxis = oldAxis.GetNorm() > screwGeometry->GetAxisVector(1).GetNorm()
                 ? oldAxis
                 : screwGeometry->GetAxisVector(1);
+  direction = oldAxis.GetNorm() > screwGeometry->GetAxisVector(2).GetNorm()
+                  ? direction
+                  : 2;
   oldAxis = oldAxis.GetNorm() > screwGeometry->GetAxisVector(2).GetNorm()
                 ? oldAxis
                 : screwGeometry->GetAxisVector(2);
 
-  auto transform = screwGeometry->GetIndexToWorldTransform()->Clone();
-  transform->SetOffset(newOffset);
+  auto rotateAngle = angle(oldAxis.GetVnlVector(), newAxis.GetVnlVector());
+  auto rotateAxis = mitk::Vector3D(
+      vnl_cross_3d(oldAxis.GetVnlVector(), newAxis.GetVnlVector()).normalize());
+
+  mitk::Vector3D scale;
+  scale.Fill(1.0);
+  scale[direction] = newAxis.GetNorm() / oldAxis.GetNorm();
+
+  mitk::AffineTransform3D::OutputVectorType offset;
+  offset.SetVnlVector((point0.GetVnlVector() + point1.GetVnlVector()) * 0.5);
+
+  auto transform = screwGeometry->GetIndexToWorldTransform();
+  transform->Scale(scale, false);
+  transform->Rotate3D(rotateAxis, rotateAngle, false);
+  transform->Translate(offset, false);
   screwGeometry->SetIndexToWorldTransform(transform);
 }

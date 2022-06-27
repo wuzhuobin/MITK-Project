@@ -166,7 +166,6 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
       QRegularExpression("ScrewSettingsWidget_screw_[0-9]?"));
   for (auto* screwSettingsWidget : screwSettingsWidgets)
   {
-    MITK_INFO << screwSettingsWidget->getScrewName().toStdString();
     ds->GetNamedNode(screwSettingsWidget->getScrewName().toStdString())
         ->SetVisibility(false);
     ds->GetNamedNode(screwSettingsWidget->getScrewName()
@@ -181,8 +180,6 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
       QRegularExpression("PathSettingsWidget_path_[0-9]?"));
   for (auto* pathSettingsWidget : pathSettingsWidgets)
   {
-    MITK_INFO << pathSettingsWidget->objectName().toStdString();
-    MITK_INFO << pathSettingsWidget->getPathName().toStdString();
     ds->GetNamedNode(pathSettingsWidget->getPathName().toStdString())
         ->SetVisibility(false);
   }
