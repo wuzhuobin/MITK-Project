@@ -98,6 +98,11 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
               &QButtonGroup::buttonToggled),
           this,
           &CasePlanningWidget::onButtonGroupLateralButtonToggled);
+  connect(mButtonGroupPosterior,
+          static_cast<void (QButtonGroup::*)(QAbstractButton*, bool)>(
+              &QButtonGroup::buttonToggled),
+          this,
+          &CasePlanningWidget::onButtonGroupPosteriorButtonToggled);
 
   mPointSetDataInteractorScrew->LoadStateMachine("PointSet.xml");
   mPointSetDataInteractorScrew->SetEventConfig("PointSetConfig.xml");
@@ -194,6 +199,7 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
   }
   mToolManager->SetWorkingData(nullptr);
   mToolManager->SetReferenceData(nullptr);
+  mToolManager->UnregisterClient();
 
   auto intervalSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
       QRegularExpression("CasePlanningSettingsWidget_interval_[0-9]?"));
@@ -205,6 +211,7 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
   }
   mToolManager->SetWorkingData(nullptr);
   mToolManager->SetReferenceData(nullptr);
+  mToolManager->UnregisterClient();
 
   auto lateralSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
       QRegularExpression("CasePlanningSettingsWidget_lateral_[0-9]?"));
@@ -223,8 +230,6 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     clippingPlaneInteractor->SetDataNode(nullptr);
   }
 
-  // auto* multiWidget = SRStdMultiWidget::getInstance();
-  // multiWidget->enableGroupBox(false);
   switch (index)
   {
     case 0: {  // dummy
@@ -239,13 +244,12 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
                                                        .split("_")
                                                        .join("_point_set_")
                                                        .toStdString());
-        if (widget->getRadioButton()->isChecked())
-        {
-          mPointSetDataInteractorScrew->SetDataNode(screwPointSetNode);
-          mPointSetDataInteractorScrew->SetScrew(screwNode);
-        }
         screwPointSetNode->SetVisibility(widget->getVisibility());
         screwNode->SetVisibility(widget->getVisibility());
+        if (widget->getRadioButton()->isChecked())
+        {
+          onButtonGroupScrewButtonToggled(widget->getRadioButton(), true);
+        }
       }
       break;
     }
@@ -256,12 +260,13 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
         pathNode->SetVisibility(widget->getVisibility());
         if (widget->getRadioButton()->isChecked())
         {
-          mPointSetDataInteractor->SetDataNode(pathNode);
+          onButtonGroupPathButtonToggled(widget->getRadioButton(), true);
         }
       }
       break;
     }
     case 3: {  // plate
+      mToolManager->RegisterClient();
       for (auto* widget : plateSettingsWidgets)
       {
         auto* plateNode =
@@ -270,13 +275,13 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
         plateNode->SetVisibility(widget->getVisibility());
         if (widget->getRadioButton()->isChecked())
         {
-          mToolManager->SetWorkingData(plateNode);
-          mToolManager->SetReferenceData(imageNode);
+          onButtonGroupPlateButtonToggled(widget->getRadioButton(), true);
         }
       }
       break;
     }
     case 4: {  // interval
+      mToolManager->RegisterClient();
       for (auto* widget : intervalSettingsWidgets)
       {
         auto* intervalNode =
@@ -285,8 +290,7 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
         intervalNode->SetVisibility(widget->getVisibility());
         if (widget->getRadioButton()->isChecked())
         {
-          mToolManager->SetWorkingData(intervalNode);
-          mToolManager->SetReferenceData(imageNode);
+          onButtonGroupIntervalButtonToggled(widget->getRadioButton(), true);
         }
       }
       break;
@@ -302,7 +306,7 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
           laterNode->SetVisibility(widget->getVisibility());
           if (widget->getRadioButton()->isChecked())
           {
-            mClippingPlaneInteractors[i]->SetDataNode(laterNode);
+            onButtonGroupLateralButtonToggled(widget->getRadioButton(), true);
           }
         }
       }
@@ -430,8 +434,6 @@ void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
   auto* imageNode = ds->GetNamedNode("image");
   auto* image = ds->GetNamedObject<mitk::Image>("image");
 
-  mToolManager->SetDataStorage(*ds);
-  mToolManager->RegisterClient();
   auto drawPaintBrushId =
       mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
   auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
@@ -440,14 +442,19 @@ void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
   auto plateNode = drawPaintBrush->CreateEmptySegmentationNode(
       image, plateName.toStdString(), colorFloat);
   ds->Add(plateNode);
-  mToolManager->SetReferenceData(imageNode);
-  mToolManager->SetWorkingData(plateNode);
-  mToolManager->ActivateTool(drawPaintBrushId);
 
   auto* plateSettingsWidget = new CasePlanningSettingsWidget(plateName, this);
   mButtonGroupPlate->addButton(plateSettingsWidget->getRadioButton());
   plateSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxPlates->layout()->addWidget(plateSettingsWidget);
+  connect(plateSettingsWidget,
+          &CasePlanningSettingsWidget::deleteClicked,
+          this,
+          &CasePlanningWidget::onPlateDeleteClicked);
+  connect(plateSettingsWidget,
+          &CasePlanningSettingsWidget::hideClicked,
+          this,
+          &CasePlanningWidget::onPlateHideClicked);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
@@ -479,7 +486,6 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   auto* image = ds->GetNamedObject<mitk::Image>("image");
 
   mToolManager->SetDataStorage(*ds);
-  mToolManager->RegisterClient();
   auto drawPaintBrushId =
       mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
   auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
@@ -670,9 +676,12 @@ void CasePlanningWidget::onButtonGroupPlateButtonToggled(
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* imageNode = ds->GetNamedNode("image");
   auto* plateNode = ds->GetNamedNode(plateName.toStdString());
+  auto drawPaintBrushId =
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
   mToolManager->SetDataStorage(*ds);
   mToolManager->SetReferenceData(imageNode);
   mToolManager->SetWorkingData(plateNode);
+  mToolManager->ActivateTool(drawPaintBrushId);
 }
 
 void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
@@ -691,27 +700,6 @@ void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
   mToolManager->SetWorkingData(intervalNode);
 }
 
-void CasePlanningWidget::onIntervalDeleteClicked(bool checked)
-{
-  Q_UNUSED(checked);
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
-  ds->Remove(ds->GetNamedNode(widget->getCasePlanningName().toStdString()));
-
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-  widget->deleteLater();
-}
-
-void CasePlanningWidget::onIntervalHideClicked(bool checked)
-{
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
-  auto* intervalNode =
-      ds->GetNamedNode(widget->getCasePlanningName().toStdString());
-  intervalNode->SetVisibility(!checked);
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-}
-
 void CasePlanningWidget::onButtonGroupLateralButtonToggled(
     QAbstractButton* button, bool checked)
 {
@@ -728,6 +716,70 @@ void CasePlanningWidget::onButtonGroupLateralButtonToggled(
         (lateralName + "_" + QString::number(i)).toStdString());
     mClippingPlaneInteractors[i]->SetDataNode(lateralNode0);
   }
+}
+
+void CasePlanningWidget::onButtonGroupPosteriorButtonToggled(
+    QAbstractButton* button, bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+
+  auto posteriorName = button->text();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  for (auto i = 0; i < 2; ++i)
+  {
+    auto* posteriorNode0 = ds->GetNamedNode(
+        (posteriorName + "_" + QString::number(i)).toStdString());
+    mClippingPlaneInteractors[i]->SetDataNode(posteriorNode0);
+  }
+}
+
+void CasePlanningWidget::onPlateDeleteClicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  ds->Remove(ds->GetNamedNode(widget->getCasePlanningName().toStdString()));
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  widget->deleteLater();
+}
+
+void CasePlanningWidget::onPlateHideClicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  auto* plateNode =
+      ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+  plateNode->SetVisibility(!checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void CasePlanningWidget::onIntervalDeleteClicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  ds->Remove(ds->GetNamedNode(widget->getCasePlanningName().toStdString()));
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  widget->deleteLater();
+}
+
+void CasePlanningWidget::onIntervalHideClicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  auto* intervalNode =
+      ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+  intervalNode->SetVisibility(!checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void CasePlanningWidget::onLateralDeleteClicked(bool checked)

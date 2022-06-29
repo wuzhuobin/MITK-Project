@@ -78,10 +78,14 @@ private:
                                               bool checked = false);
   Q_SLOT void onButtonGroupIntervalButtonToggled(QAbstractButton* button,
                                                  bool checked = false);
-  Q_SLOT void onIntervalDeleteClicked(bool checked);
-  Q_SLOT void onIntervalHideClicked(bool checked);
   Q_SLOT void onButtonGroupLateralButtonToggled(QAbstractButton* button,
                                                 bool checked = false);
+  Q_SLOT void onButtonGroupPosteriorButtonToggled(QAbstractButton* button,
+                                                  bool checked = false);
+  Q_SLOT void onPlateDeleteClicked(bool checked);
+  Q_SLOT void onPlateHideClicked(bool checked);
+  Q_SLOT void onIntervalDeleteClicked(bool checked);
+  Q_SLOT void onIntervalHideClicked(bool checked);
   Q_SLOT void onLateralDeleteClicked(bool checked);
   Q_SLOT void onLateralHideClicked(bool checked);
 };
