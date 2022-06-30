@@ -293,6 +293,10 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
           onButtonGroupIntervalButtonToggled(widget->getRadioButton(), true);
         }
       }
+      on_radioButtonLateralTranslate_toggled(
+          mUi->radioButtonLateralTranslate->isChecked());
+      on_radioButtonLateralRotate_toggled(
+          mUi->radioButtonLateralRotate->isChecked());
       break;
     }
     case 5: {  // laterval
@@ -310,6 +314,10 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
           }
         }
       }
+      on_radioButtonPosteriorTranslate_toggled(
+          mUi->radioButtonPosteriorTranslate->isChecked());
+      on_radioButtonPosteriorRotate_toggled(
+          mUi->radioButtonPosteriorRotate->isChecked());
       break;
     }
     default:
@@ -612,6 +620,82 @@ void CasePlanningWidget::on_radioButtonLateralRotate_toggled(bool checked)
 void CasePlanningWidget::on_pushButtonPosteriorNew_clicked(bool checked)
 {
   Q_UNUSED(checked);
+
+  auto size = mButtonGroupPosterior->buttons().size();
+  QString posteriorNamePrefix("posterior");
+  auto posteriorName = QString(posteriorNamePrefix + "_%1").arg(size + 1);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* image = ds->GetNamedObject<mitk::Image>("image");
+
+  auto extentX = image->GetGeometry()->GetExtentInMM(0);
+  auto extentY = image->GetGeometry()->GetExtentInMM(1);
+
+  for (auto i = 0; i < 2; ++i)
+  {
+    auto posterior0 = mitk::Plane::New();
+    posterior0->SetOrigin(image->GetGeometry()->GetCenter());
+    posterior0->SetExtent(extentX, extentY);
+
+    auto scalars0 = vtkSmartPointer<vtkFloatArray>::New();
+    scalars0->SetName("Distance");
+    scalars0->SetNumberOfComponents(1);
+    scalars0->SetNumberOfTuples(
+        posterior0->GetVtkPolyData()->GetNumberOfPoints());
+    posterior0->GetVtkPolyData()->GetPointData()->SetScalars(scalars0);
+
+    auto posteriorNode0 = mitk::DataNode::New();
+    posteriorNode0->SetName(
+        (posteriorName + "_" + QString::number(i)).toStdString());
+    posteriorNode0->SetData(posterior0);
+    posteriorNode0->SetVisibility(true);
+    posteriorNode0->SetBoolProperty("pickable", true);
+    ds->Add(posteriorNode0);
+  }
+
+  auto* posteriorSettingsWidget =
+      new CasePlanningSettingsWidget(posteriorName, this);
+  mButtonGroupPosterior->addButton(posteriorSettingsWidget->getRadioButton());
+  posteriorSettingsWidget->getRadioButton()->setChecked(true);
+  mUi->groupBoxPosteriors->layout()->addWidget(posteriorSettingsWidget);
+  connect(posteriorSettingsWidget,
+          &CasePlanningSettingsWidget::hideClicked,
+          this,
+          &CasePlanningWidget::onPosteriorHideClicked);
+  connect(posteriorSettingsWidget,
+          &CasePlanningSettingsWidget::deleteClicked,
+          this,
+          &CasePlanningWidget::onPosteriorDeleteClicked);
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void CasePlanningWidget::on_radioButtonPosteriorTranslate_toggled(bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneTranslationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
+}
+
+void CasePlanningWidget::on_radioButtonPosteriorRotate_toggled(bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneRotationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
 }
 
 void CasePlanningWidget::onButtonGroupScrewButtonToggled(
@@ -806,6 +890,34 @@ void CasePlanningWidget::onLateralHideClicked(bool checked)
         (widget->getCasePlanningName() + "_" + QString::number(i))
             .toStdString());
     lateralNode->SetVisibility(!checked);
+  }
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void CasePlanningWidget::onPosteriorDeleteClicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  for (auto i = 0; i < 2; ++i)
+  {
+    ds->Remove(ds->GetNamedNode(
+        (widget->getCasePlanningName() + "_" + QString::number(i))
+            .toStdString()));
+  }
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  widget->deleteLater();
+}
+
+void CasePlanningWidget::onPosteriorHideClicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
+  for (auto i = 0; i < 2; ++i)
+  {
+    auto* posteriorNode = ds->GetNamedNode(
+        (widget->getCasePlanningName() + "_" + QString::number(i))
+            .toStdString());
+    posteriorNode->SetVisibility(!checked);
   }
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

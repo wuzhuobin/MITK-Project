@@ -70,6 +70,8 @@ private:
   Q_SLOT void on_radioButtonLateralTranslate_toggled(bool checked);
   Q_SLOT void on_radioButtonLateralRotate_toggled(bool checked);
   Q_SLOT void on_pushButtonPosteriorNew_clicked(bool checked = false);
+  Q_SLOT void on_radioButtonPosteriorTranslate_toggled(bool checked);
+  Q_SLOT void on_radioButtonPosteriorRotate_toggled(bool checked);
   Q_SLOT void onButtonGroupScrewButtonToggled(QAbstractButton* button,
                                               bool checked = false);
   Q_SLOT void onButtonGroupPathButtonToggled(QAbstractButton* button,
@@ -88,6 +90,8 @@ private:
   Q_SLOT void onIntervalHideClicked(bool checked);
   Q_SLOT void onLateralDeleteClicked(bool checked);
   Q_SLOT void onLateralHideClicked(bool checked);
+  Q_SLOT void onPosteriorDeleteClicked(bool checked);
+  Q_SLOT void onPosteriorHideClicked(bool checked);
 };
 
 #endif  //! CASE_PLANNING_WIDGET_H

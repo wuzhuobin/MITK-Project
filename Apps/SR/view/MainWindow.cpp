@@ -216,7 +216,6 @@ void MainWindow::onActionsTriggered(QAction* action)
   else if (mActionGroup->actions().indexOf(action) <=
            mActionGroup->actions().indexOf(mUi->action_Posterior_Planning))
   {
-    MITK_INFO << action->objectName().toStdString();
     mUi->stackedWidget->setCurrentWidget(mUi->casePlanningWidget);
   }
 
