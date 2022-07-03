@@ -27,6 +27,7 @@
 #include <itkRelabelComponentImageFilter.h>
 #include <itkThresholdImageFilter.h>
 #include <itkTileImageFilter.h>
+#include <itkUnsharpMaskImageFilter.h>
 #include <itkVotingBinaryHoleFillingImageFilter.h>
 
 using ImageType = itk::Image<short, 3>;
@@ -194,28 +195,29 @@ void otsuThresholdSliceBySlice(ImageType* input, ImageType* output)
     binaryFillHoleImageFilter->SetForegroundValue(1);
     binaryFillHoleImageFilter->Update();
 
-    // using BinaryBallStructuringElement =
-    //     itk::BinaryBallStructuringElement<SliceType::PixelType,
-    //                                       SliceType::ImageDimension>;
-    // BinaryBallStructuringElement structuringElement;
-    // structuringElement.SetRadius(3);
-    // structuringElement.CreateStructuringElement();
+    using BinaryBallStructuringElement =
+        itk::BinaryBallStructuringElement<SliceType::PixelType,
+                                          SliceType::ImageDimension>;
+    BinaryBallStructuringElement structuringElement;
+    structuringElement.SetRadius(3);
+    structuringElement.CreateStructuringElement();
 
-    // using BinaryMorphologicalOpeningImageFilter =
-    //     itk::BinaryMorphologicalOpeningImageFilter<
-    //         SliceType,
-    //         SliceType,
-    //         BinaryBallStructuringElement>;
-    // auto binaryMorphologicalOpeningImageFilter =
-    //     BinaryMorphologicalOpeningImageFilter::New();
-    // binaryMorphologicalOpeningImageFilter->SetInput(
-    //     otsuThresholdImageFilter->GetOutput());
-    // binaryMorphologicalOpeningImageFilter->SetKernel(structuringElement);
-    // binaryMorphologicalOpeningImageFilter->SetBackgroundValue(0);
-    // binaryMorphologicalOpeningImageFilter->SetForegroundValue(1);
-    // binaryMorphologicalOpeningImageFilter->Update();
+    using BinaryMorphologicalOpeningImageFilter =
+        itk::BinaryMorphologicalOpeningImageFilter<
+            SliceType,
+            SliceType,
+            BinaryBallStructuringElement>;
+    auto binaryMorphologicalOpeningImageFilter =
+        BinaryMorphologicalOpeningImageFilter::New();
+    binaryMorphologicalOpeningImageFilter->SetInput(
+        binaryFillHoleImageFilter->GetOutput());
+    binaryMorphologicalOpeningImageFilter->SetKernel(structuringElement);
+    binaryMorphologicalOpeningImageFilter->SetBackgroundValue(0);
+    binaryMorphologicalOpeningImageFilter->SetForegroundValue(1);
+    binaryMorphologicalOpeningImageFilter->Update();
 
-    tileImageFilter->SetInput(z, binaryFillHoleImageFilter->GetOutput());
+    tileImageFilter->SetInput(
+        z, binaryMorphologicalOpeningImageFilter->GetOutput());
   }
   TileImageFilterType::LayoutArrayType layout;
   layout[0] = 1;
@@ -281,8 +283,19 @@ int main(int argc, char* argv[])
       mitk::ImageToItkImage<ImageType::PixelType, ImageType::ImageDimension>(
           image);
 
+  auto spacing = itkImage->GetSpacing();
+
+  using UnsharpMaskImageFilterType =
+      itk::UnsharpMaskImageFilter<ImageType, ImageType>;
+  auto unsharpMaskImageFilter = UnsharpMaskImageFilterType::New();
+  unsharpMaskImageFilter->SetAmount(1);
+  unsharpMaskImageFilter->SetInput(itkImage);
+  unsharpMaskImageFilter->SetSigmas(spacing);
+  unsharpMaskImageFilter->Update();
+
   auto otsuThresholdImage = ImageType::New();
-  otsuThresholdSliceBySlice(itkImage, otsuThresholdImage);
+  otsuThresholdSliceBySlice(unsharpMaskImageFilter->GetOutput(),
+                            otsuThresholdImage);
   MITK_INFO << otsuThresholdImage;
 
   auto otsuThresholdedImage = mitk::Image::New();
