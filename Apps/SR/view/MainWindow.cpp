@@ -78,7 +78,7 @@ void MainWindow::test()
 {
   auto fileName = QApplication::applicationDirPath() + "/SpineRobotic.mitk";
   setCurrentActionIndex(
-      mActionGroup->actions().indexOf(mUi->action_Screw_Planning));
+      mActionGroup->actions().indexOf(mUi->action_Interval_Planning));
   IOController::getInstance()->loadScene(fileName);
 }
 
@@ -142,7 +142,6 @@ void MainWindow::initializeConnection()
 void MainWindow::setCurrentActionIndex(int index)
 {
   // bounding
-  MITK_INFO << index;
   if (index >= mActionGroup->actions().size())
   {
     mCurrentActionIndex = mActionGroup->actions().size() - 1;

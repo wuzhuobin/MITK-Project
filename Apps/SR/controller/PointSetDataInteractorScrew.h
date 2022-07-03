@@ -26,6 +26,14 @@ public:
   itkSetObjectMacro(Screw, mitk::DataNode);
   itkGetObjectMacro(Screw, mitk::DataNode);
 
+  itkSetMacro(ScrewDiameter, double);
+  itkGetMacro(ScrewDiameter, double);
+
+  itkSetMacro(ScrewLength, double);
+  itkGetMacro(ScrewLength, double);
+
+  void updateScrew();
+
 protected:
   void AddPoint(mitk::StateMachineAction* action,
                 mitk::InteractionEvent* event) override;
@@ -34,7 +42,8 @@ protected:
 
 private:
   mitk::DataNode::Pointer m_Screw;
-  void updateScrew();
+  double m_ScrewDiameter = 0;
+  double m_ScrewLength = 0;
 };
 
 #endif  // ! POINT_SET_DATA_INTERACTOR_SCREW_H

@@ -46,37 +46,59 @@ void PointSetDataInteractorScrew::FinishMove(StateMachineAction* action,
 void PointSetDataInteractorScrew::updateScrew()
 {
   auto* pointSet = static_cast<mitk::PointSet*>(GetDataNode()->GetData());
+  if (pointSet->GetSize() < 2)
+  {
+    return;
+  }
   auto point0 = pointSet->GetPoint(0);
   auto point1 = pointSet->GetPoint(1);
   auto* screw = GetScrew()->GetData();
   auto screwGeometry = screw->GetGeometry();
   screwGeometry->SetIdentity();
 
-  mitk::AffineTransform3D::OutputVectorType newAxis;
-  newAxis.SetVnlVector(point0.GetVnlVector() - point1.GetVnlVector());
+  mitk::AffineTransform3D::OutputVectorType newMajorAxis;
+  newMajorAxis.SetVnlVector(point0.GetVnlVector() - point1.GetVnlVector());
 
-  auto direction = 0;
-  auto oldAxis = screwGeometry->GetAxisVector(0);
-  direction = oldAxis.GetNorm() > screwGeometry->GetAxisVector(1).GetNorm()
-                  ? direction
-                  : 1;
-  oldAxis = oldAxis.GetNorm() > screwGeometry->GetAxisVector(1).GetNorm()
-                ? oldAxis
-                : screwGeometry->GetAxisVector(1);
-  direction = oldAxis.GetNorm() > screwGeometry->GetAxisVector(2).GetNorm()
-                  ? direction
-                  : 2;
-  oldAxis = oldAxis.GetNorm() > screwGeometry->GetAxisVector(2).GetNorm()
-                ? oldAxis
-                : screwGeometry->GetAxisVector(2);
+  auto majorAxisDirection = 0;  ///< 0: x, 1: y, 2: z
+  auto majorAxis = screwGeometry->GetAxisVector(0);
+  majorAxisDirection =
+      majorAxis.GetNorm() > screwGeometry->GetAxisVector(1).GetNorm()
+          ? majorAxisDirection
+          : 1;
+  majorAxis = majorAxis.GetNorm() > screwGeometry->GetAxisVector(1).GetNorm()
+                  ? majorAxis
+                  : screwGeometry->GetAxisVector(1);
+  majorAxisDirection =
+      majorAxis.GetNorm() > screwGeometry->GetAxisVector(2).GetNorm()
+          ? majorAxisDirection
+          : 2;
+  majorAxis = majorAxis.GetNorm() > screwGeometry->GetAxisVector(2).GetNorm()
+                  ? majorAxis
+                  : screwGeometry->GetAxisVector(2);
 
-  auto rotateAngle = angle(oldAxis.GetVnlVector(), newAxis.GetVnlVector());
+  auto rotateAngle =
+      angle(majorAxis.GetVnlVector(), newMajorAxis.GetVnlVector());
   auto rotateAxis = mitk::Vector3D(
-      vnl_cross_3d(oldAxis.GetVnlVector(), newAxis.GetVnlVector()).normalize());
+      vnl_cross_3d(majorAxis.GetVnlVector(), newMajorAxis.GetVnlVector())
+          .normalize());
+
+  double minorAxisesLengthsMean = 0;
+  for (auto i = 0; i < 3; ++i)
+  {
+    minorAxisesLengthsMean +=
+        (i == majorAxisDirection ? 0
+                                 : screwGeometry->GetAxisVector(i).GetNorm());
+  }
+  minorAxisesLengthsMean *= 0.5;
+
+  auto scaleOfMinorAxisesDirection =
+      GetScrewDiameter() == 0 ? 1
+                              : GetScrewDiameter() * 2 / minorAxisesLengthsMean;
+  auto scaleOfMajorAxisDirection = newMajorAxis.GetNorm() / majorAxis.GetNorm();
 
   mitk::Vector3D scale;
-  scale.Fill(1.0);
-  scale[direction] = newAxis.GetNorm() / oldAxis.GetNorm();
+  scale.Fill(scaleOfMinorAxisesDirection);
+  scale[majorAxisDirection] = scaleOfMajorAxisDirection;
 
   mitk::AffineTransform3D::OutputVectorType offset;
   offset.SetVnlVector((point0.GetVnlVector() + point1.GetVnlVector()) * 0.5);

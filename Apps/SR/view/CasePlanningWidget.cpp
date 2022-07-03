@@ -31,6 +31,7 @@
 #include <usModuleRegistry.h>
 
 // vtk
+#include <vtkCylinderSource.h>
 #include <vtkFloatArray.h>
 #include <vtkPointData.h>
 #include <vtkPolyData.h>
@@ -56,14 +57,6 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
     mToolManager(mitk::ToolManagerProvider::GetInstance()->GetToolManager())
 {
   mUi->setupUi(this);
-  connect(mUi->spinBoxIntervalSize,
-          QOverload<int>::of(&QSpinBox::valueChanged),
-          mUi->horizontalSliderIntervalSize,
-          &QSlider::setValue);
-  connect(mUi->horizontalSliderIntervalSize,
-          &QSlider::valueChanged,
-          mUi->spinBoxIntervalSize,
-          &QSpinBox::setValue);
   connect(mUi->spinBoxPlateSize,
           QOverload<int>::of(&QSpinBox::valueChanged),
           mUi->horizontalSliderPlateSize,
@@ -208,6 +201,11 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
     ds->GetNamedNode(
           intervalSettingsWidget->getCasePlanningName().toStdString())
         ->SetVisibility(false);
+    ds->GetNamedNode(intervalSettingsWidget->getCasePlanningName()
+                         .split("_")
+                         .join("_point_set_")
+                         .toStdString())
+        ->SetVisibility(false);
   }
   mToolManager->SetWorkingData(nullptr);
   mToolManager->SetReferenceData(nullptr);
@@ -225,6 +223,24 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
           ->SetVisibility(false);
     }
   }
+  for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
+  {
+    clippingPlaneInteractor->SetDataNode(nullptr);
+  }
+
+  auto posteriorSettingsWidgets = findChildren<CasePlanningSettingsWidget*>(
+      QRegularExpression("CasePlanningSettingsWidget_posterior_[0-9]?"));
+  for (auto* posteriorSettingsWidgets : posteriorSettingsWidgets)
+  {
+    for (auto i = 0; i < 2; ++i)
+    {
+      ds->GetNamedNode((posteriorSettingsWidgets->getCasePlanningName() + "_" +
+                        QString::number(i))
+                           .toStdString())
+          ->SetVisibility(false);
+    }
+  }
+
   for (auto clippingPlaneInteractor : mClippingPlaneInteractors)
   {
     clippingPlaneInteractor->SetDataNode(nullptr);
@@ -272,7 +288,7 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
         auto* plateNode =
             ds->GetNamedNode(widget->getCasePlanningName().toStdString());
         auto* imageNode = ds->GetNamedNode("image");
-        plateNode->SetVisibility(widget->getVisibility());
+        plateNode->SetVisibility(widget->getDataNodeVisibility());
         if (widget->getRadioButton()->isChecked())
         {
           onButtonGroupPlateButtonToggled(widget->getRadioButton(), true);
@@ -281,16 +297,37 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
       break;
     }
     case 4: {  // interval
-      mToolManager->RegisterClient();
       for (auto* widget : intervalSettingsWidgets)
       {
         auto* intervalNode =
             ds->GetNamedNode(widget->getCasePlanningName().toStdString());
-        auto* imageNode = ds->GetNamedNode("image");
-        intervalNode->SetVisibility(widget->getVisibility());
+        auto* intervalPointSetNode =
+            ds->GetNamedNode(widget->getCasePlanningName()
+                                 .split("_")
+                                 .join("_point_set_")
+                                 .toStdString());
+        intervalPointSetNode->SetVisibility(widget->getDataNodeVisibility());
+        intervalNode->SetVisibility(widget->getDataNodeVisibility());
         if (widget->getRadioButton()->isChecked())
         {
           onButtonGroupIntervalButtonToggled(widget->getRadioButton(), true);
+        }
+      }
+      break;
+    }
+    case 5: {  // lateral
+      for (auto* widget : lateralSettingsWidgets)
+      {
+        for (auto i = 0; i < 2; ++i)
+        {
+          auto* lateralNode = ds->GetNamedNode(
+              (widget->getCasePlanningName() + "_" + QString::number(i))
+                  .toStdString());
+          lateralNode->SetVisibility(widget->getDataNodeVisibility());
+          if (widget->getRadioButton()->isChecked())
+          {
+            onButtonGroupLateralButtonToggled(widget->getRadioButton(), true);
+          }
         }
       }
       on_radioButtonLateralTranslate_toggled(
@@ -299,26 +336,26 @@ void CasePlanningWidget::on_CasePlanningWidget_currentChanged(int index)
           mUi->radioButtonLateralRotate->isChecked());
       break;
     }
-    case 5: {  // laterval
-      for (auto* widget : lateralSettingsWidgets)
+    case 6: {  // posterior
+      for (auto* widget : posteriorSettingsWidgets)
       {
         for (auto i = 0; i < 2; ++i)
         {
-          auto* laterNode = ds->GetNamedNode(
+          auto* posteriorNode = ds->GetNamedNode(
               (widget->getCasePlanningName() + "_" + QString::number(i))
                   .toStdString());
-          laterNode->SetVisibility(widget->getVisibility());
+          posteriorNode->SetVisibility(widget->getDataNodeVisibility());
           if (widget->getRadioButton()->isChecked())
           {
-            onButtonGroupLateralButtonToggled(widget->getRadioButton(), true);
+            onButtonGroupPosteriorButtonToggled(widget->getRadioButton(), true);
           }
         }
       }
+
       on_radioButtonPosteriorTranslate_toggled(
           mUi->radioButtonPosteriorTranslate->isChecked());
       on_radioButtonPosteriorRotate_toggled(
           mUi->radioButtonPosteriorRotate->isChecked());
-      break;
     }
     default:
       break;
@@ -353,8 +390,6 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   ds->Add(pointSetScrewNode);
 
   auto* screwSettingsWidget = new ScrewSettingsWidget(screwName, this);
-  screwSettingsWidget->setDiameter(5.0);
-  screwSettingsWidget->setLength(10.0);
   mButtonGroupScrew->addButton(screwSettingsWidget->getRadioButton());
   screwSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxScrews->layout()->addWidget(screwSettingsWidget);
@@ -362,25 +397,25 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-void CasePlanningWidget::on_pushButtonScrewConfirm_clicked(bool checked)
-{
-  Q_UNUSED(checked);
-  auto* button = mButtonGroupScrew->checkedButton();
+// void CasePlanningWidget::on_pushButtonScrewConfirm_clicked(bool checked)
+// {
+//   Q_UNUSED(checked);
+//   auto* button = mButtonGroupScrew->checkedButton();
 
-  if (button)
-  {
-    auto screwName = button->text();
-    auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
-    auto* screwSettingsWidget =
-        findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
-    if (screwSettingsWidget)
-    {
-      screwSettingsWidget->setDiameter(
-          mUi->doubleSpinBoxScrewDiameter->value());
-      screwSettingsWidget->setLength(mUi->spinBoxScrewLength->value());
-    }
-  }
-}
+//   if (button)
+//   {
+//     auto screwName = button->text();
+//     auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
+//     auto* screwSettingsWidget =
+//         findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
+//     if (screwSettingsWidget)
+//     {
+//       screwSettingsWidget->setDiameter(
+//           mUi->doubleSpinBoxScrewDiameter->value());
+//       screwSettingsWidget->setLength(mUi->doubleSpinBoxScrewLength->value());
+//     }
+//   }
+// }
 
 void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
 {
@@ -404,7 +439,6 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   ds->Add(pathNode);
 
   auto* pathSettingsWidget = new PathSettingsWidget(pathName, this);
-  pathSettingsWidget->setDiameter(10);
   mButtonGroupPath->addButton(pathSettingsWidget->getRadioButton());
   pathSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxPaths->layout()->addWidget(pathSettingsWidget);
@@ -412,23 +446,23 @@ void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)
-{
-  Q_UNUSED(checked);
-  auto* button = mButtonGroupPath->checkedButton();
+// void CasePlanningWidget::on_pushButtonPathConfirm_clicked(bool checked)
+// {
+//   Q_UNUSED(checked);
+//   auto* button = mButtonGroupPath->checkedButton();
 
-  if (button)
-  {
-    auto screwName = button->text();
-    auto pathSettingsWidgetObjectName = "PathSettingsWidget_" + screwName;
-    auto* pathSettingsWidget =
-        findChild<PathSettingsWidget*>(pathSettingsWidgetObjectName);
-    if (pathSettingsWidget)
-    {
-      pathSettingsWidget->setDiameter(mUi->doubleSpinBoxPathDiameter->value());
-    }
-  }
-}
+//   if (button)
+//   {
+//     auto screwName = button->text();
+//     auto pathSettingsWidgetObjectName = "PathSettingsWidget_" + screwName;
+//     auto* pathSettingsWidget =
+//         findChild<PathSettingsWidget*>(pathSettingsWidgetObjectName);
+//     if (pathSettingsWidget)
+//     {
+//       pathSettingsWidget->setDiameter(mUi->doubleSpinBoxPathDiameter->value());
+//     }
+//   }
+// }
 
 void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
 {
@@ -452,6 +486,8 @@ void CasePlanningWidget::on_pushButtonPlateNew_clicked(bool checked)
   ds->Add(plateNode);
 
   auto* plateSettingsWidget = new CasePlanningSettingsWidget(plateName, this);
+  plateSettingsWidget->setDoubleSpinBoxDiameterVisible(false);
+  plateSettingsWidget->setDoubleSpinBoxLengthVisible(false);
   mButtonGroupPlate->addButton(plateSettingsWidget->getRadioButton());
   plateSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxPlates->layout()->addWidget(plateSettingsWidget);
@@ -488,29 +524,38 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
   auto size = mButtonGroupInterval->buttons().size();
   QString intervalNamePrefix("interval");
   auto intervalName = QString(intervalNamePrefix + "_%1").arg(size + 1);
+  auto intervalPointSetName =
+      QString(intervalNamePrefix + "_point_set" + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* imageNode = ds->GetNamedNode("image");
-  auto* image = ds->GetNamedObject<mitk::Image>("image");
+  auto cylinderSource = vtkSmartPointer<vtkCylinderSource>::New();
+  cylinderSource->SetRadius(0.5);
+  cylinderSource->SetHeight(2.0);
+  cylinderSource->SetResolution(20);
+  cylinderSource->SetCapping(true);
+  cylinderSource->Update();
 
-  mToolManager->SetDataStorage(*ds);
-  auto drawPaintBrushId =
-      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
-  auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
+  auto interval = mitk::Surface::New();
+  interval->SetVtkPolyData(cylinderSource->GetOutput());
 
-  float colorFloat[3] = {1.0f, 0.0f, 0.0f};
-  auto intervalNode = drawPaintBrush->CreateEmptySegmentationNode(
-      image, intervalName.toStdString(), colorFloat);
+  auto intervalNode = mitk::DataNode::New();
+  intervalNode->SetName(intervalName.toStdString());
+  intervalNode->SetData(interval);
+  intervalNode->SetVisibility(true);
   ds->Add(intervalNode);
-  mToolManager->SetReferenceData(imageNode);
-  mToolManager->SetWorkingData(intervalNode);
-  mToolManager->ActivateTool(drawPaintBrushId);
+
+  auto pointSetIntervalNode = mitk::DataNode::New();
+  pointSetIntervalNode->SetName(intervalPointSetName.toStdString());
+  pointSetIntervalNode->SetData(mitk::PointSet::New());
+  pointSetIntervalNode->SetVisibility(true);
+  ds->Add(pointSetIntervalNode);
 
   auto* intervalSettingsWidget =
       new CasePlanningSettingsWidget(intervalName, this);
   mButtonGroupInterval->addButton(intervalSettingsWidget->getRadioButton());
   intervalSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxIntervals->layout()->addWidget(intervalSettingsWidget);
+
   connect(intervalSettingsWidget,
           &CasePlanningSettingsWidget::deleteClicked,
           this,
@@ -522,18 +567,41 @@ void CasePlanningWidget::on_pushButtonIntervalNew_clicked(bool checked)
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
-void CasePlanningWidget::on_spinBoxIntervalSize_valueChanged(int value)
-{
-  auto drawPaintBrushId =
-      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
-  if (drawPaintBrushId == -1)
-  {
-    return;
-  }
 
-  auto* drawPaintBrush = static_cast<mitk::DrawPaintbrushTool*>(
-      mToolManager->GetToolById(drawPaintBrushId));
-  drawPaintBrush->SetSize(value);
+void CasePlanningWidget::on_doubleSpinBoxIntervalDiameter_valueChanged(
+    double value)
+{
+  auto* button = mButtonGroupInterval->checkedButton();
+  auto intervalName = button->text();
+  auto casePlanningSettingsWidgetObjectName =
+      "CasePlanningSettingsWidget_" + intervalName;
+  auto* casePlanningSettingsWidget = findChild<CasePlanningSettingsWidget*>(
+      casePlanningSettingsWidgetObjectName);
+  if (casePlanningSettingsWidget)
+  {
+    casePlanningSettingsWidget->setDiameter(value);
+    mPointSetDataInteractorScrew->SetScrewDiameter(value);
+    mPointSetDataInteractorScrew->updateScrew();
+    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  }
+}
+
+void CasePlanningWidget::on_doubleSpinBoxIntervalLength_valueChanged(
+    double value)
+{
+  auto* button = mButtonGroupInterval->checkedButton();
+  auto intervalName = button->text();
+  auto casePlanningSettingsWidgetObjectName =
+      "CasePlanningSettingsWidget_" + intervalName;
+  auto* casePlanningSettingsWidget = findChild<CasePlanningSettingsWidget*>(
+      casePlanningSettingsWidgetObjectName);
+  if (casePlanningSettingsWidget)
+  {
+    casePlanningSettingsWidget->setLength(value);
+    mPointSetDataInteractorScrew->SetScrewLength(value);
+    mPointSetDataInteractorScrew->updateScrew();
+    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  }
 }
 
 void CasePlanningWidget::on_pushButtonLateralNew_clicked(bool checked)
@@ -574,6 +642,8 @@ void CasePlanningWidget::on_pushButtonLateralNew_clicked(bool checked)
 
   auto* lateralSettingsWidget =
       new CasePlanningSettingsWidget(lateralName, this);
+  lateralSettingsWidget->setDoubleSpinBoxDiameterVisible(false);
+  lateralSettingsWidget->setDoubleSpinBoxLengthVisible(false);
   mButtonGroupLateral->addButton(lateralSettingsWidget->getRadioButton());
   lateralSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxLaterals->layout()->addWidget(lateralSettingsWidget);
@@ -655,6 +725,8 @@ void CasePlanningWidget::on_pushButtonPosteriorNew_clicked(bool checked)
 
   auto* posteriorSettingsWidget =
       new CasePlanningSettingsWidget(posteriorName, this);
+  posteriorSettingsWidget->setDoubleSpinBoxDiameterVisible(false);
+  posteriorSettingsWidget->setDoubleSpinBoxLengthVisible(false);
   mButtonGroupPosterior->addButton(posteriorSettingsWidget->getRadioButton());
   posteriorSettingsWidget->getRadioButton()->setChecked(true);
   mUi->groupBoxPosteriors->layout()->addWidget(posteriorSettingsWidget);
@@ -713,7 +785,7 @@ void CasePlanningWidget::onButtonGroupScrewButtonToggled(
   {
     mUi->doubleSpinBoxScrewDiameter->setValue(
         screwSettingsWidget->getDiameter());
-    mUi->spinBoxScrewLength->setValue(screwSettingsWidget->getLength());
+    mUi->doubleSpinBoxScrewLength->setValue(screwSettingsWidget->getLength());
     auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
     auto screwPointSetName = screwName.split("_").join("_point_set_");
     auto* screwNode = ds->GetNamedNode(screwName.toStdString());
@@ -776,12 +848,28 @@ void CasePlanningWidget::onButtonGroupIntervalButtonToggled(
     return;
   }
   auto intervalName = button->text();
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* imageNode = ds->GetNamedNode("image");
-  auto* intervalNode = ds->GetNamedNode(intervalName.toStdString());
-  mToolManager->SetDataStorage(*ds);
-  mToolManager->SetReferenceData(imageNode);
-  mToolManager->SetWorkingData(intervalNode);
+  auto casePlanningSettingsWidgetObjectName =
+      "CasePlanningSettingsWidget_" + intervalName;
+  auto* casePlanningSettingsWidget = findChild<CasePlanningSettingsWidget*>(
+      casePlanningSettingsWidgetObjectName);
+  if (casePlanningSettingsWidget)
+  {
+    auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+    auto intervalPointSetName = intervalName.split("_").join("_point_set_");
+    auto* intervalNode = ds->GetNamedNode(intervalName.toStdString());
+    auto* intervalPointSetNode =
+        ds->GetNamedNode(intervalPointSetName.toStdString());
+    if (intervalPointSetNode && intervalNode)
+    {
+      mPointSetDataInteractorScrew->SetDataNode(intervalPointSetNode);
+      mPointSetDataInteractorScrew->SetScrew(intervalNode);
+    }
+
+    mUi->doubleSpinBoxIntervalDiameter->setValue(
+        casePlanningSettingsWidget->getDiameter());
+    mUi->doubleSpinBoxIntervalLength->setValue(
+        casePlanningSettingsWidget->getLength());
+  }
 }
 
 void CasePlanningWidget::onButtonGroupLateralButtonToggled(
@@ -850,7 +938,14 @@ void CasePlanningWidget::onIntervalDeleteClicked(bool checked)
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
-  ds->Remove(ds->GetNamedNode(widget->getCasePlanningName().toStdString()));
+  auto* intervalNode =
+      ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+  auto* intervalPointSetNode = ds->GetNamedNode(widget->getCasePlanningName()
+                                                    .split("_")
+                                                    .join("_point_set_")
+                                                    .toStdString());
+  ds->Remove(intervalNode);
+  ds->Remove(intervalPointSetNode);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
   widget->deleteLater();
@@ -862,7 +957,12 @@ void CasePlanningWidget::onIntervalHideClicked(bool checked)
   auto* widget = static_cast<CasePlanningSettingsWidget*>(sender());
   auto* intervalNode =
       ds->GetNamedNode(widget->getCasePlanningName().toStdString());
+  auto* intervalPointSetNode = ds->GetNamedNode(widget->getCasePlanningName()
+                                                    .split("_")
+                                                    .join("_point_set_")
+                                                    .toStdString());
   intervalNode->SetVisibility(!checked);
+  intervalPointSetNode->SetVisibility(!checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 

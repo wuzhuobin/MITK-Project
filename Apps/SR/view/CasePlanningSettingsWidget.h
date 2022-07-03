@@ -33,7 +33,15 @@ public:
 
   QRadioButton* getRadioButton() const;
   const QString getCasePlanningName() const;
-  bool getVisibility() const;
+  double getDiameter() const;
+  void setDiameter(double diameter);
+  void setDoubleSpinBoxDiameterVisible(bool visible);
+  bool getDoubleSpinBoxDiameterVisible() const;
+  double getLength() const;
+  void setLength(double length);
+  void setDoubleSpinBoxLengthVisible(bool visible);
+  bool getDoubleSpinBoxLengthVisible() const;
+  bool getDataNodeVisibility() const;
 
   Q_SIGNAL void deleteClicked(bool checked = false);
   Q_SIGNAL void hideClicked(bool checked = false);

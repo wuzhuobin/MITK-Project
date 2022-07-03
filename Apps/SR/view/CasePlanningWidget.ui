@@ -28,7 +28,7 @@
    </layout>
   </widget>
   <widget class="QWidget" name="screwPlanning">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
      <widget class="QGroupBox" name="groupBoxScrews">
       <property name="title">
@@ -55,7 +55,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxScrewDiameter"/>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxScrewDiameter">
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
@@ -65,12 +69,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBoxScrewLength"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButtonScrewConfirm">
-        <property name="text">
-         <string>Confirm</string>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxScrewLength">
+        <property name="value">
+         <double>1.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -119,12 +120,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxPathDiameter"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButtonPathConfirm">
-        <property name="text">
-         <string>Confirm</string>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxPathDiameter">
+        <property name="value">
+         <double>1.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -163,7 +161,11 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QSpinBox" name="spinBoxPlateSize"/>
+          <widget class="QSpinBox" name="spinBoxPlateSize">
+           <property name="value">
+            <number>1</number>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QSlider" name="horizontalSliderPlateSize">
@@ -193,13 +195,13 @@
    </layout>
   </widget>
   <widget class="QWidget" name="intervalPlanning">
-   <layout class="QVBoxLayout" name="verticalLayout_9">
+   <layout class="QVBoxLayout" name="verticalLayout_8">
     <item>
      <widget class="QGroupBox" name="groupBoxIntervals">
       <property name="title">
        <string>Interval</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QPushButton" name="pushButtonIntervalNew">
          <property name="text">
@@ -207,22 +209,40 @@
          </property>
         </widget>
        </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QSpinBox" name="spinBoxIntervalSize"/>
-         </item>
-         <item>
-          <widget class="QSlider" name="horizontalSliderIntervalSize">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
       </layout>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Diameter:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxIntervalDiameter">
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Length:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxIntervalLength">
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <spacer name="verticalSpacer_4">

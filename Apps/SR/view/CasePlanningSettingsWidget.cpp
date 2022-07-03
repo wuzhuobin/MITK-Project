@@ -50,7 +50,47 @@ const QString CasePlanningSettingsWidget::getCasePlanningName() const
   return mUi->radioButton->text();
 }
 
-bool CasePlanningSettingsWidget::getVisibility() const
+double CasePlanningSettingsWidget::getDiameter() const
+{
+  return mUi->doubleSpinBoxDiameter->value();
+}
+
+void CasePlanningSettingsWidget::setDiameter(double diameter)
+{
+  mUi->doubleSpinBoxDiameter->setValue(diameter);
+}
+
+void CasePlanningSettingsWidget::setDoubleSpinBoxDiameterVisible(bool visible)
+{
+  mUi->doubleSpinBoxDiameter->setVisible(visible);
+}
+
+bool CasePlanningSettingsWidget::getDoubleSpinBoxDiameterVisible() const
+{
+  return mUi->doubleSpinBoxDiameter->isVisible();
+}
+
+double CasePlanningSettingsWidget::getLength() const
+{
+  return mUi->doubleSpinBoxLength->value();
+}
+
+void CasePlanningSettingsWidget::setLength(double length)
+{
+  mUi->doubleSpinBoxLength->setValue(length);
+}
+
+void CasePlanningSettingsWidget::setDoubleSpinBoxLengthVisible(bool visible)
+{
+  mUi->doubleSpinBoxLength->setVisible(visible);
+}
+
+bool CasePlanningSettingsWidget::getDoubleSpinBoxLengthVisible() const
+{
+  return mUi->doubleSpinBoxLength->isVisible();
+}
+
+bool CasePlanningSettingsWidget::getDataNodeVisibility() const
 {
   return !mUi->toolButtonHide->isChecked();
 }
