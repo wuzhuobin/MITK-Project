@@ -18,6 +18,8 @@ FemoralPrepWidget::FemoralPrepWidget(QWidget* parent) :
   //         &FemoralPrepWidget::checkBoxDistalCheckpointToggled);
 }
 
+FemoralPrepWidget::~FemoralPrepWidget() = default;
+
 void FemoralPrepWidget::action_Femoral_Landmark_triggered(bool checked)
 {
   Q_UNUSED(checked);

@@ -1,3 +1,13 @@
+/**
+ * @file THAStdMultiWidget.cpp
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-06-13
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "THAStdMultiWidget.h"
 
 #include "CupImpactionParameterGadget.h"
@@ -36,6 +46,13 @@ static const std::set<std::string> DEFAULT_VISIBLE_SET = {
     "femur_right",
     "image"};
 
+static THAStdMultiWidget* gInstance = nullptr;
+
+THAStdMultiWidget* THAStdMultiWidget::getInstance()
+{
+  return gInstance;
+}
+
 THAStdMultiWidget::THAStdMultiWidget(QWidget* parent,
                                      Qt::WindowFlags f,
                                      const QString& name) :
@@ -61,6 +78,7 @@ THAStdMultiWidget::THAStdMultiWidget(QWidget* parent,
                                  new CupImpactionParameterGadget(this),
                                  new CupImpactionParameterGadget(this)}
 {
+  gInstance = this;
 }
 
 void THAStdMultiWidget::InitializeMultiWidget()
@@ -133,7 +151,7 @@ void THAStdMultiWidget::InitializeMultiWidget()
   ////////////////////////////////////////////////////////////////////////////////
   mView = View::VIEW_DEFAULT;
   mMode = Mode::MODE_DEFAULT;
-  UpdateViewMode();
+  updateViewMode();
   ////////////////////////////////////////////////////////////////////////////////
   /// Preset
   ////////////////////////////////////////////////////////////////////////////////
@@ -144,23 +162,23 @@ void THAStdMultiWidget::setView(View view)
 {
   mView = view;
   mCustom = Custom::Default;
-  UpdateViewMode();
+  updateViewMode();
 }
 
 void THAStdMultiWidget::setMode(Mode mode)
 {
   mMode = mode;
   mCustom = Custom::Default;
-  UpdateViewMode();
+  updateViewMode();
 }
 
 void THAStdMultiWidget::setCustom(Custom custom)
 {
   mCustom = custom;
-  UpdateViewMode();
+  updateViewMode();
 }
 
-void THAStdMultiWidget::UpdateViewMode()
+void THAStdMultiWidget::updateViewMode()
 {
   ////////////////////////////////////////////////////////////////////////////////
   /// Set Visibility

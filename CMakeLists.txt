@@ -9,6 +9,7 @@ set(MY_APP_NAME MyApp)
 #-----------------------------------------------------------------------------
 
 set(CMAKE_CXX_STANDARD 14)
+# set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED 1)
 set(CMAKE_CXX_EXTENSIONS 0)
 
@@ -328,7 +329,8 @@ endif()
 # add_subdirectory(Apps/LoginView)
 add_subdirectory(Apps/THA)
 add_subdirectory(Apps/THA_Main)
-add_subdirectory(Apps/SpineRobotic)
+add_subdirectory(Apps/SR)
+add_subdirectory(Apps/SR_Main)
 add_subdirectory(Apps/mitkReamerSource)
 add_subdirectory(Apps/mitkReamingFilter)
 add_subdirectory(Apps/ClipCloseSurfaceFilter)

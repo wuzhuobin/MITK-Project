@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget* parent) :
   connect(IOController::getInstance(),
           &IOController::sceneLoaded,
           this,
-          &MainWindow::onsceneLoaded);
+          &MainWindow::onSceneLoaded);
   // the actions should be added in correct order.
 
   // Login
@@ -172,7 +172,6 @@ void MainWindow::test()
 void MainWindow::setCurrentActionIndex(int index)
 {
   // bounding
-  MITK_INFO << __func__;
   MITK_INFO << index;
   if (index >= mActionGroup->actions().size())
   {
@@ -435,7 +434,7 @@ void MainWindow::onActionsTriggered(QAction* action) const
   }
 }
 
-void MainWindow::onsceneLoaded()
+void MainWindow::onSceneLoaded()
 {
   mUi->multiWidget->InitializeMultiWidget();
 }
