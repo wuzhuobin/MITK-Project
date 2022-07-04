@@ -59,7 +59,8 @@ private:
 
   Q_SLOT void on_CasePlanningWidget_currentChanged(int index);
   Q_SLOT void on_pushButtonScrewNew_clicked(bool checked = false);
-  // Q_SLOT void on_pushButtonScrewConfirm_clicked(bool checked = false);
+  Q_SLOT void on_doubleSpinBoxScrewDiameter_valueChanged(double value);
+  Q_SLOT void on_doubleSpinBoxScrewLength_valueChanged(double value);
   Q_SLOT void on_pushButtonPathNew_clicked(bool checked = false);
   // Q_SLOT void on_pushButtonPathConfirm_clicked(bool checked = false);
   Q_SLOT void on_pushButtonPlateNew_clicked(bool checked = false);

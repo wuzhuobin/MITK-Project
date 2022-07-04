@@ -397,25 +397,38 @@ void CasePlanningWidget::on_pushButtonScrewNew_clicked(bool checked)
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-// void CasePlanningWidget::on_pushButtonScrewConfirm_clicked(bool checked)
-// {
-//   Q_UNUSED(checked);
-//   auto* button = mButtonGroupScrew->checkedButton();
+void CasePlanningWidget::on_doubleSpinBoxScrewDiameter_valueChanged(
+    double value)
+{
+  auto* button = mButtonGroupScrew->checkedButton();
+  auto screwName = button->text();
+  auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
+  auto* screwSettingsWidget =
+      findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
+  if (screwSettingsWidget)
+  {
+    screwSettingsWidget->setDiameter(value);
+    mPointSetDataInteractorScrew->SetScrewDiameter(value);
+    mPointSetDataInteractorScrew->updateScrew();
+    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  }
+}
 
-//   if (button)
-//   {
-//     auto screwName = button->text();
-//     auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
-//     auto* screwSettingsWidget =
-//         findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
-//     if (screwSettingsWidget)
-//     {
-//       screwSettingsWidget->setDiameter(
-//           mUi->doubleSpinBoxScrewDiameter->value());
-//       screwSettingsWidget->setLength(mUi->doubleSpinBoxScrewLength->value());
-//     }
-//   }
-// }
+void CasePlanningWidget::on_doubleSpinBoxScrewLength_valueChanged(double value)
+{
+  auto* button = mButtonGroupScrew->checkedButton();
+  auto screwName = button->text();
+  auto screwSettingsWidgetObjectName = "ScrewSettingsWidget_" + screwName;
+  auto* screwSettingsWidget =
+      findChild<ScrewSettingsWidget*>(screwSettingsWidgetObjectName);
+  if (screwSettingsWidget)
+  {
+    screwSettingsWidget->setDiameter(value);
+    mPointSetDataInteractorScrew->SetScrewLength(value);
+    mPointSetDataInteractorScrew->updateScrew();
+    mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+  }
+}
 
 void CasePlanningWidget::on_pushButtonPathNew_clicked(bool checked)
 {
