@@ -22,6 +22,7 @@
 #include <mitkDataStorage.h>
 #include <mitkDrawPaintbrushTool.h>
 #include <mitkLogMacros.h>
+#include <mitkPlanarAngle.h>
 #include <mitkPlane.h>
 #include <mitkPointSet.h>
 #include <mitkPointSetShapeProperty.h>
@@ -54,6 +55,7 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
                               mitk::ClippingPlaneInteractor3D::New()},
     mButtonGroupLateral(new QButtonGroup(this)),
     mButtonGroupPosterior(new QButtonGroup(this)),
+    mPlanarFigureInteractor(mitk::PlanarFigureInteractor::New()),
     mToolManager(mitk::ToolManagerProvider::GetInstance()->GetToolManager())
 {
   mUi->setupUi(this);
@@ -114,6 +116,13 @@ CasePlanningWidget::CasePlanningWidget(QWidget* parent) :
         "ClippingPlaneTranslationConfig.xml",
         us::ModuleRegistry::GetModule("MitkDataTypesExt"));
   }
+
+  mPlanarFigureInteractor->LoadStateMachine(
+      "PlanarFigureInteraction.xml",
+      us::ModuleRegistry::GetModule("MitkPlanarFigure"));
+  mPlanarFigureInteractor->SetEventConfig(
+      "PlanarFigureConfig.xml",
+      us::ModuleRegistry::GetModule("MitkPlanarFigure"));
 
   mToolManager->InitializeTools();
 }
@@ -709,32 +718,39 @@ void CasePlanningWidget::on_pushButtonPosteriorNew_clicked(bool checked)
   auto posteriorName = QString(posteriorNamePrefix + "_%1").arg(size + 1);
 
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* image = ds->GetNamedObject<mitk::Image>("image");
+  auto posteriorNode0 = mitk::DataNode::New();
+  posteriorNode0->SetName(posteriorName.toStdString());
+  posteriorNode0->SetData(mitk::PlanarAngle::New());
+  posteriorNode0->SetVisibility(true);
+  posteriorNode0->SetSelected(true);
+  ds->Add(posteriorNode0);
 
-  auto extentX = image->GetGeometry()->GetExtentInMM(0);
-  auto extentY = image->GetGeometry()->GetExtentInMM(1);
+  // auto* image = ds->GetNamedObject<mitk::Image>("image");
 
-  for (auto i = 0; i < 2; ++i)
-  {
-    auto posterior0 = mitk::Plane::New();
-    posterior0->SetOrigin(image->GetGeometry()->GetCenter());
-    posterior0->SetExtent(extentX, extentY);
+  // auto extentX = image->GetGeometry()->GetExtentInMM(0);
+  // auto extentY = image->GetGeometry()->GetExtentInMM(1);
 
-    auto scalars0 = vtkSmartPointer<vtkFloatArray>::New();
-    scalars0->SetName("Distance");
-    scalars0->SetNumberOfComponents(1);
-    scalars0->SetNumberOfTuples(
-        posterior0->GetVtkPolyData()->GetNumberOfPoints());
-    posterior0->GetVtkPolyData()->GetPointData()->SetScalars(scalars0);
+  // for (auto i = 0; i < 2; ++i)
+  // {
+  //   auto posterior0 = mitk::Plane::New();
+  //   posterior0->SetOrigin(image->GetGeometry()->GetCenter());
+  //   posterior0->SetExtent(extentX, extentY);
 
-    auto posteriorNode0 = mitk::DataNode::New();
-    posteriorNode0->SetName(
-        (posteriorName + "_" + QString::number(i)).toStdString());
-    posteriorNode0->SetData(posterior0);
-    posteriorNode0->SetVisibility(true);
-    posteriorNode0->SetBoolProperty("pickable", true);
-    ds->Add(posteriorNode0);
-  }
+  //   auto scalars0 = vtkSmartPointer<vtkFloatArray>::New();
+  //   scalars0->SetName("Distance");
+  //   scalars0->SetNumberOfComponents(1);
+  //   scalars0->SetNumberOfTuples(
+  //       posterior0->GetVtkPolyData()->GetNumberOfPoints());
+  //   posterior0->GetVtkPolyData()->GetPointData()->SetScalars(scalars0);
+
+  //   auto posteriorNode0 = mitk::DataNode::New();
+  //   posteriorNode0->SetName(
+  //       (posteriorName + "_" + QString::number(i)).toStdString());
+  //   posteriorNode0->SetData(posterior0);
+  //   posteriorNode0->SetVisibility(true);
+  //   posteriorNode0->SetBoolProperty("pickable", true);
+  //   ds->Add(posteriorNode0);
+  // }
 
   auto* posteriorSettingsWidget =
       new CasePlanningSettingsWidget(posteriorName, this);
@@ -913,12 +929,14 @@ void CasePlanningWidget::onButtonGroupPosteriorButtonToggled(
 
   auto posteriorName = button->text();
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  for (auto i = 0; i < 2; ++i)
-  {
-    auto* posteriorNode0 = ds->GetNamedNode(
-        (posteriorName + "_" + QString::number(i)).toStdString());
-    mClippingPlaneInteractors[i]->SetDataNode(posteriorNode0);
-  }
+  auto* posteriorNode0 = ds->GetNamedNode(posteriorName.toStdString());
+  mPlanarFigureInteractor->SetDataNode(posteriorNode0);
+  // for (auto i = 0; i < 2; ++i)
+  // {
+  //   auto* posteriorNode0 = ds->GetNamedNode(
+  //       (posteriorName + "_" + QString::number(i)).toStdString());
+  //   mClippingPlaneInteractors[i]->SetDataNode(posteriorNode0);
+  // }
 }
 
 void CasePlanningWidget::onPlateDeleteClicked(bool checked)

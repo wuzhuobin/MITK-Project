@@ -19,6 +19,7 @@
 
 // mitk
 #include <mitkClippingPlaneInteractor3D.h>
+#include <mitkPlanarFigureInteractor.h>
 #include <mitkPointSetDataInteractor.h>
 #include <mitkToolManager.h>
 
@@ -55,6 +56,7 @@ private:
   QButtonGroup* mButtonGroupLateral;
   mitk::ClippingPlaneInteractor3D::Pointer mClippingPlaneInteractors[2];
   QButtonGroup* mButtonGroupPosterior;
+  mitk::PlanarFigureInteractor::Pointer mPlanarFigureInteractor;
   mitk::ToolManager::Pointer mToolManager;
 
   Q_SLOT void on_CasePlanningWidget_currentChanged(int index);
