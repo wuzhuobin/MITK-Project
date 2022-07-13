@@ -1,0 +1,951 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SCBDentalReconstructionOptionDialog</class>
+ <widget class="QDialog" name="SCBDentalReconstructionOptionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>911</width>
+    <height>575</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SCBDentalNewImplant</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+        background-color:#151d31}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="labelNewImplant">
+     <property name="font">
+      <font>
+       <family>Microsoft YaHei UI</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:white; background-color:transparent;</string>
+     </property>
+     <property name="text">
+      <string>Reconstruction Option</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true">QTabWidget::tab-bar{
+ border:1px solid #0d3c60;
+ }
+
+QTabWidget{
+ border:1px solid #0d3c60;
+ }
+
+QTabWidget:pane{
+border:2px solid #1296db;
+ }
+
+QTabBar::tab{
+	background:transparent;
+	color:white;
+	min-width:30ex;
+	min-height:10ex;
+}
+
+QTabBar::tab:hover{
+	  background: #1296db;
+}
+
+QTabBar::tab:selected{
+	 background: #1296db; 
+}</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Visualization</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:white; background-color:transparent;</string>
+           </property>
+           <property name="text">
+            <string>Volume Rendering:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="horizontalSliderVolumeRendering">
+           <property name="minimum">
+            <number>-3000</number>
+           </property>
+           <property name="maximum">
+            <number>3000</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBoxVolumeRendering">
+           <property name="styleSheet">
+            <string notr="true">QSpinBox{
+background-color: #f0f0f0;
+color:black;
+}</string>
+           </property>
+           <property name="minimum">
+            <number>-3000</number>
+           </property>
+           <property name="maximum">
+            <number>3000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>399</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Paranomic Curve</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButtonRemoveCurve">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>- Curve</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButtonAddCurve">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>+ Curve</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" rowspan="6">
+        <widget class="QTreeWidget" name="treeWidgetParanomicCurve">
+         <property name="styleSheet">
+          <string notr="true">QTreeWidget{
+   background-color: #15243f;
+   border: 1px solid #0d3c60;
+color:white;
+}
+
+QTreeWidget {
+   selection-background-color:#1296db; 
+   border-radius: 0px;
+color:white;
+   /*gridline-color: rgb(255, 0, 0)*/
+}
+
+QTreeWidget{
+   background-color: #15243f;
+}
+
+QHeaderView::section
+{
+background-color:#15243f;
+color: white;
+border: 1px solid #0d3c60;
+}
+</string>
+         </property>
+         <attribute name="headerVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Paranomic Curve</string>
+          </property>
+         </column>
+         <item>
+          <property name="text">
+           <string>Curve 1</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Point 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Point 2</string>
+           </property>
+          </item>
+         </item>
+         <item>
+          <property name="text">
+           <string>Curve 2</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Point 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Point 4</string>
+           </property>
+          </item>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButtonAddCurvePoint">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>+ Point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="pushButtonRemoveCurvePoint">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>- Point</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Mandibular Tube</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0" rowspan="5">
+        <widget class="QTreeWidget" name="treeWidgetMandibularTube">
+         <property name="styleSheet">
+          <string notr="true">QTreeWidget{
+   background-color: #15243f;
+   border: 1px solid #0d3c60;
+color:white;
+}
+
+QTreeWidget {
+   selection-background-color:#1296db; 
+   border-radius: 0px;
+color:white;
+   /*gridline-color: rgb(255, 0, 0)*/
+}
+
+QTreeWidget{
+   background-color: #15243f;
+}
+
+QHeaderView::section
+{
+background-color:#15243f;
+color: white;
+border: 1px solid #0d3c60;
+}
+</string>
+         </property>
+         <attribute name="headerVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Mandibular Tube</string>
+          </property>
+         </column>
+         <item>
+          <property name="text">
+           <string>Tube 1</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Point 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Point 2</string>
+           </property>
+          </item>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tube 2</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Point 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Point 4</string>
+           </property>
+          </item>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButtonAddTube">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>+ Tube</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButtonRemoveTube">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>- Tube</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButtonAddTubePoint">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>+ Point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="pushButtonRemoveTubePoint">
+         <property name="font">
+          <font>
+           <family>Microsoft YaHei UI</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>- Point</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Mandible</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonExit">
+       <property name="font">
+        <font>
+         <family>Microsoft YaHei UI</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+       </property>
+       <property name="text">
+        <string>Exit</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>horizontalSliderVolumeRendering</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBoxVolumeRendering</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>821</x>
+     <y>115</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>885</x>
+     <y>116</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBoxVolumeRendering</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>horizontalSliderVolumeRendering</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>885</x>
+     <y>116</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>821</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonExit</sender>
+   <signal>clicked()</signal>
+   <receiver>SCBDentalReconstructionOptionDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>432</x>
+     <y>535</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>538</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SCBDentalClosingDialog</class>
+ <widget class="QDialog" name="SCBDentalClosingDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>652</width>
+    <height>195</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SCBDentalNewImplant</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+        background-color:#151d31}</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="pushButtonContinueValidation">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>Continue Validation</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonEndThisSurgery">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>End This Surgery</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonStartNewSurgery">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>Start New Surgery</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonCancel">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="pushButtonCollapse">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+QPushButton:checked
+{ 
+padding:7px 20px 7px 20px;
+background-color: #2fa2f4;
+border-top: none;
+border-left: none;
+border-right: 3px  solid #2fa2f4;
+border-bottom: 3px  solid #2fa2f4;
+font:bold;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>Collapse</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonShutDown">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>Shut Down</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonCancel2">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+padding:7px 20px 7px 20px;
+outline:none;
+background-color: #398fcc;
+border-radius:3px; 
+border-top: none;
+border-left: none;
+border-right: 3px  solid #125a91;
+border-bottom: 3px  solid #125a91;
+color:rgb(255, 255, 255);
+}
+
+QPushButton:hover{ 
+background-color:#2fa2f4; 
+color: white; 
+}
+
+QPushButton:pressed
+{ 
+background-color: #398fcc;
+border:none;
+}
+
+
+/*
+QPushButton {
+color: #333;
+border: 2px solid #555;
+border-radius: 11px;
+padding: 5px;
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #888);
+min-width: 80px;
+}
+
+QPushButton:hover {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
+}
+
+QPushButton:pressed {
+background: qradialgradient(cx: 0.4, cy: -0.1,
+fx: 0.4, fy: -0.1,
+radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
+}
+*/</string>
+         </property>
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
