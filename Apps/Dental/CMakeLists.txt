@@ -36,10 +36,8 @@ target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC
   MitkCore
-  MitkQtWidgets  
+  MitkQtWidgets
   MitkSceneSerialization
-  MitkSegmentation
-  MitkDICOMUI
 )
 
 target_include_directories(
