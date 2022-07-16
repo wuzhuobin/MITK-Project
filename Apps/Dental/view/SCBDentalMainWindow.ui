@@ -2,9 +2,6 @@
 <ui version="4.0">
  <class>SCBDentalMainWindow</class>
  <widget class="QMainWindow" name="SCBDentalMainWindow">
-  <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -36,7 +33,7 @@
    <property name="styleSheet">
     <string notr="true">background-color: #151d31;</string>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <property name="leftMargin">
      <number>3</number>
     </property>
@@ -51,12 +48,6 @@
     </property>
     <item>
      <widget class="QTabWidget" name="tabWidgetCentral">
-      <property name="font">
-       <font>
-        <family>微軟正黑體</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
       <property name="styleSheet">
        <string notr="true">QTabWidget::pane { 
  border: 1px solid #151d31; 
@@ -143,9 +134,6 @@ QTabWidget{
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <property name="tabBarAutoHide">
-       <bool>false</bool>
-      </property>
       <widget class="QWidget" name="tabNormal">
        <attribute name="title">
         <string>Normal</string>
@@ -166,6 +154,9 @@ QTabWidget{
         <property name="spacing">
          <number>2</number>
         </property>
+        <item row="0" column="0">
+         <widget class="DentalStdMultiWidget" name="multiWidget" native="true"/>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="tabMultiViewer">
@@ -346,7 +337,7 @@ background-color: #152849;
              <string>Planning</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource/Dental.qrc">
               <normaloff>:/HyperBlue/hyperblue/icon/plan-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/plan-selected.png</normalon>
               <activeoff>:/HyperBlue/hyperblue/icon/second level icon/plan-hover.png</activeoff>
@@ -393,7 +384,7 @@ background-color: #152849;
              <string>Registration</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource/Dental.qrc">
               <normaloff>:/HyperBlue/hyperblue/icon/registration-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/registration-selected.png</normalon>:/HyperBlue/hyperblue/icon/registration-normal.png</iconset>
             </property>
@@ -480,7 +471,7 @@ background-color: #152849;
              <string>Validation</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Resource/Dental.qrc">
               <normaloff>:/HyperBlue/hyperblue/icon/validate-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/validate-selected.png</normalon>:/HyperBlue/hyperblue/icon/validate-normal.png</iconset>
             </property>
@@ -1722,7 +1713,7 @@ background-color: transparent;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="../Resource/Dental.qrc">
      <normaloff>:/HyperBlue/hyperblue/icon/windowlevel-normal.png</normaloff>
      <normalon>:/HyperBlue/hyperblue/icon/windowlevel-hover.png</normalon>
      <activeoff>:/HyperBlue/hyperblue/icon/windowlevel-hover.png</activeoff>:/HyperBlue/hyperblue/icon/windowlevel-normal.png</iconset>
@@ -1784,6 +1775,14 @@ background-color: transparent;</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DentalStdMultiWidget</class>
+   <extends>QWidget</extends>
+   <header>DentalStdMultiWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Resource/Dental.qrc"/>
  </resources>

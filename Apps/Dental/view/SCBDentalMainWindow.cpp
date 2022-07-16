@@ -4,7 +4,7 @@
 // me
 // #include "MACKeyConfirm.hpp"
 // #include "PoseIndicatorViewer.h"
-// #include "SCBDentalHub.h"
+#include "IOController.h"
 #include "SCBDentalClosingDialog.h"
 #include "SCBDentalNavigationPipeline.h"
 #include "SCBDentalPlanningPipeline.h"
@@ -39,9 +39,12 @@
 SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
     mUi(std::make_unique<Ui::SCBDentalMainWindow>()), QMainWindow(parent)
 {
-  // ui setup.
   mUi->setupUi(this);
 
+  connect(IOController::getInstance(),
+          &IOController::sceneLoaded,
+          this,
+          &SCBDentalMainWindow::onSceneLoaded);
   // viewers
   for (int i = 0; i < 3; ++i)
   {
@@ -107,8 +110,6 @@ SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
   this->trackerViewer->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   this->trackerViewer->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   this->trackerViewer->setFocusPolicy(Qt::NoFocus);
-  // QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-  // this->trackerViewer->setSizePolicy(policy);
 
   this->trackerViewer->setScene(new QGraphicsScene(this));
   this->trackerViewer->setStyleSheet("border: none;");
@@ -269,13 +270,6 @@ SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
   //   m_ref_jnt.push_back(tmpjnt1);
   //   m_ref_jnt.push_back(tmpjnt2);
   //   m_ref_jnt.push_back(tmpjnt3);
-
-  // Creat Saving Project Directory
-  PROJECT_DIR = QCoreApplication::applicationDirPath() + "\\Dental_Project";
-  if (!QDir(PROJECT_DIR).exists())
-  {
-    QDir(".").mkdir(PROJECT_DIR);
-  }
 }
 
 SCBDentalMainWindow::~SCBDentalMainWindow()
@@ -283,6 +277,17 @@ SCBDentalMainWindow::~SCBDentalMainWindow()
   delete this->m_progressDialog;
   delete closingdialog;
   //   delete this->welcomeWizard;
+}
+
+void SCBDentalMainWindow::test()
+{
+  auto fileName = QApplication::applicationDirPath() + "/Dental.mitk";
+  IOController::getInstance()->loadScene(fileName);
+}
+
+void SCBDentalMainWindow::onSceneLoaded()
+{
+  mUi->multiWidget->InitializeMultiWidget();
 }
 
 SCBOrthogonalViewer* SCBDentalMainWindow::getViewer(int i)
@@ -360,61 +365,6 @@ void SCBDentalMainWindow::slotWelcomeWizard()
   //     this->setPatientNameIDLabel(name, id, age);
   //   }
 }
-
-bool SCBDentalMainWindow::slotMacChecking()
-{
-  //   if (this->mac->checkLicence())
-  //   {
-  return true;
-  //   }
-  //   else
-  //   {
-  //     mac->exec();
-  //   return false;
-  //   }
-}
-
-void SCBDentalMainWindow::slotImportProject(QString path, bool clean)
-{
-  QString project = QFileDialog::getOpenFileName(
-      this, tr("Import XML"), path, tr("XML files (*.xml)"));
-  if (project.isEmpty())
-  {
-    return;
-  }
-  emit signalImportedProject(project, clean);
-}
-
-void SCBDentalMainWindow::slotImportProjectString(QString xml)
-{
-  if (xml.isEmpty())
-  {
-    bool ok = false;
-    xml = QInputDialog::getMultiLineText(
-        this, tr("Import XML"), tr("XML Content:"), xml, &ok);
-    if (!ok)
-    {
-      return;
-    }
-  }
-  emit signalImportedProjectString(xml);
-}
-void SCBDentalMainWindow::slotCommitProject(QString path)
-{
-  QString project = QFileDialog::getSaveFileName(
-      this, tr("Commit XML"), path, tr("XML files (*.xml)"));
-  if (project.isEmpty())
-  {
-    return;
-  }
-  emit signalCommitedProject(project);
-}
-
-// void SCBDentalMainWindow::showFullScreen()
-//{
-//	QMainWindow::showFullScreen();
-//	this->on_tabWidgetCentral_currentChanged(0);
-// }
 
 void SCBDentalMainWindow::slotPlanningPipelineConfirm()
 {

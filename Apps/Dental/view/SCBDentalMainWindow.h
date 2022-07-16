@@ -36,8 +36,12 @@ public:
   const static int MAX_RECENT_IMAGE = 10;
 
   explicit SCBDentalMainWindow(QWidget* parent = nullptr);
-  virtual ~SCBDentalMainWindow() override;
+  ~SCBDentalMainWindow() override;
+  void test();
 
+  Q_SLOT void onSceneLoaded();
+
+private:
   SCBDentalPlanningPipeline* getDentalPlanningPipeline()
   {
     return this->DentalPlanningPipeline;
@@ -85,12 +89,6 @@ public:
 public slots:
   // menu file
   void slotWelcomeWizard();
-  bool slotMacChecking();
-  void slotImportProject(QString path = QString(), bool clean = true);
-  void slotImportProjectString(QString xml = QString());
-  void slotCommitProject(QString path = QString());
-
-  // void showFullScreen();
 
   void on_toolButtonPlanning_toggled(bool checked);
   void on_toolButtonRegistration_toggled(bool checked);

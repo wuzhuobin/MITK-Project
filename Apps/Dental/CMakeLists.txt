@@ -45,4 +45,5 @@ target_include_directories(
   PUBLIC
   ${PROJECT_SOURCE_DIR}
   ${PROJECT_SOURCE_DIR}/view
+  ${PROJECT_SOURCE_DIR}/controller
 )

@@ -8,7 +8,6 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include "SCBDentalHub.h"
 #include "SCBDentalMainWindow.h"
 
 // qt
@@ -26,10 +25,11 @@ int main(int argc, char* argv[])
       mitk::StandaloneDataStorage::New());
   QApplication app(argc, argv);
 
-  SCBDentalHub hub;
-  hub.mainWindow->show();
-  hub.mainWindow->on_tabWidgetCentral_currentChanged(0);
-  hub.mainWindow->slotWelcomeWizard();
+  SCBDentalMainWindow w;
+  w.show();
+  w.test();
+  w.on_tabWidgetCentral_currentChanged(0);
+  w.slotWelcomeWizard();
 
   return app.exec();
 }

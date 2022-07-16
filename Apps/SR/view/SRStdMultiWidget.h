@@ -1,3 +1,13 @@
+/**
+ * @file SRStdMultiWidget.h
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-07-16
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #ifndef SR_STD_MULTI_WIDGET_H
 #define SR_STD_MULTI_WIDGET_H
 
