@@ -19,7 +19,7 @@
         <file>hyperblue/icon/camera-selected.png</file>
         <file>hyperblue/icon/pan-selected.png</file>
         <file>hyperblue/icon/imageAdjust-selected.png</file>
-        <file>hyperblue/icon/windowLevel-selected.png</file>
+        <file>hyperblue/icon/windowlevel-selected.png</file>
         <file>hyperblue/icon/navigate-selected.png</file>
         <file>hyperblue/icon/protractor-selected.png</file>
         <file>hyperblue/icon/reset-selected.png</file>
@@ -31,7 +31,7 @@
         <file>hyperblue/icon/ruler-normal.png</file>
         <file>hyperblue/icon/pan-normal.png</file>
         <file>hyperblue/icon/zoom-normal.png</file>
-        <file>hyperblue/icon/windowLevel-normal.png</file>
+        <file>hyperblue/icon/windowlevel-normal.png</file>
         <file>hyperblue/icon/rotate-normal.png</file>
         <file>hyperblue/icon/protractor-normal.png</file>
         <file>hyperblue/icon/statistic-normal.png</file>
