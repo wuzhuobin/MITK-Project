@@ -1,13 +1,19 @@
 #ifndef __SCB_Dental_MAIN_WINDOW_H__
 #define __SCB_Dental_MAIN_WINDOW_H__
 
-// me
+// std
+#include <memory>
+
+// qt
+#include <QMainWindow>
+class QGraphicsView;
+class QActionGroup;
+class QProgressDialog;
 class SCBPlanarViewer;
 class SCBNonPlanarViewer;
 class SCBOrthogonalViewer;
 class SCBViewer;
 class PoseIndicatorViewer;
-
 class SCBDentalPlanningPipeline;
 class SCBDentalRegistrationPipeline;
 class SCBDentalNavigationPipeline;
@@ -16,12 +22,6 @@ class SCBDentalClosingDialog;
 class AbstractRobot;
 class SCBWelcomeWizard;
 class MACKeyConfirm;
-
-// qt
-#include <QMainWindow>
-class QGraphicsView;
-class QActionGroup;
-class QProgressDialog;
 
 // #include "AbstractRobotCommon.h"
 namespace Ui

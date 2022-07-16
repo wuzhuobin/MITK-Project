@@ -3,7 +3,6 @@
 
 #include <QDialog>
 
-#include "SCBWindowsUtil.h"
 #include "ui_SCBDentalClosingDialog.h"
 
 // #include "URDashBoard.h"

@@ -57,7 +57,6 @@ void SCBDentalClosingDialog::pushbtn_cancel_pressed()
 
 void SCBDentalClosingDialog::pushbtn_shutdown_pressed()
 {
-  ReSetWindows(EWX_SHUTDOWN, true);
 }
 
 void SCBDentalClosingDialog::pushbtn_collapse_pressed()
