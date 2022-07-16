@@ -346,7 +346,7 @@ background-color: #152849;
              <string>Planning</string>
             </property>
             <property name="icon">
-             <iconset resource="Resource/Dental.qrc">
+             <iconset>
               <normaloff>:/HyperBlue/hyperblue/icon/plan-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/plan-selected.png</normalon>
               <activeoff>:/HyperBlue/hyperblue/icon/second level icon/plan-hover.png</activeoff>
@@ -393,7 +393,7 @@ background-color: #152849;
              <string>Registration</string>
             </property>
             <property name="icon">
-             <iconset resource="Resource/Dental.qrc">
+             <iconset>
               <normaloff>:/HyperBlue/hyperblue/icon/registration-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/registration-selected.png</normalon>:/HyperBlue/hyperblue/icon/registration-normal.png</iconset>
             </property>
@@ -438,7 +438,7 @@ background-color: #152849;
              <string>Navigation</string>
             </property>
             <property name="icon">
-             <iconset resource="Resource/Dental.qrc">
+             <iconset resource="../Resource/Dental.qrc">
               <normaloff>:/HyperBlue/hyperblue/icon/navigation-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/navigation-selected.png</normalon>:/HyperBlue/hyperblue/icon/navigation-normal.png</iconset>
             </property>
@@ -480,7 +480,7 @@ background-color: #152849;
              <string>Validation</string>
             </property>
             <property name="icon">
-             <iconset resource="Resource/Dental.qrc">
+             <iconset>
               <normaloff>:/HyperBlue/hyperblue/icon/validate-normal.png</normaloff>
               <normalon>:/HyperBlue/hyperblue/icon/validate-selected.png</normalon>:/HyperBlue/hyperblue/icon/validate-normal.png</iconset>
             </property>
@@ -759,7 +759,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/navigate-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/navigate-selected.png</normalon>:/HyperBlue/hyperblue/icon/navigate-normal.png</iconset>
           </property>
@@ -816,7 +816,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset>
             <normaloff>:/HyperBlue/hyperblue/icon/windowLevel-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/windowLevel-selected.png</normalon>:/HyperBlue/hyperblue/icon/windowLevel-normal.png</iconset>
           </property>
@@ -873,7 +873,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/zoom-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/zoom-selected.png</normalon>:/HyperBlue/hyperblue/icon/zoom-normal.png</iconset>
           </property>
@@ -930,7 +930,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/pan-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/pan-selected.png</normalon>:/HyperBlue/hyperblue/icon/pan-normal.png</iconset>
           </property>
@@ -987,7 +987,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/rotate-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/rotate-selected.png</normalon>:/HyperBlue/hyperblue/icon/rotate-normal.png</iconset>
           </property>
@@ -1044,7 +1044,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/ruler-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/ruler-selected.png</normalon>:/HyperBlue/hyperblue/icon/ruler-normal.png</iconset>
           </property>
@@ -1101,7 +1101,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/protractor-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/protractor-selected.png</normalon>:/HyperBlue/hyperblue/icon/protractor-normal.png</iconset>
           </property>
@@ -1158,7 +1158,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/statistic-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/statistic-selected.png</normalon>:/HyperBlue/hyperblue/icon/statistic-normal.png</iconset>
           </property>
@@ -1215,7 +1215,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/imageAdjust-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/imageAdjust-selected.png</normalon>:/HyperBlue/hyperblue/icon/imageAdjust-normal.png</iconset>
           </property>
@@ -1272,7 +1272,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/propAdjust-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/propAdjust-selected.png</normalon>:/HyperBlue/hyperblue/icon/propAdjust-normal.png</iconset>
           </property>
@@ -1332,7 +1332,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/paintBrush-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/paintBrush-selected.png</normalon>:/HyperBlue/hyperblue/icon/paintBrush-normal.png</iconset>
           </property>
@@ -1405,7 +1405,7 @@ background-color: #152849;
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Resource/Dental.qrc">
+           <iconset resource="../Resource/Dental.qrc">
             <normaloff>:/HyperBlue/hyperblue/icon/reset-normal.png</normaloff>
             <normalon>:/HyperBlue/hyperblue/icon/reset-selected.png</normalon>:/HyperBlue/hyperblue/icon/reset-normal.png</iconset>
           </property>
@@ -1606,7 +1606,7 @@ background-color: transparent;</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="Resource/Dental.qrc">
+        <iconset resource="../Resource/Dental.qrc">
          <normaloff>:/HyperBlue/hyperblue/icon/patient-normal.png</normaloff>
          <normalon>:/HyperBlue/hyperblue/icon/patient-selected.png</normalon>:/HyperBlue/hyperblue/icon/patient-normal.png</iconset>
        </property>
@@ -1636,7 +1636,7 @@ background-color: transparent;</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="Resource/Dental.qrc">
+        <iconset resource="../Resource/Dental.qrc">
          <normaloff>:/HyperBlue/hyperblue/icon/help-normal.png</normaloff>
          <normalon>:/HyperBlue/hyperblue/icon/help-selected.png</normalon>:/HyperBlue/hyperblue/icon/help-normal.png</iconset>
        </property>
@@ -1666,7 +1666,7 @@ background-color: transparent;</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="Resource/Dental.qrc">
+        <iconset resource="../Resource/Dental.qrc">
          <normaloff>:/HyperBlue/hyperblue/icon/about-normal.png</normaloff>
          <normalon>:/HyperBlue/hyperblue/icon/about-selected.png</normalon>:/HyperBlue/hyperblue/icon/about-normal.png</iconset>
        </property>
@@ -1696,7 +1696,7 @@ background-color: transparent;</string>
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="Resource/Dental.qrc">
+        <iconset resource="../Resource/Dental.qrc">
          <normaloff>:/HyperBlue/hyperblue/icon/home-normal.png</normaloff>
          <normalon>:/HyperBlue/hyperblue/icon/home-selected.png</normalon>:/HyperBlue/hyperblue/icon/home-normal.png</iconset>
        </property>
@@ -1757,7 +1757,7 @@ background-color: transparent;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource/Dental.qrc">
+    <iconset resource="../Resource/Dental.qrc">
      <normaloff>:/HyperBlue/hyperblue/icon/protractor-normal.png</normaloff>
      <normalon>:/HyperBlue/hyperblue/icon/protractor-hover.png</normalon>
      <activeoff>:/HyperBlue/hyperblue/icon/protractor-hover.png</activeoff>:/HyperBlue/hyperblue/icon/protractor-normal.png</iconset>
@@ -1774,7 +1774,7 @@ background-color: transparent;</string>
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resource/Dental.qrc">
+    <iconset resource="../Resource/Dental.qrc">
      <normaloff>:/HyperBlue/hyperblue/icon/ruler-normal.png</normaloff>
      <normalon>:/HyperBlue/hyperblue/icon/ruler-hover.png</normalon>
      <activeoff>:/HyperBlue/hyperblue/icon/line plane icon/ruler-hover.png</activeoff>:/HyperBlue/hyperblue/icon/ruler-normal.png</iconset>
@@ -1785,7 +1785,7 @@ background-color: transparent;</string>
   </action>
  </widget>
  <resources>
-  <include location="Resource/Dental.qrc"/>
+  <include location="../Resource/Dental.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
