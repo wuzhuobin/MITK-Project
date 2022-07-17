@@ -46,4 +46,5 @@ target_include_directories(
   ${PROJECT_SOURCE_DIR}
   ${PROJECT_SOURCE_DIR}/view
   ${PROJECT_SOURCE_DIR}/controller
+  ${PROJECT_SOURCE_DIR}/model
 )
