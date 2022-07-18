@@ -6,7 +6,6 @@
 
 // qt
 #include <QMainWindow>
-class QGraphicsView;
 class QActionGroup;
 class QProgressDialog;
 class SCBPlanarViewer;
@@ -42,29 +41,6 @@ public:
   Q_SLOT void onSceneLoaded();
 
 private:
-  SCBDentalPlanningPipeline* getDentalPlanningPipeline()
-  {
-    return this->DentalPlanningPipeline;
-  }
-  SCBDentalRegistrationPipeline* getDentalRegistrationPipeline()
-  {
-    return this->DentalRegistrationPipeline;
-  }
-  SCBDentalNavigationPipeline* getDentalNavigationPipeline()
-  {
-    return this->DentalNavigatePipeline;
-  }
-  SCBDentalValidationPipeline* getDentalValidationPipeline()
-  {
-    return this->DentalValidatePipeline;
-  }
-
-  PoseIndicatorViewer* getPoseIndicatorViewer()
-  {
-    return this->poseIndicatorViewer;
-  }
-  SCBOrthogonalViewer* getViewer(int i);
-
   SCBDentalPlanningPipeline* DentalPlanningPipeline;
   SCBDentalRegistrationPipeline* DentalRegistrationPipeline;
   SCBDentalNavigationPipeline* DentalNavigatePipeline;
@@ -81,7 +57,6 @@ private:
 
   SCBOrthogonalViewer* panoramicViewer;
   QList<SCBPlanarViewer*> panoramicSagitalViewers;
-  QGraphicsView* trackerViewer;
 
   PoseIndicatorViewer* poseIndicatorViewer;
   void setPatientNameIDLabel(QString name, int id, int age);

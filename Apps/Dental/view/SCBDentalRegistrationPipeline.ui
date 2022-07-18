@@ -54,9 +54,6 @@ QGroupBox::title {
     subcontrol-position: top left; /* position at the top center */
     color: #388fcb;
     padding: 2px;
-}he top center */
-    color: #388fcb;
-    padding: 2px;
 }</string>
      </property>
      <property name="title">
@@ -182,7 +179,7 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="Resource/Dental.qrc">:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
+      <pixmap>:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -441,7 +438,7 @@ color:white;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="Resource/Dental.qrc">:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
+      <pixmap>:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -550,7 +547,7 @@ color:black;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="Resource/Dental.qrc">:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
+      <pixmap>:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

@@ -36,6 +36,12 @@
 #include <QProgressDialog>
 #include <QSettings>
 
+static const struct SCBDentalMainWindowInit {
+  SCBDentalMainWindowInit() {
+    Q_INIT_RESOURCE(Dental);
+  }
+} G_INIT; 
+
 SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
     mUi(std::make_unique<Ui::SCBDentalMainWindow>()), QMainWindow(parent)
 {
@@ -106,25 +112,6 @@ SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
   }
 
   //   this->poseIndicatorViewer = new PoseIndicatorViewer(20, 2, 2, 6, this);
-  this->trackerViewer = new QGraphicsView(this);
-  this->trackerViewer->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  this->trackerViewer->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  this->trackerViewer->setFocusPolicy(Qt::NoFocus);
-
-  this->trackerViewer->setScene(new QGraphicsScene(this));
-  this->trackerViewer->setStyleSheet("border: none;");
-  QTimer* timer = new QTimer(this);
-  //   connect(timer, &QTimer::timeout, [this]() {
-  //     SCBMicronTrackerThread::New()->getTracker()->getSnapshot(
-  //         this->trackerViewer->scene());
-  //     this->trackerViewer->fitInView(this->trackerViewer->scene()->sceneRect(),
-  //                                    Qt::KeepAspectRatio);
-  //   });
-
-  //   if (SCBMicronTrackerThread::New()->getTracker()->isConnected())
-  //   {
-  //     timer->start(50);
-  //   }
 
   // home button
   QMenu* menu = new QMenu(this);
@@ -288,19 +275,6 @@ void SCBDentalMainWindow::test()
 void SCBDentalMainWindow::onSceneLoaded()
 {
   mUi->multiWidget->InitializeMultiWidget();
-}
-
-SCBOrthogonalViewer* SCBDentalMainWindow::getViewer(int i)
-{
-  if (i < 3)
-  {
-    // return this->planarViewers[i];
-  }
-  else
-  {
-    // return this->nonPlanarViewer;
-  }
-  return nullptr;
 }
 
 void SCBDentalMainWindow::setPatientNameIDLabel(QString name, int id, int age)
@@ -533,7 +507,6 @@ void SCBDentalMainWindow::on_tabWidgetCentral_currentChanged(int index)
   //     (*cit)->hide();
   //   }
   //   panoramicViewer->hide();
-  //   trackerViewer->hide();
   //   poseIndicatorViewer->hide();
 
   //   switch (index)
@@ -596,11 +569,6 @@ void SCBDentalMainWindow::on_tabWidgetCentral_currentChanged(int index)
   //       break;
   //     case 2:
   //       this->horizontalLayoutRegistration->insertWidget(0,
-  //       this->trackerViewer);
-  //       this->trackerViewer->setFixedSize((central.width() - 6 - 20) / 3.0 *
-  //       2,
-  //                                         (central.height() - 4 - 40));
-  //       this->trackerViewer->show();
   //       this->verticalLayoutRegistration->addWidget(this->planarViewers[0]);
   //       this->planarViewers[0]->setFixedSize((central.width() - 6 - 20)
   //       / 3.0,
@@ -631,10 +599,6 @@ void SCBDentalMainWindow::on_tabWidgetCentral_currentChanged(int index)
   //           (central.width() - 8 - 20) / 3.0, (central.height() - 6 - 40)
   //           / 2.0);
   //       this->poseIndicatorViewer->show();
-  //       this->gridLayoutSurgical->addWidget(this->trackerViewer, 0, 2);
-  //       this->trackerViewer->setFixedSize((central.width() - 8 - 20) / 3.0,
-  //                                         (central.height() - 6 - 40) / 2.0);
-  //       this->trackerViewer->show();
   //       this->gridLayoutSurgical->addWidget(this->planarViewers[0], 1, 0);
   //       this->planarViewers[0]->setFixedSize((central.width() - 8 - 20)
   //       / 3.0,
