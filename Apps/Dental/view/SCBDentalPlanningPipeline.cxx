@@ -1,4 +1,3 @@
-// me
 #include "SCBDentalPlanningPipeline.h"
 // #include "SCBDentalMainWindow.h"
 // #include "ui_SCBDentalMainWindow.h"
@@ -24,8 +23,12 @@
 #include <vtkMatrix4x4.h>
 #include <vtkTransform.h>
 
-const QString IMPLANT("IMPLANT");
-const QString TEETH("TEETH");
+// mitk
+#include <mitkDataNode.h>
+#include <mitkDataStorage.h>
+#include <mitkLogMacros.h>
+#include <mitkRenderingManager.h>
+#include <mitkSurface.h>
 
 SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
     QWidget(parent)
@@ -62,15 +65,7 @@ SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
   //           &SCBScene::signalRemovedData,
   //           this,
   //           &SCBDentalPlanningPipeline::removeImplant);
-
-  //   // membership variables
-  //   m_nerveLeft = new SCBPolyData();
-  //   m_nerveRight = new SCBPolyData();
-  //   m_actorLeft = new SCBPolyDataActor();
-  //   m_actorRight = new SCBPolyDataActor();
 }
-
-SCBDentalPlanningPipeline::~SCBDentalPlanningPipeline() {}
 
 void SCBDentalPlanningPipeline::on_pushButtonAdvancedOption_clicked()
 {
@@ -128,91 +123,94 @@ void SCBDentalPlanningPipeline::on_tableWidgetTeeth_cellClicked(int row,
 
 bool SCBDentalPlanningPipeline::enterImplantLibrary(int id, bool checked)
 {
-  //   SCBScene* scene = SCBScene::getCurrentScene();
-  //   if (!checked)
-  //   {
-  //     if (QMessageBox::No ==
-  //         QMessageBox::question(this,
-  //                               tr("Delete Implant"),
-  //                               tr("Are you sure to delete this implant?")))
-  //     {
-  //       this->buttonGroupTeethPosition.blockSignals(true);
-  //       this->buttonGroupTeethPosition.button(id)->setChecked(true);
-  //       this->buttonGroupTeethPosition.blockSignals(false);
-  //       return false;
-  //     }
-  //     SCBDentalFixture* fixture = scene->getDataByAlias<SCBDentalFixture>(
-  //         "Fixture" + QString::number(id));
-  //     if (!fixture)
-  //     {
-  //       qCritical() << "The Current scene does not have Fixture whose alias
-  //       is"
-  //                   << "Fixture" + QString::number(id);
-  //       return false;
-  //     }
-  //     scene->removeData(fixture);
-  //     SCBDentalCrown* crown =
-  //         scene->getDataByAlias<SCBDentalCrown>("Crown" +
-  //         QString::number(id));
-  //     if (!crown)
-  //     {
-  //       qCritical() << "The Current scene does not have Fixture whose alias
-  //       is"
-  //                   << "Crown" + QString::number(id);
-  //       return false;
-  //     }
-  //     scene->removeData(crown);
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  if (!checked)
+  {
+    if (QMessageBox::No ==
+        QMessageBox::question(this,
+                              tr("Delete Implant"),
+                              tr("Are you sure to delete this implant?")))
+    {
+      this->buttonGroupTeethPosition.blockSignals(true);
+      this->buttonGroupTeethPosition.button(id)->setChecked(true);
+      this->buttonGroupTeethPosition.blockSignals(false);
+      return false;
+    }
+    auto* implantNode = ds->GetNamedNode(
+        (QString("implant_") + QString::number(id)).toStdString());
+    if (!implantNode)
+    {
+      return false;
+    }
+    ds->Remove(implantNode);
+    // SCBDentalCrown* crown =
+    //     scene->getDataByAlias<SCBDentalCrown>("Crown" + QString::number(id));
+    // if (!crown)
+    // {
+    //   qCritical() << "The Current scene does not have Fixture whose alias
+    //       is "
+    //               << "Crown" + QString::number(id);
+    //   return false;
+    // }
+    // scene->removeData(crown);
+  }
+  else
+  {
+    //     SCBDentalImplantLibrary implantLibraryDialog(this);
 
-  //   }
-  //   else
-  //   {
-  //     SCBDentalImplantLibrary implantLibraryDialog(this);
+    // if (implantLibraryDialog.exec() != QDialog::Accepted)
+    // {
+    //   this->buttonGroupTeethPosition.blockSignals(true);
+    //   this->buttonGroupTeethPosition.button(id)->setChecked(false);
+    //   this->buttonGroupTeethPosition.blockSignals(false);
+    //   return false;
+    // }
+    //     const double* pos =
+    //         SCBDentalHub::self->mainWindow->getViewer(0)->GetCursorPosition();
 
-  //     if (implantLibraryDialog.exec() != QDialog::Accepted)
-  //     {
-  //       this->buttonGroupTeethPosition.blockSignals(true);
-  //       this->buttonGroupTeethPosition.button(id)->setChecked(false);
-  //       this->buttonGroupTeethPosition.blockSignals(false);
-  //       return false;
-  //     }
-  //     const double* pos =
-  //         SCBDentalHub::self->mainWindow->getViewer(0)->GetCursorPosition();
+    auto* originImplant = ds->GetNamedObject<mitk::Surface>("implant");
+    auto implant = mitk::DataNode::New();
+    implant->SetName((QString("implant_") + QString::number(id)).toStdString());
+    implant->SetData(originImplant->Clone());
+    implant->SetVisibility(true);
+    ds->Add(implant);
 
-  //     SCBDentalImplant::ToothPosition toothPosition;
-  //     toothPosition.fromFDI(id);
-  //     SCBDentalFixture* fixture =
-  //         scene->createDataByClassName<SCBDentalFixture>();
-  //     fixture->setDentalFixtureBrand(implantLibraryDialog.brand);
-  //     fixture->setDentalFixtureModel(implantLibraryDialog.model);
-  //     fixture->setDentalFixtureShape(implantLibraryDialog.shape);
-  //     fixture->setDentalFixtureLength(implantLibraryDialog.length);
-  //     fixture->setDentalFixtureRadius(implantLibraryDialog.radius);
-  //     fixture->setToothPosition(toothPosition);
-  //     fixture->setRelativePath(QStringList() << implantLibraryDialog.path);
-  //     fixture->readData("...");
-  //     fixture->setAlias("Fixture" + QString::number(id));
+    //     SCBDentalImplant::ToothPosition toothPosition;
+    //     toothPosition.fromFDI(id);
+    //     SCBDentalFixture* fixture =
+    //         scene->createDataByClassName<SCBDentalFixture>();
+    //     fixture->setDentalFixtureBrand(implantLibraryDialog.brand);
+    //     fixture->setDentalFixtureModel(implantLibraryDialog.model);
+    //     fixture->setDentalFixtureShape(implantLibraryDialog.shape);
+    //     fixture->setDentalFixtureLength(implantLibraryDialog.length);
+    //     fixture->setDentalFixtureRadius(implantLibraryDialog.radius);
+    //     fixture->setToothPosition(toothPosition);
+    //     fixture->setRelativePath(QStringList() << implantLibraryDialog.path);
+    //     fixture->readData("...");
+    //     fixture->setAlias("Fixture" + QString::number(id));
 
-  //     vtkSmartPointer<vtkTransform> translation =
-  //         vtkSmartPointer<vtkTransform>::New();
-  //     translation->Identity();
-  //     translation->PostMultiply();
-  //     translation->SetMatrix(fixture->getUserMatrix());
-  //     translation->Translate(pos);
-  //     fixture->getUserMatrix()->DeepCopy(translation->GetMatrix());
+    //     vtkSmartPointer<vtkTransform> translation =
+    //         vtkSmartPointer<vtkTransform>::New();
+    //     translation->Identity();
+    //     translation->PostMultiply();
+    //     translation->SetMatrix(fixture->getUserMatrix());
+    //     translation->Translate(pos);
+    //     fixture->getUserMatrix()->DeepCopy(translation->GetMatrix());
 
-  //     SCBDentalCrown* crown = scene->createDataByClassName<SCBDentalCrown>();
-  //     crown->setToothPosition(toothPosition);
-  //     crown->setAlias("Crown" + QString::number(id));
+    //     SCBDentalCrown* crown =
+    //     scene->createDataByClassName<SCBDentalCrown>();
+    //     crown->setToothPosition(toothPosition);
+    //     crown->setAlias("Crown" + QString::number(id));
 
-  //     translation->Identity();
-  //     translation->PostMultiply();
-  //     translation->SetMatrix(crown->getUserMatrix());
-  //     translation->Translate(pos);
-  //     crown->getUserMatrix()->DeepCopy(translation->GetMatrix());
+    //     translation->Identity();
+    //     translation->PostMultiply();
+    //     translation->SetMatrix(crown->getUserMatrix());
+    //     translation->Translate(pos);
+    //     crown->getUserMatrix()->DeepCopy(translation->GetMatrix());
 
-  //     scene->addData(crown);
-  //     scene->addData(fixture);
-  //   }
+    //     scene->addData(crown);
+    //     scene->addData(fixture);
+  }
   return true;
 }
 

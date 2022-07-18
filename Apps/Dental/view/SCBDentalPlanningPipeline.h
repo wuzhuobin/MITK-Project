@@ -17,30 +17,20 @@ class SCBDentalPlanningPipeline : public QWidget,
   Q_OBJECT
 
 public:
-  explicit SCBDentalPlanningPipeline(QWidget* parent = 0);
-  ~SCBDentalPlanningPipeline();
+  explicit SCBDentalPlanningPipeline(QWidget* parent = nullptr);
 
-  QButtonGroup buttonGroupTeethPosition;
-
-public Q_SLOTS:
-  void on_pushButtonEnterImplantLibrary_clicked(bool clicked);
-  bool enterImplantLibrary(int id, bool checked);
-  void addImplant(QString uniqueName);
-  void removeImplant(QString uniqueName);
-  // void import();
-  // void clear();
-  void on_pushButtonAdvancedOption_clicked();
-  void on_pushButtonAutoReconstruction_clicked();
-  void on_tableWidgetTeeth_cellClicked(int row, int column);
-
-Q_SIGNALS:
-  void signalConfirmPlanning();
+  Q_SIGNAL void signalConfirmPlanning();
 
 private:
-  SCBPolyData* m_nerveLeft;
-  SCBPolyData* m_nerveRight;
-  SCBPolyDataActor* m_actorLeft;
-  SCBPolyDataActor* m_actorRight;
+  QButtonGroup buttonGroupTeethPosition;
+
+  Q_SLOT void on_pushButtonEnterImplantLibrary_clicked(bool clicked);
+  Q_SLOT void on_pushButtonAdvancedOption_clicked();
+  Q_SLOT void on_pushButtonAutoReconstruction_clicked();
+  Q_SLOT void on_tableWidgetTeeth_cellClicked(int row, int column);
+  Q_SLOT bool enterImplantLibrary(int id, bool checked);
+  Q_SLOT void addImplant(QString uniqueName);
+  Q_SLOT void removeImplant(QString uniqueName);
 };
 
 #endif  // SCBDentalPlanningPipeline_H
