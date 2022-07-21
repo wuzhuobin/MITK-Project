@@ -2,7 +2,6 @@
 
 #include "ui_SCBDentalMainWindow.h"
 // me
-// #include "MACKeyConfirm.hpp"
 // #include "PoseIndicatorViewer.h"
 #include "IOController.h"
 #include "SCBDentalClosingDialog.h"
@@ -36,11 +35,10 @@
 #include <QProgressDialog>
 #include <QSettings>
 
-static const struct SCBDentalMainWindowInit {
-  SCBDentalMainWindowInit() {
-    Q_INIT_RESOURCE(Dental);
-  }
-} G_INIT; 
+static const struct SCBDentalMainWindowInit
+{
+  SCBDentalMainWindowInit() { Q_INIT_RESOURCE(Dental); }
+} G_INIT;
 
 SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
     mUi(std::make_unique<Ui::SCBDentalMainWindow>()), QMainWindow(parent)
@@ -180,7 +178,6 @@ SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
 
   //   this->robot = URDashThread::New();
   //   this->welcomeWizard = new SCBWelcomeWizard();
-  //   this->mac = new MACKeyConfirm(this);
 
   // connection
   // menu file

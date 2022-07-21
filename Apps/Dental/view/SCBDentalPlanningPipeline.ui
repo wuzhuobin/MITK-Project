@@ -210,7 +210,7 @@ color:white;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="Resource/Dental.qrc">:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
+      <pixmap>:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -247,6 +247,362 @@ QGroupBox::title {
       <string>Virtual Implantation</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButtonTeethPosition47">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">47</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="9">
+       <widget class="QPushButton" name="pushButtonTeethPosition22">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">22</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="13">
+       <widget class="QPushButton" name="pushButtonTeethPosition26">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">26</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="pushButtonTeethPosition44">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">44</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="11">
+       <widget class="QPushButton" name="pushButtonTeethPosition24">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">24</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="8">
+       <widget class="QPushButton" name="pushButtonTeethPosition21">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">21</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QPushButton" name="pushButtonTeethPosition13">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">13</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
       <item row="2" column="0" colspan="15">
        <widget class="QTableWidget" name="tableWidgetTeeth">
         <property name="sizePolicy">
@@ -323,100 +679,6 @@ color: white;
         </column>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pushButtonTeethPosition16">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">16</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="pushButtonTeethPosition14">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">14</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="6">
        <widget class="QPushButton" name="pushButtonTeethPosition11">
         <property name="sizePolicy">
@@ -462,959 +724,9 @@ background-color:#398fcc;
         <property name="flat">
          <bool>false</bool>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="8">
-       <widget class="QPushButton" name="pushButtonTeethPosition21">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">21</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QPushButton" name="pushButtonTeethPosition12">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">12</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="7">
-       <widget class="Line" name="line_5">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="11">
-       <widget class="QPushButton" name="pushButtonTeethPosition24">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">24</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="12">
-       <widget class="QPushButton" name="pushButtonTeethPosition25">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">25</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="13">
-       <widget class="QPushButton" name="pushButtonTeethPosition26">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">26</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButtonTeethPosition47">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">47</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="pushButtonTeethPosition44">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">44</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="9">
-       <widget class="QPushButton" name="pushButtonTeethPosition22">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">22</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QPushButton" name="pushButtonTeethPosition13">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">13</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="10">
-       <widget class="QPushButton" name="pushButtonTeethPosition23">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">23</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="pushButtonTeethPosition17">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>28</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">17</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="14">
-       <widget class="QPushButton" name="pushButtonTeethPosition27">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">27</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="pushButtonTeethPosition46">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">46</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="pushButtonTeethPosition45">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">45</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QPushButton" name="pushButtonTeethPosition43">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">43</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButtonTeethPosition15">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">15</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="12">
-       <widget class="QPushButton" name="pushButtonTeethPosition35">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">35</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="11">
-       <widget class="QPushButton" name="pushButtonTeethPosition34">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">34</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="8">
-       <widget class="QPushButton" name="pushButtonTeethPosition31">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">31</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="10">
-       <widget class="QPushButton" name="pushButtonTeethPosition33">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">33</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
        </widget>
       </item>
       <item row="1" column="14">
@@ -1462,219 +774,10 @@ background-color:#398fcc;
         <property name="flat">
          <bool>false</bool>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
        </widget>
-      </item>
-      <item row="1" column="6">
-       <widget class="QPushButton" name="pushButtonTeethPosition41">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">41</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="7">
-       <widget class="Line" name="line_6">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="13">
-       <widget class="QPushButton" name="pushButtonTeethPosition36">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:transparent;
-}
-
-QPushButton:checked
-{
-color:white;
-border: 1px solid white;
-border-radius: 2px;
-background-color:#398fcc;
-}</string>
-        </property>
-        <property name="text">
-         <string notr="true">36</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="15">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <spacer name="horizontalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>80</width>
-            <height>17</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButtonEnterImplantLibrary">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft YaHei UI</family>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton{
-padding:7px 20px 7px 20px;
-outline:none;
-background-color: #398fcc;
-border-radius:3px; 
-border-top: none;
-border-left: none;
-border-right: 3px  solid #125a91;
-border-bottom: 3px  solid #125a91;
-color:rgb(255, 255, 255);
-}
-
-QPushButton:hover{ 
-background-color:#2fa2f4; 
-color: white; 
-}
-
-QPushButton:pressed
-{ 
-background-color: #398fcc;
-border:none;
-}
-
-
-/*
-QPushButton {
-color: #333;
-border: 2px solid #555;
-border-radius: 11px;
-padding: 5px;
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #fff, stop: 1 #888);
-min-width: 80px;
-}
-
-QPushButton:hover {
-background: qradialgradient(cx: 0.3, cy: -0.4,
-fx: 0.3, fy: -0.4,
-radius: 1.35, stop: 0 #fff, stop: 1 #bbb);
-}
-
-QPushButton:pressed {
-background: qradialgradient(cx: 0.4, cy: -0.1,
-fx: 0.4, fy: -0.1,
-radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
-}
-*/</string>
-          </property>
-          <property name="text">
-           <string>Enter Implant Library</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>83</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
       </item>
       <item row="1" column="5">
        <widget class="QPushButton" name="pushButtonTeethPosition42">
@@ -1721,10 +824,13 @@ background-color:#398fcc;
         <property name="flat">
          <bool>false</bool>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
        </widget>
       </item>
-      <item row="1" column="9">
-       <widget class="QPushButton" name="pushButtonTeethPosition32">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pushButtonTeethPosition16">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -1760,7 +866,7 @@ background-color:#398fcc;
 }</string>
         </property>
         <property name="text">
-         <string notr="true">32</string>
+         <string notr="true">16</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -1768,9 +874,69 @@ background-color:#398fcc;
         <property name="flat">
          <bool>false</bool>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
        </widget>
       </item>
-      <item row="4" column="0" colspan="15">
+      <item row="1" column="12">
+       <widget class="QPushButton" name="pushButtonTeethPosition35">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">35</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="Line" name="line_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="15">
        <widget class="QGroupBox" name="groupBox">
         <property name="title">
          <string>Implant</string>
@@ -1939,6 +1105,813 @@ background-color:#398fcc;
         </layout>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pushButtonTeethPosition17">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">17</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="14">
+       <widget class="QPushButton" name="pushButtonTeethPosition27">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">27</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <widget class="QPushButton" name="pushButtonTeethPosition41">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">41</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QPushButton" name="pushButtonTeethPosition12">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">12</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="9">
+       <widget class="QPushButton" name="pushButtonTeethPosition32">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">32</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="11">
+       <widget class="QPushButton" name="pushButtonTeethPosition34">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">34</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="8">
+       <widget class="QPushButton" name="pushButtonTeethPosition31">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">31</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="10">
+       <widget class="QPushButton" name="pushButtonTeethPosition23">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">23</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="Line" name="line_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="10">
+       <widget class="QPushButton" name="pushButtonTeethPosition33">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">33</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButtonTeethPosition14">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">14</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pushButtonTeethPosition46">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">46</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="13">
+       <widget class="QPushButton" name="pushButtonTeethPosition36">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">36</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QPushButton" name="pushButtonTeethPosition43">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">43</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButtonTeethPosition15">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">15</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="pushButtonTeethPosition45">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">45</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
+      <item row="0" column="12">
+       <widget class="QPushButton" name="pushButtonTeethPosition25">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:transparent;
+}
+
+QPushButton:checked
+{
+color:white;
+border: 1px solid white;
+border-radius: 2px;
+background-color:#398fcc;
+}</string>
+        </property>
+        <property name="text">
+         <string notr="true">25</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroupTeethPosition</string>
+        </attribute>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -1964,7 +1937,7 @@ background-color:#398fcc;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="Resource/Dental.qrc">:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
+      <pixmap>:/HyperBlue/hyperblue/icon/arrow.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -2101,4 +2074,11 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
   <include location="Resource/Dental.qrc"/>
  </resources>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroupTeethPosition">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>

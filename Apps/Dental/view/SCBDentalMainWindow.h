@@ -20,7 +20,6 @@ class SCBDentalValidationPipeline;
 class SCBDentalClosingDialog;
 class AbstractRobot;
 class SCBWelcomeWizard;
-class MACKeyConfirm;
 
 // #include "AbstractRobotCommon.h"
 namespace Ui
@@ -51,7 +50,6 @@ private:
 
   SCBDentalClosingDialog* closingdialog;
   SCBWelcomeWizard* welcomeWizard;
-  MACKeyConfirm* mac;
   QList<SCBPlanarViewer*> planarViewers;
   SCBNonPlanarViewer* nonPlanarViewer;
 

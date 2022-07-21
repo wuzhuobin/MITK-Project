@@ -38,6 +38,7 @@ target_link_libraries(
   MitkCore
   MitkQtWidgets
   MitkSceneSerialization
+  MitkDataTypesExt
 )
 
 target_include_directories(

@@ -1,70 +1,32 @@
+/**
+ * @file SCBDentalPlanningPipeline.cxx
+ * @author wuzhuobin (jiejin2022@163.com)
+ * @brief
+ * @version 0.1
+ * @date 2022-07-21
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "SCBDentalPlanningPipeline.h"
-// #include "SCBDentalMainWindow.h"
-// #include "ui_SCBDentalMainWindow.h"
-// #include "SCBDentalImplantLibrary.h"
-// #include "../Src/MainWindow/SCBHub.h"
-// #include "../Src/MainWindow/SCBMainWindow.h"
-// #include "SCBScene.h"
-// #include "SCBPolyDataSourceWidget.h"
-// #include "SCBWidgetCollection.h"
-// #include "SCBDentalMainWindow.h"
-// #include "SCBNonPlanarViewer.h"
-// #include "SCBDentalReconstructionOptionDialog.h"
-// #include "SCBPolyData.h"
-// #include "SCBPolyDataActor.h"
-// #include "SCBDentalHub.h"
 
 // qt
-#include <QDebug>
 #include <QMessageBox>
-#include <QStandardItemModel>
-
-// vtk
-#include <vtkMatrix4x4.h>
-#include <vtkTransform.h>
 
 // mitk
+#include <mitkAffineBaseDataInteractor3D.h>
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
+#include <mitkImage.h>
 #include <mitkLogMacros.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
+#include <usModuleRegistry.h>
 
 SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
     QWidget(parent)
 {
   this->setupUi(this);
-  this->pushButtonEnterImplantLibrary->hide();
-  this->tableWidgetTeeth->setRowCount(47);
-  for (int i = 0; i < 47; ++i)
-  {
-    this->tableWidgetTeeth->hideRow(i);
-  }
-  this->buttonGroupTeethPosition.setExclusive(false);
-  QList<QPushButton*> pushButtonTeethPositions =
-      this->findChildren<QPushButton*>(
-          QRegExp("pushButtonTeethPosition[1-9]{2}"));
-  for (QList<QPushButton*>::const_iterator cit =
-           pushButtonTeethPositions.cbegin();
-       cit != pushButtonTeethPositions.cend();
-       ++cit)
-  {
-    this->buttonGroupTeethPosition.addButton(
-        *cit, (*cit)->objectName().remove("pushButtonTeethPosition").toInt());
-  }
-  connect(&this->buttonGroupTeethPosition,
-          static_cast<void (QButtonGroup::*)(int, bool)>(
-              &QButtonGroup::buttonToggled),
-          this,
-          &SCBDentalPlanningPipeline::enterImplantLibrary);
-  //   connect(SCBScene::getCurrentScene(),
-  //           &SCBScene::signalAddedData,
-  //           this,
-  //           &SCBDentalPlanningPipeline::addImplant);
-  //   connect(SCBScene::getCurrentScene(),
-  //           &SCBScene::signalRemovedData,
-  //           this,
-  //           &SCBDentalPlanningPipeline::removeImplant);
 }
 
 void SCBDentalPlanningPipeline::on_pushButtonAdvancedOption_clicked()
@@ -76,25 +38,14 @@ void SCBDentalPlanningPipeline::on_pushButtonAdvancedOption_clicked()
 
 void SCBDentalPlanningPipeline::on_pushButtonAutoReconstruction_clicked()
 {
-  //   m_nerveLeft->setAbsolutePath(QStringList(
-  //       QCoreApplication::applicationDirPath() +
-  //       "/HardCode/nerve-left.stl"));
-  //   m_nerveRight->setAbsolutePath(QStringList(
-  //       QCoreApplication::applicationDirPath() +
-  //       "/HardCode/nerve-right.stl"));
-  //   m_nerveLeft->readData();
-  //   m_nerveRight->readData();
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
 
-  //   m_nerveLeft->setColor(1, 0, 0);
-  //   m_nerveRight->setColor(1, 0, 0);
+  auto* nerveLeftNode = ds->GetNamedNode("nerve_left");
+  nerveLeftNode->SetVisibility(true);
+  auto* nerveRightNode = ds->GetNamedNode("nerve_right");
+  nerveRightNode->SetVisibility(true);
 
-  //   m_actorLeft->setRenderDataSet(m_nerveLeft);
-  //   SCBDentalHub::self->mainWindow->getViewer(3)->AddProp(m_actorLeft);
-
-  //   m_actorRight->setRenderDataSet(m_nerveRight);
-  //   SCBDentalHub::self->mainWindow->getViewer(3)->AddProp(m_actorRight);
-
-  //   SCBDentalHub::self->mainWindow->getViewer(3)->Render();
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void SCBDentalPlanningPipeline::on_tableWidgetTeeth_cellClicked(int row,
@@ -121,7 +72,8 @@ void SCBDentalPlanningPipeline::on_tableWidgetTeeth_cellClicked(int row,
   //       QString::number(fixture->getDentalFixtureRadius()));
 }
 
-bool SCBDentalPlanningPipeline::enterImplantLibrary(int id, bool checked)
+void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
+    QAbstractButton* button, bool checked)
 {
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   if (!checked)
@@ -131,87 +83,49 @@ bool SCBDentalPlanningPipeline::enterImplantLibrary(int id, bool checked)
                               tr("Delete Implant"),
                               tr("Are you sure to delete this implant?")))
     {
-      this->buttonGroupTeethPosition.blockSignals(true);
-      this->buttonGroupTeethPosition.button(id)->setChecked(true);
-      this->buttonGroupTeethPosition.blockSignals(false);
-      return false;
+      this->buttonGroupTeethPosition->blockSignals(true);
+      button->setChecked(true);
+      this->buttonGroupTeethPosition->blockSignals(false);
+      return;
     }
-    auto* implantNode = ds->GetNamedNode(
-        (QString("implant_") + QString::number(id)).toStdString());
+    auto* implantNode =
+        ds->GetNamedNode((QString("implant_") + button->text()).toStdString());
     if (!implantNode)
     {
-      return false;
+      return;
     }
     ds->Remove(implantNode);
-    // SCBDentalCrown* crown =
-    //     scene->getDataByAlias<SCBDentalCrown>("Crown" + QString::number(id));
-    // if (!crown)
-    // {
-    //   qCritical() << "The Current scene does not have Fixture whose alias
-    //       is "
-    //               << "Crown" + QString::number(id);
-    //   return false;
-    // }
-    // scene->removeData(crown);
   }
   else
   {
-    //     SCBDentalImplantLibrary implantLibraryDialog(this);
+    auto* image = ds->GetNamedObject<mitk::Image>("image");
 
-    // if (implantLibraryDialog.exec() != QDialog::Accepted)
-    // {
-    //   this->buttonGroupTeethPosition.blockSignals(true);
-    //   this->buttonGroupTeethPosition.button(id)->setChecked(false);
-    //   this->buttonGroupTeethPosition.blockSignals(false);
-    //   return false;
-    // }
-    //     const double* pos =
-    //         SCBDentalHub::self->mainWindow->getViewer(0)->GetCursorPosition();
+    auto center = image->GetGeometry()->GetCenter();
+    mitk::Vector3D translate(center.Get_vnl_vector());
 
     auto* originImplant = ds->GetNamedObject<mitk::Surface>("implant");
-    auto implant = mitk::DataNode::New();
-    implant->SetName((QString("implant_") + QString::number(id)).toStdString());
-    implant->SetData(originImplant->Clone());
-    implant->SetVisibility(true);
-    ds->Add(implant);
 
-    //     SCBDentalImplant::ToothPosition toothPosition;
-    //     toothPosition.fromFDI(id);
-    //     SCBDentalFixture* fixture =
-    //         scene->createDataByClassName<SCBDentalFixture>();
-    //     fixture->setDentalFixtureBrand(implantLibraryDialog.brand);
-    //     fixture->setDentalFixtureModel(implantLibraryDialog.model);
-    //     fixture->setDentalFixtureShape(implantLibraryDialog.shape);
-    //     fixture->setDentalFixtureLength(implantLibraryDialog.length);
-    //     fixture->setDentalFixtureRadius(implantLibraryDialog.radius);
-    //     fixture->setToothPosition(toothPosition);
-    //     fixture->setRelativePath(QStringList() << implantLibraryDialog.path);
-    //     fixture->readData("...");
-    //     fixture->setAlias("Fixture" + QString::number(id));
+    auto implant = originImplant->Clone();
+    implant->GetGeometry()->Translate(translate);
 
-    //     vtkSmartPointer<vtkTransform> translation =
-    //         vtkSmartPointer<vtkTransform>::New();
-    //     translation->Identity();
-    //     translation->PostMultiply();
-    //     translation->SetMatrix(fixture->getUserMatrix());
-    //     translation->Translate(pos);
-    //     fixture->getUserMatrix()->DeepCopy(translation->GetMatrix());
+    auto implantNode = mitk::DataNode::New();
+    implantNode->SetName((QString("implant_") + button->text()).toStdString());
+    implantNode->SetData(implant);
+    implantNode->SetVisibility(true);
+    implantNode->SetBoolProperty("pickable", true);
+    ds->Add(implantNode);
 
-    //     SCBDentalCrown* crown =
-    //     scene->createDataByClassName<SCBDentalCrown>();
-    //     crown->setToothPosition(toothPosition);
-    //     crown->setAlias("Crown" + QString::number(id));
-
-    //     translation->Identity();
-    //     translation->PostMultiply();
-    //     translation->SetMatrix(crown->getUserMatrix());
-    //     translation->Translate(pos);
-    //     crown->getUserMatrix()->DeepCopy(translation->GetMatrix());
-
-    //     scene->addData(crown);
-    //     scene->addData(fixture);
+    auto affineDataInteractor = mitk::AffineBaseDataInteractor3D::New();
+    affineDataInteractor->LoadStateMachine(
+        "AffineInteraction3D.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+    affineDataInteractor->SetEventConfig(
+        "AffineMouseConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+    affineDataInteractor->SetDataNode(implantNode);
   }
-  return true;
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void SCBDentalPlanningPipeline::addImplant(QString uniqueName)
@@ -319,40 +233,4 @@ void SCBDentalPlanningPipeline::removeImplant(QString uniqueName)
   //     qCritical() << "It is supposed to be existed. ";
   //     return;
   //   }
-}
-
-void SCBDentalPlanningPipeline::on_pushButtonEnterImplantLibrary_clicked(
-    bool clicked)
-{
-  int id = this->tableWidgetTeeth->currentRow();
-  if (id < 0)
-  {
-    return;
-  }
-  if (this->enterImplantLibrary(id + 1, false))
-  {
-    this->enterImplantLibrary(id + 1, true);
-  }
-
-  // SCBDentalImplantLibrary implantLibraryDialog(this);
-  // if (implantLibraryDialog.exec() != QDialog::Accepted) {
-  //	return;
-  // }
-  // SCBDentalHub *hub = SCBDentalHub::self;
-  // SCBScene *scene = SCBScene::getCurrentScene();
-  // SCBDentalFixture *fixture = scene->addNewDataByClass<SCBDentalFixture>();
-  // fixture->setAbsolutePath(QStringList() <<
-  // QCoreApplication::applicationDirPath() +
-  //	"/DentalFixture/Nobel_Conical_10_4.0.stl");
-  // fixture->setRelativePath(QStringList() << fixture->getUniqueName() +
-  // ".stl"); fixture->readData(); for (int i = 0; i <
-  // SCBDentalHub::NUM_OF_ORTHOGONAL_VIEWER; ++i) { 	SCBPolyDataSourceWidget*
-  // widget = hub->widgets[i]->ProducePolyDataSourceWidgets();
-  //	widget->SetSCBPolyData(fixture);
-  //	hub->widgets[i]->SetOneOfPolyDataSourceWidgetsEnabled(widget, true);
-  //	widget->PlaceWidget(
-  //		hub->mainWindow->getViewer(i)->GetCursorPosition()[0],
-  //		hub->mainWindow->getViewer(i)->GetCursorPosition()[1],
-  //		hub->mainWindow->getViewer(i)->GetCursorPosition()[2]);
-  // }
 }
