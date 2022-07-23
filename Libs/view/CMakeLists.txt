@@ -1,4 +1,6 @@
-project(THA)
+project(view)
+
+find_package(Qt5Sql REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -36,31 +38,17 @@ target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC
   MitkCore
-  MitkQtWidgets  
-  MitkSceneSerialization
-  MitkSegmentation
-  ${VTK_LIBRARIES}
-  view
+#   MitkQtWidgets  
+#   MitkSceneSerialization
+#   MitkSegmentation
+  MitkDICOMUI
+  Qt5::Sql
+#   ${VTK_LIBRARIES}
 )
+
 
 target_include_directories(
   ${PROJECT_NAME}
   PUBLIC
-  ${PROJECT_SOURCE_DIR}/view
-  ${PROJECT_SOURCE_DIR}/model
-  ${PROJECT_SOURCE_DIR}/controller
-  ${PROJECT_SOURCE_DIR}/algorithm
-)
-
-target_compile_definitions(
-  ${PROJECT_NAME}
-  PRIVATE
-  US_MODULE_NAME=main
-)
-
-vtk_module_autoinit(
-  TARGETS 
-  ${PROJECT_NAME}
-  MODULES
-  ${VTK_LIBRARIES}
+  ${PROJECT_SOURCE_DIR}
 )

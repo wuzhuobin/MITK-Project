@@ -97,14 +97,14 @@
       <bool>false</bool>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
-     <widget class="THADicomLocalStorageWidget" name="tabDicomLocalStorage">
+     <widget class="DicomLocalStorageWidget" name="tabDicomLocalStorage">
       <attribute name="title">
        <string>Local Storage</string>
       </attribute>
      </widget>
-     <widget class="THADicomExternalDataWidget" name="tabDicomExternalData">
+     <widget class="DicomExternalDataWidget" name="tabDicomExternalData">
       <attribute name="title">
        <string>External Data</string>
       </attribute>
@@ -115,15 +115,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>THADicomExternalDataWidget</class>
+   <class>DicomExternalDataWidget</class>
    <extends>QWidget</extends>
-   <header>THADicomExternalDataWidget.h</header>
+   <header>DicomExternalDataWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>THADicomLocalStorageWidget</class>
+   <class>DicomLocalStorageWidget</class>
    <extends>QWidget</extends>
-   <header>THADicomLocalStorageWidget.h</header>
+   <header>DicomLocalStorageWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

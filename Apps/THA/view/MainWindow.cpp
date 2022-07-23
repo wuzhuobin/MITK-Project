@@ -28,14 +28,22 @@ MainWindow::MainWindow(QWidget* parent) :
 
   mUi->toolButtonAdmin->setMenu(new AdminMenu);
 
-  connect(mActionGroup,
-          &QActionGroup::triggered,
-          this,
-          &MainWindow::onActionsTriggered);
+  connect(mUi->pageCaseManagement,
+          &CaseManagementDialog::caseCreated,
+          IOController::getInstance(),
+          &IOController::createScene);
+  connect(mUi->pageCaseManagement,
+          &CaseManagementDialog::caseImported,
+          IOController::getInstance(),
+          &IOController::loadScene);
   connect(IOController::getInstance(),
           &IOController::sceneLoaded,
           this,
           &MainWindow::onSceneLoaded);
+  connect(mActionGroup,
+          &QActionGroup::triggered,
+          this,
+          &MainWindow::onActionsTriggered);
   // the actions should be added in correct order.
 
   // Login
