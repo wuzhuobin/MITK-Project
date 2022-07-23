@@ -1,4 +1,4 @@
-project(SR_Main)
+project(SRMain)
 
 add_executable(
   ${PROJECT_NAME}
