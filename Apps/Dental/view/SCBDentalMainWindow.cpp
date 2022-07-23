@@ -436,11 +436,6 @@ void SCBDentalMainWindow::on_pushButtonAbout_clicked()
   msg.exec();
 }
 
-void SCBDentalMainWindow::on_pushButtonPatientManagement_clicked()
-{
-  this->slotWelcomeWizard();
-}
-
 void SCBDentalMainWindow::on_tabWidgetCentral_currentChanged(int index)
 {
   //   QSize central = this->tabWidgetCentral->size();

@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
   w.show();
   w.test();
   w.on_tabWidgetCentral_currentChanged(0);
-  w.slotWelcomeWizard();
 
   return app.exec();
 }

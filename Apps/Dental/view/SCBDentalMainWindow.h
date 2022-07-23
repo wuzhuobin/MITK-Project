@@ -67,7 +67,6 @@ public slots:
 
   void on_pushButtonHelp_clicked();
   void on_pushButtonAbout_clicked();
-  void on_pushButtonPatientManagement_clicked();
   void on_tabWidgetCentral_currentChanged(int index);
 
   void on_pushButtonOperation_clicked();
