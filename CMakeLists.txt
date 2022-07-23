@@ -325,8 +325,7 @@ endif()
 #-----------------------------------------------------------------------------
 
 # add_subdirectory(Apps/MyApp)
-# add_subdirectory(Apps/CaseManagementWidget)
-# add_subdirectory(Apps/LoginView)
+add_subdirectory(Libs/view)
 add_subdirectory(Apps/THA)
 add_subdirectory(Apps/THA_Main)
 add_subdirectory(Apps/SR)
