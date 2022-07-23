@@ -134,6 +134,16 @@ QTabWidget{
       <property name="currentIndex">
        <number>0</number>
       </property>
+      <widget class="LoginDialog" name="tabLogin">
+       <attribute name="title">
+        <string>Login</string>
+       </attribute>
+      </widget>
+      <widget class="CaseManagementDialog" name="tabCaseManagement">
+       <attribute name="title">
+        <string>Case Management</string>
+       </attribute>
+      </widget>
       <widget class="QWidget" name="tabNormal">
        <attribute name="title">
         <string>Normal</string>
@@ -1747,6 +1757,18 @@ background-color: #152849;
    <class>DentalStdMultiWidget</class>
    <extends>QWidget</extends>
    <header>DentalStdMultiWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CaseManagementDialog</class>
+   <extends>QWidget</extends>
+   <header>CaseManagementDialog.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LoginDialog</class>
+   <extends>QWidget</extends>
+   <header>LoginDialog.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

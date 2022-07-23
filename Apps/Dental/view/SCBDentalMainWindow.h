@@ -49,7 +49,6 @@ private:
   AbstractRobot* robot;
 
   SCBDentalClosingDialog* closingdialog;
-  SCBWelcomeWizard* welcomeWizard;
   QList<SCBPlanarViewer*> planarViewers;
   SCBNonPlanarViewer* nonPlanarViewer;
 
@@ -60,8 +59,6 @@ private:
   void setPatientNameIDLabel(QString name, int id, int age);
 
 public slots:
-  // menu file
-  void slotWelcomeWizard();
 
   void on_toolButtonPlanning_toggled(bool checked);
   void on_toolButtonRegistration_toggled(bool checked);

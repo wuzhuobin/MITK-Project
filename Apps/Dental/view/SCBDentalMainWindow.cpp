@@ -295,48 +295,6 @@ void SCBDentalMainWindow::setPatientNameIDLabel(QString name, int id, int age)
   mUi->labelPatientNameID->setText(nameID);
 }
 
-void SCBDentalMainWindow::slotWelcomeWizard()
-{
-  //   this->welcomeWizard->showFullScreen();
-  //   if (this->welcomeWizard->exec() == QWizard::Accepted)
-  //   {
-  //     int id = this->welcomeWizard->getPatientID();
-  //     QString name = this->welcomeWizard->getPatientName();
-  //     int age = this->welcomeWizard->getPatientAge();
-  //     int gender = this->welcomeWizard->getPatientGender();
-  //     // patientInfo->setPatientID(id);
-  //     // patientInfo->setName(name);
-  //     // patientInfo->setAge(age);
-  //     // patientInfo->setGender(gender);
-
-  //     // if (this->m_firstLoad)
-  //     //{
-  //     SCBDentalHub::self->slotClean();
-  //     if (this->welcomeWizard->isImportProject())
-  //     {
-  //       QString projectXml = this->welcomeWizard->getProjectXmlPath();
-  //       emit signalImportedProject(projectXml, true);
-  //     }
-  //     else
-  //     {
-  //       QStringList preOpsPath = this->welcomeWizard->getImagePreOpsPaths();
-  //       emit SCBDentalHub::self->signalLoading(true);
-  //       emit signalImportLabelImages(preOpsPath, "PreOp");
-  //       emit SCBDentalHub::self->signalSetLoadingValue(69);
-  //       QStringList postOpsPath =
-  //       this->welcomeWizard->getImagePostOpsPaths(); emit
-  //       signalImportLabelImages(postOpsPath, "PostOp"); emit
-  //       SCBDentalHub::self->signalSetLoadingValue(87);
-  //       SCBDentalHub::self->slotInitializationParanomicView();
-  //       emit SCBDentalHub::self->signalSetLoadingValue(97);
-  //       emit SCBDentalHub::self->signalLoading(false);
-  //     }
-  //     this->m_firstLoad = false;
-
-  //     this->setPatientNameIDLabel(name, id, age);
-  //   }
-}
-
 void SCBDentalMainWindow::slotPlanningPipelineConfirm()
 {
   // QString project = QFileDialog::getSaveFileName(this, tr("Commit XML"),
