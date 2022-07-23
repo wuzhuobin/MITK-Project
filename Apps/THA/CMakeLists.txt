@@ -44,6 +44,7 @@ target_link_libraries(
   MitkDICOMUI
   Qt5::Sql
   ${VTK_LIBRARIES}
+  view
 )
 
 target_include_directories(

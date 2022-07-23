@@ -24,8 +24,6 @@ public:
 
 private:
   std::unique_ptr<Ui::MainWindow> mUi;
-  // class CasePlanningWidget* mCasePlanning;
-  // class AcetabularPrepWidget* mAcetabularPrep;
   QActionGroup* mActionGroup;
   int mCurrentActionIndex = 0;
   void setCurrentActionIndex(int index);

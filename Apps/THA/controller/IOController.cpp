@@ -52,7 +52,14 @@ void IOController::loadScene(const QString& fileName) const
 {
   auto sceneIO = mitk::SceneIO::New();
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto dataNodes = sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
+  // auto dataNodes = sceneIO->LoadScene(fileName.toStdString(), ds)->GetAll();
+  // hardcoded for now
+  auto dataNodes =
+      sceneIO
+          ->LoadScene((qApp->applicationDirPath() + "/cases/first_case.0")
+                          .toStdString(),
+                      ds)
+          ->GetAll();
   MITK_INFO << "DataStorage, num of nodes: " << dataNodes->size();
   for (const auto& one : *dataNodes)
   {

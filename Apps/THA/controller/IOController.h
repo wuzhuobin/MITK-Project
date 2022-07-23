@@ -11,8 +11,6 @@ public:
   static QString getBaseProject();
   static IOController* getInstance();
   explicit IOController(QObject* parent = nullptr);
-  void loadScene(const QString& fileName) const;
-  bool createScene(const QString& filename, const QStringList& dicoms) const;
 
   void addReamerTrajectory() const;
   void addReamer() const;
@@ -20,6 +18,9 @@ public:
   void addImpactingAcetabularShell() const;
   void addImpactingAcetabularShellCor() const;
 
+  Q_SLOT void loadScene(const QString& fileName) const;
+  Q_SLOT bool createScene(const QString& filename,
+                          const QStringList& dicoms) const;
   Q_SIGNAL void sceneLoaded() const;
 
 private:
