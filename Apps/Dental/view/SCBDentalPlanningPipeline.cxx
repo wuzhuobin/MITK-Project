@@ -18,7 +18,6 @@
 // mitk
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
-#include <mitkImage.h>
 #include <mitkLogMacros.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
@@ -99,15 +98,9 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
   }
   else
   {
-    auto* image = ds->GetNamedObject<mitk::Image>("image");
-
-    auto center = image->GetGeometry()->GetCenter();
-    mitk::Vector3D translate(center.Get_vnl_vector());
-
     auto* originImplant = ds->GetNamedObject<mitk::Surface>("implant");
 
     auto implant = originImplant->Clone();
-    implant->GetGeometry()->Translate(translate);
 
     auto implantNode = mitk::DataNode::New();
     implantNode->SetName((QString("implant_") + button->text()).toStdString());

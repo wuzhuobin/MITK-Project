@@ -21,7 +21,10 @@
 class AffineBaseDataInteractor3D : public mitk::AffineBaseDataInteractor3D
 {
 public:
-  void SetDataNode(mitk::DataNode* node);
+  mitkClassMacro(AffineBaseDataInteractor3D, mitk::AffineBaseDataInteractor3D);
+  itkFactorylessNewMacro(Self);
+  itkCloneMacro(Self);
+  void SetDataNode(mitk::DataNode* dataNode) override;
 
 private:
   using SimpleConstMemberCommand =

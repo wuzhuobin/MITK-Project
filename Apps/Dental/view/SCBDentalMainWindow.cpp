@@ -267,6 +267,7 @@ void SCBDentalMainWindow::test()
 {
   auto fileName = QApplication::applicationDirPath() + "/Dental.mitk";
   IOController::getInstance()->loadScene(fileName);
+  mUi->tabWidgetCentral->setCurrentWidget(mUi->tabNormal);
 }
 
 void SCBDentalMainWindow::onSceneLoaded()
