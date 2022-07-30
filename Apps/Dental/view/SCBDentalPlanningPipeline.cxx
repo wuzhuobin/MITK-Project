@@ -10,11 +10,12 @@
  */
 #include "SCBDentalPlanningPipeline.h"
 
+#include "AffineBaseDataInteractor3D.h"
+
 // qt
 #include <QMessageBox>
 
 // mitk
-#include <mitkAffineBaseDataInteractor3D.h>
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
 #include <mitkImage.h>
@@ -115,7 +116,7 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
     implantNode->SetBoolProperty("pickable", true);
     ds->Add(implantNode);
 
-    auto affineDataInteractor = mitk::AffineBaseDataInteractor3D::New();
+    auto affineDataInteractor = AffineBaseDataInteractor3D::New();
     affineDataInteractor->LoadStateMachine(
         "AffineInteraction3D.xml",
         us::ModuleRegistry::GetModule("MitkDataTypesExt"));
