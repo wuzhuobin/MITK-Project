@@ -5,11 +5,10 @@ set(MY_PROJECT_NAME MITK-Project)
 set(MY_APP_NAME MyApp)
 
 #-----------------------------------------------------------------------------
-# Set the language standard (MITK requires C++14)
+# Set the language standard (MITK requires C++17)
 #-----------------------------------------------------------------------------
 
-set(CMAKE_CXX_STANDARD 14)
-# set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED 1)
 set(CMAKE_CXX_EXTENSIONS 0)
 
