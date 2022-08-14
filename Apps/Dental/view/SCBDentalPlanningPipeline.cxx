@@ -101,7 +101,7 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
     auto* image = ds->GetNamedObject<mitk::Image>("image");
 
     auto center = image->GetGeometry()->GetCenter();
-    mitk::Vector3D translate(center.Get_vnl_vector());
+    mitk::Vector3D translate(center.GetVnlVector());
 
     auto* originImplant = ds->GetNamedObject<mitk::Surface>("implant");
 
