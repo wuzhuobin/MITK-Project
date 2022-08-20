@@ -3,17 +3,17 @@ set(SRC_CPP_FILES
 )
 
 set(INTERNAL_CPP_FILES
-  org_mycompany_myplugin_Activator.cpp
-  MyView.cpp
+  org_mitk_mitkplugin_Activator.cpp
+  MitkView.cpp
 )
 
 set(UI_FILES
-  src/internal/MyViewControls.ui
+  src/internal/MitkViewControls.ui
 )
 
 set(MOC_H_FILES
-  src/internal/org_mycompany_myplugin_Activator.h
-  src/internal/MyView.h
+  src/internal/org_mitk_mitkplugin_Activator.h
+  src/internal/MitkView.h
 )
 
 # list of resource files which can be used by the plug-in

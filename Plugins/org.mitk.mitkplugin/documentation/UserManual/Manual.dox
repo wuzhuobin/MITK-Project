@@ -1,11 +1,11 @@
 /**
-\page org_mycompany_myplugin The Myplugin
+\page org_mitk_mitkplugin The Mitkplugin
 
-\imageMacro{icon.png,"Icon of Myplugin",2.00}
+\imageMacro{icon.png,"Icon of Mitkplugin",2.00}
 
 \tableofcontents
 
-\section org_mycompany_mypluginOverview Overview
+\section org_mitk_mitkpluginOverview Overview
 Describe the features of your awesome plugin here
 <ul>
 <li>Increases productivity

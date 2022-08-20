@@ -1,38 +1,34 @@
-/*===================================================================
+/*============================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
-Copyright (c) German Cancer Research Center,
-Division of Medical and Biological Informatics.
+Copyright (c) German Cancer Research Center (DKFZ)
 All rights reserved.
 
-This software is distributed WITHOUT ANY WARRANTY; without
-even the implied warranty of MERCHANTABILITY or FITNESS FOR
-A PARTICULAR PURPOSE.
+Use of this source code is governed by a 3-clause BSD license that can be
+found in the LICENSE file.
 
-See LICENSE.txt or http://www.mitk.org for details.
-
-===================================================================*/
+============================================================================*/
 
 
-#ifndef MyView_h
-#define MyView_h
+#ifndef MITK-View_h
+#define MITK-View_h
 
 #include <berryISelectionListener.h>
 
 #include <QmitkAbstractView.h>
 
-#include "ui_MyViewControls.h"
+#include "ui_MITK-ViewControls.h"
 
 /**
-  \brief MyView
+  \brief MITK-View
 
   \warning  This class is not yet documented. Use "git blame" and ask the author to provide basic documentation.
 
   \sa QmitkAbstractView
   \ingroup ${plugin_target}_internal
 */
-class MyView : public QmitkAbstractView
+class MITK-View : public QmitkAbstractView
 {
   // this is needed for all Qt objects that should have a Qt meta-object
   // (everything that derives from QObject and wants to have signal/slots)
@@ -53,7 +49,7 @@ protected:
   /// \brief Called when the user clicks the GUI button
   void DoImageProcessing();
 
-  Ui::MyViewControls m_Controls;
+  Ui::MITK-ViewControls m_Controls;
 };
 
-#endif // MyView_h
+#endif // MITK-View_h

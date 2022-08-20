@@ -1,18 +1,14 @@
-/*===================================================================
+/*============================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
-Copyright (c) German Cancer Research Center,
-Division of Medical and Biological Informatics.
+Copyright (c) German Cancer Research Center (DKFZ)
 All rights reserved.
 
-This software is distributed WITHOUT ANY WARRANTY; without
-even the implied warranty of MERCHANTABILITY or FITNESS FOR
-A PARTICULAR PURPOSE.
+Use of this source code is governed by a 3-clause BSD license that can be
+found in the LICENSE file.
 
-See LICENSE.txt or http://www.mitk.org for details.
-
-===================================================================*/
+============================================================================*/
 
 
 // Blueberry
@@ -20,7 +16,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <berryIWorkbenchWindow.h>
 
 // Qmitk
-#include "MyView.h"
+#include "MitkView.h"
 
 // Qt
 #include <QMessageBox>
@@ -28,21 +24,21 @@ See LICENSE.txt or http://www.mitk.org for details.
 // mitk image
 #include <mitkImage.h>
 
-const std::string MyView::VIEW_ID = "org.mitk.views.myview";
+const std::string MitkView::VIEW_ID = "org.mitk.views.mitkview";
 
-void MyView::SetFocus()
+void MitkView::SetFocus()
 {
   m_Controls.buttonPerformImageProcessing->setFocus();
 }
 
-void MyView::CreateQtPartControl(QWidget *parent)
+void MitkView::CreateQtPartControl(QWidget *parent)
 {
   // create GUI widgets from the Qt Designer's .ui file
   m_Controls.setupUi(parent);
-  connect(m_Controls.buttonPerformImageProcessing, &QPushButton::clicked, this, &MyView::DoImageProcessing);
+  connect(m_Controls.buttonPerformImageProcessing, &QPushButton::clicked, this, &MitkView::DoImageProcessing);
 }
 
-void MyView::OnSelectionChanged(berry::IWorkbenchPart::Pointer /*source*/,
+void MitkView::OnSelectionChanged(berry::IWorkbenchPart::Pointer /*source*/,
                                                 const QList<mitk::DataNode::Pointer> &nodes)
 {
   // iterate all selected objects, adjust warning visibility
@@ -60,7 +56,7 @@ void MyView::OnSelectionChanged(berry::IWorkbenchPart::Pointer /*source*/,
   m_Controls.buttonPerformImageProcessing->setEnabled(false);
 }
 
-void MyView::DoImageProcessing()
+void MitkView::DoImageProcessing()
 {
   QList<mitk::DataNode::Pointer> nodes = this->GetDataManagerSelection();
   if (nodes.empty())

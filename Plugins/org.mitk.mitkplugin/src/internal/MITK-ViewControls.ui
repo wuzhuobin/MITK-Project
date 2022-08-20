@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MyViewControls</class>
- <widget class="QWidget" name="MyViewControls">
+ <class>MITK-ViewControls</class>
+ <widget class="QWidget" name="MITK-ViewControls">
   <property name="geometry">
    <rect>
     <x>0</x>
