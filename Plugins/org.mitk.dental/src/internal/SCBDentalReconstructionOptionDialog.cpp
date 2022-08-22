@@ -25,6 +25,7 @@ SCBDentalReconstructionOptionDialog::~SCBDentalReconstructionOptionDialog() {}
 
 void SCBDentalReconstructionOptionDialog::changeVolumeRenderingShift(int value)
 {
+  Q_UNUSED(value)
   //   SCBScene* scene = SCBScene::getCurrentScene();
   //   QStringList volumes = scene->getAllDataByClassName("SCBVolume");
   //   if (volumes.isEmpty())
