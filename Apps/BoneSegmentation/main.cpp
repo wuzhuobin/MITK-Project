@@ -411,7 +411,8 @@ int main(int argc, char* argv[])
       mitk::StandaloneDataStorage::New());
   QApplication app(argc, argv);
 
-  auto imageFileName = app.applicationDirPath() + "/dental.nii.gz";
+  // auto imageFileName = app.applicationDirPath() + "/dental.nii.gz";
+  auto imageFileName = app.applicationDirPath() + "/CTA 1.0 CE.nrrd";
   auto image = mitk::IOUtil::Load<mitk::Image>(imageFileName.toStdString());
   auto imageNode = mitk::DataNode::New();
   imageNode->SetName("image");
@@ -424,12 +425,7 @@ int main(int argc, char* argv[])
       mitk::RenderingManager::GetInstance()->GetDataStorage());
   multiWidget.InitializeMultiWidget();
   multiWidget.AddPlanesToDataStorage();
-  // multiWidget.GetWidgetPlane1()->SetBoolProperty("helper object", true);
-  // multiWidget.GetWidgetPlane2()->SetBoolProperty("helper object", true);
-  // multiWidget.GetWidgetPlane3()->SetBoolProperty("helper object", true);
-  multiWidget.SetWidgetPlanesVisibility(true);
   multiWidget.SetCrosshairVisibility(true);
-  multiWidget.Fit();
   multiWidget.ResetCrosshair();
   multiWidget.resize(1000, 1000);
   multiWidget.show();

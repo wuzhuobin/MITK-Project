@@ -22,6 +22,8 @@
 #include <mitkIOUtil.h>
 #include <mitkITKImageImport.h>
 #include <mitkImageToItk.h>
+#include <mitkNodePredicateNot.h>
+#include <mitkNodePredicateProperty.h>
 #include <mitkRenderingManager.h>
 #include <mitkSceneIO.h>
 #include <usModuleRegistry.h>
@@ -67,16 +69,17 @@ public:
   }
   Q_DECLARE_PUBLIC(BoneSegmentationWidget)
   BoneSegmentationWidget* q_ptr;
-  OtsuMultipleThresholdsFilterType::Pointer otsuMultipleThresholds =
-      OtsuMultipleThresholdsFilterType::New();
-  BinaryThresholdFilterType::Pointer binaryThreshold =
-      BinaryThresholdFilterType::New();
-  TileImageFilterType::Pointer tileImage = TileImageFilterType::New();
-  ConnectedComponentFilterType::Pointer connectedComponent =
-      ConnectedComponentFilterType::New();
-  RelabelComponentFilterType::Pointer relabelComponent =
-      RelabelComponentFilterType::New();
-  ThresholdImageFilterType::Pointer threshold = ThresholdImageFilterType::New();
+  // OtsuMultipleThresholdsFilterType::Pointer otsuMultipleThresholds =
+  //     OtsuMultipleThresholdsFilterType::New();
+  // BinaryThresholdFilterType::Pointer binaryThreshold =
+  //     BinaryThresholdFilterType::New();
+  // TileImageFilterType::Pointer tileImage = TileImageFilterType::New();
+  // ConnectedComponentFilterType::Pointer connectedComponent =
+  //     ConnectedComponentFilterType::New();
+  // RelabelComponentFilterType::Pointer relabelComponent =
+  //     RelabelComponentFilterType::New();
+  // ThresholdImageFilterType::Pointer threshold =
+  // ThresholdImageFilterType::New();
 };
 
 BoneSegmentationWidget::BoneSegmentationWidget(QWidget* parent) :
@@ -192,6 +195,46 @@ void BoneSegmentationWidget::on_toolButtonUnsharpMask_toggled(bool checked)
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
+void BoneSegmentationWidget::on_toolButtonBodyMask_toggled(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::DataNode::Pointer imageBodyMaskNode =
+      ds->GetNamedNode("image_body_mask");
+  if (imageBodyMaskNode == nullptr)
+  {
+    imageBodyMaskNode = mitk::DataNode::New();
+    imageBodyMaskNode->SetName("image_body_mask");
+    ds->Add(imageBodyMaskNode);
+  }
+
+  auto* imageUnsharpMask =
+      ds->GetNamedObject<mitk::Image>("image_unsharp_mask");
+  if (checked && imageUnsharpMask != nullptr)
+  {
+    auto imageUnsharpMaskItk =
+        mitk::ImageToItkImage<ImageType::PixelType, ImageType::ImageDimension>(
+            imageUnsharpMask);
+    auto otsuMultipleThresholds = OtsuMultipleThresholdsFilterType::New();
+    otsuMultipleThresholds->SetInput(imageUnsharpMaskItk);
+    otsuMultipleThresholds->SetNumberOfThresholds(2);
+    otsuMultipleThresholds->Update();
+
+    auto binaryThreshold = BinaryThresholdFilterType::New();
+    binaryThreshold->SetInput(otsuMultipleThresholds->GetOutput());
+    binaryThreshold->SetLowerThreshold(2);
+    binaryThreshold->SetUpperThreshold(2);
+    binaryThreshold->SetInsideValue(1);
+    binaryThreshold->SetOutsideValue(0);
+    binaryThreshold->Update();
+    auto imageBodyMask = mitk::GrabItkImageMemory(
+        binaryThreshold->GetOutput(), nullptr, imageUnsharpMask->GetGeometry());
+    imageBodyMaskNode->SetData(imageBodyMask);
+  }
+  imageBodyMaskNode->SetVisibility(checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
 void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
     bool checked)
 {
@@ -213,19 +256,22 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
           imageUnsharpMask);
   if (checked && imageUnsharpMask != nullptr)
   {
-    d->otsuMultipleThresholds->SetInput(imageUnsharpMaskItk);
-    d->otsuMultipleThresholds->SetNumberOfThresholds(2);
-    d->otsuMultipleThresholds->Update();
+    auto otsuMultipleThresholds = OtsuMultipleThresholdsFilterType::New();
+    otsuMultipleThresholds->SetInput(imageUnsharpMaskItk);
+    otsuMultipleThresholds->SetNumberOfThresholds(2);
+    otsuMultipleThresholds->Update();
 
-    d->binaryThreshold->SetInput(d->otsuMultipleThresholds->GetOutput());
-    d->binaryThreshold->SetLowerThreshold(2);
-    d->binaryThreshold->SetUpperThreshold(2);
-    d->binaryThreshold->SetInsideValue(1);
-    d->binaryThreshold->SetOutsideValue(0);
-    d->binaryThreshold->Update();
+    auto binaryThreshold = BinaryThresholdFilterType::New();
+    binaryThreshold->SetInput(otsuMultipleThresholds->GetOutput());
+    binaryThreshold->SetLowerThreshold(2);
+    binaryThreshold->SetUpperThreshold(2);
+    binaryThreshold->SetInsideValue(1);
+    binaryThreshold->SetOutsideValue(0);
+    binaryThreshold->Update();
 
     auto region = imageUnsharpMaskItk->GetBufferedRegion();
 
+    auto tileImage = TileImageFilterType::New();
     for (auto z = 0; z < region.GetSize()[2]; ++z)
     {
       mUi->progressBarOtsuThresholdSliceBySlice->setValue((z + 1) * 100 /
@@ -247,7 +293,7 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
       extractImageFilterInput->Update();
 
       auto extractImageFilterMask = ExtractImageFilter::New();
-      extractImageFilterMask->SetInput(d->binaryThreshold->GetOutput());
+      extractImageFilterMask->SetInput(binaryThreshold->GetOutput());
       extractImageFilterMask->SetDirectionCollapseToSubmatrix();
       extractImageFilterMask->SetExtractionRegion(extractionRegion);
       extractImageFilterMask->Update();
@@ -304,37 +350,40 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
         binaryMorphologicalOpeningImageFilter->SetBackgroundValue(0);
         binaryMorphologicalOpeningImageFilter->SetForegroundValue(1);
         binaryMorphologicalOpeningImageFilter->Update();
-        d->tileImage->SetInput(
-            z, binaryMorphologicalOpeningImageFilter->GetOutput());
+        tileImage->SetInput(z,
+                            binaryMorphologicalOpeningImageFilter->GetOutput());
       }
       else
       {
-        d->tileImage->SetInput(z, binaryFillHoleImageFilter->GetOutput());
+        tileImage->SetInput(z, binaryFillHoleImageFilter->GetOutput());
       }
     }
     TileImageFilterType::LayoutArrayType layout;
     layout[0] = 1;
     layout[1] = 1;
     layout[2] = 0;
-    d->tileImage->SetLayout(layout);
-    d->tileImage->Update();
+    tileImage->SetLayout(layout);
+    tileImage->Update();
 
-    d->connectedComponent->SetInput(d->tileImage->GetOutput());
-    d->connectedComponent->Update();
+    auto connectedComponent = ConnectedComponentFilterType::New();
+    connectedComponent->SetInput(tileImage->GetOutput());
+    connectedComponent->Update();
 
-    d->relabelComponent->SetInput(d->connectedComponent->GetOutput());
-    d->relabelComponent->Update();
+    auto relabelComponent = RelabelComponentFilterType::New();
+    relabelComponent->SetInput(connectedComponent->GetOutput());
+    relabelComponent->Update();
 
-    d->threshold->SetInput(d->relabelComponent->GetOutput());
-    d->threshold->SetLower(mUi->spinBoxThresholdLower->value());
-    d->threshold->SetUpper(mUi->spinBoxThresholdUpper->value());
-    d->threshold->SetOutsideValue(0);
-    d->threshold->Update();
+    auto threshold = ThresholdImageFilterType::New();
+    threshold->SetInput(relabelComponent->GetOutput());
+    threshold->SetLower(mUi->spinBoxThresholdLower->value());
+    threshold->SetUpper(mUi->spinBoxThresholdUpper->value());
+    threshold->SetOutsideValue(0);
+    threshold->Update();
 
     auto* image = ds->GetNamedObject<mitk::Image>("image");
 
     auto segmentation = mitk::GrabItkImageMemory(
-        d->threshold->GetOutput(), nullptr, imageUnsharpMask->GetGeometry());
+        threshold->GetOutput(), nullptr, imageUnsharpMask->GetGeometry());
     segmentationNode->SetData(segmentation);
   }
 
@@ -353,8 +402,13 @@ void BoneSegmentationWidget::on_toolButtonSave_clicked(bool checked)
     return;
   }
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto isNotHelperObject =
+      mitk::NodePredicateNot::New(mitk::NodePredicateProperty::New(
+          "helper object", mitk::BoolProperty::New(true)));
+  auto nodesToBeSaved = ds->GetSubset(isNotHelperObject);
+
   auto sceneIO = mitk::SceneIO::New();
-  auto success = sceneIO->SaveScene(ds->GetAll(), ds, fileName.toStdString());
+  auto success = sceneIO->SaveScene(nodesToBeSaved, ds, fileName.toStdString());
   if (!success)
   {
     QMessageBox::warning(this, "Save Error", "Could not save scene.");

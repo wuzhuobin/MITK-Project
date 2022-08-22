@@ -38,6 +38,7 @@ private:
   Q_SLOT void on_toolButtonShowVoi_toggled(bool checked);
   Q_SLOT void on_toolButtonSetVoi_toggled(bool checked);
   Q_SLOT void on_toolButtonUnsharpMask_toggled(bool checked);
+  Q_SLOT void on_toolButtonBodyMask_toggled(bool checked);
   Q_SLOT void on_toolButtonOtsuThresholdSliceBySlice_toggled(bool checked);
   Q_SLOT void on_toolButtonSave_clicked(bool checked = false);
   Q_SLOT void on_toolButtonSaveSegmentation_clicked(bool checked = false);
