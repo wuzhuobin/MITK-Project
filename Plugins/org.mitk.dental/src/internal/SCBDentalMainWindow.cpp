@@ -35,13 +35,13 @@
 #include <QProgressDialog>
 #include <QSettings>
 
-static const struct SCBDentalMainWindowInit
-{
-  SCBDentalMainWindowInit() { Q_INIT_RESOURCE(Dental); }
-} G_INIT;
+// static const struct SCBDentalMainWindowInit
+// {
+//   SCBDentalMainWindowInit() { Q_INIT_RESOURCE(Dental); }
+// } G_INIT;
 
 SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
-    mUi(std::make_unique<Ui::SCBDentalMainWindow>()), QMainWindow(parent)
+    QMainWindow(parent), mUi(std::make_unique<Ui::SCBDentalMainWindow>())
 {
   mUi->setupUi(this);
 
@@ -365,6 +365,7 @@ void SCBDentalMainWindow::on_toolButtonRegistration_toggled(bool checked)
 
 void SCBDentalMainWindow::on_toolButtonNavigation_toggled(bool checked)
 {
+  Q_UNUSED(checked);
   //   if (checked)
   //   {
   //     mUi->stackedWidgetFunctionPipeline->setCurrentWidget(
@@ -439,6 +440,7 @@ void SCBDentalMainWindow::on_pushButtonAbout_clicked()
 
 void SCBDentalMainWindow::on_tabWidgetCentral_currentChanged(int index)
 {
+  Q_UNUSED(index);
   //   QSize central = this->tabWidgetCentral->size();
   //   // the margin is using hard code value in designer.
   //   // hard code in Designer.
@@ -802,41 +804,6 @@ void SCBDentalMainWindow::slotLoadingDialog(bool isLoading)
 {
   if (isLoading)
   {
-    // this->m_progressDialog = new QProgressDialog;
-    // this->m_progressDialog->setWindowModality(Qt::WindowModal);
-    // this->m_progressDialog->setWindowFlags(Qt::FramelessWindowHint |
-    // Qt::Dialog); this->m_progressDialog->setFixedSize(500,80);
-    // this->m_progressDialog->setMinimum(0);
-    // this->m_progressDialog->setMaximum(100);
-    // this->m_progressDialog->setValue(50);
-    // this->m_progressDialog->setLabelText(tr("Loading..."));
-    // this->m_progressDialog->setCancelButton(0);
-    // this->m_progressDialog->setMinimumDuration(1000);
-    // this->m_progressDialog->setStyleSheet("QWidget{background-color:#151d31}\
-		//									   QProgressBar
-    //{
-    //\
-		//									   border:
-    // 1px solid #292f5f;
-    //\
-		//					                   color: #fff; \
-		//					                   font-weight: bold; \
-		//					                   background-color:
-    //#0c172a;
-    //\
-		//					                   text-align:
-    // center;}\n
-    //\
-		//					                   QProgressBar::chunk{
-    //\
-		//					                   background-color:
-    //#388fcb;
-    //\
-		//					                   width: 3px; \
-		//					                   margin: 0.5px;}\n \
-		//					                   QLabel{ color:white;
-    // background
-    //- color:transparent; border:none}");
     this->m_progressDialog->setMinimum(0);
     this->m_progressDialog->setMaximum(100);
     this->m_progressDialog->setValue(50);

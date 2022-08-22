@@ -30,8 +30,8 @@
 #include <QProgressDialog>
 
 const QString SCBDentalRegistrationPipeline::DIR("MARKERS");
-char* robotArmName = "kqjxb-1";
-char* calibrationToolName = "CalibrationTool2";
+const char* robotArmName = "kqjxb-1";
+const char* calibrationToolName = "CalibrationTool2";
 
 SCBDentalRegistrationPipeline::SCBDentalRegistrationPipeline(QWidget* parent) :
     QWidget(parent)
@@ -237,6 +237,7 @@ void SCBDentalRegistrationPipeline::UpdateTrackerRobotRegistration()
 
 void SCBDentalRegistrationPipeline::slotReferenceChanged(const QString& text)
 {
+  Q_UNUSED(text)
   //   this->m_trackerThread->setReferenceMarker(text);
   //   if (text.compare("TeethRef") == 0)
   //   {
@@ -259,141 +260,11 @@ void SCBDentalRegistrationPipeline::slotReferenceChanged(const QString& text)
 
 void SCBDentalRegistrationPipeline::slotUpdateUI(int val)
 {
+  Q_UNUSED(val)
   QCoreApplication::processEvents();
 }
 
-void SCBDentalRegistrationPipeline::slotCalibrateOrientation()
-{
-  //   QProgressDialog progress(
-  //       tr("Calibrating Orientation..."), QString(), 0, 100, this);
-  //   progress.setWindowModality(Qt::WindowModal);
-  //   progress.setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-  //   progress.setFixedSize(500, 80);
-  //   progress.show();
-  //   progress.setStyleSheet(
-  //       "QProgressBar {      \
-// 							border: 1px solid
-  // #292f5f;\
-// 							color: #fff;\
-// 							font-weight: bold;\
-// 							background-color:
-  // #0c172a;\
-// 							text-align: center;\
-// 							}\n \
-// 							QProgressBar::chunk{\
-// 							background-color:
-  // #388fcb;\
-// 							width: 3px;\
-// 							margin: 0.5px;\
-// 							}\n \
-// 							QLabel{ color:white; background -
-  // color:transparent;
-  // }");
-  //   connect(this->m_trackerThread->getTracker(),
-  //           &SCBMicronTracker::signalCalibrateSampleNumber,
-  //           &progress,
-  //           &QProgressDialog::setValue,
-  //           Qt::UniqueConnection);
-  //   double RMS = 0;
-  //   SCBMicronTracker* tracker = this->m_trackerThread->getTracker();
-  //   int result = tracker->calibrateGetRotateShift(
-  //       calibrationToolName, robotArmName, 200, RMS);
-
-  //   if (result == 0)
-  //   {
-  //     progress.close();
-  //     if (RMS < 0.015)
-  //     {
-  //       int saveResult = tracker->saveCalibratedTemplate(robotArmName);
-  //     }
-  //     else
-  //     {
-  //       // MessageBox: RMS to large, start again
-  //       QMessageBox msgBox;
-  //       msgBox.setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-  //       msgBox.setText(
-  //           tr("Calibrate error too large, please calibrate again. RMS: ") +
-  //           QString::number(RMS));
-  //       msgBox.setStyleSheet(
-  //           "QMessageBox{                                                \
-// 							      border: 1px solid
-  // #292f5f;
-  // \
-// 			                      color: #fff; \
-// 				                  font-weight: bold; \
-// 				                  background-color: #0c172a; \
-// 				                  text-align: center;}\n \
-// 					              QLabel{ color:white; background
-  // -
-  // color:transparent; }      \
-// 						          QPushButton{ \
-// 							      padding:7px 20px 7px
-  // 20px;
-  // \
-// 		                          outline:none; \
-// 			                      background-color: #398fcc; \
-// 			                      border-radius:3px; \
-// 				                  border-top: none; \
-// 					              border-left: none; \
-// 						          border-right: 3px  solid
-  // #125a91;
-  // \
-// 							      border-bottom: 3px  solid
-  // #125a91;
-  // \
-// 		                          color:rgb(255, 255, 255);}\n \
-// 			                      QPushButton:hover{ \
-// 				                  background-color:#2fa2f4; \
-// 					              color: white;}\n \
-// 						          QPushButton:pressed{ \
-// 					              background-color: #398fcc;
-   // \
- 							      border:none;}");
-  //       msgBox.exec();
-  //     }
-  //   }
-  //   else
-  //   {
-  //     progress.close();
-  //     // MessageBox:Error in getting orientation, start again error code
-  //     QMessageBox msgBox;
-  //     msgBox.setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-  //     msgBox.setText(tr("Error in getting orientation. Error code: ") +
-  //                    QString::number(result));
-  //     msgBox.setStyleSheet(
-  //         "QMessageBox{                                                \
-// 							  border: 1px solid
-  // #292f5f;
-  // \
-// 		                      color: #fff; \
-// 			                  font-weight: bold; \
-// 			                  background-color: #0c172a; \
-// 			                  text-align: center;}\n \
-// 			                  QLabel{ color:white; background -
-  // color:transparent; }      \
-//                               QPushButton{ \
-//                               padding:7px 20px 7px 20px; \
-// 	                          outline:none; \
-// 		                      background-color: #398fcc; \
-// 		                      border-radius:3px; \
-// 		                      border-top: none; \
-// 		                      border-left: none; \
-// 		                      border-right: 3px  solid #125a91; \
-// 		                      border-bottom: 3px  solid #125a91; \
-// 	                          color:rgb(255, 255, 255);}\n \
-//                               QPushButton:hover{ \
-// 	                          background-color:#2fa2f4; \
-// 		                      color: white;}\n \
-//                               QPushButton:pressed{ \
-// 	                          background-color: #398fcc; \
-//                               border:none;}");
-  //     msgBox.exec();
-  //   }
-  //   disconnect(this->m_trackerThread->getTracker(),
-  //              &SCBMicronTracker::signalCalibrateSampleNumber,
-  //              &progress,
-  //              &QProgressDialog::setValue);
-}
+void SCBDentalRegistrationPipeline::slotCalibrateOrientation() {}
 
 void SCBDentalRegistrationPipeline::slotCalibratePosition()
 {

@@ -51,6 +51,7 @@ void SCBDentalPlanningPipeline::on_pushButtonAutoReconstruction_clicked()
 void SCBDentalPlanningPipeline::on_tableWidgetTeeth_cellClicked(int row,
                                                                 int column)
 {
+  Q_UNUSED(row);
   Q_UNUSED(column);
   //   SCBScene* scene = SCBScene::getCurrentScene();
   //   SCBDentalFixture* fixture = scene->getDataByAlias<SCBDentalFixture>(
@@ -124,6 +125,7 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
 
 void SCBDentalPlanningPipeline::addImplant(QString uniqueName)
 {
+  Q_UNUSED(uniqueName);
   //   SCBScene* scene = SCBScene::getCurrentScene();
   //   SCBDentalImplant* implant =
   //       scene->getDataByUniqueName<SCBDentalImplant>(uniqueName);
@@ -170,6 +172,7 @@ void SCBDentalPlanningPipeline::addImplant(QString uniqueName)
 
 void SCBDentalPlanningPipeline::removeImplant(QString uniqueName)
 {
+  Q_UNUSED(uniqueName);
   //   SCBScene* scene = SCBScene::getCurrentScene();
   //   SCBDentalHub* hub = SCBDentalHub::self;
   //   SCBDentalImplant* implant =

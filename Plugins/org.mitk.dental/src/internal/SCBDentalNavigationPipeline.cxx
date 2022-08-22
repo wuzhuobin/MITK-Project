@@ -344,143 +344,6 @@ void SCBDentalNavigationPipeline::CalibrateNewTooltip()
   //         &progress,
   //         &QProgressDialog::setValue,
   //         Qt::UniqueConnection);
-
-  double RMS = 0;
-  double tipLength = 0;
-  // SCBMicronTracker* tracker = this->m_trackerThread->getTracker();
-  // int result = tracker->calibrateGetDentalToolTip(
-  //     "DentalRef", "kqjxb-1", 100, tipLength, RMS);
-
-  // if (result == 0)
-  // {
-  //   progress.close();
-  //   if (RMS < 0.7)
-  //   {
-  //     m_toolTipLength = tipLength;
-  //     // QMessageBox msgBox = QMessageBox::information(this, tr("RMS"),
-  //     // (QString::number(RMS))+ "Tip Length " +
-  //     (QString::number(tipLength))); QMessageBox msgBox;
-  //     msgBox.setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-  //     msgBox.setText(tr("Calibrate Success.\nTip Length: ") +
-  //                    QString::number(tipLength) + tr("\nRMS: ") +
-  //                    QString::number(RMS));
-  //     msgBox.setStyleSheet(
-  //         "QMessageBox{                                                \
-	// 						      border: 1px solid #292f5f;
-  // \
-	// 		                      color: #fff; \
-	// 			                  font-weight: bold; \
-	// 			                  background-color: #0c172a; \
-	// 			                  text-align: center;}\n \
-	// 				              QLabel{ color:white; background -
-  // color:transparent; }      \
-	// 					          QPushButton{ \
-	// 						      padding:7px 20px 7px 20px;
-  // \
-	// 	                          outline:none; \
-	// 		                      background-color: #398fcc; \
-	// 		                      border-radius:3px; \
-	// 			                  border-top: none; \
-	// 				              border-left: none; \
-	// 					          border-right: 3px  solid
-  // #125a91;
-  // \
-	// 						      border-bottom: 3px  solid
-  // #125a91;
-  // \
-	// 	                          color:rgb(255, 255, 255);}\n \
-	// 		                      QPushButton:hover{ \
-	// 			                  background-color:#2fa2f4; \
-	// 				              color: white;}\n \
-	// 					          QPushButton:pressed{ \
-	// 				              background-color: #398fcc; \
-	// 						      border:none;}");
-  //     msgBox.exec();
-  //     this->pushButtonMoveToTargetImplant->setEnabled(true);
-  //   }
-  //   else
-  //   {
-  //     // MessageBox: RMS to large, start again
-  //     QMessageBox msgBox;
-  //     msgBox.setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-  //     msgBox.setText(
-  //         tr("Calibrate error too large, please calibrate again. RMS: ") +
-  //         QString::number(RMS));
-  //     msgBox.setStyleSheet(
-  //         "QMessageBox{                                                \
-	// 						      border: 1px solid #292f5f;
-  // \
-	// 		                      color: #fff; \
-	// 			                  font-weight: bold; \
-	// 			                  background-color: #0c172a; \
-	// 			                  text-align: center;}\n \
-	// 				              QLabel{ color:white; background -
-  // color:transparent; }      \
-	// 					          QPushButton{ \
-	// 						      padding:7px 20px 7px 20px;
-  // \
-	// 	                          outline:none; \
-	// 		                      background-color: #398fcc; \
-	// 		                      border-radius:3px; \
-	// 			                  border-top: none; \
-	// 				              border-left: none; \
-	// 					          border-right: 3px  solid
-  // #125a91;
-  // \
-	// 						      border-bottom: 3px  solid
-  // #125a91;
-  // \
-	// 	                          color:rgb(255, 255, 255);}\n \
-	// 		                      QPushButton:hover{ \
-	// 			                  background-color:#2fa2f4; \
-	// 				              color: white;}\n \
-	// 					          QPushButton:pressed{ \
-	// 				              background-color: #398fcc; \
-	// 						      border:none;}");
-  //     msgBox.exec();
-  //   }
-  // }
-  // else
-  // {
-  //   progress.close();
-  //   // MessageBox:Error in getting shift, start again error code
-  //   QMessageBox msgBox;
-  //   msgBox.setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-  //   msgBox.setText(tr("Error in getting shift. Error code: ") +
-  //                  QString::number(result));
-  //   msgBox.setStyleSheet(
-  //       "QMessageBox{                                                \
-	// 						  border: 1px solid #292f5f; \
-	// 	                      color: #fff; \
-	// 		                  font-weight: bold; \
-	// 		                  background-color: #0c172a; \
-	// 		                  text-align: center;}\n \
-	// 		                  QLabel{ color:white; background -
-  // color:transparent; }      \
-  //                             QPushButton{ \
-  //                             padding:7px 20px 7px 20px; \
-	//                           outline:none; \
-	// 	                      background-color: #398fcc; \
-	// 	                      border-radius:3px; \
-	// 	                      border-top: none; \
-	// 	                      border-left: none; \
-	// 	                      border-right: 3px  solid #125a91; \
-	// 	                      border-bottom: 3px  solid #125a91; \
-	//                           color:rgb(255, 255, 255);}\n \
-  //                             QPushButton:hover{ \
-	//                           background-color:#2fa2f4; \
-	// 	                      color: white;}\n \
-  //                             QPushButton:pressed{ \
-	//                           background-color: #398fcc; \
-  //                             border:none;}");
-  //   msgBox.exec();
-  // }
-  // disconnect(this->m_trackerThread->getTracker(),
-  //            &SCBMicronTracker::signalCalibrateSampleNumber,
-  //            &progress,
-  //            &QProgressDialog::setValue);
-
-  // qDebug() << "CalibrateNewTooltip-ed";
 }
 
 void SCBDentalNavigationPipeline::DrillMode()
@@ -596,6 +459,7 @@ int SCBDentalNavigationPipeline::Stop()
 
 void SCBDentalNavigationPipeline::addImplant(QString uniqueName)
 {
+  Q_UNUSED(uniqueName);
   // SCBScene* scene = SCBScene::getCurrentScene();
   // SCBDentalFixture* implant =
   //     scene->getDataByUniqueName<SCBDentalFixture>(uniqueName);
@@ -608,6 +472,7 @@ void SCBDentalNavigationPipeline::addImplant(QString uniqueName)
 
 void SCBDentalNavigationPipeline::removeImplant(QString uniqueName)
 {
+  Q_UNUSED(uniqueName);
   // this->comboBoxImplant->addItem(uniqueName);
   // this->comboBoxImplant->indx
   // this->comboBoxImplant->removeItem();
@@ -659,6 +524,7 @@ void SCBDentalNavigationPipeline::stopTracking()
 
 void SCBDentalNavigationPipeline::tracking(vtkMatrix4x4* matrix)
 {
+  Q_UNUSED(matrix);
   // vtkTransform* transform = vtkTransform::New();
   // transform->SetMatrix(matrix);
   // transform->Translate(0, 0, m_toolTipLength);

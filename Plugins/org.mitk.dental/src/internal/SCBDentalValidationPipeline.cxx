@@ -138,6 +138,7 @@ SCBDentalValidationPipeline::~SCBDentalValidationPipeline()
 
 void SCBDentalValidationPipeline::sceneDataAdded(QString name)
 {
+  Q_UNUSED(name);
   //   m_preOpImage =
   //   SCBScene::getCurrentScene()->getDataByAlias<SCBImage>("PreOp");
   //   m_postOpImage =
@@ -561,6 +562,7 @@ void SCBDentalValidationPipeline::manualValidationRun()
 
 void SCBDentalValidationPipeline::registration(bool autoReg)
 {
+  Q_UNUSED(autoReg);
   //   std::cout
   //       <<
   //       "**************************registration*****************************"

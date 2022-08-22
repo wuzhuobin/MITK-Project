@@ -45,6 +45,7 @@ endforeach()
 
 file(GLOB ABSOLUTE_MOC_H_FILES
   src/internal/*.h*
+  src/*.h*
 )
 
 foreach(FILE ${ABSOLUTE_MOC_H_FILES})
