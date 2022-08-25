@@ -26,6 +26,6 @@ int main(int argc, char** argv)
   myApp.setOrganizationName("DKFZ");
 
   myApp.setProperty(mitk::BaseApplication::PROP_APPLICATION,
-                    "org.mitk.example.minimalperspective");
+                    "org.mitk.dental.dentalapplication");
   return myApp.run();
 }

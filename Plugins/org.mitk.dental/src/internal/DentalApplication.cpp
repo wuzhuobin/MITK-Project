@@ -37,6 +37,7 @@ public:
 
 QVariant DentalApplication::Start(berry::IApplicationContext* context)
 {
+  Q_UNUSED(context);
   std::unique_ptr<berry::Display> display(berry::PlatformUI::CreateDisplay());
 
   std::unique_ptr<DentalWorkbenchAdvisor> workbenchAdvisor(
