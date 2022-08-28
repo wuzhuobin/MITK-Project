@@ -23,8 +23,7 @@
 #include <mitkITKImageImport.h>
 #include <mitkImageToItk.h>
 #include <mitkImageToSurfaceFilter.h>
-#include <mitkLookupTable.h>
-#include <mitkLookupTableProperty.h>
+#include <mitkLabelSetImage.h>
 #include <mitkNodePredicateNot.h>
 #include <mitkNodePredicateProperty.h>
 #include <mitkRenderingManager.h>
@@ -51,20 +50,7 @@
 #include <QMessageBox>
 
 using ImageType = itk::Image<short, 3>;
-using UnsharpMaskImageFilterType =
-    itk::UnsharpMaskImageFilter<ImageType, ImageType>;
-using OtsuMultipleThresholdsFilterType =
-    itk::OtsuMultipleThresholdsImageFilter<ImageType, ImageType>;
-using BinaryThresholdFilterType =
-    itk::BinaryThresholdImageFilter<ImageType, ImageType>;
-using SliceType =
-    itk::Image<ImageType::PixelType, ImageType::ImageDimension - 1>;
-using TileImageFilterType = itk::TileImageFilter<SliceType, ImageType>;
-using ConnectedComponentFilterType =
-    itk::ConnectedComponentImageFilter<ImageType, ImageType>;
-using RelabelComponentFilterType =
-    itk::RelabelComponentImageFilter<ImageType, ImageType>;
-using ThresholdImageFilterType = itk::ThresholdImageFilter<ImageType>;
+using LabelSetImageType = itk::Image<mitk::LabelSetImage::PixelType, 3>;
 class BoneSegmentationWidgetPrivate
 {
 public:
@@ -172,6 +158,8 @@ void BoneSegmentationWidget::on_toolButtonUnsharpMask_toggled(bool checked)
             imageCropped);
     auto spacing = imageCroppedItk->GetSpacing();
 
+    using UnsharpMaskImageFilterType =
+        itk::UnsharpMaskImageFilter<ImageType, ImageType>;
     auto unsharpMask = UnsharpMaskImageFilterType::New();
     unsharpMask->SetInput(imageCroppedItk);
     unsharpMask->SetAmount(mUi->doubleSpinBoxUnsharpMaskAmount->value());
@@ -209,12 +197,16 @@ void BoneSegmentationWidget::on_toolButtonBodyMask_toggled(bool checked)
     auto imageUnsharpMaskItk =
         mitk::ImageToItkImage<ImageType::PixelType, ImageType::ImageDimension>(
             imageUnsharpMask);
+    using OtsuMultipleThresholdsFilterType =
+        itk::OtsuMultipleThresholdsImageFilter<ImageType, ImageType>;
     auto otsuMultipleThresholds = OtsuMultipleThresholdsFilterType::New();
     otsuMultipleThresholds->SetInput(imageUnsharpMaskItk);
     otsuMultipleThresholds->SetNumberOfThresholds(
         mUi->spinBoxBodyMaskNumberOfThresholds->value());
     otsuMultipleThresholds->Update();
 
+    using BinaryThresholdFilterType =
+        itk::BinaryThresholdImageFilter<ImageType, ImageType>;
     auto binaryThreshold = BinaryThresholdFilterType::New();
     binaryThreshold->SetInput(otsuMultipleThresholds->GetOutput());
     binaryThreshold->SetLowerThreshold(mUi->spinBoxBodyMaskThreshold->value());
@@ -241,24 +233,8 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
       ds->GetNamedNode("image_connceted_component");
   if (imageConncetedComponentNode == nullptr)
   {
-    auto lookupTable = mitk::LookupTable::New();
-    lookupTable->SetType(mitk::LookupTable::MULTILABEL);
-
-    // MITK_INFO << *lookupTable->GetVtkLookupTable();
-    // MITK_INFO << *lookupTable;
-    // double rgb[3];
-    // lookupTable->GetVtkLookupTable()->GetColor(1, rgb);
-    // print_vector(std ::cout, rgb, 3);
-    // MITK_INFO << lookupTable->GetActiveTypeAsString();
-
     imageConncetedComponentNode = mitk::DataNode::New();
     imageConncetedComponentNode->SetName("image_connceted_component");
-    imageConncetedComponentNode->SetProperty(
-        "Image Rendering.Mode",
-        mitk::RenderingModeProperty::New(
-            mitk::RenderingModeProperty::LOOKUPTABLE_COLOR));
-    imageConncetedComponentNode->SetProperty(
-        "LookupTable", mitk::LookupTableProperty::New(lookupTable));
     ds->Add(imageConncetedComponentNode);
   }
 
@@ -276,6 +252,9 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
 
     auto region = imageUnsharpMaskItk->GetBufferedRegion();
 
+    using SliceType =
+        itk::Image<ImageType::PixelType, ImageType::ImageDimension - 1>;
+    using TileImageFilterType = itk::TileImageFilter<SliceType, ImageType>;
     auto tileImage = TileImageFilterType::New();
     for (auto z = 0u; z < region.GetSize()[2]; ++z)
     {
@@ -370,18 +349,24 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
     tileImage->SetLayout(layout);
     tileImage->Update();
 
+    using ConnectedComponentFilterType =
+        itk::ConnectedComponentImageFilter<ImageType, ImageType>;
     auto connectedComponent = ConnectedComponentFilterType::New();
     connectedComponent->SetInput(tileImage->GetOutput());
     connectedComponent->Update();
 
+    using RelabelComponentFilterType =
+        itk::RelabelComponentImageFilter<ImageType, ImageType>;
     auto relabelComponent = RelabelComponentFilterType::New();
     relabelComponent->SetInput(connectedComponent->GetOutput());
     relabelComponent->Update();
 
-    auto imageConnectedComponent =
+    auto imageConnectedComponent = mitk::LabelSetImage::New();
+    imageConnectedComponent->InitializeByLabeledImage(
         mitk::GrabItkImageMemory(relabelComponent->GetOutput(),
                                  nullptr,
-                                 imageUnsharpMask->GetGeometry());
+                                 imageUnsharpMask->GetGeometry()));
+
     imageConncetedComponentNode->SetData(imageConnectedComponent);
     mUi->spinBoxNumberOfComponents->setValue(
         connectedComponent->GetObjectCount());
@@ -404,13 +389,16 @@ void BoneSegmentationWidget::on_toolButtonThreshold_toggled(bool checked)
     ds->Add(imageSegmentationNode);
   }
   auto* imageConnectedComponent =
-      ds->GetNamedObject<mitk::Image>("image_connceted_component");
+      ds->GetNamedObject<mitk::LabelSetImage>("image_connceted_component");
   if (checked && imageConnectedComponent != nullptr)
   {
     auto imageConnectedComponentItk =
-        mitk::ImageToItkImage<ImageType::PixelType, ImageType::ImageDimension>(
+        mitk::ImageToItkImage<LabelSetImageType::PixelType,
+                              LabelSetImageType::ImageDimension>(
             imageConnectedComponent);
 
+    using ThresholdImageFilterType =
+        itk::ThresholdImageFilter<LabelSetImageType>;
     auto threshold = ThresholdImageFilterType::New();
     threshold->SetInput(imageConnectedComponentItk);
     threshold->SetLower(mUi->spinBoxSliceBySliceThresholdLower->value());
