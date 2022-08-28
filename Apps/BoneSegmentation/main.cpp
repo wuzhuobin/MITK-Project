@@ -412,7 +412,7 @@ int main(int argc, char* argv[])
   QApplication app(argc, argv);
 
   // auto imageFileName = app.applicationDirPath() + "/dental.nii.gz";
-  auto imageFileName = app.applicationDirPath() + "/CTA 1.0 CE.nrrd";
+  auto imageFileName = QApplication::applicationDirPath() + "/dental.nii.gz";
   auto image = mitk::IOUtil::Load<mitk::Image>(imageFileName.toStdString());
   auto imageNode = mitk::DataNode::New();
   imageNode->SetName("image");
