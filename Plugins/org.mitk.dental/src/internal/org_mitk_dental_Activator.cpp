@@ -14,13 +14,11 @@ found in the LICENSE file.
 
 #include "DentalApplication.h"
 #include "DentalPerspective.h"
-#include "MitkView.h"
 
 namespace mitk
 {
 void org_mitk_dental_Activator::start(ctkPluginContext* context)
 {
-  BERRY_REGISTER_EXTENSION_CLASS(MitkView, context)
   BERRY_REGISTER_EXTENSION_CLASS(DentalApplication, context)
   BERRY_REGISTER_EXTENSION_CLASS(DentalPerspective, context)
 }

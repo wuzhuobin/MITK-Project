@@ -1,5 +1,5 @@
-#ifndef __SCB_Dental_MAIN_WINDOW_H__
-#define __SCB_Dental_MAIN_WINDOW_H__
+#ifndef SCB_DENTAL_MAIN_WINDOW_H
+#define SCB_DENTAL_MAIN_WINDOW_H
 
 // std
 #include <memory>
@@ -105,4 +105,4 @@ private:
   bool m_firstLoad = true;
 };
 
-#endif  // !__SCB_Dental_MAIN_WINDOW_H__
+#endif  // !SCB_DENTAL_MAIN_WINDOW_H

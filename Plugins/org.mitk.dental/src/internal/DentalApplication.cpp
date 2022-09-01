@@ -11,29 +11,13 @@
 
 #include "DentalApplication.h"
 
+#include "DentalWorkbenchAdvisor.h"
+
 // mitk
 #include <berryPlatformUI.h>
-#include <berryQtWorkbenchAdvisor.h>
 
 // std
 #include <memory>
-
-class DentalWorkbenchAdvisor : public berry::QtWorkbenchAdvisor
-{
-public:
-  inline static const QString GDefafultPerspectiveId =
-      "org.mitk.dental.dentalperspective";
-  berry::WorkbenchWindowAdvisor* CreateWorkbenchWindowAdvisor(
-      berry::IWorkbenchWindowConfigurer::Pointer configurer) override
-  {
-    return new berry::WorkbenchWindowAdvisor(configurer);
-  }
-
-  QString GetInitialWindowPerspectiveId() override
-  {
-    return GDefafultPerspectiveId;
-  }
-};
 
 QVariant DentalApplication::Start(berry::IApplicationContext* context)
 {
