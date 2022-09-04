@@ -12,13 +12,31 @@
 #ifndef DENTAL_WORKBENCH_WINDOW_ADVISOR_H
 #define DENTAL_WORKBENCH_WINDOW_ADVISOR_H
 
+// mitk
+#include <berryShell.h>
 #include <berryWorkbenchWindowAdvisor.h>
-
-class DentalWorkbenchWindowAdvisor : public berry::WorkbenchWindowAdvisor
+class QAbstractButton;
+namespace Ui
 {
+class SCBDentalMainWindow;
+}
+class DentalWorkbenchWindowAdvisor : public QObject,
+                                     public berry::WorkbenchWindowAdvisor
+{
+  Q_OBJECT
 public:
   explicit DentalWorkbenchWindowAdvisor(
-      const berry::SmartPointer<berry::IWorkbenchWindowConfigurer>& configurer);
+      const berry::SmartPointer<berry::IWorkbenchWindowConfigurer>& configurer,
+      QObject* parent = nullptr);
+
+  void PreWindowOpen() override;
+  void CreateWindowContents(berry::Shell::Pointer shell) override;
+
+private:
+  std::unique_ptr<Ui::SCBDentalMainWindow> mControls;
+
+  Q_SLOT void on_buttonGroupView_buttonToggled(QAbstractButton* button,
+                                               bool checked);
 };
 
 #endif  // !DENTAL_WORKBENCH_WINDOW_ADVISOR_H

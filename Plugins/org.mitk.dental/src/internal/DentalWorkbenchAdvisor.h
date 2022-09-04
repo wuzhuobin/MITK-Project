@@ -18,6 +18,8 @@ class DentalWorkbenchAdvisor : public berry::QtWorkbenchAdvisor
 {
 public:
   static const QString GDefafultPerspectiveId;
+
+  void Initialize(berry::IWorkbenchConfigurer::Pointer configurer) override;
   berry::WorkbenchWindowAdvisor* CreateWorkbenchWindowAdvisor(
       berry::IWorkbenchWindowConfigurer::Pointer configurer) override;
 

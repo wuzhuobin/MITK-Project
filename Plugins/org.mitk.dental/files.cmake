@@ -64,9 +64,18 @@ set(CACHED_RESOURCE_FILES
 
 # list of Qt .qrc files which contain additional resources
 # specific to this plugin
-set(QRC_FILES
+# set(QRC_FILES
 
+# )
+
+file(GLOB ABSOLUTE_QRC_FILES
+  resources/*.qrc
 )
+
+foreach(FILE ${ABSOLUTE_QRC_FILES})
+  file(RELATIVE_PATH FILE ${CMAKE_CURRENT_SOURCE_DIR} ${FILE})
+  list(APPEND QRC_FILES ${FILE})
+endforeach()
 
 set(CPP_FILES )
 

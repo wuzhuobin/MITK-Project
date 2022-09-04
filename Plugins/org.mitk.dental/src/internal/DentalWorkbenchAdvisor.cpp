@@ -13,8 +13,27 @@
 
 #include "DentalWorkbenchWindowAdvisor.h"
 
+// mitk
+#include <mitkLogMacros.h>
+
 const QString DentalWorkbenchAdvisor::GDefafultPerspectiveId =
     "org.mitk.dental.dentalperspective";
+
+void DentalWorkbenchAdvisor::Initialize(
+    berry::IWorkbenchConfigurer::Pointer configurer)
+{
+  MITK_INFO << __func__;
+  berry::WorkbenchAdvisor::Initialize(configurer);
+  auto* reg = configurer->GetWorkbench()->GetPerspectiveRegistry();
+
+  auto perspectives = reg->GetPerspectives();
+  for (auto p : perspectives)
+  {
+    MITK_INFO << p->GetDescription().toStdString();
+    MITK_INFO << p->GetLabel().toStdString();
+  }
+}
+
 berry::WorkbenchWindowAdvisor*
 DentalWorkbenchAdvisor::CreateWorkbenchWindowAdvisor(
     berry::IWorkbenchWindowConfigurer::Pointer configurer)
