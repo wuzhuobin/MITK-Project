@@ -14,8 +14,13 @@ See LICENSE.txt or http://www.mitk.org for details.
 
 ===================================================================*/
 
+// mitk
 #include <mitkBaseApplication.h>
 
+// ctk
+// #include <ctkPluginFrameworkLauncher.h>
+
+// qt
 #include <QVariant>
 
 int main(int argc, char** argv)
@@ -27,5 +32,8 @@ int main(int argc, char** argv)
 
   myApp.setProperty(mitk::BaseApplication::PROP_APPLICATION,
                     "org.mitk.dental.dentalapplication");
+  // myApp.setProperty(mitk::BaseApplication::ARG_CONSOLELOG, true);
+  // myApp.setProperty(ctkPluginFrameworkLauncher::PROP_CONSOLE_LOG, true);
+
   return myApp.run();
 }

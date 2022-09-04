@@ -4,7 +4,7 @@
 #  - installed if they are external plug-ins
 
 set(_exclude_plugins
-
+  org.mitk.gui.qt.segmentation
 )
 
 set(MY_APP_NAME DentalApp)
@@ -12,4 +12,5 @@ mitkFunctionCreateBlueBerryApplication(
   NAME ${MY_APP_NAME}
   DESCRIPTION "MITK - ${MY_APP_NAME} Application"
   EXCLUDE_PLUGINS ${_exclude_plugins}
+  LINK_LIBRARIES
 )
