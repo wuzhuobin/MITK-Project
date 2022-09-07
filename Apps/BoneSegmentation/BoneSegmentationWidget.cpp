@@ -439,7 +439,7 @@ void BoneSegmentationWidget::on_toolButtonImageToSurface_toggled(bool checked)
     imageToSurface->Update();
     surfaceSegmentationNode->SetData(imageToSurface->GetOutput());
   }
-  surfaceSegmentationNode->SetVisibility(true);
+  surfaceSegmentationNode->SetVisibility(checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
