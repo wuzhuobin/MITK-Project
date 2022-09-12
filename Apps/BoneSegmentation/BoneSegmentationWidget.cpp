@@ -34,6 +34,7 @@
 // itk
 #include <itkBinaryBallStructuringElement.h>
 #include <itkBinaryFillholeImageFilter.h>
+#include <itkBinaryMorphologicalClosingImageFilter.h>
 #include <itkBinaryMorphologicalOpeningImageFilter.h>
 #include <itkBinaryThresholdImageFilter.h>
 #include <itkConnectedComponentImageFilter.h>
@@ -45,6 +46,7 @@
 #include <itkTileImageFilter.h>
 #include <itkUnsharpMaskImageFilter.h>
 #include <itkVotingBinaryHoleFillingImageFilter.h>
+#include <itkVotingBinaryIterativeHoleFillingImageFilter.h>
 
 // qt
 #include <QFileDialog>
@@ -298,6 +300,32 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
       otsuThresholdImageFilter->Update();
 
       tmpImage->Graft(otsuThresholdImageFilter->GetOutput());
+
+      if (mUi->checkBoxBinaryMorphologicalClosing->isChecked())
+      {
+        using BinaryBallStructuringElement =
+            itk::BinaryBallStructuringElement<SliceType::PixelType,
+                                              SliceType::ImageDimension>;
+        BinaryBallStructuringElement structuringElement;
+        structuringElement.SetRadius(
+            mUi->spinBoxBinaryMorpholocialClosingRadius->value());
+        structuringElement.CreateStructuringElement();
+
+        using BinaryMorphologicalClosingImageFilter =
+            itk::BinaryMorphologicalClosingImageFilter<
+                SliceType,
+                SliceType,
+                BinaryBallStructuringElement>;
+        auto binaryMorphologicalClosingImageFilter =
+            BinaryMorphologicalClosingImageFilter::New();
+        binaryMorphologicalClosingImageFilter->SetInput(tmpImage);
+        binaryMorphologicalClosingImageFilter->SetKernel(structuringElement);
+        // binaryMorphologicalClosingImageFilter->SetBackgroundValue(0);
+        binaryMorphologicalClosingImageFilter->SetForegroundValue(1);
+        binaryMorphologicalClosingImageFilter->Update();
+        tmpImage->Graft(binaryMorphologicalClosingImageFilter->GetOutput());
+      }
+
       if (mUi->radioButtonBinaryFillHole->isChecked())
       {
         using BinaryFillHoleImageFilter =
@@ -317,8 +345,33 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
         votingBinaryHoleFillingImageFilter->SetInput(
             otsuThresholdImageFilter->GetOutput());
         votingBinaryHoleFillingImageFilter->SetForegroundValue(1);
+        votingBinaryHoleFillingImageFilter->SetRadius(
+            {static_cast<unsigned int>(
+                 mUi->spinBoxVotingBinaryHoleFillingRadius->value()),
+             static_cast<unsigned int>(
+                 mUi->spinBoxVotingBinaryHoleFillingRadius->value())});
         votingBinaryHoleFillingImageFilter->Update();
         tmpImage->Graft(votingBinaryHoleFillingImageFilter->GetOutput());
+      }
+      else if (mUi->radioButtonVotingBinaryIterativeHoleFilling->isChecked())
+      {
+        using VotingBinaryIterativeHoleFillingImageFilter =
+            itk::VotingBinaryIterativeHoleFillingImageFilter<SliceType>;
+        auto votingBinaryIterativeHoleFillingImageFilter =
+            VotingBinaryIterativeHoleFillingImageFilter::New();
+        votingBinaryIterativeHoleFillingImageFilter->SetInput(
+            otsuThresholdImageFilter->GetOutput());
+        votingBinaryIterativeHoleFillingImageFilter->SetRadius(
+            {static_cast<unsigned int>(
+                 mUi->spinBoxVotingBinaryHoleFillingRadius->value()),
+             static_cast<unsigned int>(
+                 mUi->spinBoxVotingBinaryHoleFillingRadius->value())});
+        votingBinaryIterativeHoleFillingImageFilter
+            ->SetMaximumNumberOfIterations(
+                mUi->spinBoxVotingBinaryHoleFillingIterative->value());
+        votingBinaryIterativeHoleFillingImageFilter->Update();
+        tmpImage->Graft(
+            votingBinaryIterativeHoleFillingImageFilter->GetOutput());
       }
 
       if (mUi->checkBoxBinaryMorphologicalOpening->isChecked())
