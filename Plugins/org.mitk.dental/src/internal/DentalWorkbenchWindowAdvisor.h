@@ -28,6 +28,7 @@ public:
   explicit DentalWorkbenchWindowAdvisor(
       const berry::SmartPointer<berry::IWorkbenchWindowConfigurer>& configurer,
       QObject* parent = nullptr);
+  ~DentalWorkbenchWindowAdvisor() override;
 
   void PreWindowOpen() override;
   void CreateWindowContents(berry::Shell::Pointer shell) override;

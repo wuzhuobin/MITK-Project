@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
   myApp.setProperty(mitk::BaseApplication::PROP_APPLICATION,
                     "org.mitk.dental.dentalapplication");
-  // myApp.setProperty(mitk::BaseApplication::ARG_CONSOLELOG, true);
+  myApp.setProperty(mitk::BaseApplication::ARG_CONSOLELOG, true);
   // myApp.setProperty(ctkPluginFrameworkLauncher::PROP_CONSOLE_LOG, true);
 
   return myApp.run();

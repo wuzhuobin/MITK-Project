@@ -28,6 +28,8 @@ DentalWorkbenchWindowAdvisor::DentalWorkbenchWindowAdvisor(
 {
 }
 
+DentalWorkbenchWindowAdvisor::~DentalWorkbenchWindowAdvisor() = default;
+
 void DentalWorkbenchWindowAdvisor::PreWindowOpen()
 {
   GetWindowConfigurer()->SetInitialSize({1000, 1000});
@@ -47,5 +49,7 @@ void DentalWorkbenchWindowAdvisor::CreateWindowContents(
 void DentalWorkbenchWindowAdvisor::on_buttonGroupView_buttonToggled(
     QAbstractButton* button, bool checked)
 {
+  Q_UNUSED(button);
+  Q_UNUSED(checked);
   MITK_INFO << __func__;
 }
