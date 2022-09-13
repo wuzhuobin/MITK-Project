@@ -10,7 +10,6 @@
  */
 #include "DentalWorkbenchWindowAdvisor.h"
 
-#include "SCBDentalMainWindow.h"
 #include "ui_SCBDentalMainWindow.h"
 
 // mitk
@@ -33,7 +32,6 @@ DentalWorkbenchWindowAdvisor::~DentalWorkbenchWindowAdvisor() = default;
 void DentalWorkbenchWindowAdvisor::PreWindowOpen()
 {
   GetWindowConfigurer()->SetInitialSize({1000, 1000});
-  GetWindowConfigurer()->SetShowPerspectiveBar(true);
 }
 
 void DentalWorkbenchWindowAdvisor::CreateWindowContents(
@@ -44,12 +42,4 @@ void DentalWorkbenchWindowAdvisor::CreateWindowContents(
 
   berry::WorkbenchWindowAdvisor::CreateWindowContents(shell);
   // GetWindowConfigurer()->CreatePageComposite(mainWindow);
-}
-
-void DentalWorkbenchWindowAdvisor::on_buttonGroupView_buttonToggled(
-    QAbstractButton* button, bool checked)
-{
-  Q_UNUSED(button);
-  Q_UNUSED(checked);
-  MITK_INFO << __func__;
 }
