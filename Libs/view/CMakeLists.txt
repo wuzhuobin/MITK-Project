@@ -38,12 +38,11 @@ target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC
   MitkCore
-#   MitkQtWidgets  
-#   MitkSceneSerialization
-#   MitkSegmentation
+  MitkSceneSerialization
+  MitkBoundingShape
+  MitkMultilabel
   MitkDICOMUI
   Qt5::Sql
-#   ${VTK_LIBRARIES}
 )
 
 
