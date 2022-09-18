@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1105</width>
-    <height>928</height>
+    <height>970</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -1483,7 +1483,7 @@ background-color: #152849;
    <widget class="QWidget" name="dockWidgetContents_2">
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QToolButton" name="toolButton_2">
+      <widget class="QToolButton" name="toolButtonLoginPerspective">
        <property name="text">
         <string>Login</string>
        </property>
@@ -1494,12 +1494,12 @@ background-color: #152849;
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_3</string>
+        <string notr="true">buttonGroupPerspective</string>
        </attribute>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton">
+      <widget class="QToolButton" name="toolButtonCaseManagementPerspective">
        <property name="text">
         <string>Case Management</string>
        </property>
@@ -1507,12 +1507,12 @@ background-color: #152849;
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_3</string>
+        <string notr="true">buttonGroupPerspective</string>
        </attribute>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_3">
+      <widget class="QToolButton" name="toolButtonNormal">
        <property name="text">
         <string>Normal</string>
        </property>
@@ -1520,12 +1520,12 @@ background-color: #152849;
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_3</string>
+        <string notr="true">buttonGroupPerspective</string>
        </attribute>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_4">
+      <widget class="QToolButton" name="toolButtonMultiViewerPerspective">
        <property name="text">
         <string>Multi-Viewer</string>
        </property>
@@ -1533,12 +1533,12 @@ background-color: #152849;
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_3</string>
+        <string notr="true">buttonGroupPerspective</string>
        </attribute>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_5">
+      <widget class="QToolButton" name="toolButtonRegistrationPerspective">
        <property name="text">
         <string>Registration</string>
        </property>
@@ -1546,12 +1546,12 @@ background-color: #152849;
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_3</string>
+        <string notr="true">buttonGroupPerspective</string>
        </attribute>
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolButton_6">
+      <widget class="QToolButton" name="toolButtonSurgicalPerspective">
        <property name="text">
         <string>Surgical</string>
        </property>
@@ -1559,7 +1559,7 @@ background-color: #152849;
         <bool>true</bool>
        </property>
        <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_3</string>
+        <string notr="true">buttonGroupPerspective</string>
        </attribute>
       </widget>
      </item>
@@ -1654,8 +1654,8 @@ background-color: #152849;
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroupPerspective"/>
  </buttongroups>
 </ui>

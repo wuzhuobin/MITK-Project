@@ -32,6 +32,7 @@ DentalWorkbenchWindowAdvisor::~DentalWorkbenchWindowAdvisor() = default;
 void DentalWorkbenchWindowAdvisor::PreWindowOpen()
 {
   GetWindowConfigurer()->SetInitialSize({1000, 1000});
+  GetWindowConfigurer()->SetShowPerspectiveBar(true);
 }
 
 void DentalWorkbenchWindowAdvisor::CreateWindowContents(
@@ -40,6 +41,21 @@ void DentalWorkbenchWindowAdvisor::CreateWindowContents(
   auto* mainWindow = static_cast<QMainWindow*>(shell->GetControl());
   mControls->setupUi(mainWindow);
 
+  connect(mControls->buttonGroupPerspective,
+          qOverload<QAbstractButton*, bool>(&QButtonGroup::buttonToggled),
+          this,
+          &DentalWorkbenchWindowAdvisor::onButtonGroupPerspectiveButtonToggled);
+
   berry::WorkbenchWindowAdvisor::CreateWindowContents(shell);
   // GetWindowConfigurer()->CreatePageComposite(mainWindow);
+}
+
+void DentalWorkbenchWindowAdvisor::onButtonGroupPerspectiveButtonToggled(
+    QAbstractButton* button, bool checked)
+{
+  if (!checked)
+  {
+    return;
+  }
+  MITK_INFO << button->text();
 }

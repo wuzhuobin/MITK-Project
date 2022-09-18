@@ -35,6 +35,8 @@ public:
 
 private:
   std::unique_ptr<Ui::SCBDentalMainWindow> mControls;
+  Q_SLOT void onButtonGroupPerspectiveButtonToggled(QAbstractButton* button,
+                                                    bool checked);
 };
 
 #endif  // !DENTAL_WORKBENCH_WINDOW_ADVISOR_H

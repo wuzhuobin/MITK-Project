@@ -4,7 +4,6 @@
 #  - installed if they are external plug-ins
 
 set(_exclude_plugins
-  org.mitk.gui.qt.segmentation
 )
 
 set(MY_APP_NAME DentalApp)
