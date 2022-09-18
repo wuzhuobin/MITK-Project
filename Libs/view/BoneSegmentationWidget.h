@@ -30,6 +30,9 @@ class BoneSegmentationWidget : public QWidget
 public:
   explicit BoneSegmentationWidget(QWidget* parent = nullptr);
   ~BoneSegmentationWidget() override;
+  Q_SLOT void showVoi();
+  Q_SLOT void setVoi();
+  Q_SLOT void doSegmentation();
 
 private:
   std::unique_ptr<Ui::BoneSegmentationWidget> mUi;

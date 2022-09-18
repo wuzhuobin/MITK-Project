@@ -70,8 +70,6 @@ public slots:
   void on_tabWidgetCentral_currentChanged(int index);
 
   void on_pushButtonOperation_clicked();
-  void on_pushButtonCollapse_clicked();
-  // void on_pushButtonFreeDrive_clicked();
 
   void slotPlanningPipelineConfirm();
   void slotRegistrationPipelineConfirm();
@@ -79,7 +77,6 @@ public slots:
   void slotValidationPipelineConfirm();
   void slotNavigationPipelineToValidation();
 
-  void slotLoadingDialog(bool);
   void slotSetLoadingDialogValue(int);
 
 signals:

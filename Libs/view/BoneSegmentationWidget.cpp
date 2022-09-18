@@ -75,6 +75,12 @@ BoneSegmentationWidget::BoneSegmentationWidget(QWidget* parent) :
 
 BoneSegmentationWidget::~BoneSegmentationWidget() = default;
 
+void BoneSegmentationWidget::showVoi() {}
+
+void BoneSegmentationWidget::setVoi() {}
+
+void BoneSegmentationWidget::doSegmentation() {}
+
 void BoneSegmentationWidget::on_toolButtonShowVoi_toggled(bool checked)
 {
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();

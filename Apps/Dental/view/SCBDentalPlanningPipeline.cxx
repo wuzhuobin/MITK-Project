@@ -27,6 +27,7 @@ SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
     QWidget(parent)
 {
   this->setupUi(this);
+  this->widgetBoneSegmentation->setVisible(false);
 }
 
 void SCBDentalPlanningPipeline::on_pushButtonAdvancedOption_clicked()
@@ -126,6 +127,12 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
   }
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void SCBDentalPlanningPipeline::
+    on_pushButtonSurgicalGuidePlanningAdvance_toggled(bool checked)
+{
+  this->widgetBoneSegmentation->setVisible(checked);
 }
 
 void SCBDentalPlanningPipeline::addImplant(QString uniqueName)
