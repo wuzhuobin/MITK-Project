@@ -130,7 +130,31 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
 }
 
 void SCBDentalPlanningPipeline::
-    on_pushButtonSurgicalGuidePlanningAdvance_toggled(bool checked)
+    on_toolButtonSurgicalGuidePlanningShowVoi_toggled(bool checked)
+{
+  widgetBoneSegmentation->showVoi(checked);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningSetVoi_toggled(bool checked)
+{
+  widgetBoneSegmentation->setVoi(checked);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningDoSegmentation_toggled(bool checked)
+{
+  widgetBoneSegmentation->doSegmentation(checked);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(bool checked)
+{
+  widgetBoneSegmentation->imageToSurface(checked);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked)
 {
   this->widgetBoneSegmentation->setVisible(checked);
 }

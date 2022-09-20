@@ -2093,9 +2093,61 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pushButtonSurgicalGuidePlanningAdvance">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningShowVoi">
+            <property name="text">
+             <string>Show Voi</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningSetVoi">
+            <property name="text">
+             <string>Set Voi</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningDoSegmentation">
+            <property name="text">
+             <string>Do Segmentation</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningImageToSurface">
+            <property name="text">
+             <string>Image To Surface</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningAdvance">
             <property name="text">
              <string>Advance</string>
             </property>
@@ -2103,6 +2155,19 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
              <bool>true</bool>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -2129,6 +2194,7 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroupTeethPosition">
    <property name="exclusive">
     <bool>false</bool>

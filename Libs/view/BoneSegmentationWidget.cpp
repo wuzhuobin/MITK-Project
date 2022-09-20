@@ -75,11 +75,34 @@ BoneSegmentationWidget::BoneSegmentationWidget(QWidget* parent) :
 
 BoneSegmentationWidget::~BoneSegmentationWidget() = default;
 
-void BoneSegmentationWidget::showVoi() {}
+void BoneSegmentationWidget::showVoi(bool checked)
+{
+  mUi->toolButtonShowVoi->setChecked(checked);
+}
 
-void BoneSegmentationWidget::setVoi() {}
+void BoneSegmentationWidget::setVoi(bool checked)
+{
+  mUi->toolButtonSetVoi->setChecked(checked);
+}
 
-void BoneSegmentationWidget::doSegmentation() {}
+void BoneSegmentationWidget::doSegmentation(bool checked)
+{
+  on_toolButtonUnsharpMask_toggled(checked);
+  on_toolButtonBodyMask_toggled(checked);
+  on_toolButtonOtsuThresholdSliceBySlice_toggled(checked);
+  mUi->toolButtonThreshold->setChecked(checked);
+  if (checked)
+  {
+    on_toolButtonUnsharpMask_toggled(!checked);
+    on_toolButtonBodyMask_toggled(!checked);
+    on_toolButtonOtsuThresholdSliceBySlice_toggled(!checked);
+  }
+}
+
+void BoneSegmentationWidget::imageToSurface(bool checked)
+{
+  mUi->toolButtonImageToSurface->setChecked(checked);
+}
 
 void BoneSegmentationWidget::on_toolButtonShowVoi_toggled(bool checked)
 {

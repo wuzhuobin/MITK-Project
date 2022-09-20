@@ -32,7 +32,14 @@ private:
   Q_SLOT void on_tableWidgetTeeth_cellClicked(int row, int column);
   Q_SLOT void on_buttonGroupTeethPosition_buttonToggled(QAbstractButton* button,
                                                         bool checked);
-  Q_SLOT void on_pushButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
+
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningShowVoi_toggled(bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningSetVoi_toggled(bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningDoSegmentation_toggled(
+      bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(
+      bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
   Q_SLOT void addImplant(QString uniqueName);
   Q_SLOT void removeImplant(QString uniqueName);
 };
