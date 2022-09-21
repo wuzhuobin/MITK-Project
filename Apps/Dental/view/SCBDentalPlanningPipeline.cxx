@@ -49,30 +49,6 @@ void SCBDentalPlanningPipeline::on_pushButtonAutoReconstruction_clicked()
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
-void SCBDentalPlanningPipeline::on_tableWidgetTeeth_cellClicked(int row,
-                                                                int column)
-{
-  Q_UNUSED(column);
-  //   SCBScene* scene = SCBScene::getCurrentScene();
-  //   SCBDentalFixture* fixture = scene->getDataByAlias<SCBDentalFixture>(
-  //       "Fixture" + QString::number(row + 1));
-
-  //   if (!fixture)
-  //   {
-  //     this->pushButtonEnterImplantLibrary->hide();
-  //     return;
-  //   }
-  //   this->pushButtonEnterImplantLibrary->show();
-  //   this->labelID->setText(QString::number(fixture->getToothPosition().toFDI()));
-  //   this->labelBrand->setText(fixture->getDentalFixtureBrand());
-  //   this->labelModel->setText(fixture->getDentalFixtureModel());
-  //   this->labelShape->setText(fixture->getDentalFixtureShape());
-  //   this->labelLength->setText(
-  //       QString::number(fixture->getDentalFixtureLength()));
-  //   this->labelRadius->setText(
-  //       QString::number(fixture->getDentalFixtureRadius()));
-}
-
 void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
     QAbstractButton* button, bool checked)
 {
@@ -145,6 +121,13 @@ void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningDoSegmentation_toggled(bool checked)
 {
   widgetBoneSegmentation->doSegmentation(checked);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* imageSegmentationNode = ds->GetNamedNode("image_segmentation");
+  imageSegmentationNode->SetOpacity(0.5);
+  auto* imageNode = ds->GetNamedNode("image");
+  imageNode->SetVisibility(true);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void SCBDentalPlanningPipeline::
@@ -157,111 +140,4 @@ void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked)
 {
   this->widgetBoneSegmentation->setVisible(checked);
-}
-
-void SCBDentalPlanningPipeline::addImplant(QString uniqueName)
-{
-  //   SCBScene* scene = SCBScene::getCurrentScene();
-  //   SCBDentalImplant* implant =
-  //       scene->getDataByUniqueName<SCBDentalImplant>(uniqueName);
-  //   if (!implant)
-  //   {
-  //     return;
-  //   }
-  //   this->buttonGroupTeethPosition.blockSignals(true);
-  //   this->buttonGroupTeethPosition.button(implant->getToothPosition().toFDI())
-  //       ->setChecked(true);
-  //   this->buttonGroupTeethPosition.blockSignals(false);
-  //   QAbstractButton* button = this->buttonGroupTeethPosition.button(
-  //       implant->getToothPosition().toFDI());
-  //   SCBDentalHub* hub = SCBDentalHub::self;
-  //   for (int i = 0; i < SCBDentalHub::NUM_OF_ORTHOGONAL_VIEWER; ++i)
-  //   {
-  //     SCBPolyDataSourceWidget* crownWidget =
-  //         hub->widgets[i]->ProducePolyDataSourceWidgets();
-  //     crownWidget->SetSCBPolyData(implant);
-  //     hub->widgets[i]->SetOneOfPolyDataSourceWidgetsEnabled(crownWidget,
-  //     true);
-  //   }
-  //   SCBDentalFixture* fixture = qobject_cast<SCBDentalFixture*>(implant);
-  //   if (!fixture)
-  //   {
-  //     return;
-  //   }
-  //   int id = fixture->getToothPosition().toFDI();
-  //   this->tableWidgetTeeth->setRowHidden(id - 1, false);
-  //   this->tableWidgetTeeth->setItem(
-  //       id - 1, 0, new QTableWidgetItem(QString::number(id)));
-  //   this->tableWidgetTeeth->setItem(
-  //       id - 1,
-  //       1,
-  //       new
-  //       QTableWidgetItem(QString::number(fixture->getDentalFixtureRadius())));
-  //   this->tableWidgetTeeth->setItem(
-  //       id - 1,
-  //       2,
-  //       new
-  //       QTableWidgetItem(QString::number(fixture->getDentalFixtureLength())));
-  //   this->pushButtonEnterImplantLibrary->hide();
-}
-
-void SCBDentalPlanningPipeline::removeImplant(QString uniqueName)
-{
-  //   SCBScene* scene = SCBScene::getCurrentScene();
-  //   SCBDentalHub* hub = SCBDentalHub::self;
-  //   SCBDentalImplant* implant =
-  //       scene->getDataByUniqueName<SCBDentalImplant>(uniqueName);
-  //   if (!implant)
-  //   {
-  //     return;
-  //   }
-  //   this->buttonGroupTeethPosition.blockSignals(true);
-  //   this->buttonGroupTeethPosition.button(implant->getToothPosition().toFDI())
-  //       ->setChecked(false);
-  //   this->buttonGroupTeethPosition.blockSignals(false);
-
-  //   QList<vtkSmartPointer<SCBPolyDataSourceWidget>> polyDataSourceWidgets =
-  //       hub->widgets[0]->GetPolyDataSourceWidgets();
-  //   int index = 0;
-  //   for (QList<vtkSmartPointer<SCBPolyDataSourceWidget>>::const_iterator cit
-  //   =
-  //            polyDataSourceWidgets.cbegin();
-  //        cit != polyDataSourceWidgets.cend();
-  //        ++cit)
-  //   {
-  //     if ((*cit)->GetSCBPolyData() == implant)
-  //     {
-  //       for (int i = 0; i < SCBDentalHub::NUM_OF_ORTHOGONAL_VIEWER; ++i)
-  //       {
-  //         hub->widgets[i]->SetOneOfPolyDataSourceWidgetsEnabled(
-  //             hub->widgets[i]->GetPolyDataSourceWidgets()[index], false);
-  //       }
-  //       for (int i = 0; i < SCBDentalHub::NUM_OF_ORTHOGONAL_VIEWER; ++i)
-  //       {
-  //         hub->widgets[i]->DestroyPolyDataSourceWidgets(
-  //             hub->widgets[i]->GetPolyDataSourceWidgets()[index]);
-  //         hub->mainWindow->getViewer(i)->Render();
-  //       }
-
-  //       this->tableWidgetTeeth->setRowHidden(
-  //           implant->getToothPosition().toFDI() - 1, true);
-  //       this->pushButtonEnterImplantLibrary->hide();
-  //       return;
-  //     }
-  //     ++index;
-  //   }
-  //   if (index == 0)
-  //   {
-  //     qCritical() << "There is none SCBPolyDataSourceWidget. ";
-  //     return;
-  //   }
-  //   else if (index == polyDataSourceWidgets.size())
-  //   {
-  //     qCritical() << "Cannot find a SCBPolyDataSourceWidget with "
-  //                    "SCBDentalImplant whose unique "
-  //                    "name is"
-  //                 << implant->getUniqueName();
-  //     qCritical() << "It is supposed to be existed. ";
-  //     return;
-  //   }
 }

@@ -2134,6 +2134,26 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
            </widget>
           </item>
           <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningPaintBrush">
+            <property name="text">
+             <string>Paint Brush</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningAddAnImplant">
+            <property name="text">
+             <string>Add an Implant</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningImageToSurface">
             <property name="text">
              <string>Image To Surface</string>

@@ -29,7 +29,6 @@ public:
 private:
   Q_SLOT void on_pushButtonAdvancedOption_clicked();
   Q_SLOT void on_pushButtonAutoReconstruction_clicked();
-  Q_SLOT void on_tableWidgetTeeth_cellClicked(int row, int column);
   Q_SLOT void on_buttonGroupTeethPosition_buttonToggled(QAbstractButton* button,
                                                         bool checked);
 
@@ -40,8 +39,6 @@ private:
   Q_SLOT void on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(
       bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
-  Q_SLOT void addImplant(QString uniqueName);
-  Q_SLOT void removeImplant(QString uniqueName);
 };
 
 #endif  // SCB_DENTAL_PLANNING_PIPELINE_H
