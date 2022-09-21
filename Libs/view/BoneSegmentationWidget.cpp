@@ -390,6 +390,7 @@ void BoneSegmentationWidget::on_toolButtonOtsuThresholdSliceBySlice_toggled(
             VotingBinaryIterativeHoleFillingImageFilter::New();
         votingBinaryIterativeHoleFillingImageFilter->SetInput(
             otsuThresholdImageFilter->GetOutput());
+        votingBinaryIterativeHoleFillingImageFilter->SetForegroundValue(1);
         votingBinaryIterativeHoleFillingImageFilter->SetRadius(
             {static_cast<unsigned int>(
                  mUi->spinBoxVotingBinaryHoleFillingRadius->value()),
