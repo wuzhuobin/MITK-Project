@@ -18,6 +18,7 @@
 #include <mitkBoundingShapeObjectFactory.h>
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
+#include <mitkDrawPaintbrushTool.h>
 #include <mitkGeometryData.h>
 #include <mitkIOUtil.h>
 #include <mitkITKImageImport.h>
@@ -29,6 +30,7 @@
 #include <mitkRenderingManager.h>
 #include <mitkRenderingModeProperty.h>
 #include <mitkSceneIO.h>
+#include <mitkToolManagerProvider.h>
 #include <usModuleRegistry.h>
 
 // itk
@@ -67,7 +69,8 @@ public:
 BoneSegmentationWidget::BoneSegmentationWidget(QWidget* parent) :
     QWidget(parent),
     mUi(std::make_unique<Ui::BoneSegmentationWidget>()),
-    d_ptr(std::make_unique<BoneSegmentationWidgetPrivate>(this))
+    d_ptr(std::make_unique<BoneSegmentationWidgetPrivate>(this)),
+    mToolManager(mitk::ToolManagerProvider::GetInstance()->GetToolManager())
 {
   mUi->setupUi(this);
   mitk::RegisterBoundingShapeObjectFactory();
@@ -499,6 +502,38 @@ void BoneSegmentationWidget::on_toolButtonThreshold_toggled(bool checked)
                                  nullptr,
                                  imageConnectedComponent->GetGeometry());
     imageSegmentationNode->SetData(segmentation);
+  }
+  imageSegmentationNode->SetVisibility(checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void BoneSegmentationWidget::on_toolButtonPaintBrush_toggled(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::DataNode::Pointer imageSegmentationNode =
+      ds->GetNamedNode("image_segmentation");
+  auto* imageCropped = ds->GetNamedObject<mitk::Image>("image_cropped");
+  auto drawPaintBrushId =
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+  auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
+  if (imageSegmentationNode == nullptr && imageCropped != nullptr)
+  {
+    float colorFloat[] = {1.0f, 0.0f, 0.0f};
+    imageSegmentationNode = drawPaintBrush->CreateEmptySegmentationNode(
+        imageCropped, "image_segmentation", colorFloat);
+    imageSegmentationNode->SetName("image_segmentation");
+    ds->Add(imageSegmentationNode);
+  }
+  if (checked)
+  {
+    mToolManager->RegisterClient();
+    mToolManager->ActivateTool(drawPaintBrushId);
+  }
+  else
+  {
+    mToolManager->ActivateTool(-1);
+    mToolManager->UnregisterClient();
   }
   imageSegmentationNode->SetVisibility(checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();

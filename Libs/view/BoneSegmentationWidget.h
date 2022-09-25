@@ -18,6 +18,9 @@
 // std
 #include <memory>
 
+// mitk
+#include <mitkToolManager.h>
+
 namespace Ui
 {
 class BoneSegmentationWidget;
@@ -38,6 +41,7 @@ public:
 private:
   std::unique_ptr<Ui::BoneSegmentationWidget> mUi;
   std::unique_ptr<BoneSegmentationWidgetPrivate> d_ptr;
+  mitk::ToolManager::Pointer mToolManager;
 
   Q_SLOT void on_toolButtonShowVoi_toggled(bool checked);
   Q_SLOT void on_toolButtonSetVoi_toggled(bool checked);
@@ -45,6 +49,7 @@ private:
   Q_SLOT void on_toolButtonBodyMask_toggled(bool checked);
   Q_SLOT void on_toolButtonOtsuThresholdSliceBySlice_toggled(bool checked);
   Q_SLOT void on_toolButtonThreshold_toggled(bool checked);
+  Q_SLOT void on_toolButtonPaintBrush_toggled(bool checked);
   Q_SLOT void on_toolButtonImageToSurface_toggled(bool checked);
   Q_SLOT void on_toolButtonSave_clicked(bool checked = false);
   Q_SLOT void on_toolButtonSaveSegmentation_clicked(bool checked = false);
