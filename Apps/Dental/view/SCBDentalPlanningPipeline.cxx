@@ -30,6 +30,29 @@ SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
   this->widgetBoneSegmentation->setVisible(false);
 }
 
+void SCBDentalPlanningPipeline::addAffineBaseDataInteractor3D(
+    mitk::DataNode* node)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* image = ds->GetNamedObject<mitk::Image>("image");
+  auto center = image->GetGeometry()->GetCenter();
+  mitk::Vector3D translate(center.GetVnlVector());
+
+  auto* data = node->GetData();
+  data->GetGeometry()->Translate(translate);
+
+  node->SetBoolProperty("pickable", true);
+
+  auto affineDataInteractor = mitk::AffineBaseDataInteractor3D::New();
+  affineDataInteractor->LoadStateMachine(
+      "AffineInteraction3D.xml",
+      us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  affineDataInteractor->SetEventConfig(
+      "AffineMouseConfig.xml",
+      us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  affineDataInteractor->SetDataNode(node);
+}
+
 void SCBDentalPlanningPipeline::on_pushButtonAdvancedOption_clicked()
 {
   //   SCBDentalReconstructionOptionDialog dialog(this);
@@ -75,31 +98,15 @@ void SCBDentalPlanningPipeline::on_buttonGroupTeethPosition_buttonToggled(
   }
   else
   {
-    auto* image = ds->GetNamedObject<mitk::Image>("image");
-
-    auto center = image->GetGeometry()->GetCenter();
-    mitk::Vector3D translate(center.GetVnlVector());
-
-    auto* originImplant = ds->GetNamedObject<mitk::Surface>("implant");
-
-    auto implant = originImplant->Clone();
-    implant->GetGeometry()->Translate(translate);
+    auto* originalImplant = ds->GetNamedObject<mitk::Surface>("implant");
+    auto implant = originalImplant->Clone();
 
     auto implantNode = mitk::DataNode::New();
     implantNode->SetName((QString("implant_") + button->text()).toStdString());
     implantNode->SetData(implant);
-    implantNode->SetVisibility(true);
-    implantNode->SetBoolProperty("pickable", true);
     ds->Add(implantNode);
 
-    auto affineDataInteractor = mitk::AffineBaseDataInteractor3D::New();
-    affineDataInteractor->LoadStateMachine(
-        "AffineInteraction3D.xml",
-        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
-    affineDataInteractor->SetEventConfig(
-        "AffineMouseConfig.xml",
-        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
-    affineDataInteractor->SetDataNode(implantNode);
+    addAffineBaseDataInteractor3D(implantNode);
   }
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
@@ -125,8 +132,8 @@ void SCBDentalPlanningPipeline::
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* imageSegmentationNode = ds->GetNamedNode("image_segmentation");
   imageSegmentationNode->SetOpacity(0.5);
-  auto* imageNode = ds->GetNamedNode("image");
-  imageNode->SetVisibility(true);
+  auto* voiNode = ds->GetNamedNode("voi");
+  voiNode->SetVisibility(true);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
@@ -134,10 +141,33 @@ void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(bool checked)
 {
   widgetBoneSegmentation->imageToSurface(checked);
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* surfaceSegmentationNode = ds->GetNamedNode("surface_segmentation");
+  surfaceSegmentationNode->SetColor(1.0f, 0.0f, 0.0f);
 }
 
 void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked)
 {
   this->widgetBoneSegmentation->setVisible(checked);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(bool checked)
+{
+  static auto num = 0;
+  num++;
+
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* origialSleeve = ds->GetNamedObject<mitk::Surface>("sleeve");
+
+  auto newSleeveNode = mitk::DataNode::New();
+  newSleeveNode->SetName(
+      (QStringLiteral("sleeve_") + QString::number(num)).toStdString());
+  newSleeveNode->SetData(origialSleeve->Clone());
+  newSleeveNode->SetColor(1.0f, 0.0f, 0.0f);
+  ds->Add(newSleeveNode);
+
+  addAffineBaseDataInteractor3D(newSleeveNode);
 }

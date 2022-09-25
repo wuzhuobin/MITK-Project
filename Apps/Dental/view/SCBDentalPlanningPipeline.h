@@ -16,6 +16,11 @@
 // qt
 #include <QWidget>
 
+namespace mitk
+{
+class DataNode;
+}
+
 class SCBDentalPlanningPipeline : public QWidget,
                                   public Ui::SCBDentalPlanningPipeline
 {
@@ -27,6 +32,7 @@ public:
   Q_SIGNAL void signalConfirmPlanning();
 
 private:
+  void addAffineBaseDataInteractor3D(mitk::DataNode* node);
   Q_SLOT void on_pushButtonAdvancedOption_clicked();
   Q_SLOT void on_pushButtonAutoReconstruction_clicked();
   Q_SLOT void on_buttonGroupTeethPosition_buttonToggled(QAbstractButton* button,
@@ -39,6 +45,8 @@ private:
   Q_SLOT void on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(
       bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(
+      bool checked = false);
 };
 
 #endif  // SCB_DENTAL_PLANNING_PIPELINE_H
