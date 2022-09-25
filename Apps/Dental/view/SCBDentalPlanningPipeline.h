@@ -42,6 +42,8 @@ private:
   Q_SLOT void on_toolButtonSurgicalGuidePlanningSetVoi_toggled(bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningDoSegmentation_toggled(
       bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningPaintBrush_toggled(
+      bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(
       bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);

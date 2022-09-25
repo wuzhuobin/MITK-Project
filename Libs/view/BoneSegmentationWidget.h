@@ -36,6 +36,7 @@ public:
   Q_SLOT void showVoi(bool checked);
   Q_SLOT void setVoi(bool checked);
   Q_SLOT void doSegmentation(bool checked);
+  Q_SLOT void doPaintBrush(bool checked);
   Q_SLOT void imageToSurface(bool checked);
 
 private:

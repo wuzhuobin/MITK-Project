@@ -74,6 +74,7 @@ BoneSegmentationWidget::BoneSegmentationWidget(QWidget* parent) :
 {
   mUi->setupUi(this);
   mitk::RegisterBoundingShapeObjectFactory();
+  mToolManager->InitializeTools();
 }
 
 BoneSegmentationWidget::~BoneSegmentationWidget() = default;
@@ -100,6 +101,11 @@ void BoneSegmentationWidget::doSegmentation(bool checked)
     on_toolButtonBodyMask_toggled(!checked);
     on_toolButtonOtsuThresholdSliceBySlice_toggled(!checked);
   }
+}
+
+void BoneSegmentationWidget::doPaintBrush(bool checked)
+{
+  mUi->toolButtonPaintBrush->setChecked(checked);
 }
 
 void BoneSegmentationWidget::imageToSurface(bool checked)
@@ -525,10 +531,15 @@ void BoneSegmentationWidget::on_toolButtonPaintBrush_toggled(bool checked)
     imageSegmentationNode->SetName("image_segmentation");
     ds->Add(imageSegmentationNode);
   }
-  if (checked)
+  auto* imageCroppedNode = ds->GetNamedNode("image_cropped");
+
+  if (checked && imageCroppedNode != nullptr)
   {
     mToolManager->RegisterClient();
     mToolManager->ActivateTool(drawPaintBrushId);
+    mToolManager->SetDataStorage(*ds);
+    mToolManager->SetWorkingData(imageSegmentationNode);
+    mToolManager->SetReferenceData(imageCroppedNode);
   }
   else
   {
@@ -536,6 +547,7 @@ void BoneSegmentationWidget::on_toolButtonPaintBrush_toggled(bool checked)
     mToolManager->UnregisterClient();
   }
   imageSegmentationNode->SetVisibility(checked);
+  imageCroppedNode->SetVisibility(checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 

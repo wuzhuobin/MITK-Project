@@ -138,6 +138,12 @@ void SCBDentalPlanningPipeline::
 }
 
 void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningPaintBrush_toggled(bool checked)
+{
+  widgetBoneSegmentation->doPaintBrush(checked);
+}
+
+void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(bool checked)
 {
   widgetBoneSegmentation->imageToSurface(checked);
