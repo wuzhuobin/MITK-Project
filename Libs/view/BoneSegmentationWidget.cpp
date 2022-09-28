@@ -75,6 +75,7 @@ BoneSegmentationWidget::BoneSegmentationWidget(QWidget* parent) :
   mUi->setupUi(this);
   mitk::RegisterBoundingShapeObjectFactory();
   mToolManager->InitializeTools();
+  mToolManager->ActivateTool(-1);
 }
 
 BoneSegmentationWidget::~BoneSegmentationWidget() = default;
@@ -519,11 +520,12 @@ void BoneSegmentationWidget::on_toolButtonPaintBrush_toggled(bool checked)
 
   mitk::DataNode::Pointer imageSegmentationNode =
       ds->GetNamedNode("image_segmentation");
+  auto* imageCroppedNode = ds->GetNamedNode("image_cropped");
   auto* imageCropped = ds->GetNamedObject<mitk::Image>("image_cropped");
   auto drawPaintBrushId =
       mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
   auto* drawPaintBrush = mToolManager->GetToolById(drawPaintBrushId);
-  if (imageSegmentationNode == nullptr && imageCropped != nullptr)
+  if (imageSegmentationNode == nullptr && imageCroppedNode != nullptr)
   {
     float colorFloat[] = {1.0f, 0.0f, 0.0f};
     imageSegmentationNode = drawPaintBrush->CreateEmptySegmentationNode(
@@ -531,15 +533,14 @@ void BoneSegmentationWidget::on_toolButtonPaintBrush_toggled(bool checked)
     imageSegmentationNode->SetName("image_segmentation");
     ds->Add(imageSegmentationNode);
   }
-  auto* imageCroppedNode = ds->GetNamedNode("image_cropped");
 
   if (checked && imageCroppedNode != nullptr)
   {
-    mToolManager->RegisterClient();
-    mToolManager->ActivateTool(drawPaintBrushId);
     mToolManager->SetDataStorage(*ds);
     mToolManager->SetWorkingData(imageSegmentationNode);
     mToolManager->SetReferenceData(imageCroppedNode);
+    mToolManager->RegisterClient();
+    mToolManager->ActivateTool(drawPaintBrushId);
   }
   else
   {

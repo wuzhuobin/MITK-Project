@@ -132,8 +132,8 @@ void SCBDentalPlanningPipeline::
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* imageSegmentationNode = ds->GetNamedNode("image_segmentation");
   imageSegmentationNode->SetOpacity(0.5);
-  auto* voiNode = ds->GetNamedNode("voi");
-  voiNode->SetVisibility(true);
+  auto* imageNode = ds->GetNamedNode("image");
+  imageNode->SetVisibility(checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
@@ -151,6 +151,8 @@ void SCBDentalPlanningPipeline::
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* surfaceSegmentationNode = ds->GetNamedNode("surface_segmentation");
   surfaceSegmentationNode->SetColor(1.0f, 0.0f, 0.0f);
+  auto* imageNode = ds->GetNamedNode("image");
+  imageNode->SetVisibility(checked);
 }
 
 void SCBDentalPlanningPipeline::
