@@ -33,11 +33,12 @@ class BoneSegmentationWidget : public QWidget
 public:
   explicit BoneSegmentationWidget(QWidget* parent = nullptr);
   ~BoneSegmentationWidget() override;
-  Q_SLOT void showVoi(bool checked);
-  Q_SLOT void setVoi(bool checked);
-  Q_SLOT void doSegmentation(bool checked);
-  Q_SLOT void doPaintBrush(bool checked);
-  Q_SLOT void imageToSurface(bool checked);
+  void showVoi(bool checked);
+  void setVoi(bool checked);
+  void doSegmentation(bool checked);
+  void doPaintBrush(bool checked);
+  void setPaintBrushSize(int value);
+  void imageToSurface(bool checked);
 
 private:
   std::unique_ptr<Ui::BoneSegmentationWidget> mUi;
@@ -51,6 +52,7 @@ private:
   Q_SLOT void on_toolButtonOtsuThresholdSliceBySlice_toggled(bool checked);
   Q_SLOT void on_toolButtonThreshold_toggled(bool checked);
   Q_SLOT void on_toolButtonPaintBrush_toggled(bool checked);
+  Q_SLOT void on_spinBoxPaintBrushSize_valueChanged(int value);
   Q_SLOT void on_toolButtonImageToSurface_toggled(bool checked);
   Q_SLOT void on_toolButtonSave_clicked(bool checked = false);
   Q_SLOT void on_toolButtonSaveSegmentation_clicked(bool checked = false);

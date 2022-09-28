@@ -143,6 +143,11 @@ void SCBDentalPlanningPipeline::
   widgetBoneSegmentation->doPaintBrush(checked);
 }
 
+void SCBDentalPlanningPipeline::on_spinBoxPaintBrushSize_valueChanged(int value)
+{
+  widgetBoneSegmentation->setPaintBrushSize(value);
+}
+
 void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(bool checked)
 {

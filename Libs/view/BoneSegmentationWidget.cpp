@@ -104,6 +104,11 @@ void BoneSegmentationWidget::doSegmentation(bool checked)
   }
 }
 
+void BoneSegmentationWidget::setPaintBrushSize(int value)
+{
+  mUi->spinBoxPaintBrushSize->setValue(value);
+}
+
 void BoneSegmentationWidget::doPaintBrush(bool checked)
 {
   mUi->toolButtonPaintBrush->setChecked(checked);
@@ -550,6 +555,21 @@ void BoneSegmentationWidget::on_toolButtonPaintBrush_toggled(bool checked)
   imageSegmentationNode->SetVisibility(checked);
   imageCroppedNode->SetVisibility(checked);
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void BoneSegmentationWidget::on_spinBoxPaintBrushSize_valueChanged(int value)
+{
+  auto drawPaintBrushId =
+      mToolManager->GetToolIdByToolType<mitk::DrawPaintbrushTool>();
+
+  if (drawPaintBrushId == -1)
+  {
+    return;
+  }
+
+  auto* drawPaintBrush = static_cast<mitk::DrawPaintbrushTool*>(
+      mToolManager->GetToolById(drawPaintBrushId));
+  drawPaintBrush->SetSize(value);
 }
 
 void BoneSegmentationWidget::on_toolButtonImageToSurface_toggled(bool checked)

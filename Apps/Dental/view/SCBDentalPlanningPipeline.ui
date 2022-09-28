@@ -2162,7 +2162,11 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
              </spacer>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox"/>
+             <widget class="QSpinBox" name="spinBoxPaintBrushSize">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
