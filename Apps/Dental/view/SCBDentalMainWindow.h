@@ -56,7 +56,6 @@ private:
   QList<SCBPlanarViewer*> panoramicSagitalViewers;
 
   PoseIndicatorViewer* poseIndicatorViewer;
-  void setPatientNameIDLabel(QString name, int id, int age);
 
 public slots:
 

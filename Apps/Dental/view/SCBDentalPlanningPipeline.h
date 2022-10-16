@@ -47,6 +47,7 @@ private:
   Q_SLOT void on_spinBoxPaintBrushSize_valueChanged(int value);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningImageToSurface_toggled(
       bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuideShowBone_toggled(bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(
       bool checked = false);

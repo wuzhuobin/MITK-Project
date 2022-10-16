@@ -274,27 +274,6 @@ void SCBDentalMainWindow::onSceneLoaded()
   mUi->multiWidget->InitializeMultiWidget();
 }
 
-void SCBDentalMainWindow::setPatientNameIDLabel(QString name, int id, int age)
-{
-  QString nameID = name;
-
-  if (age > 0)
-  {
-    nameID.append(" (");
-    nameID.append(QString::number(age));
-    nameID.append(")");
-  }
-
-  if (id > 0)
-  {
-    nameID.append(" ID: ");
-    this->patientID = id;
-    nameID.append(QString::number(id));
-  }
-
-  mUi->labelPatientNameID->setText(nameID);
-}
-
 void SCBDentalMainWindow::slotPlanningPipelineConfirm()
 {
   // QString project = QFileDialog::getSaveFileName(this, tr("Commit XML"),

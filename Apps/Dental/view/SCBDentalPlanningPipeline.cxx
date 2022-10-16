@@ -193,6 +193,15 @@ void SCBDentalPlanningPipeline::
   imageNode->SetVisibility(checked);
 }
 
+void SCBDentalPlanningPipeline::on_toolButtonSurgicalGuideShowBone_toggled(
+    bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto* imageNode = ds->GetNamedNode("image");
+  imageNode->SetBoolProperty("volumerendering", checked);
+}
+
 void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked)
 {
