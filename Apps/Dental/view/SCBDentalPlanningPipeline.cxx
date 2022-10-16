@@ -23,6 +23,11 @@
 #include <mitkSurface.h>
 #include <usModuleRegistry.h>
 
+// vtk
+#include <vtkAppendPolyData.h>
+#include <vtkSmartPointer.h>
+#include <vtkTransformPolyDataFilter.h>
+
 SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
     QWidget(parent)
 {
@@ -156,6 +161,34 @@ void SCBDentalPlanningPipeline::
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
   auto* surfaceSegmentationNode = ds->GetNamedNode("surface_segmentation");
   surfaceSegmentationNode->SetColor(1.0f, 0.0f, 0.0f);
+
+  auto num = 0;
+  auto newSleeveName =
+      (QStringLiteral("sleeve_") + QString::number(num)).toStdString();
+  auto* newSleeveNode = ds->GetNamedNode(newSleeveName);
+  if (newSleeveNode != nullptr)
+  {
+    auto* surfaceSegmentation =
+        static_cast<mitk::Surface*>(surfaceSegmentationNode->GetData());
+    auto* newSleeve = static_cast<mitk::Surface*>(newSleeveNode->GetData());
+
+    auto transformPolyData = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    transformPolyData->SetInputData(newSleeve->GetVtkPolyData());
+    transformPolyData->SetTransform(
+        newSleeve->GetGeometry()->GetVtkTransform());
+    transformPolyData->Update();
+
+    auto appendPolyDataFilter = vtkSmartPointer<vtkAppendPolyData>::New();
+    appendPolyDataFilter->AddInputData(surfaceSegmentation->GetVtkPolyData());
+    appendPolyDataFilter->AddInputConnection(
+        transformPolyData->GetOutputPort());
+    appendPolyDataFilter->Update();
+
+    surfaceSegmentation->SetVtkPolyData(appendPolyDataFilter->GetOutput());
+
+    ds->Remove(newSleeveNode);
+  }
+
   auto* imageNode = ds->GetNamedNode("image");
   imageNode->SetVisibility(checked);
 }
@@ -169,18 +202,37 @@ void SCBDentalPlanningPipeline::
 void SCBDentalPlanningPipeline::
     on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(bool checked)
 {
-  static auto num = 0;
-  num++;
-
   auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto num = 0;
   auto* origialSleeve = ds->GetNamedObject<mitk::Surface>("sleeve");
 
-  auto newSleeveNode = mitk::DataNode::New();
-  newSleeveNode->SetName(
-      (QStringLiteral("sleeve_") + QString::number(num)).toStdString());
+  auto newSleeveName =
+      (QStringLiteral("sleeve_") + QString::number(num)).toStdString();
+  mitk::DataNode::Pointer newSleeveNode = ds->GetNamedNode(newSleeveName);
+  if (newSleeveNode != nullptr)
+  {
+    return;
+  }
+  newSleeveNode = mitk::DataNode::New();
+  newSleeveNode->SetName(newSleeveName);
   newSleeveNode->SetData(origialSleeve->Clone());
   newSleeveNode->SetColor(1.0f, 0.0f, 0.0f);
   ds->Add(newSleeveNode);
 
   addAffineBaseDataInteractor3D(newSleeveNode);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningRemoveAnImplant_clicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto num = 0;
+  auto newSleeveName =
+      (QStringLiteral("sleeve_") + QString::number(num)).toStdString();
+  mitk::DataNode::Pointer newSleeveNode = ds->GetNamedNode(newSleeveName);
+  if (newSleeveNode == nullptr)
+  {
+    return;
+  }
+  ds->Remove(newSleeveNode);
 }

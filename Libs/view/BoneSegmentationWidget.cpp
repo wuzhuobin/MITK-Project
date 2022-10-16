@@ -650,6 +650,33 @@ void BoneSegmentationWidget::on_toolButtonSaveSegmentation_clicked(bool checked)
   }
 }
 
+void BoneSegmentationWidget::on_toolButtonLoadSegmentation_clicked(bool checked)
+{
+  Q_UNUSED(checked);
+
+  QString fileName = QFileDialog::getOpenFileName(
+      this, tr("Open File"), "", tr("NIFTI files (*.nii.gz)"));
+  if (fileName.isEmpty())
+  {
+    return;
+  }
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto segmentationNode = ds->GetNamedNode("image_segmentation");
+  if (segmentationNode != nullptr)
+  {
+    ds->Remove(segmentationNode);
+  }
+  try
+  {
+    segmentationNode = mitk::IOUtil::Load(fileName.toStdString(), *ds)->front();
+    segmentationNode->SetName("image_segmentation");
+  }
+  catch (const mitk::Exception& e)
+  {
+    QMessageBox::warning(this, "Load Error", e.what());
+  }
+}
+
 void BoneSegmentationWidget::on_toolButtonRedo_clicked(bool checked)
 {
   Q_UNUSED(checked);

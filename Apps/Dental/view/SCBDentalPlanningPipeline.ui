@@ -2178,6 +2178,13 @@ radius: 1.35, stop: 0 #fff, stop: 1 #ddd);
            </widget>
           </item>
           <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningRemoveAnImplant">
+            <property name="text">
+             <string>Remove an Implant</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningImageToSurface">
             <property name="text">
              <string>Image To Surface</string>

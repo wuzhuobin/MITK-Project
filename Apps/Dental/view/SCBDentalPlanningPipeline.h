@@ -50,6 +50,8 @@ private:
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(
       bool checked = false);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningRemoveAnImplant_clicked(
+      bool checked = false);
 };
 
 #endif  // SCB_DENTAL_PLANNING_PIPELINE_H

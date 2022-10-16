@@ -56,6 +56,7 @@ private:
   Q_SLOT void on_toolButtonImageToSurface_toggled(bool checked);
   Q_SLOT void on_toolButtonSave_clicked(bool checked = false);
   Q_SLOT void on_toolButtonSaveSegmentation_clicked(bool checked = false);
+  Q_SLOT void on_toolButtonLoadSegmentation_clicked(bool checked = false);
   Q_SLOT void on_toolButtonRedo_clicked(bool checked = false);
 };
 

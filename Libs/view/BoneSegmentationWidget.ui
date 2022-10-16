@@ -441,6 +441,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QToolButton" name="toolButtonLoadSegmentation">
+     <property name="text">
+      <string>Load Segmentation</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QToolButton" name="toolButtonRedo">
      <property name="text">
       <string>Redo</string>
