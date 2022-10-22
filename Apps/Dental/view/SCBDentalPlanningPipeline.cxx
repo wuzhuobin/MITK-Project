@@ -15,17 +15,21 @@
 
 // mitk
 #include <mitkAffineBaseDataInteractor3D.h>
+#include <mitkClippingPlaneInteractor3D.h>
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
 #include <mitkImage.h>
 #include <mitkImageToSurfaceFilter.h>
 #include <mitkLogMacros.h>
+#include <mitkPlane.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
 #include <usModuleRegistry.h>
 
 // vtk
 #include <vtkAppendPolyData.h>
+#include <vtkFloatArray.h>
+#include <vtkPointData.h>
 #include <vtkSmartPointer.h>
 #include <vtkTransformPolyDataFilter.h>
 
@@ -272,4 +276,67 @@ void SCBDentalPlanningPipeline::
   mandibleSurfaceNode->SetVisibility(checked);
 
   mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonBeautyPlanningShowClippingPlane_clicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::DataNode::Pointer clippingPlaneNode =
+      ds->GetNamedNode("clipping_plane");
+  if (clippingPlaneNode == nullptr)
+  {
+    auto* image = ds->GetNamedObject<mitk::Image>("image");
+
+    auto extentX = image->GetGeometry()->GetExtentInMM(0);
+    auto extentY = image->GetGeometry()->GetExtentInMM(1);
+
+    auto clippingPlane = mitk::Plane::New();
+    clippingPlane->SetOrigin(image->GetGeometry()->GetCenter());
+    clippingPlane->SetExtent(extentX, extentY);
+
+    auto scalars0 = vtkSmartPointer<vtkFloatArray>::New();
+    scalars0->SetName("Distance");
+    scalars0->SetNumberOfComponents(1);
+    scalars0->SetNumberOfTuples(
+        clippingPlane->GetVtkPolyData()->GetNumberOfPoints());
+    clippingPlane->GetVtkPolyData()->GetPointData()->SetScalars(scalars0);
+
+    clippingPlaneNode = mitk::DataNode::New();
+    clippingPlaneNode->SetName("clipping_plane");
+    clippingPlaneNode->SetBoolProperty("pickable", true);
+    clippingPlaneNode->SetData(clippingPlane);
+    ds->Add(clippingPlaneNode);
+
+    auto clippingPlaneInteractor = mitk::ClippingPlaneInteractor3D::New();
+    clippingPlaneInteractor->LoadStateMachine(
+        "ClippingPlaneInteraction3D.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+    if (radioButtonBeautyPlanningTranslation->isChecked())
+    {
+      clippingPlaneInteractor->SetEventConfig(
+          "ClippingPlaneTranslationConfig.xml",
+          us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+    }
+    else
+    {
+      clippingPlaneInteractor->SetEventConfig(
+          "ClippingPlaneRotationConfig.xml",
+          us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+    }
+    clippingPlaneInteractor->SetDataNode(clippingPlaneNode);
+  }
+  clippingPlaneNode->SetVisibility(checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
+void SCBDentalPlanningPipeline::on_radioButtonBeautyPlanningTranslation_toggled(
+    bool checked)
+{
+}
+
+void SCBDentalPlanningPipeline::on_radioButtonBeautyPlanningRotation_toggled(
+    bool checked)
+{
 }

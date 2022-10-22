@@ -1535,7 +1535,7 @@
       <attribute name="title">
        <string>Beauty Planning</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
         <widget class="QToolButton" name="toolButtonBeautyPlanningMandibleSegmentation">
          <property name="text">
@@ -1544,6 +1544,48 @@
          <property name="checkable">
           <bool>true</bool>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButtonBeautyPlanningShowClippingPlane">
+         <property name="text">
+          <string>Show Clipping Plane</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Plane Interaction</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QRadioButton" name="radioButtonBeautyPlanningTranslation">
+            <property name="text">
+             <string>Translation</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_2</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButtonBeautyPlanningRotation">
+            <property name="text">
+             <string>Rotation</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_2</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -1578,11 +1620,12 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroupTeethPosition">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
  </buttongroups>
 </ui>
