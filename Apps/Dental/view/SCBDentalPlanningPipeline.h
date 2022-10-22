@@ -53,6 +53,8 @@ private:
       bool checked = false);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningRemoveAnImplant_clicked(
       bool checked = false);
+  Q_SLOT void on_toolButtonBeautyPlanningMandibleSegmentation_clicked(
+      bool checked = false);
 };
 
 #endif  // SCB_DENTAL_PLANNING_PIPELINE_H

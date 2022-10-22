@@ -18,6 +18,7 @@
 #include <mitkDataNode.h>
 #include <mitkDataStorage.h>
 #include <mitkImage.h>
+#include <mitkImageToSurfaceFilter.h>
 #include <mitkLogMacros.h>
 #include <mitkRenderingManager.h>
 #include <mitkSurface.h>
@@ -244,4 +245,31 @@ void SCBDentalPlanningPipeline::
     return;
   }
   ds->Remove(newSleeveNode);
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonBeautyPlanningMandibleSegmentation_clicked(bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  mitk::DataNode::Pointer mandibleSurfaceNode =
+      ds->GetNamedNode("mandible_surface");
+  if (mandibleSurfaceNode == nullptr)
+  {
+    mandibleSurfaceNode = mitk::DataNode::New();
+    mandibleSurfaceNode->SetName("mandible_surface");
+    ds->Add(mandibleSurfaceNode);
+  }
+
+  auto* mandible = ds->GetNamedObject<mitk::Image>("mandible");
+
+  auto imageToSurface = mitk::ImageToSurfaceFilter::New();
+  imageToSurface->SetInput(mandible);
+  imageToSurface->SetThreshold(1);
+  imageToSurface->SetSmooth(true);
+  imageToSurface->Update();
+  mandibleSurfaceNode->SetData(imageToSurface->GetOutput());
+  mandibleSurfaceNode->SetVisibility(checked);
+
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

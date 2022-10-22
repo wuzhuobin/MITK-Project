@@ -35,7 +35,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabImplantPlanning">
       <attribute name="title">
@@ -117,6 +117,8 @@
             <property name="font">
              <font>
               <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
               <underline>true</underline>
              </font>
             </property>
@@ -1529,6 +1531,36 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabBeautyPlanning">
+      <attribute name="title">
+       <string>Beauty Planning</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QToolButton" name="toolButtonBeautyPlanningMandibleSegmentation">
+         <property name="text">
+          <string>Mandible Segmentation</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>806</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -1546,11 +1578,11 @@
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroupTeethPosition">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
