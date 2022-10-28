@@ -59,6 +59,7 @@ private:
       bool checked = false);
   Q_SLOT void on_radioButtonBeautyPlanningTranslation_toggled(bool checked);
   Q_SLOT void on_radioButtonBeautyPlanningRotation_toggled(bool checked);
+  Q_SLOT void on_toolButtonBeautyPlanningClip_clicked(bool checked = false);
 };
 
 #endif  // SCB_DENTAL_PLANNING_PIPELINE_H

@@ -28,7 +28,9 @@
 
 // vtk
 #include <vtkAppendPolyData.h>
+#include <vtkClipPolyData.h>
 #include <vtkFloatArray.h>
+#include <vtkPlane.h>
 #include <vtkPointData.h>
 #include <vtkSmartPointer.h>
 #include <vtkTransformPolyDataFilter.h>
@@ -296,12 +298,12 @@ void SCBDentalPlanningPipeline::
     clippingPlane->SetOrigin(image->GetGeometry()->GetCenter());
     clippingPlane->SetExtent(extentX, extentY);
 
-    auto scalars0 = vtkSmartPointer<vtkFloatArray>::New();
-    scalars0->SetName("Distance");
-    scalars0->SetNumberOfComponents(1);
-    scalars0->SetNumberOfTuples(
+    auto distance = vtkSmartPointer<vtkFloatArray>::New();
+    distance->SetName("Distance");
+    distance->SetNumberOfComponents(1);
+    distance->SetNumberOfTuples(
         clippingPlane->GetVtkPolyData()->GetNumberOfPoints());
-    clippingPlane->GetVtkPolyData()->GetPointData()->SetScalars(scalars0);
+    clippingPlane->GetVtkPolyData()->GetPointData()->SetScalars(distance);
 
     clippingPlaneNode = mitk::DataNode::New();
     clippingPlaneNode->SetName("clipping_plane");
@@ -334,9 +336,67 @@ void SCBDentalPlanningPipeline::
 void SCBDentalPlanningPipeline::on_radioButtonBeautyPlanningTranslation_toggled(
     bool checked)
 {
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto* clippingPlaneNode = ds->GetNamedNode("clipping_plane");
+  if (checked && clippingPlaneNode != nullptr)
+  {
+    auto clippingPlaneInteractor = clippingPlaneNode->GetDataInteractor();
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneTranslationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
 }
 
 void SCBDentalPlanningPipeline::on_radioButtonBeautyPlanningRotation_toggled(
     bool checked)
 {
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+
+  auto* clippingPlaneNode = ds->GetNamedNode("clipping_plane");
+  if (checked && clippingPlaneNode != nullptr)
+  {
+    auto clippingPlaneInteractor = clippingPlaneNode->GetDataInteractor();
+    clippingPlaneInteractor->SetEventConfig(
+        "ClippingPlaneRotationConfig.xml",
+        us::ModuleRegistry::GetModule("MitkDataTypesExt"));
+  }
+}
+
+void SCBDentalPlanningPipeline::on_toolButtonBeautyPlanningClip_clicked(
+    bool checked)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto* clippingPlaneNode = ds->GetNamedNode("clipping_plane");
+  auto* mandibleSurface = ds->GetNamedObject<mitk::Surface>("mandible_surface");
+  MITK_INFO << *mandibleSurface;
+  if (clippingPlaneNode == nullptr)
+  {
+    return;
+  }
+
+  auto* clippingPlane =
+      static_cast<mitk::Surface*>(clippingPlaneNode->GetData());
+  auto* polyData = clippingPlane->GetVtkPolyData();
+
+  double objectNormal[4] = {0};
+  auto* normal = polyData->GetPointData()->GetVectors("planeNormal");
+  objectNormal[0] = normal->GetComponent(0, 0);
+  objectNormal[1] = normal->GetComponent(0, 1);
+  objectNormal[2] = normal->GetComponent(0, 2);
+
+  clippingPlaneNode->GetData()->GetGeometry()->GetVtkMatrix()->MultiplyPoint(
+      objectNormal, objectNormal);
+
+  auto implicitPlane = vtkSmartPointer<vtkPlane>::New();
+  implicitPlane->SetOrigin(
+      clippingPlane->GetGeometry()->GetCenter().GetDataPointer());
+  implicitPlane->SetNormal(objectNormal);
+
+  auto clipPolyData = vtkSmartPointer<vtkClipPolyData>::New();
+  clipPolyData->SetInputData(mandibleSurface->GetVtkPolyData());
+  clipPolyData->SetClipFunction(implicitPlane);
+  clipPolyData->Update();
+  mandibleSurface->SetVtkPolyData(clipPolyData->GetOutput());
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }

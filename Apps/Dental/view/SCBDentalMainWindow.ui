@@ -20,9 +20,6 @@
    <iconset>
     <normaloff>:/HyperBlue/hyperblue/icon/product-icon.png</normaloff>:/HyperBlue/hyperblue/icon/product-icon.png</iconset>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QMainWindow{background-color:#151d31; color: white;};</string>
-  </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
   </property>
@@ -504,9 +501,6 @@ background-color: #152849;
      <family>Georgia</family>
      <pointsize>10</pointsize>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QWidget{background-color: #151d31;}</string>
    </property>
    <property name="floating">
     <bool>false</bool>
