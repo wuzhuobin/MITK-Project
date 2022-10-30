@@ -65,6 +65,30 @@ void SCBDentalPlanningPipeline::addAffineBaseDataInteractor3D(
   affineDataInteractor->SetDataNode(node);
 }
 
+void SCBDentalPlanningPipeline::addDentalImplant(bool checked,
+                                                 const std::string& name)
+{
+  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
+  auto num = 0;
+  auto* origialData = ds->GetNamedObject<mitk::Surface>(name);
+
+  auto newName = name + '_' + QString::number(num).toStdString();
+  mitk::DataNode::Pointer newNode = ds->GetNamedNode(newName);
+  if (newNode == nullptr)
+  {
+    newNode = mitk::DataNode::New();
+    newNode->SetName(newName);
+    newNode->SetData(origialData->Clone());
+    newNode->SetColor(1.0f, 0.0f, 0.0f);
+
+    ds->Add(newNode);
+
+    addAffineBaseDataInteractor3D(newNode);
+  }
+  newNode->SetVisibility(checked);
+  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+}
+
 void SCBDentalPlanningPipeline::on_pushButtonAdvancedOption_clicked()
 {
   //   SCBDentalReconstructionOptionDialog dialog(this);
@@ -216,41 +240,21 @@ void SCBDentalPlanningPipeline::
 }
 
 void SCBDentalPlanningPipeline::
-    on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(bool checked)
+    on_toolButtonSurgicalGuidePlanningAddAnImplant_toggled(bool checked)
 {
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto num = 0;
-  auto* origialSleeve = ds->GetNamedObject<mitk::Surface>("sleeve");
-
-  auto newSleeveName =
-      (QStringLiteral("sleeve_") + QString::number(num)).toStdString();
-  mitk::DataNode::Pointer newSleeveNode = ds->GetNamedNode(newSleeveName);
-  if (newSleeveNode != nullptr)
-  {
-    return;
-  }
-  newSleeveNode = mitk::DataNode::New();
-  newSleeveNode->SetName(newSleeveName);
-  newSleeveNode->SetData(origialSleeve->Clone());
-  newSleeveNode->SetColor(1.0f, 0.0f, 0.0f);
-  ds->Add(newSleeveNode);
-
-  addAffineBaseDataInteractor3D(newSleeveNode);
+  addDentalImplant(checked, "implant");
 }
 
 void SCBDentalPlanningPipeline::
-    on_toolButtonSurgicalGuidePlanningRemoveAnImplant_clicked(bool checked)
+    on_toolButtonSurgicalGuidePlanningAddACrown_toggled(bool checked)
 {
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto num = 0;
-  auto newSleeveName =
-      (QStringLiteral("sleeve_") + QString::number(num)).toStdString();
-  mitk::DataNode::Pointer newSleeveNode = ds->GetNamedNode(newSleeveName);
-  if (newSleeveNode == nullptr)
-  {
-    return;
-  }
-  ds->Remove(newSleeveNode);
+  addDentalImplant(checked, "crown");
+}
+
+void SCBDentalPlanningPipeline::
+    on_toolButtonSurgicalGuidePlanningAddASleeve_toggled(bool checked)
+{
+  addDentalImplant(checked, "sleeve");
 }
 
 void SCBDentalPlanningPipeline::

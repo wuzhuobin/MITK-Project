@@ -33,6 +33,7 @@ public:
 
 private:
   void addAffineBaseDataInteractor3D(mitk::DataNode* node);
+  void addDentalImplant(bool checked, const std::string& name);
   Q_SLOT void on_pushButtonAdvancedOption_clicked();
   Q_SLOT void on_pushButtonAutoReconstruction_clicked();
   Q_SLOT void on_buttonGroupTeethPosition_buttonToggled(QAbstractButton* button,
@@ -49,10 +50,12 @@ private:
       bool checked);
   Q_SLOT void on_toolButtonSurgicalGuideShowBone_toggled(bool checked);
   Q_SLOT void on_toolButtonSurgicalGuidePlanningAdvance_toggled(bool checked);
-  Q_SLOT void on_toolButtonSurgicalGuidePlanningAddAnImplant_clicked(
-      bool checked = false);
-  Q_SLOT void on_toolButtonSurgicalGuidePlanningRemoveAnImplant_clicked(
-      bool checked = false);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningAddAnImplant_toggled(
+      bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningAddACrown_toggled(
+      bool checked);
+  Q_SLOT void on_toolButtonSurgicalGuidePlanningAddASleeve_toggled(
+      bool checked);
   Q_SLOT void on_toolButtonBeautyPlanningMandibleSegmentation_clicked(
       bool checked = false);
   Q_SLOT void on_toolButtonBeautyPlanningShowClippingPlane_clicked(

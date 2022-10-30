@@ -41,7 +41,7 @@ static const struct SCBDentalMainWindowInit
 } G_INIT;
 
 SCBDentalMainWindow::SCBDentalMainWindow(QWidget* parent) :
-    mUi(std::make_unique<Ui::SCBDentalMainWindow>()), QMainWindow(parent)
+    QMainWindow(parent), mUi(std::make_unique<Ui::SCBDentalMainWindow>())
 {
   mUi->setupUi(this);
 

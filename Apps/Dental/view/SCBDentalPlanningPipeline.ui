@@ -35,7 +35,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabImplantPlanning">
       <attribute name="title">
@@ -1468,12 +1468,28 @@
             <property name="text">
              <string>Add an Implant</string>
             </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningRemoveAnImplant">
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningAddACrown">
             <property name="text">
-             <string>Remove an Implant</string>
+             <string>Add a Crown</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButtonSurgicalGuidePlanningAddASleeve">
+            <property name="text">
+             <string>Add a Sleeve</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -1627,12 +1643,12 @@
  </resources>
  <connections/>
  <buttongroups>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroupPlaneInteraction"/>
   <buttongroup name="buttonGroupTeethPosition">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroupPlaneInteraction"/>
  </buttongroups>
 </ui>
