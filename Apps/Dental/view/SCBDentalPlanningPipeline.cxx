@@ -10,6 +10,8 @@
  */
 #include "SCBDentalPlanningPipeline.h"
 
+#include "DentalStdMultiWidget.h"
+
 // qt
 #include <QMessageBox>
 
@@ -45,10 +47,8 @@ SCBDentalPlanningPipeline::SCBDentalPlanningPipeline(QWidget* parent) :
 void SCBDentalPlanningPipeline::addAffineBaseDataInteractor3D(
     mitk::DataNode* node)
 {
-  auto* ds = mitk::RenderingManager::GetInstance()->GetDataStorage();
-  auto* image = ds->GetNamedObject<mitk::Image>("image");
-  auto center = image->GetGeometry()->GetCenter();
-  mitk::Vector3D translate(center.GetVnlVector());
+  auto point3D = DentalStdMultiWidget::getInstance()->GetSelectedPosition("");
+  mitk::Vector3D translate(point3D.GetVnlVector());
 
   auto* data = node->GetData();
   data->GetGeometry()->Translate(translate);
